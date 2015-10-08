@@ -85,3 +85,9 @@ def salir(request):
 def menu(request):
 
 		return render(request, 'menu.html',{})
+
+
+def agentes(request):
+
+		return render(request, 'agentes.html',{})
+
