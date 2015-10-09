@@ -1,125 +1,28 @@
-<!DOCTYPE html>
-<html class="full" lang="en">
-<!-- Make sure the <html> tag is set to the .full CSS class. Change the background image in the full.css file. -->
+<html><head></head>
 
-<head>
-
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <link href='http://fonts.googleapis.com/css?family=Muli:300' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-     <link rel="icon" href="http://www.diloo.com.pe/images/favicon.png">
-    <title>diloo</title>
-
-  {% load static %} 
-
+<body>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="/static/img/icon.jpg">
+<title>PeruCall</title>
      
-<link rel=stylesheet href="/static/css/animate.css">
-<link rel=stylesheet href="/static/css/loader.css">
-<link href="{% static 'css/signin.css' %}" rel="stylesheet" type='text/css'>
-<script type='text/javascript' src='http://code.jquery.com/jquery-1.8.2.js'></script>
-<script type="text/javascript" src="/static/js/login.js"></script>
-<link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" type='text/css'>
-<link href="{% static 'css/full.css' %}" rel="stylesheet" type='text/css'>
-<link href="{% static 'css/style-1.css' %}" rel="stylesheet" type='text/css'>
-<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
-    <script type="text/javascript" src="/static/js/angular-cookie.js"></script>
-
-
-   <script>
-
-    var myApp=angular.module('myApp', ['ngCookies']);
-    myApp.config(function($interpolateProvider){
-    $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
-    });
-    
-    </script>
-
-</head>
-
-    <body>
+<link rel="stylesheet" href="/static/css/lol.css">
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.2.js"></script>
+<link href="http://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
 
 
 
+<form method="post" role="form" action="/ingresar/">
+ {% csrf_token %}
 
-
-  <div id='login' ng-app="myApp" ng-controller="Todo">
-
-
-        <center><img src='/static/img/logo.png' class="img-responsive animated bounceIn"></img></center><br>
-
-        <br></br>
-
-        <form method="post" name="example form" class="form-signin" role="form" action="/ingresar/">
-
-
-        {% csrf_token %}
-
-        <input  name="username"  type="text"  class="form-control" placeholder="Correo Electronico" maxlength="50"required="" autofocus="">
-        <br>
-
-        <input name="contrasena" type="password" class="form-control" placeholder="Contraseña" required=""><br>
-
-        <button class="btn btn-lg btn-primary btn-block" type="submit" id="button">Iniciar sesión</button><br></br>
+  <center><h1 class="title"></h1></center>
+  <input class="text" required="" placeholder="Username" name="user" type="text">
+  <input class="text" required="" placeholder="Password" name="password" type="password">
+  <input class="submit" type="submit" value="sign in">
+</form>
 
 
 
-        </form>
-
-
-
-
-    <div id="Agregar" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-
-            <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h3 id="myModalLabel">Registrese</h3>
-            </div>
-
-            <div class="modal-body">
-
-            <form ng-submit="addNew()">
-
-            
-            <label class='label-1'>Nombre:</label> <input class='input' type="text" ng-model="agregar.first_name" placeholder="Nombre" required =""><br>
-            <label class='label-1'>Apellido:</label><input class='input' type="text" ng-model="agregar.last_name" placeholder="Apellido" required =""><br>
-            
-            <label class='label-1'>Email:</label><input class='input' type="email" ng-model="agregar.username" placeholder="Correo Electrónico" required =""><br>
-
-            
-
-            <label class='label-1'>Contraseña:</label><input class='input' type="password" ng-model="agregar.password" placeholder="Contraseña" required =""><br>
-            <label class='label-1'>Repita contraseña:</label><input class='input' type="password" ng-model="agregar.pass" placeholder="Repita contraseña" required =""><br>
-
-            <label class='label-1'>Telefono:</label><input class='input' type="text" ng-model="agregar.phone" placeholder="Telefono" required =""><br>
-            <label class='label-1'>Empresa:</label><input class='input' type="text" ng-model="agregar.costumer" placeholder="Empresa" required =""><br>
-            <label class='label-1'>Area:</label><input class='input' type="text" ng-model="agregar.area" placeholder="Area" required =""><br>
-            
-
-
-            </div>
-            
-
-            </form>
-
-
-            
-        
-    </div>
-
-  </div>
-
-
-<link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
-
-<script src="/static/js/bootstrap.js"></script>
-
-
-
-    </body>
-
-  </html>
+</body></html>
