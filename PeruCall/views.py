@@ -37,9 +37,7 @@ from datetime import datetime
 from django.contrib.auth import authenticate
 
 
-@login_required(login_url="/logear")
-
-def logear(request):
+def ingresar(request):
 
 	if request.user.is_authenticated():
 
@@ -51,9 +49,9 @@ def logear(request):
 
 			print request.POST
 
-			user = request.POST['username']
+			user = request.POST['user']
 			
-			psw = request.POST['contrasena']
+			psw = request.POST['password']
 
 			user = authenticate(username=user, password=psw)
 
@@ -67,27 +65,28 @@ def logear(request):
 					return HttpResponseRedirect("/menu")
 
 			else:
-				return HttpResponseRedirect("/logear")
+				return HttpResponseRedirect("/ingresar")
 		
 		else:
 
 			return render(request, 'logear.html',{})
 
-@login_required(login_url="/logear")
-
-def salir(request):
-
-	logout(request)
-	
-	return HttpResponseRedirect("/logear")
 
 
 def menu(request):
 
-		return render(request, 'menu.html',{})
+	return render(request, 'menu.html',{})
+
+
 
 
 def agentes(request):
 
 		return render(request, 'agentes.html',{})
 
+
+def salir(request):
+
+	logout(request)
+	
+	return HttpResponseRedirect("/ingresar")
