@@ -24,6 +24,7 @@ from django.http import StreamingHttpResponse
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import permission_required
 from django.views.decorators.csrf import csrf_exempt
+from PeruCall.models import *
 
 import xlrd
 import json 
@@ -84,9 +85,23 @@ def agentes(request):
 
 		return render(request, 'agentes.html',{})
 
+def data(request):
+
+
+	data = Data.objects.all().values('author','text')
+
+	data = json.dumps(ValuesQuerySetToDict(data))	
+
+	return HttpResponse(data, content_type="application/json")
+
+
 
 def salir(request):
 
 	logout(request)
 	
 	return HttpResponseRedirect("/ingresar")
+
+
+def ValuesQuerySetToDict(vqs):
+    return [item for item in vqs]
