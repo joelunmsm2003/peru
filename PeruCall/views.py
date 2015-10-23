@@ -10,11 +10,7 @@ from django.core.urlresolvers import reverse
 from django.db.models import Max,Count
 from django.core.mail import send_mail
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
-
-#from Perucall.models import *
-
-
+from PeruCall.models import *
 from django.db import transaction
 from django.contrib.auth.hashers import *
 from django.core.mail import send_mail
@@ -24,7 +20,8 @@ from django.http import StreamingHttpResponse
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import permission_required
 from django.views.decorators.csrf import csrf_exempt
-from PeruCall.models import *
+from ws4redis.redis_store import RedisMessage
+from ws4redis.publisher import RedisPublisher
 
 import xlrd
 import json 
@@ -36,7 +33,6 @@ import os
 
 from datetime import datetime
 from django.contrib.auth import authenticate
-
 
 def ingresar(request):
 
@@ -85,12 +81,13 @@ def agentes(request):
 
 		return render(request, 'agentes.html',{})
 
-def data(request):
+
+def xxx(request):
 
 
-	data = Data.objects.all().values('author','text')
+	datax = Data.objects.all().values('author','text')
 
-	data = json.dumps(ValuesQuerySetToDict(data))	
+	data = json.dumps(ValuesQuerySetToDict(datax))
 
 	return HttpResponse(data, content_type="application/json")
 

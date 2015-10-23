@@ -81,6 +81,7 @@ class AuthUserUserPermissions(models.Model):
 
 
 class Data(models.Model):
+    id = models.IntegerField(primary_key=True)  # AutoField?
     author = models.CharField(max_length=11)
     text = models.CharField(max_length=11)
 
