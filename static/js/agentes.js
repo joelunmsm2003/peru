@@ -24,7 +24,8 @@ app.directive('myCustomer', function() {
   return {
     restrict: 'E',
     scope: {
-      customerInfo: '=info'
+      customerInfo: '=info',
+      dat :'=dato'
     },
     templateUrl: '/static/html/costumer.html'
   };
