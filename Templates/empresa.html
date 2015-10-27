@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<!-- saved from url=(0064)https://docs.angularjs.org/examples/example-example11/index.html -->
+<html lang="en">
+<head>
+ 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="UTF-8">
+  <title>Example - example-example11</title>
+  
+
+  <script src="/static/js/angular.js"></script>
+  <script src="/static/js/agentes.js"></script>
+  <script src="/static/js/empresa.js"></script>
+  <link rel="stylesheet" type="text/css" href="/static/css/materialize.css">
+  <link href='https://fonts.googleapis.com/css?family=Hind:400,500' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+
+  
+</head>
+
+
+<body ng-app="docsRestrictDirective">
+
+<div class="row">
+
+      <div class="col s6 offset-s6 grid-example green"><span class="flow-text">Edward Alcalde: Nivel Manager</span></div>
+</div>
+
+<div class="row">
+      <div class="col s6 m2 grid-example blue">Empresa</div>
+      <div class="col s6 m2 grid-example blue">Usuario</div>
+      <div class="col s6 m2 grid-example blue">Campañas</div>
+      <div class="col s6 m2 grid-example blue">Troncales</div>
+      <div class="col s6 m2 grid-example blue">Reportes</div>
+      <div class="col s6 m2 grid-example blue">Grabaciones</div>
+
+</div>
+
+<div class="container" ng-controller="Controller">
+
+
+<h4>Datos de la Empresa</h4>
+
+    <div class="row">
+
+
+        <div class="input-field col s6 m6">
+          <input id="last_name" type="text" class="validate">
+          <label for="last_name">Empresa/Cliente</label>
+        </div>
+      
+      
+
+      <div class="col s6 m6"><div class="input-field col s12">
+          <input id="email" type="email" class="validate">
+          <label for="email" data-error="wrong" data-success="right">Licencias</label>
+        </div></div>
+
+                <div class="input-field col s6 m6">
+          <input id="last_name" type="text" class="validate">
+          <label for="last_name">Contacto</label>
+        </div>
+      
+      
+
+      <div class="col s6 m6"><div class="input-field col s12">
+          <input id="email" type="email" class="validate">
+          <label for="email" data-error="wrong" data-success="right">Mascara</label>
+        </div></div>
+
+                    <div class="input-field col s6 m6">
+          <input id="last_name" type="text" class="validate">
+          <label for="last_name">Email</label>
+        </div>
+      
+      
+
+      <div class="col s6 m6"><div class="input-field col s12">
+          <input id="email" type="email" class="validate">
+          <label for="email" data-error="wrong" data-success="right">Telefono</label>
+        </div></div>
+
+
+
+
+    </div>
+
+
+<h4>Empresas registradas</h4>
+
+<my-empresa></my-empresa>
+
+</div>
+
+
+
+
+
+</html>

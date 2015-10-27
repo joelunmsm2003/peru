@@ -12,6 +12,20 @@ from __future__ import unicode_literals
 from django.db import models
 
 
+class Agentes(models.Model):
+    id = models.IntegerField(primary_key=True)  # AutoField?
+    anexo = models.IntegerField()
+    fono = models.IntegerField()
+    tiempo = models.TimeField()
+    atendidas = models.IntegerField()
+    contactadas = models.IntegerField()
+    estado = models.TextField()
+
+    class Meta:
+        managed = False
+        db_table = 'agentes'
+
+
 class AuthGroup(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
     name = models.CharField(unique=True, max_length=80)
@@ -78,6 +92,17 @@ class AuthUserUserPermissions(models.Model):
     class Meta:
         managed = False
         db_table = 'auth_user_user_permissions'
+
+
+class Campaña(models.Model):
+    id = models.IntegerField(primary_key=True)  # AutoField?
+    fecha_cargada = models.DateField(db_column='fecha cargada')  # Field renamed to remove unsuitable characters.
+    usuario = models.IntegerField()
+    estado = models.TextField()
+
+    class Meta:
+        managed = False
+        db_table = 'campaña'
 
 
 class Data(models.Model):
