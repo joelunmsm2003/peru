@@ -74,6 +74,10 @@ def menu(request):
 
 	return render(request, 'menu.html',{})
 
+def empresa(request):
+
+	return render(request, 'empresa.html',{})
+
 
 
 
