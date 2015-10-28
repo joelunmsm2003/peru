@@ -20,14 +20,14 @@
             <thead>
 
             <tr>
-                <th>src <a ng-click="sort_by('src',currentPage)"><i class="icon-sort"></i></a></th>
-                <th>dst <a ng-click="sort_by('dst',currentPage)"><i class="icon-sort"></i></a></th>
-                <th>calldate <a ng-click="sort_by('calldate',currentPage)"><i class="icon-sort"></i></a></th>
-           		<th>disposition <a ng-click="sort_by('disposition',currentPage)"><i class="icon-sort"></i></a></th>
-                <th>duracion <a ng-click="sort_by('duration',currentPage)"><i class="icon-sort"></i></a></th>
-                <th>billsec <a ng-click="sort_by('billsec',currentPage)"><i class="icon-sort"></i></a></th>
-           		
-            
+                <th>Nombre <a ng-click="sort_by('nombre',currentPage)"><i class="icon-sort"></i></a></th>
+                <th>Telefono <a ng-click="sort_by('telefono',currentPage)"><i class="icon-sort"></i></a></th>
+                <th>Contacto <a ng-click="sort_by('contacto',currentPage)"><i class="icon-sort"></i></a></th>
+           		<th>Mail <a ng-click="sort_by('mail',currentPage)"><i class="icon-sort"></i></a></th>
+                <th>Licencias <a ng-click="sort_by('licencias',currentPage)"><i class="icon-sort"></i></a></th>
+                <th>Mascaras <a ng-click="sort_by('mascaras',currentPage)"><i class="icon-sort"></i></a></th>
+                <th></th>
+           		<th></th>
                             
             </tr>
 
@@ -39,7 +39,7 @@
                             <ul>
                                 <li ng-class="{disabled: currentPage == 0}">
                                     
-                                    <a ng-click="prevPage()" class="waves-effect waves-light btn"><i class="material-icons">keyboard_arrow_left</i></a>
+                                    <a ng-click="prevPage()" class="waves-effect waves-light btn blue "><i class="material-icons">keyboard_arrow_left</i></a>
                                 </li>
                                 <li ng-repeat="n in range(pagedItems.length)"
                                     ng-class="{active: n == currentPage}"
@@ -48,7 +48,7 @@
                                 </li>
                                 <li ng-class="{disabled: currentPage == pagedItems.length - 1}">
                                    
-                                    <a ng-click="nextPage()" class="waves-effect waves-light btn"><i class="material-icons">keyboard_arrow_right</i></a>
+                                    <a ng-click="nextPage()" class="waves-effect waves-light btn blue"><i class="material-icons">keyboard_arrow_right</i></a>
                                 </li>
                             </ul>
                         </div>
@@ -64,12 +64,19 @@
    
 
        
-                <td data-th="Origen">{{contact.src}} </td>
-                <td data-th="Destino">{{contact.dst}}</td>
-                <td data-th="Calldate">{{contact.calldate}}</td>
-                <td data-th="Disposition">{{contact.disposition}}</td>
-                <td data-th="Duration">{{contact.duration}}</td>
-                <td data-th="Billsec">{{contact.billsec}}</td>
+                <td data-th="Origen">{{contact.nombre}} </td>
+                <td data-th="Destino">{{contact.telefono}}</td>
+                <td data-th="Calldate">{{contact.contacto}}</td>
+                <td data-th="Disposition">{{contact.mail}}</td>
+                <td data-th="Duration">{{contact.licencias}}</td>
+                <td data-th="Billsec">{{contact.mascaras}}</td>
+
+                <td>
+               <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</a>
+
+                <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</a>
+                </td>
+
             
 
               </tr>
@@ -81,3 +88,23 @@
         </table>
 
 
+
+  <!-- Modal Structure -->
+  <div id="modal1" class="modal">
+    <div class="modal-content">
+      <h4>Modal Header</h4>
+      <p>A bunch of text</p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+    </div>
+  </div>
+         
+
+<script type="text/javascript">
+    
+      $(document).ready(function(){
+    // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+    $('.modal-trigger').leanModal();
+  });
+</script>

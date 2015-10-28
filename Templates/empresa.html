@@ -11,15 +11,22 @@
   <script src="/static/js/angular.js"></script>
   <script src="/static/js/agentes.js"></script>
   <script src="/static/js/empresa.js"></script>
+  <script src="/static/js/materialize.js"></script>
   <link rel="stylesheet" type="text/css" href="/static/css/materialize.css">
   <link href='https://fonts.googleapis.com/css?family=Hind:400,500' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
 
   
 </head>
 
 
-<body ng-app="docsRestrictDirective">
+<body ng-app="App">
+
+
+
+<div class="container" ng-controller="Controller">
 
 <div class="row">
 
@@ -36,8 +43,6 @@
 
 </div>
 
-<div class="container" ng-controller="Controller">
-
 
 <h4>Datos de la Empresa</h4>
 
@@ -52,7 +57,7 @@
       
 
       <div class="col s6 m6"><div class="input-field col s12">
-          <input id="email" type="email" class="validate">
+          <input id="email" type="email" class="validate ">
           <label for="email" data-error="wrong" data-success="right">Licencias</label>
         </div></div>
 

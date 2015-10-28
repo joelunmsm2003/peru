@@ -22,7 +22,7 @@ setInterval(ajaxCall, 3500);
 function ajaxCall() {
 
 
-    $http.get("/report/").success(function(response) {$scope.clientes = response;
+    $http.get("/empresas/").success(function(response) {$scope.clientes = response;
 
       console.log(ObjectLength($scope.clientes))
 

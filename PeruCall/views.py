@@ -96,6 +96,17 @@ def xxx(request):
 	return HttpResponse(data, content_type="application/json")
 
 
+def empresas(request):
+
+
+	empresas = Empresa.objects.all().values('id','nombre','licencias','mascaras','telefono','contacto').order_by('-id')
+
+	data = json.dumps(ValuesQuerySetToDict(empresas))
+
+	return HttpResponse(data, content_type="application/json")
+
+
+
 
 def salir(request):
 

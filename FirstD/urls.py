@@ -16,6 +16,7 @@ urlpatterns = patterns('',
     url(r'^agentes/$', 'PeruCall.views.agentes'),
     url(r'^xxx/', 'PeruCall.views.xxx'),
     url(r'^empresa/', 'PeruCall.views.empresa'),
+    url(r'^empresas/', 'PeruCall.views.empresas'),
 
 
 

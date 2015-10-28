@@ -68,6 +68,8 @@ class AuthUser(models.Model):
     is_staff = models.IntegerField()
     is_active = models.IntegerField()
     date_joined = models.DateTimeField()
+    empresa = models.ForeignKey('Empresa', db_column='empresa', unique=True)
+    nivel = models.ForeignKey('Nivel', db_column='nivel')
 
     class Meta:
         managed = False
@@ -94,7 +96,7 @@ class AuthUserUserPermissions(models.Model):
         db_table = 'auth_user_user_permissions'
 
 
-class Campaña(models.Model):
+class Campania(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
     fecha_cargada = models.DateField(db_column='fecha cargada')  # Field renamed to remove unsuitable characters.
     usuario = models.IntegerField()
@@ -102,7 +104,7 @@ class Campaña(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'campaña'
+        db_table = 'campania'
 
 
 class Data(models.Model):
@@ -160,3 +162,26 @@ class DjangoSession(models.Model):
     class Meta:
         managed = False
         db_table = 'django_session'
+
+
+class Empresa(models.Model):
+    id = models.IntegerField(primary_key=True)  # AutoField?
+    nombre = models.CharField(max_length=100)
+    contacto = models.CharField(max_length=100)
+    mail = models.CharField(max_length=100)
+    licencias = models.CharField(max_length=100)
+    mascaras = models.CharField(max_length=100)
+    telefono = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'empresa'
+
+
+class Nivel(models.Model):
+    id = models.IntegerField(primary_key=True)  # AutoField?
+    nombre = models.CharField(max_length=100)
+
+    class Meta:
+        managed = False
+        db_table = 'nivel'
