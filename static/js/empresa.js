@@ -1,50 +1,14 @@
-app = angular.module('App', [])
 
-app.controller('Controller', ['$scope','$http','$filter', function($scope,$http,$filter) {
+var App=angular.module('App', ['ngCookies']);
 
+App.config(function($interpolateProvider){
+$interpolateProvider.startSymbol('{[{').endSymbol('}]}');
+});
 
-
-    var _name = 'Brian';
-  $scope.user = {
-    name: function(newName) {
-     // Note that newName can be undefined for two reasons:
-     // 1. Because it is called as a getter and thus called with no arguments
-     // 2. Because the property should actually be set to undefined. This happens e.g. if the
-     //    input is invalid
-     console.log(newName)
-     return arguments.length ? (_name = newName) : _name;
-    }
-  };
+function Controller($scope,$http,$cookies,$filter) {
 
 
-setInterval(ajaxCall, 3500); 
-
-function ajaxCall() {
-
-
-    $http.get("/empresas/").success(function(response) {$scope.clientes = response;
-
-      console.log(ObjectLength($scope.clientes))
-
-      $scope.contpre = ObjectLength($scope.clientes)
-
-      
-
-      if ($scope.contant!=$scope.contpre){
-
-        $scope.search()
-
-      }
-
-      
-      $scope.contant = ObjectLength($scope.clientes)
-
-    });
-
-}
-
-
-    var sortingOrder = '-id';
+    var sortingOrder ='-id';
     $scope.sortingOrder = sortingOrder;
     $scope.reverse = false;
     $scope.filteredItems = [];
@@ -53,6 +17,16 @@ function ajaxCall() {
     $scope.pagedItems = [];
     $scope.currentPage = 0;
 
+
+    
+    $http.get("/empresas").success(function(response) {$scope.clientes = response;
+
+
+        $scope.search();
+
+
+       
+    });
 
 
 
@@ -64,21 +38,133 @@ function ajaxCall() {
     };
 
 
-    $scope.Pato = function() 
-    {
 
-    console.log($scope.agregar)
-    
+
+    $scope.addNew=function(currentPage){
+
+         $('#Agregar').modal('hide')
+         $('.modal-backdrop').remove();
+
+        var todo={
+
+            add: "New",
+            dato: $scope.agregar,
+            done:false
+        }
+
+        $http({
+        url: "/empresas/",
+        data: todo,
+        method: 'POST',
+        headers: {
+        'X-CSRFToken': $cookies['csrftoken']
+        }
+        }).
+        success(function(data) {
+
+         window.location.href = "/campania"
+         
+         $scope.agregar=""
+
+
+        })
+
+
+    };
+
+    $scope.saveContact = function (idx,currentPage) {
+
+
+        $scope.pagedItems[currentPage][idx] = angular.copy($scope.model);
+
+
+        var todo={
+
+            add: "Edit",
+            dato: $scope.model,
+            done:false
+        }
+
+
+        $http({
+        url: "/empresas/",
+        data: todo,
+        method: 'POST',
+        headers: {
+        'X-CSRFToken': $cookies['csrftoken']
+        }
+        }).
+        success(function(data) {
+
+
+
+        })
+
+
+        $('#Edit').modal('hide')
+        $('.modal-backdrop').remove();
     };
 
 
 
+    $scope.eliminarContact = function (idx,currentPage) {
+
+
+        $('#Eliminar').modal('hide')
+        $('.modal-backdrop').remove();
+
+        console.log('$scope.pagedItems[currentPage]',$scope.pagedItems[currentPage])
+
+        $scope.pagedItems[currentPage].splice(idx,1);
+
+        var todo={
+
+            dato: $scope.model,
+            add: "Eliminar",
+            done:false
+        }
+
+
+        $http({
+        url: "/empresas/",
+        data: todo,
+        method: 'POST',
+        headers: {
+        'X-CSRFToken': $cookies['csrftoken']
+        }
+        }).
+        success(function(data) {
+
+
+        $scope.contador =$scope.contador-1
+
+
+        })
+    };
+
+
+    $scope.editContact = function (contact,index,currentPage) {
+
+        $scope.index = index;
+        $scope.numberPage =currentPage;
+        $scope.model = angular.copy(contact);
+        console.log('edit',$scope.model);
+
+    };
 
 
     $scope.sort_by = function(newSortingOrder,currentPage) {
 
 
-         
+        
+        function sortByKey(array, key) {
+            return array.sort(function(a, b) {
+            var x = a[key]; var y = b[key];
+            return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+            });
+        }
+
+    
 
         function sortByKey(array, key) {
             return array.sort(function(a, b) {
@@ -124,25 +210,36 @@ function ajaxCall() {
     
     };
 
-
     $scope.search = function () {
-    
+
+        
+        console.log('search')
+
+        String.prototype.capitalizeFirstLetter = function() {
+
+        return this.charAt(0).toUpperCase() + this.slice(1);
+
+        }
+
  
         var output = {};
-
-        console.log($filter('filter')($scope.clientes,$scope.tipo))
 
         obj = $filter('filter')($scope.clientes,$scope.tipo)
 
         $scope.contador = ObjectLength(obj)
-
+       
+        console.log('$scope.tipo',$scope.tipo)
 
         $scope.filteredItems = $filter('filter')($scope.clientes,$scope.tipo);
+
         $scope.currentPage = 0;
+
+        console.log('$scope.filteredItems',$scope.filteredItems)
 
         $scope.groupToPages();
 
     };
+
 
     function ObjectLength( object ) {
     var length = 0;
@@ -161,12 +258,17 @@ function ajaxCall() {
         $scope.pagedItems = [];
         
         for (var i = 0; i < $scope.filteredItems.length; i++) {
+
+
             if (i % $scope.itemsPerPage === 0) {
                 $scope.pagedItems[Math.floor(i / $scope.itemsPerPage)] = [ $scope.filteredItems[i] ];
             } else {
                 $scope.pagedItems[Math.floor(i / $scope.itemsPerPage)].push($scope.filteredItems[i]);
             }
         }
+
+        console.log('$scope.pagedItems',$scope.pagedItems[0])
+
     };
 
 
@@ -187,18 +289,7 @@ function ajaxCall() {
     };
 
     
-    app.$inject = ['$scope', '$filter'];
+    Controller.$inject = ['$scope', '$filter'];
 
-    
+}
 
-
-
-}])
-
-
-app.directive('myEmpresa', function() {
-  return {
-    restrict: 'E',
-    templateUrl: '/static/html/empresa.html'
-  };
-});

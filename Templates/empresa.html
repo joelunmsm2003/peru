@@ -1,104 +1,249 @@
 <!DOCTYPE html>
-<!-- saved from url=(0064)https://docs.angularjs.org/examples/example-example11/index.html -->
+
 <html lang="en">
-<head>
- 
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <meta charset="UTF-8">
-  <title>Example - example-example11</title>
-  
 
-  <script src="/static/js/angular.js"></script>
-  <script src="/static/js/agentes.js"></script>
-  <script src="/static/js/empresa.js"></script>
-  <script src="/static/js/materialize.js"></script>
-  <link rel="stylesheet" type="text/css" href="/static/css/materialize.css">
-  <link href='https://fonts.googleapis.com/css?family=Hind:400,500' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" type="text/css" href="/static/css/style.css">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet">
+{% include "head.html" %}
 
-  
-</head>
-
+<script src="/static/js/empresa.js"></script>
 
 <body ng-app="App">
 
-
-
 <div class="container" ng-controller="Controller">
 
-<div class="row">
-
-      <div class="col s6 offset-s6 grid-example green"><span class="flow-text">Edward Alcalde: Nivel Manager</span></div>
-</div>
-
-<div class="row">
-      <div class="col s6 m2 grid-example blue">Empresa</div>
-      <div class="col s6 m2 grid-example blue">Usuario</div>
-      <div class="col s6 m2 grid-example blue">Campañas</div>
-      <div class="col s6 m2 grid-example blue">Troncales</div>
-      <div class="col s6 m2 grid-example blue">Reportes</div>
-      <div class="col s6 m2 grid-example blue">Grabaciones</div>
-
-</div>
-
+{% include "header.html" %}
 
 <h4>Datos de la Empresa</h4>
 
-    <div class="row">
+<div class="row">
+
+      <form ng-submit="addNew(currentPage)">
+
+      <div class="col-md-6">
+      <div class="form-group">
+      <label>Empresa/Cliente</label>
+      <input type="text" ng-model="agregar.nombre" class="form-control" placeholder="Nombre">
+      </div>
+      </div>agregar
+
+      <div class="col-md-6">
+      <div class="form-group">
+      <label>Telefono</label>
+      <input type="text" ng-model="agregar.telefono" class="form-control" placeholder="Telefono">
+      </div>
+      </div>
+
+      <div class="col-md-6">
+      <div class="form-group">
+      <label>Licencias</label>
+      <input type="text" ng-model="agregar.licencias" class="form-control" placeholder="Licencias">
+      </div>
+      </div>
+
+      <div class="col-md-6">
+      <div class="form-group">
+      <label>Contacto</label>
+      <input type="text" ng-model="agregar.contacto" class="form-control" placeholder="Contacto">
+      </div>
+      </div>
+
+      <div class="col-md-6">
+      <div class="form-group">
+      <label>Email</label>
+      <input type="text" ng-model="agregar.mail" class="form-control" placeholder="Contacto">
+      </div>
+      </div>
+
+      <div class="col-md-6">
+      <div class="form-group">
+      <label>Mascara</label>
+      <input type="text" ng-model="agregar.mascaras" class="form-control" placeholder="Contacto">
+      </div>
+      </div>
+      <br></br>
+
+      <div class="col-md-6">
+      <div class="form-group">
+      <button class="btn btn-primary" type="submit">Agregar</button>
+      </div>
+      </div>
+
+      
 
 
-        <div class="input-field col s6 m6">
-          <input id="last_name" type="text" class="validate">
-          <label for="last_name">Empresa/Cliente</label>
+</div>
+
+
+<div id="edit" class="modal fade" role="dialog">
+
+  <div class="modal-dialog">
+
+    <div class="modal-content">
+
+        <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Editar</h4>
         </div>
-      
-      
+        <div class="modal-body">
 
-      <div class="col s6 m6"><div class="input-field col s12">
-          <input id="email" type="email" class="validate ">
-          <label for="email" data-error="wrong" data-success="right">Licencias</label>
-        </div></div>
+        <div class="row">
 
-                <div class="input-field col s6 m6">
-          <input id="last_name" type="text" class="validate">
-          <label for="last_name">Contacto</label>
+        <div class="col-md-6">
+        <label>Empresa/Cliente</label>
+        <input type="text" class="form-control" ng-model="model.nombre" >
         </div>
-      
-      
 
-      <div class="col s6 m6"><div class="input-field col s12">
-          <input id="email" type="email" class="validate">
-          <label for="email" data-error="wrong" data-success="right">Mascara</label>
-        </div></div>
-
-                    <div class="input-field col s6 m6">
-          <input id="last_name" type="text" class="validate">
-          <label for="last_name">Email</label>
+        <div class="col-md-6">
+        <label>Telefono</label>
+        <input type="text" class="form-control" ng-model="model.telefono" >
         </div>
-      
-      
 
-      <div class="col s6 m6"><div class="input-field col s12">
-          <input id="email" type="email" class="validate">
-          <label for="email" data-error="wrong" data-success="right">Telefono</label>
-        </div></div>
+        <div class="col-md-6">
+        <label>Licencias</label>
+        <input type="text" class="form-control" ng-model="model.licencias" >
+        </div>
 
+        <div class="col-md-6">
+        <label>Contacto</label>
+        <input type="text" class="form-control" ng-model="model.contacto" >
+        </div>
+
+        <div class="col-md-6">
+        <label>Email</label>
+        <input type="text" class="form-control" ng-model="model.mail" >
+        </div>
+
+        <div class="col-md-6">
+        <label>Mascara</label>
+        <input type="text" class="form-control" ng-model="model.mascaras" >
+        </div>
+
+
+</div>
+</div>
+
+
+      <div class="modal-footer">
+           <button type="submit" ng-click="saveContact(index,numberPage)" class="btn btn-primary">Editar</button>
+      </div>
 
 
 
     </div>
 
+  </div>
+</div>
 
-<h4>Empresas registradas</h4>
+<div id="eliminar" class="modal fade" role="dialog">
+  <div class="modal-dialog">
 
-<my-empresa></my-empresa>
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Eliminar</h4>
+      </div>
+        <div class="modal-body">
 
+        <td><input type="hidden" ng-model="model.id" required ="" /></td>
+       
+        <h4>Desea eliminar empresa {[{model.nombre}]}</h2>
+        </div>
+
+        <div class="modal-footer">
+
+            <button class="btn" data-dismiss="modal">Cerrar</button>
+            <button type="submit" ng-click="eliminarContact(index,currentPage)" class="btn btn-primary">Eliminar</button>
+            
+
+        </div>
+    </div>
+
+  </div>
 </div>
 
 
 
+<h4>Empresas registradas</h4>
 
+
+      <div class='row'>
+      <div class="col-md-4"><input placeholder="Buscar" ng-change="search()"  type="text" ng-model="tipo" class="form-control" ></div>
+    </div>
+    <br></br>
+
+    Cantidad de Registros {{contador}}
+
+
+    <table class="responstable table" style="width:100%">
+    
+        <tbody>
+
+            <thead>
+
+            <tr>
+                  <th>Nombre <a ng-click="sort_by('nombre',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th>Telefono <a ng-click="sort_by('telefono',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th>Contacto <a ng-click="sort_by('contacto',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th>Mail <a ng-click="sort_by('mail',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th>Licencias <a ng-click="sort_by('licencias',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th>Mascaras <a ng-click="sort_by('mascaras',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th></th>
+                  <th></th>
+                        
+            </tr>
+
+            </thead>
+
+
+              <tr  ng-repeat="contact in clientes " ts-repeat>
+
+      
+                <td data-th="Origen">{[{contact.nombre}]} </td>
+                <td data-th="Destino">{[{contact.telefono}]}</td>
+                <td data-th="Calldate">{[{contact.contacto}]}</td>
+                <td data-th="Disposition">{[{contact.mail}]}</td>
+                <td data-th="Duration">{[{contact.licencias}]}</td>
+                <td data-th="Billsec">{[{contact.mascaras}]}</td>
+
+                <td>
+
+                <button type="button" class="btn btn-primary" ng-click="editContact(contact,$index,currentPage)" data-toggle="modal" data-target="#edit">Editar</button>
+
+                <button type="button" class="btn btn-primary" ng-click="editContact(contact,$index,currentPage)"  data-toggle="modal" data-target="#eliminar">Eliminar</button>
+
+  
+         
+    
+
+              </td>
+
+
+           
+                
+
+            
+
+              </tr>
+
+
+        </tbody>
+
+
+        </table>
+
+
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
 
 </html>

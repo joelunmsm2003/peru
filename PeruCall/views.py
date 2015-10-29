@@ -76,6 +76,8 @@ def menu(request):
 
 def empresa(request):
 
+
+
 	return render(request, 'empresa.html',{})
 
 
@@ -102,6 +104,47 @@ def empresas(request):
 	empresas = Empresa.objects.all().values('id','nombre','licencias','mascaras','telefono','contacto').order_by('-id')
 
 	data = json.dumps(ValuesQuerySetToDict(empresas))
+
+	if request.method == 'POST':
+
+		tipo = json.loads(request.body)['add']
+
+		data = json.loads(request.body)['dato']
+
+		if tipo == "New":
+
+			nombre = data['nombre']
+			contacto = data['contacto']
+			mail = data['mail']
+			licencias = data['licencias']
+			mascaras = data['mascaras']
+			telefono = data['telefono']
+
+			Empresa(nombre=nombre,contacto=contacto,mail=mail,licencias=licencias,mascaras=mascaras,telefono=telefono).save()
+
+			return HttpResponse(data, content_type="application/json")
+
+
+		if tipo=="Edit":
+
+			id= data['id']
+
+			empresa = Empresa.objects.get(id=id)
+			empresa.nombre =data['nombre']
+			empresa.contacto =data['contacto']
+			empresa.mail =data['mail']
+			empresa.licencias =data['licencias']
+			empresa.mascaras =data['mascaras']
+			empresa.telefono =data['telefono']
+			empresa.save()
+
+
+		if tipo=="Eliminar":
+
+			id= data['id']
+
+			Empresa.objects.get(id=id).delete()
+
 
 	return HttpResponse(data, content_type="application/json")
 
