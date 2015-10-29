@@ -122,7 +122,7 @@ def empresas(request):
 
 			Empresa(nombre=nombre,contacto=contacto,mail=mail,licencias=licencias,mascaras=mascaras,telefono=telefono).save()
 
-			return HttpResponse(data, content_type="application/json")
+			return HttpResponse(nombre, content_type="application/json")
 
 
 		if tipo=="Edit":

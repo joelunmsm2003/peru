@@ -24,7 +24,6 @@ function Controller($scope,$http,$cookies,$filter) {
 
         $scope.search();
 
-
        
     });
 
@@ -42,8 +41,10 @@ function Controller($scope,$http,$cookies,$filter) {
 
     $scope.addNew=function(currentPage){
 
-         $('#Agregar').modal('hide')
+         $('#editar').modal('hide')
          $('.modal-backdrop').remove();
+
+
 
         var todo={
 
@@ -62,7 +63,8 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-         window.location.href = "/campania"
+       swal({   title: "Perucall",   text: "Empresa "+data +" agregado",   type: "success",   confirmButtonColor: "#EA1717",   confirmButtonText: "OK",   }, function(){   window.location.href = "/empresa" });
+
          
          $scope.agregar=""
 
@@ -76,6 +78,8 @@ function Controller($scope,$http,$cookies,$filter) {
 
 
         $scope.pagedItems[currentPage][idx] = angular.copy($scope.model);
+        $('#editar').modal('hide')
+        $('.modal-backdrop').remove();
 
 
         var todo={
@@ -110,10 +114,10 @@ function Controller($scope,$http,$cookies,$filter) {
     $scope.eliminarContact = function (idx,currentPage) {
 
 
-        $('#Eliminar').modal('hide')
+        $('#eliminar').modal('hide')
         $('.modal-backdrop').remove();
 
-        console.log('$scope.pagedItems[currentPage]',$scope.pagedItems[currentPage])
+        
 
         $scope.pagedItems[currentPage].splice(idx,1);
 
