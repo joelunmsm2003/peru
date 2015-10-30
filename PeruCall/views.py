@@ -101,7 +101,7 @@ def xxx(request):
 def empresas(request):
 
 
-	empresas = Empresa.objects.all().values('id','nombre','licencias','mascaras','telefono','contacto').order_by('-id')
+	empresas = Empresa.objects.all().values('id','nombre','licencias','mascaras','telefono','contacto','mail').order_by('-id')
 
 	data = json.dumps(ValuesQuerySetToDict(empresas))
 
@@ -110,6 +110,8 @@ def empresas(request):
 		tipo = json.loads(request.body)['add']
 
 		data = json.loads(request.body)['dato']
+
+		print 'data',json.loads(request.body)
 
 		if tipo == "New":
 
@@ -129,6 +131,8 @@ def empresas(request):
 
 			id= data['id']
 
+			print data
+
 			empresa = Empresa.objects.get(id=id)
 			empresa.nombre =data['nombre']
 			empresa.contacto =data['contacto']
@@ -144,6 +148,9 @@ def empresas(request):
 			id= data['id']
 
 			Empresa.objects.get(id=id).delete()
+
+
+		return HttpResponse(data['nombre'], content_type="application/json")
 
 
 	return HttpResponse(data, content_type="application/json")
