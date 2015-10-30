@@ -21,6 +21,7 @@ urlpatterns = patterns('',
     url(r'^usuario/', 'PeruCall.views.usuario'),
     url(r'^user/', 'PeruCall.views.user'),
     url(r'^nivel/', 'PeruCall.views.nivel'),
+     url(r'^$', 'PeruCall.views.ingresar'),  
 
 )
 
