@@ -107,7 +107,23 @@ def nivel(request):
 
 	id = request.user.id
 
-	nivel = Nivel.objects.all().values('id','nombre')
+	nivel = AuthUser.objects.get(id=id).nivel.id
+
+	if nivel == 4: #Manager
+
+		nivel = Nivel.objects.all().values('id','nombre')
+
+
+	if nivel == 2: #Supervisores
+
+		nivel = Nivel.objects.all().values('id','nombre')[2:3]
+
+
+	if nivel == 1: #Admin
+
+		nivel =  Nivel.objects.all().values('id','nombre')[1:3]
+
+
 
 	data_dict = ValuesQuerySetToDict(nivel)
 
@@ -158,7 +174,6 @@ def usuarios(request):
 		if tipo == "New":
 
 			username = data['username']
-			email = data['email']
 			empresa = data['empresa']
 			email = data['email']
 			nivel = data['nivel']
@@ -172,7 +187,7 @@ def usuarios(request):
 
 			usuario = AuthUser.objects.get(id=id_user)
 		
-			usuario.empresa = empresa
+			usuario.empresa_id = empresa
 			usuario.nivel = nivel
 			usuario.save()
 
@@ -185,24 +200,23 @@ def usuarios(request):
 
 			print data
 
-			empresa = Empresa.objects.get(id=id)
-			empresa.nombre =data['nombre']
-			empresa.contacto =data['contacto']
-			empresa.mail =data['mail']
-			empresa.licencias =data['licencias']
-			empresa.mascaras =data['mascaras']
-			empresa.telefono =data['telefono']
-			empresa.save()
+			user = User.objects.get(id=id)
+			user.username =data['username']
+			user.empresa =data['empresa']
+			user.email = data['email']
+			user.nivel = data['nivel']
+
+			user.save()
 
 
 		if tipo=="Eliminar":
 
 			id= data['id']
 
-			print Empresa.objects.get(id=id).delete()
+			User.objects.get(id=id).delete()
 
 
-		return HttpResponse(data['nombre'], content_type="application/json")
+		return HttpResponse(data['username'], content_type="application/json")
 
 
 	return HttpResponse(data, content_type="application/json")

@@ -17,15 +17,13 @@ function Controller($scope,$http,$cookies,$filter) {
     $scope.pagedItems = [];
     $scope.currentPage = 0;
 
-
     
     $http.get("/usuarios").success(function(response) {$scope.clientes = response;
 
-
         $scope.search();
 
-       
     });
+
 
     $http.get("/user").success(function(response) {$scope.user = response;
 
@@ -40,9 +38,8 @@ function Controller($scope,$http,$cookies,$filter) {
 
     });
 
-
-
     $scope.numberOfPages = function() 
+
     {
 
     return Math.ceil($scope.clientes.length / $scope.pageSize);
@@ -51,15 +48,15 @@ function Controller($scope,$http,$cookies,$filter) {
 
 
 
-    $scope.addNew=function(currentPage){
+    $scope.addNew=function(agregar){
 
 
-        console.log('agregar',$scope.agregar)
+        console.log('agregar',agregar)
 
         var todo={
 
             add: "New",
-            dato: $scope.agregar,
+            dato: agregar,
             done:false
         }
 
@@ -73,11 +70,9 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-       swal({   title: "Perucall",   text: "Usuario "+data +" agregado",   type: "success",   confirmButtonColor: "#EA1717",   confirmButtonText: "OK",   }, function(){   window.location.href = "/usuario" });
-
-         
-         $scope.agregar=""
-
+        swal({   title: "Perucall",   text: "Usuario "+data +" agregado",   type: "success",   confirmButtonColor: "#337ab7",   confirmButtonText: "OK",   }, function(){   window.location.href = "/usuario" });
+ 
+        $scope.agregar=""
 
         })
 
@@ -88,7 +83,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
 
         $scope.pagedItems[currentPage][idx] = angular.copy($scope.model);
-        $('#editar').modal('hide')
+        $('#edit').modal('hide')
         $('.modal-backdrop').remove();
 
 
@@ -110,8 +105,8 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-
-
+        swal({   title: "Perucall",   text: "Usuario "+data +" editado",   type: "success",   confirmButtonColor: "#337ab7",   confirmButtonText: "OK",   }, function(){   });
+ 
         })
 
 
@@ -123,11 +118,8 @@ function Controller($scope,$http,$cookies,$filter) {
 
     $scope.eliminarContact = function (idx,currentPage) {
 
-
         $('#eliminar').modal('hide')
         $('.modal-backdrop').remove();
-
-        
 
         $scope.pagedItems[currentPage].splice(idx,1);
 
@@ -149,11 +141,10 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-
         $scope.contador =$scope.contador-1
 
-
         })
+
     };
 
 
@@ -170,7 +161,6 @@ function Controller($scope,$http,$cookies,$filter) {
     $scope.sort_by = function(newSortingOrder,currentPage) {
 
 
-        
         function sortByKey(array, key) {
             return array.sort(function(a, b) {
             var x = a[key]; var y = b[key];
@@ -209,9 +199,6 @@ function Controller($scope,$http,$cookies,$filter) {
         $scope.search()
 
 
-
-
-
         // icon setup
         $('th i').each(function(){
             // icon reset
@@ -235,7 +222,6 @@ function Controller($scope,$http,$cookies,$filter) {
 
         }
 
- 
         var output = {};
 
         obj = $filter('filter')($scope.clientes,$scope.tipo)
