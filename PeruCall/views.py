@@ -192,3 +192,55 @@ def salir(request):
 
 def ValuesQuerySetToDict(vqs):
     return [item for item in vqs]
+
+
+def usuario(request):
+
+	return render(request, 'usuario.html',{})
+
+
+def usuarios(request):
+
+
+	usuarios = Us.objects.all().values('id','nombre','nivel','empresa','campania').order_by('-id')
+
+	data = json.dumps(ValuesQuerySetToDict(empresas))
+
+	if request.method == 'POST':
+
+		tipo = json.loads(request.body)['add']
+
+		data = json.loads(request.body)['dato']
+
+		if tipo == "New":
+
+			nombre = data['nombre']
+			nivel = data['nivel']
+			empresa = data['empresa']
+			campania = data['campania']
+
+			Usuario(nombre=nombre,nivel=nivel,empresa=empresa,campania=campania).save()
+
+			return HttpResponse(nombre, content_type="application/json")
+
+
+		if tipo=="Edit":
+
+			id= data['id']
+
+			usuario = Usuario.objects.get(id=id)
+			usuario.nombre =data['nombre']
+			usuario.nivel =data['nivel']
+			usuario.empresa =data['empresa']
+			usuario.campania =data['campania']
+			usuario.save()
+
+
+		if tipo=="Eliminar":
+
+			id= data['id']
+
+			Usuario.objects.get(id=id).delete()
+
+
+	return HttpResponse(data, content_type="application/json")

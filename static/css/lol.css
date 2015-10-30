@@ -1,6 +1,8 @@
 body {
-  background-image: url(/static/img/qq.png);
-  background-size: cover;
+  background-image: url(/static/img/ivr.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 999px;
 }
 
 .title {
@@ -17,11 +19,11 @@ body {
 }
 
 form {
-  background-color: rgba(0,0,0,.85);
+  background-color: rgba(0,0,0,.15);
   max-width: 300px;
   margin: auto;
   display: block;
-  top: 250px;
+  top: 150px;
   position: relative;
   border-radius: 5px;
   padding-bottom: 10px;
