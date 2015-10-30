@@ -20,6 +20,8 @@ class Agentes(models.Model):
     atendidas = models.IntegerField()
     contactadas = models.IntegerField()
     estado = models.TextField()
+    user = models.ForeignKey('AuthUser', db_column='user')
+    supervisor = models.ForeignKey('Supervisor', db_column='supervisor')
 
     class Meta:
         managed = False
@@ -165,7 +167,7 @@ class DjangoSession(models.Model):
 
 
 class Empresa(models.Model):
-    id = models.IntegerField(primary_key=True)  
+    id = models.IntegerField(primary_key=True)  # AutoField?
     nombre = models.CharField(max_length=100)
     contacto = models.CharField(max_length=100)
     mail = models.CharField(max_length=100)
@@ -177,18 +179,6 @@ class Empresa(models.Model):
         managed = False
         db_table = 'empresa'
 
-class Usuario(models.Model):
-    id = models.IntegerField(primary_key=True) 
-    name = models.CharField(max_length=100)
-    contacto = models.CharField(max_length=100)
-    mail = models.CharField(max_length=100)
-    licencias = models.CharField(max_length=100)
-    mascaras = models.CharField(max_length=100)
-    telefono = models.IntegerField()
-
-    class Meta:
-        managed = True
-        db_table = 'usuario'
 
 class Nivel(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
@@ -197,3 +187,12 @@ class Nivel(models.Model):
     class Meta:
         managed = False
         db_table = 'nivel'
+
+
+class Supervisor(models.Model):
+    id = models.IntegerField(primary_key=True)  # AutoField?
+    user = models.ForeignKey(AuthUser, db_column='user')
+
+    class Meta:
+        managed = False
+        db_table = 'supervisor'

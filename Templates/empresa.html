@@ -14,67 +14,67 @@
 
 <h4>Datos de la Empresa</h4>
 
+<div ng-if=" user.nivel == 4">
+
+
 <div class="row">
 
       <form ng-submit="addNew(currentPage)">
 
-      <div class="col-md-6">
-      <div class="form-group">
-      <label>Empresa/Cliente</label>
-      <input type="text" ng-model="agregar.nombre" class="form-control" placeholder="Nombre" required ="">
-      </div>
-      </div>
+          <div class="col-md-6">
+          <div class="form-group">
+          <label>Empresa/Cliente</label>
+          <input type="text" ng-model="agregar.nombre" class="form-control" placeholder="Nombre" required ="">
+          </div>
+          </div>
 
-      <div class="col-md-6">
-      <div class="form-group">
-      <label>Telefono</label>
-      <input type="text" ng-model="agregar.telefono" class="form-control" placeholder="Telefono" required =""  >
-      </div>
-      </div>
+          <div class="col-md-6">
+          <div class="form-group">
+          <label>Telefono</label>
+          <input type="text" ng-model="agregar.telefono" class="form-control" placeholder="Telefono" required =""  >
+          </div>
+          </div>
 
-      <div class="col-md-6">
-      <div class="form-group">
-      <label>Licencias</label>
-      <input type="text" ng-model="agregar.licencias" class="form-control" placeholder="Licencias" required ="" >
-      </div>
-      </div>
+          <div class="col-md-6">
+          <div class="form-group">
+          <label>Licencias</label>
+          <input type="text" ng-model="agregar.licencias" class="form-control" placeholder="Licencias" required ="" >
+          </div>
+          </div>
 
-      <div class="col-md-6">
-      <div class="form-group">
-      <label>Contacto</label>
-      <input type="text" ng-model="agregar.contacto" class="form-control" placeholder="Contacto" required ="" >
-      </div>
-      </div>
+          <div class="col-md-6">
+          <div class="form-group">
+          <label>Contacto</label>
+          <input type="text" ng-model="agregar.contacto" class="form-control" placeholder="Contacto" required ="" >
+          </div>
+          </div>
 
-      <div class="col-md-6">
-      <div class="form-group">
-      <label>Email</label>
-      <input type="email" ng-model="agregar.mail" class="form-control" placeholder="Email" required =""  >
-      </div>
-      </div>
+          <div class="col-md-6">
+          <div class="form-group">
+          <label>Email</label>
+          <input type="email" ng-model="agregar.mail" class="form-control" placeholder="Email" required =""  >
+          </div>
+          </div>
 
-      <div class="col-md-6">
-      <div class="form-group">
-      <label>Mascara</label>
-      <input type="text" ng-model="agregar.mascaras" class="form-control" placeholder="Mascara " required ="" >
-      </div>
-      </div>
-      <br></br>
+          <div class="col-md-6">
+          <div class="form-group">
+          <label>Mascara</label>
+          <input type="text" ng-model="agregar.mascaras" class="form-control" placeholder="Mascara " required ="" >
+          </div>
+          </div>
+          <br></br>
 
-      <div class="col-md-6">
-      <div class="form-group">
-      <button class="btn btn-primary" type="submit">Agregar</button>
+          <div class="col-md-6">
+          <div class="form-group">
+          <button class="btn btn-primary" type="submit">Agregar</button>
+          </div>
+          </div>
 
       </form>
 
-      </div>
-      </div>
-
-      
-
-
 </div>
 
+</div>
 
 <div id="edit" class="modal fade" role="dialog">
 
@@ -167,11 +167,6 @@
   </div>
 </div>
 
-
-
-<h4>Empresas registradas</h4>
-
-
       <div class='row'>
       <div class="col-md-4"><input placeholder="Buscar" ng-change="search()"  type="text" ng-model="tipo" class="form-control" ></div>
     </div>
@@ -240,7 +235,7 @@
 
                 <button type="button" class="btn btn-primary" ng-click="editContact(contact,$index,currentPage)"  data-toggle="modal" data-target="#eliminar">Eliminar</button>
 
-                
+
     
 
               </td>

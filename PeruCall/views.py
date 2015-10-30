@@ -92,22 +92,118 @@ def agentes(request):
 
 def user(request):
 
+	id = request.user.id
 
-	datax = User.objects.all().values('author','text')
+	user = AuthUser.objects.filter(id=id).values('id','username','email','empresa','nivel','first_name','nivel__nombre')
 
-	data = json.dumps(ValuesQuerySetToDict(datax))
+	data_dict = ValuesQuerySetToDict(user)
+
+	data = simplejson.dumps(data_dict)
+
+	return HttpResponse(data, content_type="application/json")
+
+
+def nivel(request):
+
+	id = request.user.id
+
+	nivel = Nivel.objects.all().values('id','nombre')
+
+	data_dict = ValuesQuerySetToDict(nivel)
+
+	data = simplejson.dumps(data_dict)
 
 	return HttpResponse(data, content_type="application/json")
 
 
 
+def usuarios(request):
 
-def usuarios(request,id):
+
+	id = request.user.id
+
+	nivel = AuthUser.objects.get(id=id).nivel.id
+
+	empresa = AuthUser.objects.get(id=id).empresa
+
+	if nivel == 4: #Manager
+
+		usuarios = AuthUser.objects.all().values('id','username','email','empresa','nivel').order_by('-id')
+	
+	if nivel == 3: #Agentes
+
+		usuarios = AuthUser.objects.filter(id=id).values('id','username','email','empresa','nivel').order_by('-id')
 
 
-	usuarios = AuthUser.objects.filter(empresa=id).values('id','username','email','empresa','nivel').order_by('-id')
+	if nivel == 2: #Supervisores
+
+		usuarios = AuthUser.objects.filter(empresa=empresa,nivel=3).values('id','username','email','empresa','nivel').order_by('-id')
+
+
+	if nivel == 1: #Admin
+
+		usuarios = AuthUser.objects.filter(empresa=empresa).values('id','username','email','empresa','nivel').order_by('-id')
+
 
 	data = json.dumps(ValuesQuerySetToDict(usuarios))
+
+	if request.method == 'POST':
+
+		tipo = json.loads(request.body)['add']
+
+		data = json.loads(request.body)['dato']
+
+		print 'data',json.loads(request.body)
+
+		if tipo == "New":
+
+			username = data['username']
+			email = data['email']
+			empresa = data['empresa']
+			email = data['email']
+			nivel = data['nivel']
+			password = data['password']
+
+			user = User.objects.create_user(username=username,email=email,password=password)
+
+			user.save()
+
+			id_user = AuthUser.objects.all().values('id').order_by('-id')[0]['id']
+
+			usuario = AuthUser.objects.get(id=id_user)
+		
+			usuario.empresa = empresa
+			usuario.nivel = nivel
+			usuario.save()
+
+			return HttpResponse(username, content_type="application/json")
+
+
+		if tipo=="Edit":
+
+			id= data['id']
+
+			print data
+
+			empresa = Empresa.objects.get(id=id)
+			empresa.nombre =data['nombre']
+			empresa.contacto =data['contacto']
+			empresa.mail =data['mail']
+			empresa.licencias =data['licencias']
+			empresa.mascaras =data['mascaras']
+			empresa.telefono =data['telefono']
+			empresa.save()
+
+
+		if tipo=="Eliminar":
+
+			id= data['id']
+
+			print Empresa.objects.get(id=id).delete()
+
+
+		return HttpResponse(data['nombre'], content_type="application/json")
+
 
 	return HttpResponse(data, content_type="application/json")
 
@@ -199,12 +295,11 @@ def usuario(request):
 	return render(request, 'usuario.html',{})
 
 
+'''
 def usuarios(request):
 
 
-	usuarios = Us.objects.all().values('id','nombre','nivel','empresa','campania').order_by('-id')
 
-	data = json.dumps(ValuesQuerySetToDict(empresas))
 
 	if request.method == 'POST':
 
@@ -244,3 +339,4 @@ def usuarios(request):
 
 
 	return HttpResponse(data, content_type="application/json")
+'''

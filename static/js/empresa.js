@@ -21,11 +21,18 @@ function Controller($scope,$http,$cookies,$filter) {
     
     $http.get("/empresas").success(function(response) {$scope.clientes = response;
 
-
         $scope.search();
-
        
     });
+
+    $http.get("/user").success(function(response) {$scope.user = response;
+
+        $scope.user = $scope.user[0]
+
+    });
+
+
+
 
 
 

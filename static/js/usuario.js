@@ -27,6 +27,19 @@ function Controller($scope,$http,$cookies,$filter) {
        
     });
 
+    $http.get("/user").success(function(response) {$scope.user = response;
+
+        $scope.user = $scope.user[0]
+
+    });
+
+
+    $http.get("/nivel").success(function(response) {$scope.nivel = response;
+
+        console.log('$scope.nivel',$scope.nivel)
+
+    });
+
 
 
     $scope.numberOfPages = function() 
@@ -38,13 +51,10 @@ function Controller($scope,$http,$cookies,$filter) {
 
 
 
-
     $scope.addNew=function(currentPage){
 
-         $('#editar').modal('hide')
-         $('.modal-backdrop').remove();
 
-
+        console.log('agregar',$scope.agregar)
 
         var todo={
 
@@ -63,7 +73,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-       swal({   title: "Perucall",   text: "Usuario "+data +" agregado",   type: "success",   confirmButtonColor: "#EA1717",   confirmButtonText: "OK",   }, function(){   window.location.href = "/empresa" });
+       swal({   title: "Perucall",   text: "Usuario "+data +" agregado",   type: "success",   confirmButtonColor: "#EA1717",   confirmButtonText: "OK",   }, function(){   window.location.href = "/usuario" });
 
          
          $scope.agregar=""

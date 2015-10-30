@@ -3,6 +3,7 @@ body {
   background-repeat: no-repeat;
   background-position: center;
   background-size: 999px;
+  font-family: 'Hind', sans-serif;
 }
 
 .title {
@@ -27,6 +28,7 @@ form {
   position: relative;
   border-radius: 5px;
   padding-bottom: 10px;
+  font-family: 'Hind', sans-serif;
 }
 
 input {
@@ -36,6 +38,7 @@ input {
   margin: 10px auto;
   border: none;
   border-radius: 3px;
+  font-family: 'Hind', sans-serif;
   
 }
 
@@ -45,6 +48,7 @@ input.text {
   color: #333;
   font-weight: 800;
   position: relative;
+  font-family: 'Hind', sans-serif;
 }
 
 input:focus {
@@ -70,6 +74,7 @@ input.submit {
   height: 33px;
   position: relative;
   box-shadow: 1px 3px 0px #333;
+  font-family: 'Hind', sans-serif;
 }
 
 input.submit:active {
