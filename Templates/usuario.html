@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+{% include "head.html" %}
+
+<script src="/static/js/usuario.js"></script>
+
+<body ng-app="App">
+
+<div class="container" ng-controller="Controller">
+
+{% include "u1.html" %}
+
+<h4>Datos del Usuario</h4>
+
+<div class="row">
+
+      <form ng-submit="addNew(currentPage)">
+
+      <div class="col-md-4">
+      <div class="form-group">
+      <label>Usuario</label>
+      <input type="text" ng-model="agregar.nombre" class="form-control" placeholder="Nombre del Usuario" >
+      </div>
+      </div>
+
+      <div class="col-md-4">
+      <div class="form-group">
+      <label>Nivel</label>
+      <select ng-model="agregar.nivel"  ng-options="nivel.id as nivel.nombre for nivel in niveles"></select>
+      <br>
+      </div>
+      </div>
+
+
+      <div class="col-md-4">
+      <div class="form-group">
+      <label>Empresa/Cliente</label>
+      <select ng-model="agregar.empresa"  ng-options="empresa.id as empresa.nombre for empresa in clientes"></select>
+      <br>
+      </div>
+      </div>
+
+
+      <div class="col-md-6">
+      <div class="form-group">
+      <button class="btn btn-primary" type="submit">Agregar</button>
+      </div>
+      </div>
+
+      
+</div>
+
+<p>
+  
+
+</p>
+
+<div id="edit" class="modal fade" role="dialog">
+
+  <div class="modal-dialog">
+
+    <div class="modal-content">
+
+        <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Editar</h4>
+        </div>
+        <div class="modal-body">
+
+        <div class="row">
+
+          <div class="col-md-4">
+          <div class="form-group">
+          <label>Usuario</label><input type="text" class="form-control" ng-model="model.nombre" ><br>
+          </div>
+          </div>
+
+          <div class="col-md-4">
+          <div class="form-group">
+          <label>Nivel</label>
+          <select ng-model="agregar.nivel"  ng-options="nivel.id as nivel.nombre for nivel in niveles"></select>
+          <br>
+          </div>
+          </div>
+
+          <div class="col-md-4">
+          <div class="form-group">
+          <label>Empresa/Cliente</label>
+          <select ng-model="agregar.empresa"  ng-options="empresa.id as empresa.nombre for empresa in clientes"></select>
+          <br>
+          </div>
+          </div>
+
+
+
+</div>
+</div>
+
+
+      <div class="modal-footer">
+           <button type="submit" ng-click="saveContact(index,numberPage)" class="btn btn-primary">Editar</button>
+      </div>
+
+
+
+    </div>
+
+  </div>
+</div>
+
+<div id="eliminar" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Eliminar</h4>
+      </div>
+        <div class="modal-body">
+
+        <td><input type="hidden" ng-model="model.id" required ="" /></td>
+       
+        <h4>Desea eliminar usuario {[{model.nombre}]}</h2>
+        </div>
+
+        <div class="modal-footer">
+
+            <button class="btn" data-dismiss="modal">Cerrar</button>
+            <button type="submit" ng-click="eliminarContact(index,currentPage)" class="btn btn-primary">Eliminar</button>
+            
+
+        </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+<h4>Usuarios registradas</h4>
+
+
+      <div class='row'>
+      <div class="col-md-4"><input placeholder="Buscar" ng-change="search()"  type="text" ng-model="tipo" class="form-control" ></div>
+    </div>
+    <br></br>
+
+    Cantidad de Registros {{contador}}
+
+
+    <table class="responstable table" style="width:100%">
+    
+        <tbody>
+
+            <thead>
+
+            <tr>
+                  <th>Id <a ng-click="sort_by('id',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th>Nombre <a ng-click="sort_by('nombre',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th>Nivel <a ng-click="sort_by('nivel',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th>Empresa <a ng-click="sort_by('empresa',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th>Campaña <a ng-click="sort_by('campania',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th></th>
+            </tr>
+
+            </thead>
+
+
+              <tr  ng-repeat="contact in pagedItems[currentPage]  " ts-repeat>
+
+                <td data-th="Id">{[{contact.id}]} </td>
+                <td data-th="Nombre">{[{contact.nombre}]} </td>
+                <td data-th="Nivel">{[{contact.nivel}]}</td>
+                <td data-th="Empresa">{[{contact.empresa}]}</td>
+                <td data-th="Campaña">{[{contact.campania}]}</td>
+                <td>
+
+                <button type="button" class="btn btn-primary" ng-click="editContact(contact,$index,currentPage)" data-toggle="modal" data-target="#edit">Editar</button>
+
+                <button type="button" class="btn btn-primary" ng-click="editContact(contact,$index,currentPage)"  data-toggle="modal" data-target="#eliminar">Eliminar</button>
+
+              </td>
+
+
+              </tr>
+
+
+        </tbody>
+
+
+        </table>
+
+
+      </div>
+
+
+</body>
+
+</html>

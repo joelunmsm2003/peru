@@ -48,7 +48,7 @@ class Data(models.Model):
         db_table = 'data'
 
 class Empresa(models.Model):
-    id = models.IntegerField(primary_key=True)  # AutoField?
+    id = models.IntegerField(primary_key=True)  
     nombre = models.CharField(max_length=100)
     contacto = models.CharField(max_length=100)
     mail = models.CharField(max_length=100)
@@ -60,6 +60,18 @@ class Empresa(models.Model):
         managed = True
         db_table = 'empresa'
 
+class Usuario(models.Model):
+    id = models.IntegerField(primary_key=True) 
+    name = models.CharField(max_length=100)
+    contacto = models.CharField(max_length=100)
+    mail = models.CharField(max_length=100)
+    licencias = models.CharField(max_length=100)
+    mascaras = models.CharField(max_length=100)
+    telefono = models.IntegerField()
+
+    class Meta:
+        managed = True
+        db_table = 'usuario'
 
 class Nivel(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
