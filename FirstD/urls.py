@@ -14,9 +14,11 @@ urlpatterns = patterns('',
 
     url(r'^menu/$', 'PeruCall.views.menu'),
     url(r'^agentes/$', 'PeruCall.views.agentes'),
-    url(r'^xxx/', 'PeruCall.views.xxx'),
     url(r'^empresa/', 'PeruCall.views.empresa'),
     url(r'^empresas/', 'PeruCall.views.empresas'),
+    url(r'^usuarios/(\w+)/$', 'PeruCall.views.usuarios'),
+    url(r'^usuario/', 'PeruCall.views.usuario'),
+    url(r'^user/', 'PeruCall.views.user'),
 
 
 

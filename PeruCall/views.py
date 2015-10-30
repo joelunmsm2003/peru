@@ -38,7 +38,7 @@ def ingresar(request):
 
 	if request.user.is_authenticated():
 
-		return HttpResponseRedirect("/menu")
+		return HttpResponseRedirect("/empresa")
 
 	else:
 
@@ -59,7 +59,7 @@ def ingresar(request):
 
 					login(request, user)
 
-					return HttpResponseRedirect("/menu")
+					return HttpResponseRedirect("/empresa")
 
 			else:
 				return HttpResponseRedirect("/ingresar")
@@ -76,9 +76,12 @@ def menu(request):
 
 def empresa(request):
 
-
-
 	return render(request, 'empresa.html',{})
+
+def usuario(request):
+
+
+	return render(request, 'usuario.html',{})
 
 
 
@@ -87,21 +90,43 @@ def agentes(request):
 
 		return render(request, 'agentes.html',{})
 
+def user(request):
 
-def xxx(request):
 
-
-	datax = Data.objects.all().values('author','text')
+	datax = User.objects.all().values('author','text')
 
 	data = json.dumps(ValuesQuerySetToDict(datax))
 
 	return HttpResponse(data, content_type="application/json")
 
 
+
+
+def usuarios(request,id):
+
+
+	usuarios = AuthUser.objects.filter(empresa=id).values('id','username','email','empresa','nivel').order_by('-id')
+
+	data = json.dumps(ValuesQuerySetToDict(usuarios))
+
+	return HttpResponse(data, content_type="application/json")
+
+
 def empresas(request):
 
+	id = request.user.id
 
-	empresas = Empresa.objects.all().values('id','nombre','licencias','mascaras','telefono','contacto','mail').order_by('-id')
+	nivel = AuthUser.objects.get(id=id).nivel.id
+
+	if nivel == 4:
+
+		empresas = Empresa.objects.all().values('id','nombre','licencias','mascaras','telefono','contacto','mail').order_by('-id')
+
+	else:
+
+		empresa = AuthUser.objects.get(id=id).empresa.id
+
+		empresas = Empresa.objects.filter(id=empresa).values('id','nombre','licencias','mascaras','telefono','contacto','mail').order_by('-id')
 
 	data = json.dumps(ValuesQuerySetToDict(empresas))
 
@@ -147,7 +172,7 @@ def empresas(request):
 
 			id= data['id']
 
-			Empresa.objects.get(id=id).delete()
+			print Empresa.objects.get(id=id).delete()
 
 
 		return HttpResponse(data['nombre'], content_type="application/json")

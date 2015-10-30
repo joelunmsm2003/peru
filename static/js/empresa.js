@@ -39,6 +39,9 @@ function Controller($scope,$http,$cookies,$filter) {
 
 
 
+
+
+
     $scope.addNew=function(currentPage){
 
       
@@ -77,7 +80,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
      
         $scope.pagedItems[currentPage][idx] = angular.copy($scope.model);
-        $('#editar').modal('hide')
+        $('#edit').modal('hide')
         $('.modal-backdrop').remove();
 
 
@@ -99,7 +102,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-            swal({title: "Perucall", text: "Empresa "+data +" editado",   type: "success",   confirmButtonColor: "#337ab7",   confirmButtonText: "Editado",   }, function(){   window.location.href = "/empresa" });
+            swal({title: "Perucall", text: "Empresa "+data +" editado",   type: "success",   confirmButtonColor: "#337ab7",   confirmButtonText: "Editado",   }, function(){  });
 
 
         })
