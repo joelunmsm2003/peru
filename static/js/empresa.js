@@ -49,7 +49,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
 
 
-    $scope.addNew=function(currentPage){
+    $scope.addNew=function(agregar){
 
       
 
@@ -58,7 +58,7 @@ function Controller($scope,$http,$cookies,$filter) {
         var todo={
 
             add: "New",
-            dato: $scope.agregar,
+            dato: agregar,
             done:false
         }
 
