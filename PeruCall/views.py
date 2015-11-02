@@ -83,6 +83,22 @@ def usuario(request):
 
 	return render(request, 'usuario.html',{})
 
+def campania(request):
+
+
+	return render(request, 'campania.html',{})
+
+def micampania(request):
+
+
+	return render(request, 'micampania.html',{})
+
+def adminCampania(request,id_campania):
+
+	campania = Campania.objects.get(id=id_campania)
+
+	return render(request, 'admincampania.html',{'campania':campania})
+
 
 
 
@@ -97,6 +113,59 @@ def user(request):
 	user = AuthUser.objects.filter(id=id).values('id','username','email','empresa','nivel','first_name','nivel__nombre')
 
 	data_dict = ValuesQuerySetToDict(user)
+
+	data = simplejson.dumps(data_dict)
+
+	return HttpResponse(data, content_type="application/json")
+
+
+
+
+
+def uploadCampania(request):
+
+	if request.method == 'POST':
+
+		id = request.user.id
+
+		data = request.POST
+
+		print data
+
+		troncal = data['troncal']
+		canales = data['canales']
+		inicio = data['inicio']
+		fin = data['fin']
+		nombre = data['nombre']
+		timbrados = data['timbrados']
+		llamadaxhora = data['timbrados']
+		hombreobjetivo = data['hombreobjetivo']
+		mxllamada = data['mxllamada']
+		now = datetime.now()
+		archivo =  request.FILES['process_file']
+
+		Campania(usuario=id,fecha_cargada= now,archivo = archivo,troncal=troncal,canales=canales,htinicio=inicio,htfin=fin,nombre=nombre,timbrados=timbrados,llamadaxhora=llamadaxhora,hombreobjetivo=hombreobjetivo,mxllamada=mxllamada).save()
+
+	return HttpResponseRedirect("/campania")
+
+
+
+def campanias(request):
+
+	id = request.user.id
+
+	data = Campania.objects.all().values('id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo')
+
+	fmt = '%H:%M:%S %Z'
+	fmt1 = '%Y-%m-%d %H:%M:%S %Z'
+
+	for i in range(len(data)):
+
+		data[i]['htinicio'] = Campania.objects.get(id=data[i]['id']).htinicio.strftime(fmt)
+		data[i]['hfin'] = Campania.objects.get(id=data[i]['id']).htfin.strftime(fmt)
+		data[i]['fecha_cargada'] = Campania.objects.get(id=data[i]['id']).fecha_cargada.strftime(fmt1)
+
+	data_dict = ValuesQuerySetToDict(data)
 
 	data = simplejson.dumps(data_dict)
 
@@ -133,6 +202,20 @@ def nivel(request):
 
 
 
+def agentesdisponibles(request):
+
+	id = request.user.id
+
+	agentes = Agentes.objects.all().values('id','estado__nombre','user__first_name','supervisor')
+
+	data_dict = ValuesQuerySetToDict(agentes)
+
+	data = simplejson.dumps(data_dict)
+
+	return HttpResponse(data, content_type="application/json")
+
+
+
 def usuarios(request):
 
 
@@ -144,21 +227,21 @@ def usuarios(request):
 
 	if nivel == 4: #Manager
 
-		usuarios = AuthUser.objects.all().values('id','username','email','empresa','nivel').order_by('-id')
+		usuarios = AuthUser.objects.all().values('id','username','email','empresa__nombre','nivel__nombre','first_name').order_by('-id')
 	
 	if nivel == 3: #Agentes
 
-		usuarios = AuthUser.objects.filter(id=id).values('id','username','email','empresa','nivel').order_by('-id')
+		usuarios = AuthUser.objects.filter(id=id).values('id','username','email','empresa__nombre','nivel__nombre','first_name').order_by('-id')
 
 
 	if nivel == 2: #Supervisores
 
-		usuarios = AuthUser.objects.filter(empresa=empresa,nivel=3).values('id','username','email','empresa','nivel').order_by('-id')
+		usuarios = AuthUser.objects.filter(empresa=empresa,nivel=3).values('id','username','email','empresa__nombre','nivel__nombre','first_name').order_by('-id')
 
 
 	if nivel == 1: #Admin
 
-		usuarios = AuthUser.objects.filter(empresa=empresa).values('id','username','email','empresa','nivel').order_by('-id')
+		usuarios = AuthUser.objects.filter(empresa=empresa).values('id','username','email','empresa__nombre','nivel__nombre','first_name').order_by('-id')
 
 
 	data = json.dumps(ValuesQuerySetToDict(usuarios))

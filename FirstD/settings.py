@@ -39,6 +39,7 @@ MEDIA_ROOT = os.path.join(PROJECT_PATH, '/var/www/html/')
 
 MEDIA_URL = '/var/www/html/'
 
+
 STATICFILES_DIRS = (
     
     os.path.join(BASE_DIR, "static"),)

@@ -1,5 +1,5 @@
 body{
-	
+
 font-family: 'Hind', sans-serif;
 
 
@@ -8,5 +8,25 @@ font-family: 'Hind', sans-serif;
 
 .col .s6 .offset-s6 .grid-example .user{
 
-	background-color: rgb(80, 174, 110);
+background-color: rgb(80, 174, 110);
 }
+
+
+[type='file'] {
+-webkit-appearance: none;
+
+color: rgb(63, 86, 161);
+}
+[type='file']::-webkit-file-upload-button {
+border-radius: 4px;
+border: 0;
+background: #337ab7;
+color: white;
+padding: 7px;
+font-family: 'Hind', sans-serif;
+}
+[type='file']::-webkit-file-upload-button:active, [type='file']::-webkit-file-upload-button:focus {
+outline: 0;
+}
+
+           

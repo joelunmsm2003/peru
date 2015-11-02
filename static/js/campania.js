@@ -1,9 +1,10 @@
 
-var App=angular.module('App', ['ngCookies']);
+var App=angular.module('App', ['ngCookies','ngRoute']);
 
 App.config(function($interpolateProvider){
 $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
 });
+
 
 function Controller($scope,$http,$cookies,$filter) {
 
@@ -17,18 +18,16 @@ function Controller($scope,$http,$cookies,$filter) {
     $scope.pagedItems = [];
     $scope.currentPage = 0;
 
+
     
-    $http.get("/usuarios").success(function(response) {$scope.clientes = response;
+    $http.get("/campanias").success(function(response) {$scope.clientes = response;
 
         $scope.search();
-
-    });
-
-     $http.get("/empresas").success(function(response) {$scope.empresas = response;
-
-
        
     });
+
+
+    
 
 
 
@@ -39,14 +38,19 @@ function Controller($scope,$http,$cookies,$filter) {
     });
 
 
-    $http.get("/nivel").success(function(response) {$scope.nivel = response;
+    $scope.Admin = function(contact) 
+    {
 
-        console.log('$scope.nivel',$scope.nivel)
+    console.log(contact.id)
+    window.location="/adminCampania/"+contact.id
+    
+    };
 
-    });
+
+
+
 
     $scope.numberOfPages = function() 
-
     {
 
     return Math.ceil($scope.clientes.length / $scope.pageSize);
@@ -55,10 +59,15 @@ function Controller($scope,$http,$cookies,$filter) {
 
 
 
+
+
+
+
     $scope.addNew=function(agregar){
 
+      
 
-        console.log('agregar',agregar)
+
 
         var todo={
 
@@ -68,7 +77,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }
 
         $http({
-        url: "/usuarios/",
+        url: "/empresas/",
         data: todo,
         method: 'POST',
         headers: {
@@ -77,9 +86,11 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-        swal({   title: "Perucall",   text: "Usuario "+data +" agregado",   type: "success",   confirmButtonColor: "#337ab7",   confirmButtonText: "OK",   }, function(){   window.location.href = "/usuario" });
- 
-        $scope.agregar=""
+       swal({   title: "Perucall",   text: "Empresa "+data +" agregado",   type: "success",   confirmButtonColor: "#337ab7",   confirmButtonText: "Agregado",   }, function(){   window.location.href = "/empresa" });
+
+         
+         $scope.agregar=""
+
 
         })
 
@@ -88,7 +99,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
     $scope.saveContact = function (idx,currentPage) {
 
-
+     
         $scope.pagedItems[currentPage][idx] = angular.copy($scope.model);
         $('#edit').modal('hide')
         $('.modal-backdrop').remove();
@@ -103,7 +114,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
 
         $http({
-        url: "/usuarios/",
+        url: "/empresas/",
         data: todo,
         method: 'POST',
         headers: {
@@ -112,21 +123,23 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-        swal({   title: "Perucall",   text: "Usuario "+data +" editado",   type: "success",   confirmButtonColor: "#337ab7",   confirmButtonText: "OK",   }, function(){   });
- 
+            swal({title: "Perucall", text: "Empresa "+data +" editado",   type: "success",   confirmButtonColor: "#337ab7",   confirmButtonText: "Editado",   }, function(){  });
+
+
         })
 
 
-        $('#Edit').modal('hide')
-        $('.modal-backdrop').remove();
     };
 
 
 
     $scope.eliminarContact = function (idx,currentPage) {
 
+
         $('#eliminar').modal('hide')
         $('.modal-backdrop').remove();
+
+        
 
         $scope.pagedItems[currentPage].splice(idx,1);
 
@@ -139,7 +152,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
 
         $http({
-        url: "/usuarios/",
+        url: "/empresas/",
         data: todo,
         method: 'POST',
         headers: {
@@ -148,10 +161,12 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
+        swal({title: "Perucall", text: "Empresa "+data +" eliminado",   type: "success",   confirmButtonColor: "#337ab7",   confirmButtonText: "Eliminado",   }, function(){   });
+
         $scope.contador =$scope.contador-1
 
-        })
 
+        })
     };
 
 
@@ -168,6 +183,7 @@ function Controller($scope,$http,$cookies,$filter) {
     $scope.sort_by = function(newSortingOrder,currentPage) {
 
 
+        
         function sortByKey(array, key) {
             return array.sort(function(a, b) {
             var x = a[key]; var y = b[key];
@@ -206,6 +222,9 @@ function Controller($scope,$http,$cookies,$filter) {
         $scope.search()
 
 
+
+
+
         // icon setup
         $('th i').each(function(){
             // icon reset
@@ -229,6 +248,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
         }
 
+ 
         var output = {};
 
         obj = $filter('filter')($scope.clientes,$scope.tipo)

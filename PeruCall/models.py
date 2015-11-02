@@ -19,7 +19,7 @@ class Agentes(models.Model):
     tiempo = models.TimeField()
     atendidas = models.IntegerField()
     contactadas = models.IntegerField()
-    estado = models.TextField()
+    estado = models.ForeignKey('Estado', db_column='estado')
     user = models.ForeignKey('AuthUser', db_column='user')
     supervisor = models.ForeignKey('Supervisor', db_column='supervisor')
 
@@ -100,9 +100,19 @@ class AuthUserUserPermissions(models.Model):
 
 class Campania(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
-    fecha_cargada = models.DateField(db_column='fecha cargada')  # Field renamed to remove unsuitable characters.
-    usuario = models.IntegerField()
+    fecha_cargada = models.DateTimeField(db_column='fecha cargada')  # Field renamed to remove unsuitable characters.
+    usuario = models.ForeignKey(AuthUser, db_column='usuario')
     estado = models.TextField()
+    nombre = models.CharField(max_length=100)
+    troncal = models.IntegerField()
+    canales = models.IntegerField()
+    timbrados = models.IntegerField()
+    htinicio = models.TimeField()
+    htfin = models.TimeField()
+    mxllamada = models.IntegerField()
+    llamadaxhora = models.IntegerField()
+    hombreobjetivo = models.IntegerField()
+    archivo = models.CharField(max_length=100)
 
     class Meta:
         managed = False
@@ -178,6 +188,15 @@ class Empresa(models.Model):
     class Meta:
         managed = False
         db_table = 'empresa'
+
+
+class Estado(models.Model):
+    id = models.IntegerField(primary_key=True)  # AutoField?
+    nombre = models.CharField(max_length=100)
+
+    class Meta:
+        managed = False
+        db_table = 'estado'
 
 
 class Nivel(models.Model):

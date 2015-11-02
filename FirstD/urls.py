@@ -21,7 +21,13 @@ urlpatterns = patterns('',
     url(r'^usuario/', 'PeruCall.views.usuario'),
     url(r'^user/', 'PeruCall.views.user'),
     url(r'^nivel/', 'PeruCall.views.nivel'),
-     url(r'^$', 'PeruCall.views.ingresar'),  
+    url(r'^$', 'PeruCall.views.ingresar'), 
+    url(r'^campania/', 'PeruCall.views.campania'), 
+    url(r'^micampania/', 'PeruCall.views.micampania'),
+    url(r'^campanias/', 'PeruCall.views.campanias'),  
+    url(r'^uploadCampania/', 'PeruCall.views.uploadCampania'),
+    url(r'^adminCampania/(\w+)/$', 'PeruCall.views.adminCampania'),
+    url(r'^agentesdisponibles/', 'PeruCall.views.agentesdisponibles'),
 
 )
 

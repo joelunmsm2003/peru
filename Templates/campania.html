@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+{% include "head.html" %}
+
+<script src="/static/js/usuario.js"></script>
+
+<body ng-app="App">
+
+<div class="container" ng-controller="Controller">
+
+{% include "header.html" %}
+
+
+
+
+
+<div ng-if="user.nivel == 1 || user.nivel == 4">
+
+    <h4>Modulo Crear Campaña</h4>
+
+    <div class="row">
+
+        
+          <form action="/uploadCampania/" method="post"  role="form" enctype="multipart/form-data">
+
+          {% csrf_token %}
+
+          <div class="col-md-12">
+          <div class="form-group">
+          <label>Importar Data</label>
+          <input type="file" required=""  name="process_file">
+          </div>
+          </div>
+
+
+          <div class="col-md-6">
+          <div class="form-group">
+          <label>Nombre de campaña</label>
+          <input type="text"  name = 'nombre' class="form-control" placeholder="Nombre" required ="">
+          </div>
+          </div>
+
+          <div class="col-md-6">
+          <div class="form-group">
+          <label>Troncal SIP</label>
+          <input type="text"  name = 'troncal' class="form-control" placeholder="Troncal" required ="">
+          </div>
+          </div>
+
+          <div class="col-md-6">
+          <div class="form-group">
+          <label>Cantidad de Canales</label>
+          <input type="text"  name = 'canales' class="form-control" placeholder="Canales" required ="">
+          </div>
+          </div>
+
+          <div class="col-md-6">
+          <div class="form-group">
+          <label>Timbrados</label>
+          <input type="text"  name = 'timbrados' class="form-control" placeholder="Timbrados" required ="">
+          </div>
+          </div>
+
+
+          <div class="col-md-6">
+          <div class="form-group">
+          <label>Hora de trabajo Inicio</label>
+          <input type="time"  name = 'inicio' class="form-control" placeholder="Hora Inicio" required ="">
+          </div>
+          </div>
+
+          <div class="col-md-6">
+          <div class="form-group">
+          <label>Hora de trabajo Fin</label>
+          <input type="time"  name = 'fin' class="form-control" placeholder="Hora Fin" required ="">
+          </div>
+          </div>
+
+          
+
+          <h4>Indicadores de Control (KPI)</h4>
+
+          <div class="col-md-6">
+          <div class="form-group">
+          <label>Minutos por llamada</label>
+          <input type="text" required=""  class="form-control" name="mxllamada" placeholder = "Minutos por llamada">
+          </div>
+          </div>
+
+
+          <div class="col-md-6">
+          <div class="form-group">
+          <label>Llamadas por hora</label>
+          <input type="text"  name = 'llamadaxhora' class="form-control" placeholder="Llamadas por hora" required ="">
+          </div>
+          </div>
+
+          <div class="col-md-6">
+          <div class="form-group">
+          <label>Horas hombre objetivo</label>
+          <input type="text"  name = 'hombreobjetivo' class="form-control" placeholder="Horas hombre" required ="">
+          </div>
+          </div>
+
+          <div class="col-md-12">
+          <div class="form-group">
+          <button class="btn btn-primary" type="submit">Agregar</button>
+          </div>
+          </div>
+
+
+          </form>
+
+          
+
+
+         
+
+    </div>
+
+
+
+</div>
+
+
+
+
+           
+                
+
+
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>

@@ -18,9 +18,15 @@ function Controller($scope,$http,$cookies,$filter) {
     $scope.currentPage = 0;
 
     
-    $http.get("/usuarios").success(function(response) {$scope.clientes = response;
+    $http.get("/agentesdisponibles/").success(function(response) {$scope.usuarios = response;
 
-        $scope.search();
+        
+
+    });
+
+     $http.get("/agentesdisponibles/").success(function(response) {$scope.usuarioscampania = response;
+
+        
 
     });
 
@@ -29,6 +35,9 @@ function Controller($scope,$http,$cookies,$filter) {
 
        
     });
+
+
+
 
 
 
@@ -44,6 +53,32 @@ function Controller($scope,$http,$cookies,$filter) {
         console.log('$scope.nivel',$scope.nivel)
 
     });
+
+
+    $scope.agregar = function(index,contact) 
+
+    {
+
+        console.log(index)
+    
+
+    $scope.usuarios.splice(index,1);
+
+    $scope.usuarioscampania.push(contact);
+
+    
+
+    
+    
+    };
+
+    $scope.quitar = function(agente) 
+
+    {
+
+    console.log('jsjsjsjs',agente)
+    
+    };
 
     $scope.numberOfPages = function() 
 

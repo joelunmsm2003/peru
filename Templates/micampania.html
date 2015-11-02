@@ -4,7 +4,7 @@
 
 {% include "head.html" %}
 
-<script src="/static/js/usuario.js"></script>
+<script src="/static/js/campania.js"></script>
 
 <body ng-app="App">
 
@@ -14,74 +14,6 @@
 
 
 
-<h4>Datos de Usuario</h4>
-
-<div ng-if="user.nivel == 1 || user.nivel == 4">
-
-<div class="row">
-
-      <form ng-submit="addNew(agregar)">
-
-      <div class="col-md-6">
-      <div class="form-group">
-      <label>Username</label>
-      <input type="text" ng-model="agregar.username" class="form-control" placeholder="Username" required ="">
-      </div>
-      </div>
-
-
-      <div class="col-md-6">
-      <div class="form-group">
-      <label>Password</label>
-      <input type="password" ng-model="agregar.password" class="form-control" placeholder="Password" required ="">
-      </div>
-      </div>
-
-
-
-      <div class="col-md-6">
-      <div class="form-group">
-      <label>Email</label>
-      <input type="email" ng-model="agregar.email" class="form-control" placeholder="Email" required =""  >
-      </div>
-      </div>
-
-      <div class="col-md-6">
-      <div class="form-group">
-      <label>Empresa</label>
-      <select ng-model="model.empresa" class="form-control" ng-options="cliente.id as cliente.nombre for cliente in empresas"></select>
-      </div>
-      </div>
-     
-
-      <div class="col-md-6">
-      <div class="form-group">
-      <label>Nivel</label>
-      <select ng-model="agregar.nivel" class="form-control" ng-options="cliente.id as cliente.nombre for cliente in nivel"></select>
-      </div>
-      </div>
-
-      <div class="col-md-6">
-      <div class="form-group">
-      <label>Telefono</label>
-      <input type="text" ng-model="agregar.telefono" class="form-control" placeholder="Telefono"  >
-      </div>
-      </div>
-
-
-      
-
-      <div class="col-md-6">
-      <div class="form-group">
-      <button class="btn btn-primary" type="submit">Agregar</button>
-      </div>
-      </div>
-
-      </form>
-
-</div>
-
-</div>
 
 
 <div id="edit" class="modal fade" role="dialog">
@@ -100,38 +32,27 @@
 
         <form ng-submit="saveContact(index,numberPage)">
 
-        
+
         <div class="col-md-6">
-        <div class="form-group">
         <label>Username</label>
         <input type="text" class="form-control" ng-model="model.username" required ="" >
         </div>
-        </div>
 
       
-        
+
         <div class="col-md-6">
-        <div class="form-group">
         <label>Email</label>
         <input type="email" class="form-control" ng-model="model.email" required ="" >
         </div>
-        </div>
 
-        
         <div class="col-md-6">
-        <div class="form-group">
         <label>Empresa</label>
-        <select ng-model="model.empresa" class="form-control" ng-options="cliente.id as cliente.nombre for cliente in empresas"></select>
-      
-        </div>
+        <input type="text" class="form-control" ng-model="model.empresa" required ="" >
         </div>
 
-        
         <div class="col-md-6">
-        <div class="form-group">
         <label>Nivel</label>
-        <select ng-model="model.nivel" class="form-control" ng-options="cliente.id as cliente.nombre for cliente in nivel"></select>
-        </div>
+        <input type="text" class="form-control" ng-model="model.nivel" required =""  >
         </div>
 
 
@@ -182,7 +103,7 @@
 
 
 
-<h4>Usuarios registradas</h4>
+<h4>Campañas registradas</h4>
 
 
       <div class='row'>
@@ -201,12 +122,13 @@
             <thead>
 
             <tr>
-                  <th>Id <a ng-click="sort_by('id',currentPage)"><i class="icon-sort"></i></a></th>
-                  <th>Username <a ng-click="sort_by('username',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th>Estado <a ng-click="sort_by('status',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th>Campaña <a ng-click="sort_by('nombre',currentPage)"><i class="icon-sort"></i></a></th>
 
-                  <th>Email <a ng-click="sort_by('email',currentPage)"><i class="icon-sort"></i></a></th>
-                  <th>Empresa <a ng-click="sort_by('empresa',currentPage)"><i class="icon-sort"></i></a></th>
-                  <th>Nivel <a ng-click="sort_by('nivel',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th>Usuario <a ng-click="sort_by('usuario',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th>Cargados/ Barridos/ Errados <a ng-click="sort_by('empresa',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th>Agentes/ Conectados <a ng-click="sort_by('nivel',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th>Fecha Carga</th>
                   <th></th>
         
                         
@@ -241,24 +163,19 @@
 
               <tr  ng-repeat="contact in pagedItems[currentPage]  " ts-repeat>
 
-                <td data-th="Origen">{[{contact.id}]} </td>
-                <td data-th="Origen">{[{contact.username}]} </td>
-                <td data-th="Destino">{[{contact.email}]}</td>
-                <td data-th="Calldate">{[{contact.empresa__nombre}]}</td>
-                <td data-th="Disposition">{[{contact.nivel__nombre}]}</td>
- 
+                <td data-th="Estado">{[{contact.estado}]}</td>
+                <td data-th="Origen">{[{contact.nombre}]} </td>
+                <td data-th="Destino">{[{contact.usuario__first_name}]}</td>
+                <td data-th="Calldate">{[{contact.cargado}]}</td>
+                 <td data-th="Calldate">{[{contact.cargado}]}</td>
+                <td data-th="Disposition">{[{contact.fecha_cargada}]}</td>
+
 
                 <td>
-
-                <button type="button" class="btn btn-primary" ng-click="editContact(contact,$index,currentPage)" data-toggle="modal" data-target="#edit">Editar</button>
-
-                <button type="button" class="btn btn-primary" ng-click="editContact(contact,$index,currentPage)"  data-toggle="modal" data-target="#eliminar">Eliminar</button>
-
-
-         
-    
-
+                <button class="btn btn-primary" ng-click='Admin(contact)'>Administrar</button>
               </td>
+
+
 
 
            
@@ -275,6 +192,7 @@
         </table>
 
 
+
       </div>
 
 
@@ -286,7 +204,7 @@
 
 
 
-
+  <script src="/static/js/angular-route.js"></script>
 
 </body>
 
