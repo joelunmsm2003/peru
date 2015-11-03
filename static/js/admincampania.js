@@ -24,7 +24,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
     });
 
-     $http.get("/agentesdisponibles/").success(function(response) {$scope.usuarioscampania = response;
+     $http.get("/agentescampania/").success(function(response) {$scope.usuarioscampania = response;
 
         
 
@@ -59,24 +59,67 @@ function Controller($scope,$http,$cookies,$filter) {
 
     {
 
-        console.log(index)
+        console.log(contact)
     
-
+    $scope.usuarioscampania.push(contact);
     $scope.usuarios.splice(index,1);
 
-    $scope.usuarioscampania.push(contact);
+        var todo={
 
-    
+            add: "agregar",
+            dato: contact,
+            done:false
+        }
 
+        $http({
+
+        url: "/agregaragente/",
+        data: todo,
+        method: 'POST',
+        headers: {
+        'X-CSRFToken': $cookies['csrftoken']
+        }
+        }).
+        success(function(data) {
+
+            swal({   title: "Asignacion de agentes",   text: data +' agregado',   timer: 2000,   showConfirmButton: false });
     
+    
+    
+        })
+
     
     };
 
-    $scope.quitar = function(agente) 
+    $scope.quitar = function(index,contact) 
 
     {
 
-    console.log('jsjsjsjs',agente)
+    $scope.usuarios.push(contact);
+    $scope.usuarioscampania.splice(index,1);
+
+            var todo={
+
+            add: "quitar",
+            dato: contact,
+            done:false
+        }
+
+        $http({
+
+        url: "/quitaragente/",
+        data: todo,
+        method: 'POST',
+        headers: {
+        'X-CSRFToken': $cookies['csrftoken']
+        }
+        }).
+        success(function(data) {
+
+            swal({   title: "Asignacion de agentes",   text: data +' quitado',   timer: 2000,   showConfirmButton: false });
+    
+    
+        })
     
     };
 

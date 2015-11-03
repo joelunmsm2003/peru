@@ -74,7 +74,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
        swal({   title: "Perucall",   text: "Empresa "+data +" agregado",   type: "success",   confirmButtonColor: "#337ab7",   confirmButtonText: "Agregado",   }, function(){   window.location.href = "/empresa" });
 
-         
+ 
          $scope.agregar=""
 
 

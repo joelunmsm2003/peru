@@ -16,7 +16,7 @@
 
 <h4>Datos de Usuario</h4>
 
-<div ng-if="user.nivel == 1 || user.nivel == 4">
+<div ng-if="user.nivel == 1 || user.nivel == 4 || user.nivel == 2">
 
 <div class="row">
 
@@ -49,7 +49,7 @@
       <div class="col-md-6">
       <div class="form-group">
       <label>Empresa</label>
-      <select ng-model="model.empresa" class="form-control" ng-options="cliente.id as cliente.nombre for cliente in empresas"></select>
+      <select ng-model="agregar.empresa" class="form-control" ng-options="cliente.id as cliente.nombre for cliente in empresas"></select>
       </div>
       </div>
      
@@ -68,10 +68,18 @@
       </div>
       </div>
 
+        <div class="col-md-6">
+        <div class="form-group">
+        <label>Supervisor</label>
+        <select ng-model="agregar.supervisor" class="form-control" ng-options="cliente.id as cliente.user__first_name for cliente in supervisores" required =""></select>
+        </div>
+        </div>
+
+
 
       
 
-      <div class="col-md-6">
+      <div class="col-md-12">
       <div class="form-group">
       <button class="btn btn-primary" type="submit">Agregar</button>
       </div>
@@ -121,7 +129,7 @@
         <div class="col-md-6">
         <div class="form-group">
         <label>Empresa</label>
-        <select ng-model="model.empresa" class="form-control" ng-options="cliente.id as cliente.nombre for cliente in empresas"></select>
+        <select ng-model="model.empresa" class="form-control" ng-options="cliente.id as cliente.nombre for cliente in empresas" required =""></select>
       
         </div>
         </div>
@@ -130,7 +138,14 @@
         <div class="col-md-6">
         <div class="form-group">
         <label>Nivel</label>
-        <select ng-model="model.nivel" class="form-control" ng-options="cliente.id as cliente.nombre for cliente in nivel"></select>
+        <select ng-model="model.nivel" class="form-control" ng-options="cliente.id as cliente.nombre for cliente in nivel" required =""></select>
+        </div>
+        </div>
+
+        <div class="col-md-6">
+        <div class="form-group">
+        <label>Supevisor</label>
+        <select ng-model="model.supervisor" class="form-control" ng-options="cliente.id as cliente.user__first_name for cliente in supervisores" required =""></select>
         </div>
         </div>
 
@@ -207,6 +222,7 @@
                   <th>Email <a ng-click="sort_by('email',currentPage)"><i class="icon-sort"></i></a></th>
                   <th>Empresa <a ng-click="sort_by('empresa',currentPage)"><i class="icon-sort"></i></a></th>
                   <th>Nivel <a ng-click="sort_by('nivel',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th>Supervisor <a ng-click="sort_by('supervisor',currentPage)"><i class="icon-sort"></i></a></th>
                   <th></th>
         
                         
@@ -246,6 +262,7 @@
                 <td data-th="Destino">{[{contact.email}]}</td>
                 <td data-th="Calldate">{[{contact.empresa__nombre}]}</td>
                 <td data-th="Disposition">{[{contact.nivel__nombre}]}</td>
+                <td data-th="Disposition">{[{contact.supervisor}]}</td>
  
 
                 <td>

@@ -22,6 +22,7 @@ class Agentes(models.Model):
     estado = models.ForeignKey('Estado', db_column='estado')
     user = models.ForeignKey('AuthUser', db_column='user')
     supervisor = models.ForeignKey('Supervisor', db_column='supervisor')
+    disponible = models.IntegerField()
 
     class Meta:
         managed = False

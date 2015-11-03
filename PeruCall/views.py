@@ -206,11 +206,72 @@ def agentesdisponibles(request):
 
 	id = request.user.id
 
-	agentes = Agentes.objects.all().values('id','estado__nombre','user__first_name','supervisor')
+	agentes = Agentes.objects.filter(disponible=0).values('id','estado__nombre','user__first_name','supervisor')
 
 	data_dict = ValuesQuerySetToDict(agentes)
 
 	data = simplejson.dumps(data_dict)
+
+	return HttpResponse(data, content_type="application/json")
+
+def agentescampania(request):
+
+	id = request.user.id
+
+	agentes = Agentes.objects.filter(disponible=1).values('id','estado__nombre','user__first_name','supervisor')
+
+	data_dict = ValuesQuerySetToDict(agentes)
+
+	data = simplejson.dumps(data_dict)
+
+	return HttpResponse(data, content_type="application/json")
+
+def agregaragente(request):
+
+	if request.method == 'POST':
+
+		data= json.loads(request.body)['dato']
+
+		id_agente = data['id']
+
+		agente = Agentes.objects.get(id=id_agente)
+		agente.disponible = 1
+		agente.save()
+
+	return HttpResponse(agente.user.first_name, content_type="application/json")
+
+def quitaragente(request):
+
+	if request.method == 'POST':
+
+		data= json.loads(request.body)['dato']
+
+		id_agente = data['id']
+
+		agente = Agentes.objects.get(id=id_agente)
+		agente.disponible = 0
+		agente.save()
+
+	return HttpResponse(agente.user.first_name, content_type="application/json")
+
+def supervisores(request):
+
+	id = request.user.id
+
+	nivel = AuthUser.objects.get(id=id).nivel.id
+
+	empresa = AuthUser.objects.get(id=id).empresa
+
+	if nivel == 2:
+
+		supervisores = Supervisor.objects.filter(user=id).values('id','user__first_name')
+
+	if nivel == 1:
+
+		supervisores = Supervisor.objects.all().values('id','user__first_name')
+
+
+	data = json.dumps(ValuesQuerySetToDict(supervisores))
 
 	return HttpResponse(data, content_type="application/json")
 
@@ -221,9 +282,13 @@ def usuarios(request):
 
 	id = request.user.id
 
+	print id
+
 	nivel = AuthUser.objects.get(id=id).nivel.id
 
 	empresa = AuthUser.objects.get(id=id).empresa
+
+
 
 	if nivel == 4: #Manager
 
@@ -236,13 +301,32 @@ def usuarios(request):
 
 	if nivel == 2: #Supervisores
 
-		usuarios = AuthUser.objects.filter(empresa=empresa,nivel=3).values('id','username','email','empresa__nombre','nivel__nombre','first_name').order_by('-id')
+		supervisor = Supervisor.objects.get(user=id).id
 
+		usuarios = Agentes.objects.filter(supervisor=supervisor).values('user')
+
+		for i in range(len(usuarios)):
+
+
+			usuarios[i]['id'] = AuthUser.objects.get(id=usuarios[i]['user']).id
+			usuarios[i]['username'] = AuthUser.objects.get(id=usuarios[i]['user']).username
+			usuarios[i]['first_name'] = AuthUser.objects.get(id=usuarios[i]['user']).first_name
+			usuarios[i]['email'] = AuthUser.objects.get(id=usuarios[i]['user']).email
+			usuarios[i]['empresa__nombre'] = AuthUser.objects.get(id=usuarios[i]['user']).empresa.nombre
+			usuarios[i]['nivel__nombre'] = 'Agente'
 
 	if nivel == 1: #Admin
 
 		usuarios = AuthUser.objects.filter(empresa=empresa).values('id','username','email','empresa__nombre','nivel__nombre','first_name').order_by('-id')
 
+	for i in range(len(usuarios)):
+
+		if usuarios[i]['nivel__nombre'] == 'Agente':
+
+			print usuarios[i]['id']
+
+			usuarios[i]['supervisor'] = Agentes.objects.get(user=usuarios[i]['id']).supervisor.user.first_name
+	
 
 	data = json.dumps(ValuesQuerySetToDict(usuarios))
 
@@ -261,6 +345,7 @@ def usuarios(request):
 			email = data['email']
 			nivel = data['nivel']
 			password = data['password']
+			supervisor = data['supervisor']
 
 			user = User.objects.create_user(username=username,email=email,password=password)
 
@@ -271,8 +356,16 @@ def usuarios(request):
 			usuario = AuthUser.objects.get(id=id_user)
 		
 			usuario.empresa_id = empresa
-			usuario.nivel = nivel
+			usuario.nivel_id = nivel
 			usuario.save()
+
+			if nivel == 3:
+
+				Agentes(user_id=id_user).save()
+
+				agente =Agentes.objects.get(user=id_user)
+				agente.supervisor_id = supervisor
+				agente.save()
 
 			return HttpResponse(username, content_type="application/json")
 

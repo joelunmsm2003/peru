@@ -24,6 +24,12 @@ function Controller($scope,$http,$cookies,$filter) {
 
     });
 
+     $http.get("/supervisores").success(function(response) {$scope.supervisores = response;
+
+   
+
+    });
+
      $http.get("/empresas").success(function(response) {$scope.empresas = response;
 
 

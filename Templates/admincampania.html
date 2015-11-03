@@ -18,7 +18,30 @@
 
 <div class="col-sm-9">
 
-<h3> Agentes </h3>
+
+<div class="jumbotron">
+
+	<div class="row">
+		<div class="col-sm-6">
+		<h2>Campaña {{campania.nombre}} </h2>  
+		</div>
+		<div class="col-sm-6">
+		 <h2>Asignacion de Agentes </h2>
+		</div>
+		<div class="col-sm-6">
+		 <p>Estado : {{campania.estado}}</p>
+		</div>
+		<div class="col-sm-6">
+		 <p>Timbrados: {{campania.timbrados}}</p>
+		</div>
+	</div>
+	 
+      
+   
+   
+ 
+  </div>
+
 
 
 
@@ -55,7 +78,7 @@
                 <td>{[{contact.supervisor}]}</td>
                 <td>
              
-                  <a ng-click="agregar($index)" class="btn btn-primary" >Agregar</a>
+                  <a ng-click="agregar($index,contact)" class="btn btn-primary" >Agregar</a>
 
                 </td>
 
@@ -107,7 +130,7 @@
                 <td>{[{contact.supervisor}]}</td>
                 <td>
              
-                  <a ng-click="agregar($index,contact)" class="btn btn-primary" >Quitar </a>
+                  <a ng-click="quitar($index,contact)" class="btn btn-primary" >Quitar </a>
 
                 </td>
 
