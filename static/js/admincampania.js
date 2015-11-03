@@ -8,6 +8,7 @@ $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
 function Controller($scope,$http,$cookies,$filter) {
 
 
+    campania = window.location.href.split("adminCampania/")[1].split("/")[0]
     var sortingOrder ='-id';
     $scope.sortingOrder = sortingOrder;
     $scope.reverse = false;
@@ -18,13 +19,13 @@ function Controller($scope,$http,$cookies,$filter) {
     $scope.currentPage = 0;
 
     
-    $http.get("/agentesdisponibles/").success(function(response) {$scope.usuarios = response;
+    $http.get("/agentesdisponibles/"+campania).success(function(response) {$scope.usuarios = response;
 
-        
+        console.log('hshhshshs',$scope.usuarios)
 
     });
 
-     $http.get("/agentescampania/").success(function(response) {$scope.usuarioscampania = response;
+     $http.get("/agentescampania/"+campania).success(function(response) {$scope.usuarioscampania = response;
 
         
 
@@ -59,7 +60,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
     {
 
-        console.log(contact)
+        
     
     $scope.usuarioscampania.push(contact);
     $scope.usuarios.splice(index,1);

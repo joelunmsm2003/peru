@@ -75,7 +75,7 @@
                 
                 <td>{[{contact.estado__nombre}]}</td>
                 <td>{[{contact.user__first_name}]}</td>
-                <td>{[{contact.supervisor}]}</td>
+                <td>{[{contact.supervisor__user__first_name}]}</td>
                 <td>
              
                   <a ng-click="agregar($index,contact)" class="btn btn-primary" >Agregar</a>
@@ -127,7 +127,7 @@
                 
                 <td>{[{contact.estado__nombre}]}</td>
                 <td>{[{contact.user__first_name}]}</td>
-                <td>{[{contact.supervisor}]}</td>
+                <td>{[{contact.supervisor__user__first_name}]}</td>
                 <td>
              
                   <a ng-click="quitar($index,contact)" class="btn btn-primary" >Quitar </a>

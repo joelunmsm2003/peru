@@ -85,8 +85,9 @@ def usuario(request):
 
 def campania(request):
 
+	supervisor = Supervisor.objects.all()
 
-	return render(request, 'campania.html',{})
+	return render(request, 'campania.html',{'supervisor':supervisor})
 
 def micampania(request):
 
@@ -141,12 +142,15 @@ def uploadCampania(request):
 		llamadaxhora = data['timbrados']
 		hombreobjetivo = data['hombreobjetivo']
 		mxllamada = data['mxllamada']
+		supervisor = data['supervisor']
 		now = datetime.now()
 		archivo =  request.FILES['process_file']
 
-		Campania(usuario=id,fecha_cargada= now,archivo = archivo,troncal=troncal,canales=canales,htinicio=inicio,htfin=fin,nombre=nombre,timbrados=timbrados,llamadaxhora=llamadaxhora,hombreobjetivo=hombreobjetivo,mxllamada=mxllamada).save()
+		Campania(supervisor_id=supervisor,usuario_id=id,fecha_cargada= now,archivo = archivo,troncal=troncal,canales=canales,htinicio=inicio,htfin=fin,nombre=nombre,timbrados=timbrados,llamadaxhora=llamadaxhora,hombreobjetivo=hombreobjetivo,mxllamada=mxllamada).save()
 
-	return HttpResponseRedirect("/campania")
+		id_campania = Campania.objects.all().values('id').order_by('-id')[0]['id']
+
+	return HttpResponseRedirect("/adminCampania/"+str(id_campania))
 
 
 
@@ -154,7 +158,26 @@ def campanias(request):
 
 	id = request.user.id
 
-	data = Campania.objects.all().values('id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo')
+	
+
+	nivel = AuthUser.objects.get(id=id).nivel.id
+
+	empresa = AuthUser.objects.get(id=id).empresa
+
+	if nivel == 4: #Manager
+
+		data = Campania.objects.all().values('id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name')
+
+	if nivel == 2: #Supervisores
+
+		supervisor = Supervisor.objects.get(user=id).id
+
+		data = Campania.objects.filter(supervisor=supervisor).values('id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name')
+
+	if nivel == 1: #Admin
+
+		data = Campania.objects.filter(usuario__empresa=empresa).values('id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name')
+
 
 	fmt = '%H:%M:%S %Z'
 	fmt1 = '%Y-%m-%d %H:%M:%S %Z'
@@ -202,11 +225,15 @@ def nivel(request):
 
 
 
-def agentesdisponibles(request):
+def agentesdisponibles(request,id_campania):
 
 	id = request.user.id
 
-	agentes = Agentes.objects.filter(disponible=0).values('id','estado__nombre','user__first_name','supervisor')
+	nivel = AuthUser.objects.get(id=id).nivel.id
+
+	supervisor = Campania.objects.get(id=id_campania).supervisor
+
+	agentes = Agentes.objects.filter(disponible=1,supervisor=supervisor).values('id','estado__nombre','user__first_name','supervisor__user__first_name')
 
 	data_dict = ValuesQuerySetToDict(agentes)
 
@@ -214,11 +241,16 @@ def agentesdisponibles(request):
 
 	return HttpResponse(data, content_type="application/json")
 
-def agentescampania(request):
+def agentescampania(request,id_campania):
 
 	id = request.user.id
 
-	agentes = Agentes.objects.filter(disponible=1).values('id','estado__nombre','user__first_name','supervisor')
+	nivel = AuthUser.objects.get(id=id).nivel.id
+
+	supervisor = Campania.objects.get(id=id_campania).supervisor
+
+	agentes = Agentes.objects.filter(disponible=0,supervisor=supervisor).values('id','estado__nombre','user__first_name','supervisor__user__first_name')
+
 
 	data_dict = ValuesQuerySetToDict(agentes)
 
@@ -313,11 +345,11 @@ def usuarios(request):
 			usuarios[i]['first_name'] = AuthUser.objects.get(id=usuarios[i]['user']).first_name
 			usuarios[i]['email'] = AuthUser.objects.get(id=usuarios[i]['user']).email
 			usuarios[i]['empresa__nombre'] = AuthUser.objects.get(id=usuarios[i]['user']).empresa.nombre
-			usuarios[i]['nivel__nombre'] = 'Agente'
+			usuarios[i]['nivel__nombre'] = AuthUser.objects.get(id=usuarios[i]['user']).nivel.nombre
 
 	if nivel == 1: #Admin
 
-		usuarios = AuthUser.objects.filter(empresa=empresa).values('id','username','email','empresa__nombre','nivel__nombre','first_name').order_by('-id')
+		usuarios = AuthUser.objects.filter(empresa=empresa).exclude(nivel=4).values('id','username','email','empresa__nombre','nivel__nombre','first_name').order_by('-id')
 
 	for i in range(len(usuarios)):
 

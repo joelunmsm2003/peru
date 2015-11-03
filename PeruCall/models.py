@@ -14,15 +14,15 @@ from django.db import models
 
 class Agentes(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
-    anexo = models.IntegerField()
-    fono = models.IntegerField()
-    tiempo = models.TimeField()
-    atendidas = models.IntegerField()
-    contactadas = models.IntegerField()
-    estado = models.ForeignKey('Estado', db_column='estado')
-    user = models.ForeignKey('AuthUser', db_column='user')
-    supervisor = models.ForeignKey('Supervisor', db_column='supervisor')
-    disponible = models.IntegerField()
+    anexo = models.IntegerField(blank=True, null=True)
+    fono = models.IntegerField(blank=True, null=True)
+    tiempo = models.TimeField(blank=True, null=True)
+    atendidas = models.IntegerField(blank=True, null=True)
+    contactadas = models.IntegerField(blank=True, null=True)
+    estado = models.ForeignKey('Estado', db_column='estado', blank=True, null=True)
+    user = models.ForeignKey('AuthUser', db_column='user', blank=True, null=True)
+    supervisor = models.ForeignKey('Supervisor', db_column='supervisor', blank=True, null=True)
+    disponible = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -114,6 +114,7 @@ class Campania(models.Model):
     llamadaxhora = models.IntegerField()
     hombreobjetivo = models.IntegerField()
     archivo = models.CharField(max_length=100)
+    supervisor = models.ForeignKey('Supervisor', db_column='supervisor')
 
     class Meta:
         managed = False

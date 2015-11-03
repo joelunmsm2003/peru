@@ -13,10 +13,7 @@
 {% include "header.html" %}
 
 
-
-
-
-<div ng-if="user.nivel == 1 || user.nivel == 4">
+<div ng-if="user.nivel == 1 || user.nivel == 4 || user.nivel == 2">
 
     <h4>Modulo Crear Campaña</h4>
 
@@ -35,28 +32,28 @@
           </div>
 
 
-          <div class="col-md-6">
+          <div class="col-md-4">
           <div class="form-group">
           <label>Nombre de campaña</label>
           <input type="text"  name = 'nombre' class="form-control" placeholder="Nombre" required ="">
           </div>
           </div>
 
-          <div class="col-md-6">
+          <div class="col-md-4">
           <div class="form-group">
           <label>Troncal SIP</label>
           <input type="text"  name = 'troncal' class="form-control" placeholder="Troncal" required ="">
           </div>
           </div>
 
-          <div class="col-md-6">
+          <div class="col-md-4">
           <div class="form-group">
           <label>Cantidad de Canales</label>
           <input type="text"  name = 'canales' class="form-control" placeholder="Canales" required ="">
           </div>
           </div>
 
-          <div class="col-md-6">
+          <div class="col-md-3">
           <div class="form-group">
           <label>Timbrados</label>
           <input type="text"  name = 'timbrados' class="form-control" placeholder="Timbrados" required ="">
@@ -64,21 +61,34 @@
           </div>
 
 
-          <div class="col-md-6">
+          <div class="col-md-3">
           <div class="form-group">
           <label>Hora de trabajo Inicio</label>
           <input type="time"  name = 'inicio' class="form-control" placeholder="Hora Inicio" required ="">
           </div>
           </div>
 
-          <div class="col-md-6">
+          <div class="col-md-3">
           <div class="form-group">
           <label>Hora de trabajo Fin</label>
           <input type="time"  name = 'fin' class="form-control" placeholder="Hora Fin" required ="">
           </div>
           </div>
 
-          
+          <div class="col-md-3">
+          <div class="form-group">
+          <label>Supervisor</label>
+
+          <select name = 'supervisor' class="form-control">
+          {% for supervisor in supervisor%}
+              <option value='{{supevisor.id}}'>{{supervisor.user.first_name}}</option>
+          {% endfor %}
+          </select>
+         
+          </div>
+          </div>
+
+     
 
           <h4>Indicadores de Control (KPI)</h4>
 
