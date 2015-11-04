@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+{% include "head.html" %}
+
+
+
+<script src="/static/js/monitoreo.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.js"></script>
+
+<body ng-app="App">
+
+<div class="container" ng-controller="Controller">
+
+{% include "header.html" %}
+
+
+<div class="row">
+{% include "vertical.html" %}
+
+<div class="col-sm-9">
+
+
+<div class="jumbotron">
+
+  <div class="row">
+    <div class="col-sm-6">
+    <h2>Campaña {{campania.nombre}} </h2>  
+    </div>
+    <div class="col-sm-6">
+     <h2>Asignacion de Agentes </h2>
+    </div>
+    <div class="col-sm-6">
+     <p>Supervisor : {{campania.supervisor.user.first_name}}</p>
+    </div>
+    <div class="col-sm-6">
+     <p>Timbrados: {{campania.timbrados}}</p>
+    </div>
+  </div>
+   
+      
+   
+   
+ 
+  </div>
+
+
+
+
+     <div class='row'>
+
+
+
+
+
+  
+        <h4>En Campaña</h4>
+    
+             
+     
+
+    
+            <ul  ng-repeat="contact in agentes " class='active' ts-repeat>
+            <div class="col-sm-4">
+
+                
+                <div class="panel panel-default">
+                <div class="panel-heading">{[{contact.agente__user__first_name}]}</div>
+                <div class="panel-body">
+                <div class="row">
+
+                      <div class="col-sm-6">
+
+                          <div class="row">
+                          <div class="col-sm-12">
+                          Fono: {[{contact.agente__fono}]}
+                          </div>
+                          <div class="col-sm-12">
+                          Anexo: {[{contact.agente__anexo}]}
+                          </div>
+                          <div class="col-sm-12">
+                          Tiempo: {[{contact.agente__tiempo}]}
+                          </div>
+                          <div class="col-sm-12">
+                          Atendidas: {[{contact.agente__atendidas}]}
+                          </div>
+                          <div class="col-sm-12">
+                          Contactadas: {[{contact.agente__contactadas}]}
+                          </div>
+                          </div>
+
+                      </div>
+                      <div class="col-sm-6">
+
+                          <canvas id="myChart" width="400" height="400"></canvas>
+                      </div>
+
+                  </div>
+                </div>
+                </div>
+                </div>
+            </ul>
+
+            
+   
+          
+       
+  
+
+  </div>
+
+
+</div>
+
+
+</div>
+
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+</body>
+
+
+
+</html>

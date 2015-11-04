@@ -69,44 +69,57 @@ def ingresar(request):
 			return render(request, 'logear.html',{})
 
 
-
+@login_required(login_url="/ingresar")
 def menu(request):
-
 	return render(request, 'menu.html',{})
 
+@login_required(login_url="/ingresar")
 def empresa(request):
-
 	return render(request, 'empresa.html',{})
 
+@login_required(login_url="/ingresar")
 def usuario(request):
-
-
 	return render(request, 'usuario.html',{})
 
+@login_required(login_url="/ingresar")
 def campania(request):
-
 	supervisor = Supervisor.objects.all()
-
 	return render(request, 'campania.html',{'supervisor':supervisor})
 
+@login_required(login_url="/ingresar")
 def micampania(request):
-
-
 	return render(request, 'micampania.html',{})
 
+@login_required(login_url="/ingresar")
 def adminCampania(request,id_campania):
-
 	campania = Campania.objects.get(id=id_campania)
-
 	return render(request, 'admincampania.html',{'campania':campania})
 
+@login_required(login_url="/ingresar")
+def monitoreo(request,id):
+	campania = Campania.objects.get(id=id)
+	return render(request, 'monitoreo.html',{'campania':campania})
 
 
+@login_required(login_url="/ingresar")
+def agentes(request,id_campania):
+	id = request.user.id
 
-def agentes(request):
+	user = Agentescampanias.objects.filter(campania=id_campania).values('id','agente__user__first_name','agente__fono','agente__anexo','agente__atendidas','agente__contactadas')
 
-		return render(request, 'agentes.html',{})
+	fmt = '%Y-%m-%d %H:%M:%S %Z'
 
+	for i in range(len(user)):
+
+		user[i]['agente__tiempo'] = Agentescampanias.objects.get(id=user[i]['id']).agente.tiempo.strftime(fmt)
+
+	data_dict = ValuesQuerySetToDict(user)
+
+	data = simplejson.dumps(data_dict)
+
+	return HttpResponse(data, content_type="application/json")
+
+@login_required(login_url="/ingresar")
 def user(request):
 
 	id = request.user.id
@@ -120,9 +133,7 @@ def user(request):
 	return HttpResponse(data, content_type="application/json")
 
 
-
-
-
+@login_required(login_url="/ingresar")
 def uploadCampania(request):
 
 	if request.method == 'POST':
@@ -153,23 +164,15 @@ def uploadCampania(request):
 	return HttpResponseRedirect("/adminCampania/"+str(id_campania))
 
 
-
+@login_required(login_url="/ingresar")
 def campanias(request):
 
 	id = request.user.id
-
-	
-
 	nivel = AuthUser.objects.get(id=id).nivel.id
-
 	empresa = AuthUser.objects.get(id=id).empresa
-
 	if nivel == 4: #Manager
-
 		data = Campania.objects.all().values('id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name')
-
 	if nivel == 2: #Supervisores
-
 		supervisor = Supervisor.objects.get(user=id).id
 
 		data = Campania.objects.filter(supervisor=supervisor).values('id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name')
@@ -194,7 +197,7 @@ def campanias(request):
 
 	return HttpResponse(data, content_type="application/json")
 
-
+@login_required(login_url="/ingresar")
 def nivel(request):
 
 	id = request.user.id
@@ -224,7 +227,7 @@ def nivel(request):
 	return HttpResponse(data, content_type="application/json")
 
 
-
+@login_required(login_url="/ingresar")
 def agentesdisponibles(request,id_campania):
 
 	id = request.user.id
@@ -233,7 +236,25 @@ def agentesdisponibles(request,id_campania):
 
 	supervisor = Campania.objects.get(id=id_campania).supervisor
 
-	agentes = Agentes.objects.filter(disponible=1,supervisor=supervisor).values('id','estado__nombre','user__first_name','supervisor__user__first_name')
+	agentescampania = Agentescampanias.objects.filter(campania=id_campania)
+
+	lista = []
+
+	for a in agentescampania:
+
+		print a.agente
+
+		lista.append(a.agente.id) 
+
+	print lista
+
+	agentes = Agentes.objects.filter(supervisor=supervisor).exclude(id__in=lista).values('id')
+
+	for i in range(len(agentes)):
+
+		agentes[i]['name'] = Agentes.objects.get(id=agentes[i]['id']).user.username
+		agentes[i]['estado'] = Agentes.objects.get(id=agentes[i]['id']).estado.nombre
+	
 
 	data_dict = ValuesQuerySetToDict(agentes)
 
@@ -241,6 +262,7 @@ def agentesdisponibles(request,id_campania):
 
 	return HttpResponse(data, content_type="application/json")
 
+@login_required(login_url="/ingresar")
 def agentescampania(request,id_campania):
 
 	id = request.user.id
@@ -249,8 +271,12 @@ def agentescampania(request,id_campania):
 
 	supervisor = Campania.objects.get(id=id_campania).supervisor
 
-	agentes = Agentes.objects.filter(disponible=0,supervisor=supervisor).values('id','estado__nombre','user__first_name','supervisor__user__first_name')
+	agentes = Agentescampanias.objects.filter(agente__supervisor=supervisor,campania=id_campania).values('id')
 
+	for i in range(len(agentes)):
+
+		agentes[i]['name'] = Agentescampanias.objects.get(id=agentes[i]['id']).agente.user.username
+		agentes[i]['estado'] = Agentescampanias.objects.get(id=agentes[i]['id']).agente.estado.nombre
 
 	data_dict = ValuesQuerySetToDict(agentes)
 
@@ -258,34 +284,42 @@ def agentescampania(request,id_campania):
 
 	return HttpResponse(data, content_type="application/json")
 
+
+@login_required(login_url="/ingresar")
 def agregaragente(request):
 
 	if request.method == 'POST':
 
 		data= json.loads(request.body)['dato']
 
+		campania = json.loads(request.body)['campania']
+
 		id_agente = data['id']
 
+		Agentescampanias(agente_id=id_agente,campania_id=campania).save()
+
 		agente = Agentes.objects.get(id=id_agente)
-		agente.disponible = 1
-		agente.save()
 
-	return HttpResponse(agente.user.first_name, content_type="application/json")
+		return HttpResponse(agente.user.username, content_type="application/json")
 
+@login_required(login_url="/ingresar")
 def quitaragente(request):
 
 	if request.method == 'POST':
 
 		data= json.loads(request.body)['dato']
 
+		campania = json.loads(request.body)['campania']
+
 		id_agente = data['id']
 
+		agente = Agentescampanias.objects.filter(agente=id_agente,campania=campania).delete()
+
 		agente = Agentes.objects.get(id=id_agente)
-		agente.disponible = 0
-		agente.save()
 
-	return HttpResponse(agente.user.first_name, content_type="application/json")
+		return HttpResponse(agente.user.username, content_type="application/json")
 
+@login_required(login_url="/ingresar")
 def supervisores(request):
 
 	id = request.user.id
@@ -308,7 +342,7 @@ def supervisores(request):
 	return HttpResponse(data, content_type="application/json")
 
 
-
+@login_required(login_url="/ingresar")
 def usuarios(request):
 
 
@@ -429,7 +463,7 @@ def usuarios(request):
 
 	return HttpResponse(data, content_type="application/json")
 
-
+@login_required(login_url="/ingresar")
 def empresas(request):
 
 	id = request.user.id
@@ -500,7 +534,7 @@ def empresas(request):
 
 
 
-
+@login_required(login_url="/ingresar")
 def salir(request):
 
 	logout(request)
@@ -511,54 +545,8 @@ def salir(request):
 def ValuesQuerySetToDict(vqs):
     return [item for item in vqs]
 
-
+@login_required(login_url="/ingresar")
 def usuario(request):
 
 	return render(request, 'usuario.html',{})
 
-
-'''
-def usuarios(request):
-
-
-
-
-	if request.method == 'POST':
-
-		tipo = json.loads(request.body)['add']
-
-		data = json.loads(request.body)['dato']
-
-		if tipo == "New":
-
-			nombre = data['nombre']
-			nivel = data['nivel']
-			empresa = data['empresa']
-			campania = data['campania']
-
-			Usuario(nombre=nombre,nivel=nivel,empresa=empresa,campania=campania).save()
-
-			return HttpResponse(nombre, content_type="application/json")
-
-
-		if tipo=="Edit":
-
-			id= data['id']
-
-			usuario = Usuario.objects.get(id=id)
-			usuario.nombre =data['nombre']
-			usuario.nivel =data['nivel']
-			usuario.empresa =data['empresa']
-			usuario.campania =data['campania']
-			usuario.save()
-
-
-		if tipo=="Eliminar":
-
-			id= data['id']
-
-			Usuario.objects.get(id=id).delete()
-
-
-	return HttpResponse(data, content_type="application/json")
-'''

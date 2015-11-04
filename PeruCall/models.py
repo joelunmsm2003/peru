@@ -29,6 +29,16 @@ class Agentes(models.Model):
         db_table = 'agentes'
 
 
+class Agentescampanias(models.Model):
+    id = models.IntegerField(primary_key=True)  # AutoField?
+    agente = models.ForeignKey(Agentes, db_column='agente')
+    campania = models.ForeignKey('Campania', db_column='campania')
+
+    class Meta:
+        managed = False
+        db_table = 'agentescampanias'
+
+
 class AuthGroup(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
     name = models.CharField(unique=True, max_length=80)
@@ -114,7 +124,7 @@ class Campania(models.Model):
     llamadaxhora = models.IntegerField()
     hombreobjetivo = models.IntegerField()
     archivo = models.CharField(max_length=100)
-    supervisor = models.ForeignKey('Supervisor', db_column='supervisor')
+    supervisor = models.ForeignKey('Supervisor', db_column='supervisor', blank=True, null=True)
 
     class Meta:
         managed = False

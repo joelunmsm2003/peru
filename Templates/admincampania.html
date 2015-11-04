@@ -29,7 +29,7 @@
 		 <h2>Asignacion de Agentes </h2>
 		</div>
 		<div class="col-sm-6">
-		 <p>Estado : {{campania.estado}}</p>
+		 <p>Supervisor : {{campania.supervisor.user.first_name}}</p>
 		</div>
 		<div class="col-sm-6">
 		 <p>Timbrados: {{campania.timbrados}}</p>
@@ -61,7 +61,7 @@
                 <th >Estado </th>
                 <th >Nombre</th>
                 
-                 <th  >Supervisor </th>
+          
                 <th></th>
          
                 
@@ -73,9 +73,10 @@
             <tr  ng-repeat="contact in usuarios " class='active' ts-repeat>
 
                 
-                <td>{[{contact.estado__nombre}]}</td>
-                <td>{[{contact.user__first_name}]}</td>
-                <td>{[{contact.supervisor__user__first_name}]}</td>
+                <td>{[{contact.estado}]}</td>
+                <td>{[{contact.name}]}</td>
+
+                
                 <td>
              
                   <a ng-click="agregar($index,contact)" class="btn btn-primary" >Agregar</a>
@@ -125,9 +126,8 @@
             <tr  ng-repeat="contact in usuarioscampania " class='active' ts-repeat>
 
                 
-                <td>{[{contact.estado__nombre}]}</td>
-                <td>{[{contact.user__first_name}]}</td>
-                <td>{[{contact.supervisor__user__first_name}]}</td>
+                  <td>{[{contact.estado}]}</td>
+                <td>{[{contact.name}]}</td>
                 <td>
              
                   <a ng-click="quitar($index,contact)" class="btn btn-primary" >Quitar </a>
