@@ -8,6 +8,7 @@ $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
 function Controller($scope,$http,$cookies,$filter) {
 
 
+
     var sortingOrder ='-id';
     $scope.sortingOrder = sortingOrder;
     $scope.reverse = false;
@@ -72,7 +73,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-       swal({   title: "Perucall",   text: "Empresa "+data +" agregado",   type: "success",   confirmButtonColor: "#337ab7",   confirmButtonText: "Agregado",   }, function(){   window.location.href = "/empresa" });
+       swal({   title: "Perucall",   text: "Empresa "+data +" agregado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Agregado",   }, function(){   window.location.href = "/empresa" });
 
  
          $scope.agregar=""
@@ -109,7 +110,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-            swal({title: "Perucall", text: "Empresa "+data +" editado",   type: "success",   confirmButtonColor: "#337ab7",   confirmButtonText: "Editado",   }, function(){  });
+            swal({title: "Perucall", text: "Empresa "+data +" editado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Editado",   }, function(){  });
 
 
         })

@@ -39,7 +39,7 @@ body.stop-scrolling {
       left: 15px;
       right: 15px; } }
   .sweet-alert h2 {
-    color: #3B529F;
+    color: #b71c1c;
     font-size: 20px;
     text-align: center;
     font-weight: 100;
@@ -304,7 +304,7 @@ body.stop-scrolling {
       .sweet-alert .sa-icon.sa-success .sa-placeholder {
         width: 80px;
         height: 80px;
-        border: 4px solid #AAB4D2;
+        border: 4px solid #CF6E6E;
         -webkit-border-radius: 40px;
         border-radius: 40px;
         border-radius: 50%;
@@ -325,7 +325,7 @@ body.stop-scrolling {
         transform: rotate(-45deg); }
       .sweet-alert .sa-icon.sa-success .sa-line {
         height: 5px;
-        background-color: #253F94;
+        background-color: #b71c1c;
         display: block;
         border-radius: 2px;
         position: absolute;

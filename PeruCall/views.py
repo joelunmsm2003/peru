@@ -105,13 +105,14 @@ def monitoreo(request,id):
 def agentes(request,id_campania):
 	id = request.user.id
 
-	user = Agentescampanias.objects.filter(campania=id_campania).values('id','agente__user__first_name','agente__fono','agente__anexo','agente__atendidas','agente__contactadas')
+	user = Agentescampanias.objects.filter(campania=id_campania).values('id','agente__user__first_name','agente__fono','agente__anexo','agente__atendidas','agente__contactadas','agente__estado')
 
 	fmt = '%Y-%m-%d %H:%M:%S %Z'
 
 	for i in range(len(user)):
 
 		user[i]['agente__tiempo'] = Agentescampanias.objects.get(id=user[i]['id']).agente.tiempo.strftime(fmt)
+		user[i]['performance'] =  (user[i]['agente__contactadas']/user[i]['agente__atendidas'])*100
 
 	data_dict = ValuesQuerySetToDict(user)
 
@@ -142,7 +143,7 @@ def uploadCampania(request):
 
 		data = request.POST
 
-		print data
+		print 'dataaaaaaaaaaaaaaaaaa',data
 
 		troncal = data['troncal']
 		canales = data['canales']
@@ -333,6 +334,10 @@ def supervisores(request):
 		supervisores = Supervisor.objects.filter(user=id).values('id','user__first_name')
 
 	if nivel == 1:
+
+		supervisores = Supervisor.objects.filter(agente__user__empresa__id=empresa).values('id','user__first_name')
+
+	if nivel == 4:
 
 		supervisores = Supervisor.objects.all().values('id','user__first_name')
 

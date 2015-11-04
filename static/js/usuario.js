@@ -83,7 +83,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-        swal({   title: "Perucall",   text: "Usuario "+data +" agregado",   type: "success",   confirmButtonColor: "#337ab7",   confirmButtonText: "OK",   }, function(){   window.location.href = "/usuario" });
+        swal({   title: "Perucall",   text: "Usuario "+data +" agregado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Agregado",   }, function(){   window.location.href = "/usuario" });
  
         $scope.agregar=""
 
@@ -118,7 +118,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-        swal({   title: "Perucall",   text: "Usuario "+data +" editado",   type: "success",   confirmButtonColor: "#337ab7",   confirmButtonText: "OK",   }, function(){   });
+        swal({   title: "Perucall",   text: "Usuario "+data +" editado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Editado",   }, function(){   });
  
         })
 

@@ -123,7 +123,7 @@ class Campania(models.Model):
     mxllamada = models.IntegerField()
     llamadaxhora = models.IntegerField()
     hombreobjetivo = models.IntegerField()
-    archivo = models.CharField(max_length=100)
+    archivo = models.FileField(upload_to='files')
     supervisor = models.ForeignKey('Supervisor', db_column='supervisor', blank=True, null=True)
 
     class Meta:

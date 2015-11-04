@@ -15,12 +15,12 @@ background-color: rgb(80, 174, 110);
 [type='file'] {
 -webkit-appearance: none;
 
-color: rgb(63, 86, 161);
+color: #B71C1C;
 }
 [type='file']::-webkit-file-upload-button {
 border-radius: 4px;
 border: 0;
-background: #337ab7;
+background: #B71C1C;
 color: white;
 padding: 7px;
 font-family: 'Hind', sans-serif;
@@ -29,4 +29,15 @@ font-family: 'Hind', sans-serif;
 outline: 0;
 }
 
-           
+
+
+/* basic positioning */
+.legend { list-style: none; }
+.legend li { float: left; margin-right: 10px; }
+.legend span { border: 1px solid #ccc; float: left; width: 12px; height: 12px; margin: 2px; }
+/* your colors */
+.legend .superawesome { background-color: #123; }
+.legend .awesome { background-color: #321; }
+.legend .kindaawesome { background-color: #76A9DB; }
+.legend .notawesome { background-color: #654; }
+.legend .enpause { background-color: #789; }

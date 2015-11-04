@@ -18,13 +18,13 @@
       <ul class="nav navbar-nav">
 
         
-          <li class="active" ng-if="user.nivel == 4"><a href="/empresa">Empresas  <span class="sr-only">(current)</span></a></li>
+          <li id="empresa" class="active" ng-if="user.nivel == 4"><a href="/empresa">Empresas  <span class="sr-only">(current)</span></a></li>
         
 
-        <li><a href="/usuario">Usuarios </a></li>
-        <li><a href="/campania">Crear Campañas </a></li>
-        <li><a href="/micampania">Campañas </a></li>
-        <li><a href="#">Troncales </a></li>
+        <li id="usuario"><a href="/usuario">Usuarios </a></li>
+        <li id="campania"><a href="/campania">Crear Campañas </a></li>
+        <li id="micampania"><a href="/micampania">Campañas </a></li>
+        <li id="troncales"><a href="#">Troncales </a></li>
         <li><a href="#">Reporte </a></li>
          <li><a href="#">Grabaciones </a></li>
 
@@ -47,3 +47,29 @@
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
+
+
+<script type="text/javascript">
+  $( "li" ).removeClass( "active" )
+
+  if (($(location).attr('href').split('/')[3]) =='empresa'){
+
+    $( "#empresa" ).addClass( "active" )
+  }
+
+    if (($(location).attr('href').split('/')[3]) =='usuario'){
+
+    $( "#usuario" ).addClass( "active" )
+  }
+
+      if (($(location).attr('href').split('/')[3]) =='campania'){
+
+    $( "#campania" ).addClass( "active" )
+  }
+
+      if (($(location).attr('href').split('/')[3]) =='micampania'){
+
+    $( "#micampania" ).addClass( "active" )
+  }
+
+</script>
