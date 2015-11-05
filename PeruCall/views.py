@@ -416,7 +416,8 @@ def usuarios(request):
 			email = data['email']
 			nivel = data['nivel']
 			password = data['password']
-			supervisor = data['supervisor']
+			
+			nombre=data['nombre']
 
 			user = User.objects.create_user(username=username,email=email,password=password)
 
@@ -428,10 +429,13 @@ def usuarios(request):
 		
 			usuario.empresa_id = empresa
 			usuario.nivel_id = nivel
+			usuario.first_name = nombre
 			usuario.save()
 
+	
 			if nivel == 3:
 
+				supervisor = data['supervisor']
 				Agentes(user_id=id_user).save()
 
 				agente =Agentes.objects.get(user=id_user)
@@ -550,8 +554,5 @@ def salir(request):
 def ValuesQuerySetToDict(vqs):
     return [item for item in vqs]
 
-@login_required(login_url="/ingresar")
-def usuario(request):
 
-	return render(request, 'usuario.html',{})
 
