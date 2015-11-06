@@ -3,7 +3,6 @@
   <script src="/static/js/angular.js"></script>
   <script src="/static/js/angular-cookie.js"></script>
   <script src="/static/js/a.js"></script>
-  <link rel="stylesheet" href="/static/css/a.css" >
   <script type="text/javascript" src ="/static/js/jquery-2.1.1.min.js"></script>
   <link rel="stylesheet" href="/static/css/bootstrap.css" >
   <script src="/static/js/bootstrap.js"></script>
@@ -30,7 +29,6 @@
 .boton{
   outline: none;
   border: 1px solid #363431;
-  color: #FAC980;
   width: 30px;
   height: 30px;
   text-shadow: 0px -1px 1px black;
@@ -38,16 +36,16 @@
   border-radius: 5px;
   font-family: Helvetica;
   cursor: pointer;
-  background-image: linear-gradient(#3aad02,#2c6f05);
+  background-image: linear-gradient(#8A1A2A,#8A1A2A);
 }
 .boton:active{
-  background-image: linear-gradient(#2c6f05,#3aad02);
+  background-image: linear-gradient(#8A1A2A,#8A1A2A);
 }
 .boton:hover{
-  box-shadow: 0px 0px 14px #3aad02;
+  box-shadow: 0px 0px 14px #8A1A2A;
 }
 #progressBar{
-    background-color:green;
+    background-color:#8A1A2A;
 }
 
 
@@ -293,38 +291,89 @@ body {
   .oops {
     display: block;
   }
-}</style></head><body>
+}
+
+#wrapper {
+  display: block;
+  width: 100%;
+  background: #fff;
+  margin: 0 auto;
+  padding: 10px 17px;
+  height: 300px;
+}
+
+</style>
+
+</head><body>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <h1></h1>
 <div class="container">
   <div class="monitor">
   	<div class="screen">
-		<div class="row">
 
-		<div class="col s12">
-						<div class="col s6">
-		<h4>HH:MM CONECTADO</h4>
-		<div class="reloj" id="Horas">00</div>
-		<div class="reloj" id="Minutos">:00</div>
-		<div class="reloj" id="Segundos">:00</div>
-		<div class="reloj" id="Centesimas">:00</div>
-		<input type="button" class="boton" id="inicio" value="&#9658;" onclick="inicio();">
-		<input type="button" class="boton" id="parar" value="&#8718;" onclick="parar();" disabled>
-		<input type="button" class="boton" id="continuar" value="&#8634;" onclick="inicio();" disabled>
-		<input type="button" class="boton" id="reinicio" value="&#8635;" onclick="reinicio();" disabled>
-			</div>
+<table>
+	
+	<td>
+			<h4>HH:MM CONECTADO</h4>
+			<div class="reloj" id="Horas">00</div>
+			<div class="reloj" id="Minutos">:00</div>
+			<div class="reloj" id="Segundos">:00</div>
+			<div class="reloj" id="Centesimas">:00</div>
+			<input type="button" class="boton" id="inicio" value="&#9658;" onclick="inicio();">
+			<input type="button" class="boton" id="parar" value="&#8718;" onclick="parar();" disabled>
+			<input type="button" class="boton" id="continuar" value="&#8634;" onclick="inicio();" disabled>
+			<input type="button" class="boton" id="reinicio" value="&#8635;" onclick="reinicio();" disabled>	
 
+			<p>
+				
+			</p>	
+			<h4>HH:MM ATENDIDAS</h4>
+			<div class="reloj" id="Horas">00</div>
+			<div class="reloj" id="Minutos">:00</div>
+			<div class="reloj" id="Segundos">:00</div>
+			<div class="reloj" id="Centesimas">:00</div>
+	</td>
+	<td></td>
+	<td>
 
-			<div class="col s6">
-<h1>wvekjdns</h1>
-			</div>
-		</div>
+			<table class="dataTable">
+			    <tbody>
+			        <tr>
+			            <td><h4>Nº Llamadas Atendidas</h4></td>
+			            <td><div class="reloj">XXX</div></td>
+			        </tr>
+			        <tr>
+			            <td><h4>Nº Acuerdos</h4></td>
+			            <td><div class="reloj">XXX</div></td>
+			        </tr>
+					<tr>
+						<td><h4>Media</h4></td>
+						<td><div class="reloj">XX%</div></td>
+					</tr>
+			    </tbody>
+			</table>
 
+	</td>
 
-    	</div>
+</table>
+<p>
+	
+</p>
+<div></div>
+
+<table>
+	<body>
+	<div id="wrapper">
+
+	</div> 
+	</body>
+</table>
+
+<table>
+
+</table>
+
     </div>
-  </div>
-  <div class="monitor-stand">
   </div>
 </div>
 
