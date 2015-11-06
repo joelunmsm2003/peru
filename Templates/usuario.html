@@ -25,7 +25,7 @@
       <div class="col-md-6">
       <div class="form-group">
       <label>Username</label>
-      <input type="text" ng-model="agregar.username" class="form-control" placeholder="Username" required ="">
+      <input type="text" ng-change="usuariorepetido(agregar)" ng-model="agregar.username" class="form-control" placeholder="Username" required ="">{[{alerta}]}
       </div>
       </div>
 
@@ -34,6 +34,13 @@
       <div class="form-group">
       <label>Password</label>
       <input type="password" ng-model="agregar.password" class="form-control" placeholder="Password" required ="">
+      </div>
+      </div>
+
+      <div class="col-md-6">
+      <div class="form-group">
+      <label>Nombre</label>
+      <input type="text" ng-model="agregar.nombre" class="form-control" placeholder="Password" required ="">
       </div>
       </div>
 
@@ -54,13 +61,7 @@
       </div>
      
 
-      <div class="col-md-6">
-      <div class="form-group">
-      <label>Nivel</label>
-      <select ng-model="agregar.nivel" class="form-control" ng-options="cliente.id as cliente.nombre for cliente in nivel"></select>
-      </div>
-      </div>
-
+    
       <div class="col-md-6">
       <div class="form-group">
       <label>Telefono</label>
@@ -68,12 +69,22 @@
       </div>
       </div>
 
-        <div class="col-md-6">
+      <div class="col-md-6">
+      <div class="form-group">
+      <label>Nivel</label>
+      <select ng-change="nivelp(agregar)" ng-model="agregar.nivel" class="form-control" ng-options="cliente.id as cliente.nombre for cliente in nivel"></select>
+      </div>
+      </div>
+
+
+        <div class="col-md-6" ng-show="nivelagente">
         <div class="form-group">
         <label>Supervisor</label>
         <select ng-model="agregar.supervisor" class="form-control" ng-options="cliente.id as cliente.user__first_name for cliente in supervisores" required =""></select>
         </div>
         </div>
+
+
 
 
 

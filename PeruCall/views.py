@@ -59,7 +59,29 @@ def ingresar(request):
 
 					login(request, user)
 
-					return HttpResponseRedirect("/empresa")
+					nivel = AuthUser.objects.get(username=user).nivel.id
+
+					id_user= AuthUser.objects.get(username=user).id
+
+					print nivel
+
+					if nivel == 1:
+
+						return HttpResponseRedirect("/empresa")
+
+					if nivel == 2:
+
+						return HttpResponseRedirect("/empresa")
+
+					if nivel == 3:
+
+						return HttpResponseRedirect("/teleoperador/"+str(id_user))
+
+					if nivel == 4:
+
+						return HttpResponseRedirect("/empresa")
+
+
 
 			else:
 				return HttpResponseRedirect("/ingresar")
@@ -72,6 +94,10 @@ def ingresar(request):
 @login_required(login_url="/ingresar")
 def menu(request):
 	return render(request, 'menu.html',{})
+
+@login_required(login_url="/ingresar")
+def teleoperador(request,id):
+	return render(request, 'teleoperador.html',{})
 
 @login_required(login_url="/ingresar")
 def empresa(request):
@@ -110,6 +136,8 @@ def agentes(request,id_campania):
 	fmt = '%Y-%m-%d %H:%M:%S %Z'
 
 	for i in range(len(user)):
+
+		print user[i]['id']
 
 		user[i]['agente__tiempo'] = Agentescampanias.objects.get(id=user[i]['id']).agente.tiempo.strftime(fmt)
 		user[i]['performance'] =  (user[i]['agente__contactadas']/user[i]['agente__atendidas'])*100
@@ -416,7 +444,8 @@ def usuarios(request):
 			email = data['email']
 			nivel = data['nivel']
 			password = data['password']
-			supervisor = data['supervisor']
+			
+			nombre=data['nombre']
 
 			user = User.objects.create_user(username=username,email=email,password=password)
 
@@ -428,10 +457,13 @@ def usuarios(request):
 		
 			usuario.empresa_id = empresa
 			usuario.nivel_id = nivel
+			usuario.first_name = nombre
 			usuario.save()
 
+	
 			if nivel == 3:
 
+				supervisor = data['supervisor']
 				Agentes(user_id=id_user).save()
 
 				agente =Agentes.objects.get(user=id_user)
@@ -550,8 +582,5 @@ def salir(request):
 def ValuesQuerySetToDict(vqs):
     return [item for item in vqs]
 
-@login_required(login_url="/ingresar")
-def usuario(request):
 
-	return render(request, 'usuario.html',{})
 

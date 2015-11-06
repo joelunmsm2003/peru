@@ -34,6 +34,7 @@ urlpatterns = patterns('',
     url(r'^supervisores/', 'PeruCall.views.supervisores'),
     url(r'^monitoreo/(\w+)/$', 'PeruCall.views.monitoreo'),
     url(r'^agentes/(\w+)/$', 'PeruCall.views.agentes'),
+    url(r'^teleoperador/(\w+)/$', 'PeruCall.views.teleoperador'),
 
 )
 
