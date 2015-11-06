@@ -109,8 +109,16 @@ def usuario(request):
 
 @login_required(login_url="/ingresar")
 def campania(request):
+
+	id = request.user.id
+
+	nivel = AuthUser.objects.get(id=id).nivel.id
+
+	troncales = Troncales.objects.all()
+	
 	supervisor = Supervisor.objects.all()
-	return render(request, 'campania.html',{'supervisor':supervisor})
+	
+	return render(request, 'campania.html',{'supervisor':supervisor,'troncales':troncales})
 
 @login_required(login_url="/ingresar")
 def micampania(request):
@@ -163,6 +171,21 @@ def user(request):
 
 
 @login_required(login_url="/ingresar")
+def troncales(request):
+
+	id = request.user.id
+
+	troncal = Troncales.objects.all().values('id','nombre')
+
+	data_dict = ValuesQuerySetToDict(troncal)
+
+	data = simplejson.dumps(data_dict)
+
+	return HttpResponse(data, content_type="application/json")
+
+
+
+@login_required(login_url="/ingresar")
 def uploadCampania(request):
 
 	if request.method == 'POST':
@@ -199,9 +222,13 @@ def campanias(request):
 	id = request.user.id
 	nivel = AuthUser.objects.get(id=id).nivel.id
 	empresa = AuthUser.objects.get(id=id).empresa
+
 	if nivel == 4: #Manager
+
 		data = Campania.objects.all().values('id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name')
+	
 	if nivel == 2: #Supervisores
+		
 		supervisor = Supervisor.objects.get(user=id).id
 
 		data = Campania.objects.filter(supervisor=supervisor).values('id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name')
@@ -581,6 +608,13 @@ def salir(request):
 
 def ValuesQuerySetToDict(vqs):
     return [item for item in vqs]
+
+
+
+
+def teleoperador(request,id):
+
+	return render(request, 'screenagent.html',{})
 
 
 

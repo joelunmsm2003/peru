@@ -13,6 +13,8 @@
 {% include "header.html" %}
 
 
+
+
 <div ng-if="user.nivel == 1 || user.nivel == 4 || user.nivel == 2">
 
     <h4>Modulo Crear Campaña</h4>
@@ -39,12 +41,22 @@
           </div>
           </div>
 
+     
+
           <div class="col-md-6">
           <div class="form-group">
-          <label>Troncal SIP</label>
-          <input type="text"  name = 'troncal' class="form-control" placeholder="Troncal" required ="">
+          <label>Troncal</label>
+
+          <select name = 'troncal' class="form-control">
+          {% for troncal in troncales%}
+              <option value='{{troncal.id}}'>{{troncal.nombre}}</option>
+          {% endfor %}
+          </select>
+         
           </div>
           </div>
+
+
 
           <div class="col-md-6">
           <div class="form-group">

@@ -29,6 +29,13 @@ function Controller($scope,$http,$cookies,$filter) {
    
 
     });
+          $http.get("/troncales").success(function(response) {$scope.troncales = response[0];
+
+        console.log('trncales',$scope.troncales)
+       
+    });
+
+
 
      $http.get("/empresas").success(function(response) {$scope.empresas = response;
 

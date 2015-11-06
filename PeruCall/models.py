@@ -123,7 +123,7 @@ class Campania(models.Model):
     mxllamada = models.IntegerField()
     llamadaxhora = models.IntegerField()
     hombreobjetivo = models.IntegerField()
-    archivo = models.FileField(upload_to='files')
+    archivo = models.CharField(max_length=100)
     supervisor = models.ForeignKey('Supervisor', db_column='supervisor', blank=True, null=True)
 
     class Meta:
@@ -227,3 +227,22 @@ class Supervisor(models.Model):
     class Meta:
         managed = False
         db_table = 'supervisor'
+
+
+class Troncales(models.Model):
+    id = models.IntegerField(primary_key=True)  # AutoField?
+    nombre = models.CharField(max_length=200)
+
+    class Meta:
+        managed = False
+        db_table = 'troncales'
+
+
+class Troncalesagentes(models.Model):
+    id = models.IntegerField(primary_key=True)  # AutoField?
+    empresa = models.ForeignKey(Empresa, db_column='empresa')
+    troncal = models.ForeignKey(Troncales, db_column='troncal')
+
+    class Meta:
+        managed = False
+        db_table = 'troncalesagentes'
