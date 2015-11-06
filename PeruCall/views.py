@@ -555,3 +555,10 @@ def usuario(request):
 
 	return render(request, 'usuario.html',{})
 
+
+def screen(request):
+
+	return render(request, 'screenagent.html',{})
+
+
+
