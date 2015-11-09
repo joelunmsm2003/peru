@@ -23,6 +23,7 @@ class Agentes(models.Model):
     user = models.ForeignKey('AuthUser', db_column='user', blank=True, null=True)
     supervisor = models.ForeignKey('Supervisor', db_column='supervisor', blank=True, null=True)
     disponible = models.IntegerField(blank=True, null=True)
+    calificacion = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -109,6 +110,36 @@ class AuthUserUserPermissions(models.Model):
         db_table = 'auth_user_user_permissions'
 
 
+class Base(models.Model):
+    id = models.IntegerField(primary_key=True)  # AutoField?
+    telefono = models.IntegerField(blank=True, null=True)
+    orden = models.IntegerField(blank=True, null=True)
+    cliente = models.CharField(max_length=100, blank=True)
+    id_cliente = models.IntegerField(blank=True, null=True)
+    producto = models.CharField(max_length=100, blank=True)
+    tarjeta = models.CharField(max_length=100, blank=True)
+    deuda = models.CharField(max_length=100, blank=True)
+    descuento = models.CharField(max_length=100, blank=True)
+    diasmora = models.IntegerField(blank=True, null=True)
+    ciudad = models.CharField(max_length=100, blank=True)
+    segmento = models.CharField(max_length=100, blank=True)
+    grupo = models.CharField(max_length=100, blank=True)
+
+    class Meta:
+        managed = False
+        db_table = 'base'
+
+
+class Calificacion(models.Model):
+    id = models.IntegerField(primary_key=True)  # AutoField?
+    tipo = models.CharField(max_length=100)
+    descripcion = models.CharField(max_length=100)
+
+    class Meta:
+        managed = False
+        db_table = 'calificacion'
+
+
 class Campania(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
     fecha_cargada = models.DateTimeField(db_column='fecha cargada')  # Field renamed to remove unsuitable characters.
@@ -129,6 +160,15 @@ class Campania(models.Model):
     class Meta:
         managed = False
         db_table = 'campania'
+
+
+class Ciudad(models.Model):
+    id = models.IntegerField(primary_key=True)  # AutoField?
+    nombre = models.CharField(max_length=100, blank=True)
+
+    class Meta:
+        managed = False
+        db_table = 'ciudad'
 
 
 class Data(models.Model):
@@ -211,6 +251,15 @@ class Estado(models.Model):
         db_table = 'estado'
 
 
+class Grupo(models.Model):
+    id = models.IntegerField(primary_key=True)  # AutoField?
+    nombre = models.CharField(max_length=100, blank=True)
+
+    class Meta:
+        managed = False
+        db_table = 'grupo'
+
+
 class Nivel(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
     nombre = models.CharField(max_length=100)
@@ -218,6 +267,15 @@ class Nivel(models.Model):
     class Meta:
         managed = False
         db_table = 'nivel'
+
+
+class Segmento(models.Model):
+    id = models.IntegerField(primary_key=True)  # AutoField?
+    nombre = models.CharField(max_length=100)
+
+    class Meta:
+        managed = False
+        db_table = 'segmento'
 
 
 class Supervisor(models.Model):

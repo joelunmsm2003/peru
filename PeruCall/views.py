@@ -114,15 +114,39 @@ def campania(request):
 
 	nivel = AuthUser.objects.get(id=id).nivel.id
 
+
+
 	troncales = Troncales.objects.all()
+
+	if nivel == 1:
+
+		supervisor = Supervisor.objects.all()
+
+
+	if nivel == 2:
+
+		supervisor = Supervisor.objects.filter(user=id)
+
+
+	if nivel == 4:
+
+		supervisor = Supervisor.objects.all()
+
+
+
 	
-	supervisor = Supervisor.objects.all()
+	
 	
 	return render(request, 'campania.html',{'supervisor':supervisor,'troncales':troncales})
 
 @login_required(login_url="/ingresar")
 def micampania(request):
 	return render(request, 'micampania.html',{})
+
+@login_required(login_url="/ingresar")
+def filtros(request,id):
+	campania = Campania.objects.get(id=id)
+	return render(request, 'filtros.html',{'campania':campania})
 
 @login_required(login_url="/ingresar")
 def adminCampania(request,id_campania):
@@ -148,13 +172,43 @@ def agentes(request,id_campania):
 		print user[i]['id']
 
 		user[i]['agente__tiempo'] = Agentescampanias.objects.get(id=user[i]['id']).agente.tiempo.strftime(fmt)
-		user[i]['performance'] =  (user[i]['agente__contactadas']/user[i]['agente__atendidas'])*100
+		
+		if user[i]['agente__atendidas'] > 0:
+
+			user[i]['performance'] =  (user[i]['agente__contactadas']/user[i]['agente__atendidas'])*100
+
+		else:
+
+			user[i]['performance'] = 0
 
 	data_dict = ValuesQuerySetToDict(user)
 
 	data = simplejson.dumps(data_dict)
 
 	return HttpResponse(data, content_type="application/json")
+
+
+@login_required(login_url="/ingresar")
+def agregarfiltro(request):
+
+	if request.method == 'POST':
+
+		datos= json.loads(request.body)['data']
+
+	
+
+		ciudad = datos['ciudad'] 
+		grupo = datos['grupo']
+		segmento = datos['segmento']
+
+		print grupo
+
+		data = Base.objects.filter(ciudad=ciudad,segmento=segmento,grupo=grupo).values('id','ciudad','segmento','grupo').count()
+
+		print 'data',data
+
+
+		return HttpResponse(data, content_type="application/json")
 
 @login_required(login_url="/ingresar")
 def user(request):
@@ -168,6 +222,41 @@ def user(request):
 	data = simplejson.dumps(data_dict)
 
 	return HttpResponse(data, content_type="application/json")
+
+
+@login_required(login_url="/ingresar")
+def ciudad(request):
+
+	user = Ciudad.objects.all().values('id','nombre')
+
+	data_dict = ValuesQuerySetToDict(user)
+
+	data = simplejson.dumps(data_dict)
+
+	return HttpResponse(data, content_type="application/json")
+
+@login_required(login_url="/ingresar")
+def grupo(request):
+
+	user = Grupo.objects.all().values('id','nombre')
+
+	data_dict = ValuesQuerySetToDict(user)
+
+	data = simplejson.dumps(data_dict)
+
+	return HttpResponse(data, content_type="application/json")
+
+@login_required(login_url="/ingresar")
+def segmento(request):
+
+	user = Segmento.objects.all().values('id','nombre')
+
+	data_dict = ValuesQuerySetToDict(user)
+
+	data = simplejson.dumps(data_dict)
+
+	return HttpResponse(data, content_type="application/json")
+
 
 
 @login_required(login_url="/ingresar")
@@ -225,17 +314,17 @@ def campanias(request):
 
 	if nivel == 4: #Manager
 
-		data = Campania.objects.all().values('id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name')
+		data = Campania.objects.all().values('id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name').order_by('-id')
 	
 	if nivel == 2: #Supervisores
 		
 		supervisor = Supervisor.objects.get(user=id).id
 
-		data = Campania.objects.filter(supervisor=supervisor).values('id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name')
+		data = Campania.objects.filter(supervisor=supervisor).values('id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name').order_by('-id')
 
 	if nivel == 1: #Admin
 
-		data = Campania.objects.filter(usuario__empresa=empresa).values('id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name')
+		data = Campania.objects.filter(usuario__empresa=empresa).values('id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name').order_by('-id')
 
 
 	fmt = '%H:%M:%S %Z'
@@ -327,7 +416,7 @@ def agentescampania(request,id_campania):
 
 	supervisor = Campania.objects.get(id=id_campania).supervisor
 
-	agentes = Agentescampanias.objects.filter(agente__supervisor=supervisor,campania=id_campania).values('id')
+	agentes = Agentescampanias.objects.filter(agente__supervisor=supervisor,campania=id_campania).values('id','agente')
 
 	for i in range(len(agentes)):
 
@@ -367,11 +456,14 @@ def quitaragente(request):
 
 		campania = json.loads(request.body)['campania']
 
-		id_agente = data['id']
+		id_agente = data['agente']
 
-		agente = Agentescampanias.objects.filter(agente=id_agente,campania=campania).delete()
+		print 'agente',id_agente
 
 		agente = Agentes.objects.get(id=id_agente)
+
+		Agentescampanias.objects.filter(agente=agente.id,campania=campania).delete()
+
 
 		return HttpResponse(agente.user.username, content_type="application/json")
 
@@ -405,16 +497,11 @@ def supervisores(request):
 @login_required(login_url="/ingresar")
 def usuarios(request):
 
-
 	id = request.user.id
-
-	print id
 
 	nivel = AuthUser.objects.get(id=id).nivel.id
 
 	empresa = AuthUser.objects.get(id=id).empresa
-
-
 
 	if nivel == 4: #Manager
 
@@ -423,7 +510,6 @@ def usuarios(request):
 	if nivel == 3: #Agentes
 
 		usuarios = AuthUser.objects.filter(id=id).values('id','username','email','empresa__nombre','nivel__nombre','first_name').order_by('-id')
-
 
 	if nivel == 2: #Supervisores
 
@@ -449,8 +535,6 @@ def usuarios(request):
 
 		if usuarios[i]['nivel__nombre'] == 'Agente':
 
-			print usuarios[i]['id']
-
 			usuarios[i]['supervisor'] = Agentes.objects.get(user=usuarios[i]['id']).supervisor.user.first_name
 	
 
@@ -474,30 +558,52 @@ def usuarios(request):
 			
 			nombre=data['nombre']
 
-			user = User.objects.create_user(username=username,email=email,password=password)
+			users = User.objects.all()
 
-			user.save()
+			e = 1
 
-			id_user = AuthUser.objects.all().values('id').order_by('-id')[0]['id']
+			for users in users:
 
-			usuario = AuthUser.objects.get(id=id_user)
+				
+
+				if username == users.username:
+
+					info = username +' ya existe, escoja otro pofavor'
+					e = 0
+
+			if e == 1:
+
+				info = username + ' ingresado al sistema, gracias'
+
+				user = User.objects.create_user(username=username,email=email,password=password)
+
+				user.save()
+
+				id_user = AuthUser.objects.all().values('id').order_by('-id')[0]['id']
+
+				usuario = AuthUser.objects.get(id=id_user)
+			
+				usuario.empresa_id = empresa
+				usuario.nivel_id = nivel
+				usuario.first_name = nombre
+				usuario.save()
+
 		
-			usuario.empresa_id = empresa
-			usuario.nivel_id = nivel
-			usuario.first_name = nombre
-			usuario.save()
+				if nivel == 3:
 
-	
-			if nivel == 3:
+					print data['supervisor']
 
-				supervisor = data['supervisor']
-				Agentes(user_id=id_user).save()
+					supervisor = data['supervisor']
+					Agentes(user_id=id_user).save()
 
-				agente =Agentes.objects.get(user=id_user)
-				agente.supervisor_id = supervisor
-				agente.save()
+					agente =Agentes.objects.get(user=id_user)
+					agente.supervisor_id = supervisor
+					agente.atendidas = 0
+					agente.contactadas =0
+					agente.estado_id = 1
+					agente.save()
 
-			return HttpResponse(username, content_type="application/json")
+			return HttpResponse(info, content_type="application/json")
 
 
 		if tipo=="Edit":

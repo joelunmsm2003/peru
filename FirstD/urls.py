@@ -35,6 +35,11 @@ urlpatterns = patterns('',
     url(r'^monitoreo/(\w+)/$', 'PeruCall.views.monitoreo'),
     url(r'^agentes/(\w+)/$', 'PeruCall.views.agentes'),
     url(r'^troncales/$', 'PeruCall.views.troncales'),
+    url(r'^filtros/(\w+)/$', 'PeruCall.views.filtros'),
+    url(r'^ciudad/', 'PeruCall.views.ciudad'),
+    url(r'^grupo/', 'PeruCall.views.grupo'),
+    url(r'^segmento/', 'PeruCall.views.segmento'),
+    url(r'^agregarfiltro/', 'PeruCall.views.agregarfiltro'),
 
     url(r'^teleoperador/(\w+)/$', 'PeruCall.views.teleoperador'),
 

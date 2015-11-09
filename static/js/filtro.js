@@ -8,6 +8,7 @@ $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
 function Controller($scope,$http,$cookies,$filter) {
 
 
+    campania = window.location.href.split("filtros/")[1].split("/")[0]
     var sortingOrder ='-id';
     $scope.sortingOrder = sortingOrder;
     $scope.reverse = false;
@@ -17,24 +18,45 @@ function Controller($scope,$http,$cookies,$filter) {
     $scope.pagedItems = [];
     $scope.currentPage = 0;
 
+    $scope.filtro = []
+
+
+     $scope.statusA = function(contact) 
+
+    {
+
+        $scope.filtro.ciudad = contact.nombre
     
-    $http.get("/usuarios").success(function(response) {$scope.clientes = response;
+    };
 
-        $scope.search();
+     $scope.statusB = function(contact) 
+
+    {
+        $scope.filtro.segmento = contact.nombre
+
+    
+    };
+
+     $scope.statusC = function(contact) 
+
+    {
+        $scope.filtro.grupo = contact.nombre
+
+        console.log($scope.filtro)
+    
+    };
+
+
+
+
+    
+    $http.get("/ciudad/").success(function(response) {$scope.ciudad = response;
+
+     
 
     });
-
-     $http.get("/supervisores").success(function(response) {$scope.supervisores = response;
-
-   
-
-    });
-          $http.get("/troncales").success(function(response) {$scope.troncales = response[0];
-
-        console.log('trncales',$scope.troncales)
-       
-    });
-
+    $http.get("/grupo/").success(function(response) {$scope.grupo = response;});
+    $http.get("/segmento/").success(function(response) {$scope.segmento = response;});
 
 
      $http.get("/empresas").success(function(response) {$scope.empresas = response;
@@ -42,6 +64,9 @@ function Controller($scope,$http,$cookies,$filter) {
 
        
     });
+
+
+
 
 
 
@@ -58,6 +83,136 @@ function Controller($scope,$http,$cookies,$filter) {
 
     });
 
+
+    $scope.agregar = function(index,contact) 
+
+    {
+
+
+    $scope.usuarioscampania.push(contact);
+    $scope.usuarios.splice(index,1);
+
+        var todo={
+
+            campania: campania,
+            dato: contact,
+            done:false
+        }
+
+        $http({
+
+        url: "/agregaragente/",
+        data: todo,
+        method: 'POST',
+        headers: {
+        'X-CSRFToken': $cookies['csrftoken']
+        }
+        }).
+        success(function(data) {
+
+            swal({   title: "Asignacion de agentes",   text: data +' agregado',   timer: 2000,   showConfirmButton: false });
+    
+    
+    
+        })
+
+    
+    };
+
+
+        
+
+
+
+
+
+
+      $scope.filtrar = function(data) 
+
+    {   
+        var convArrToObj = function(array){
+
+                var thisEleObj = new Object();
+                if(typeof array == "object"){
+                for(var i in array){
+                var thisEle = convArrToObj(array[i]);
+                thisEleObj[i] = thisEle;
+                }
+                }else {
+                thisEleObj = array;
+                }
+                return thisEleObj;
+        }
+
+        object = convArrToObj(data)
+
+        
+        
+      
+
+        var todo={
+
+            data: object,
+            done:false
+        }
+
+        $http({
+
+        url: "/agregarfiltro/",
+        data: todo,
+        method: 'POST',
+        headers: {
+        'X-CSRFToken': $cookies['csrftoken']
+        }
+        }).
+        success(function(r) {
+
+            object.cantidad = r
+
+            $scope.filtro.push(object)
+
+             swal({   title: "Filtro agregado",   text:"Fonos por barrer: " + r,   timer: 2000,   showConfirmButton: false });
+
+            console.log($scope.filtro)
+
+        })
+
+    
+    };
+
+
+    $scope.quitar = function(index,contact) 
+
+    {
+
+    $scope.usuarios.push(contact);
+    $scope.usuarioscampania.splice(index,1);
+
+            var todo={
+
+            campania: campania,
+            dato: contact,
+            done:false
+        }
+
+        $http({
+
+        url: "/quitaragente/",
+        data: todo,
+        method: 'POST',
+        headers: {
+        'X-CSRFToken': $cookies['csrftoken']
+        }
+        }).
+        success(function(data) {
+
+            swal({   title: "Asignacion de agentes",   text: data +' quitado',   timer: 2000,   showConfirmButton: false });
+    
+    
+        })
+    
+    };
+
     $scope.numberOfPages = function() 
 
     {
@@ -65,63 +220,6 @@ function Controller($scope,$http,$cookies,$filter) {
     return Math.ceil($scope.clientes.length / $scope.pageSize);
     
     };
-
-     $scope.usuariorepetido = function(data) 
-
-    {
-
-    
-
-    object = $scope.clientes
-
-    for( var key in object  ) {
-
-        console.log('data',data['username'])
-        console.log('object',object[key]['username'])
-        console.log('...........')
-
-        if((data['username']) ==  object[key]['username']){
-
-            console.log('ingreso')
-
-            $scope.alerta = 'username ya tomado, elegir otro ! =)'
-        }
-        else{
-
-            $scope.alerta = ''
-        }
-
-    }
-    
-    };
-
-
-
-    $scope.nivelagente = 0
-
-    $scope.nivelp = function(agregar) 
-
-    {
-
-    nivel = agregar['nivel']
-
-
-    
-    if (nivel ==3){
-
-
-        $scope.nivelagente = 1
-
-    }
-    else{
-
-        $scope.nivelagente = 0
-    }
-
-
-    
-    };
-
 
 
 
@@ -147,7 +245,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-        swal({   title: "Perucall",   text: data ,   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "OK",   }, function(){   window.location.href = "/usuario" });
+        swal({   title: "Perucall",   text: "Usuario "+data +" agregado",   type: "success",   confirmButtonColor: "#337ab7",   confirmButtonText: "OK",   }, function(){   window.location.href = "/usuario" });
  
         $scope.agregar=""
 
@@ -182,7 +280,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-        swal({   title: "Perucall",   text: "Usuario "+data +" editado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Editado",   }, function(){   });
+        swal({   title: "Perucall",   text: "Usuario "+data +" editado",   type: "success",   confirmButtonColor: "#337ab7",   confirmButtonText: "OK",   }, function(){   });
  
         })
 

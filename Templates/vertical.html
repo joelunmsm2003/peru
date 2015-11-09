@@ -17,7 +17,7 @@
           <ul class="nav navbar-nav">
             <li id="adminCampania" class="active"><a href="/adminCampania/{{campania.id}}">Agentes </a></li>
             <li id="monitoreo"><a href="/monitoreo/{{campania.id}}">Monitoreo </a></li>
-            <li><a href="#">Filtros </a></li>
+            <li id="filtros"><a href="/filtros/{{campania.id}}">Filtros </a></li>
             <li><a href="#">Reportes </a></li>
             <li><a href="#">Admin </a></li>
             <li><a href="#">Mis Campañas <span class="badge">1,118</span></a></li>
@@ -65,10 +65,16 @@
     $( "#adminCampania" ).addClass( "active" )
   }
 
-    if (($(location).attr('href').split('/')[3]) =='monitoreo'){
+  if (($(location).attr('href').split('/')[3]) =='monitoreo'){
 
     $( "#monitoreo" ).addClass( "active" )
   }
+
+    if (($(location).attr('href').split('/')[3]) =='filtros'){
+
+    $( "#filtros" ).addClass( "active" )
+  }
+
 
       
 
