@@ -92,6 +92,10 @@ def ingresar(request):
 
 
 @login_required(login_url="/ingresar")
+def home(request):
+	return render(request, 'index.html',{})
+
+@login_required(login_url="/ingresar")
 def menu(request):
 	return render(request, 'menu.html',{})
 
