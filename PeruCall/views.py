@@ -497,7 +497,7 @@ def supervisores(request):
 
 	nivel = AuthUser.objects.get(id=id).nivel.id
 
-	empresa = AuthUser.objects.get(id=id).empresa
+	empresa = AuthUser.objects.get(id=id).empresa.id
 
 	if nivel == 2:
 
@@ -505,7 +505,7 @@ def supervisores(request):
 
 	if nivel == 1:
 
-		supervisores = Supervisor.objects.filter(agente__user__empresa__id=empresa).values('id','user__first_name')
+		supervisores = Supervisor.objects.filter(user__empresa__id=empresa).values('id','user__first_name')
 
 	if nivel == 4:
 
@@ -513,6 +513,19 @@ def supervisores(request):
 
 
 	data = json.dumps(ValuesQuerySetToDict(supervisores))
+
+	return HttpResponse(data, content_type="application/json")
+
+@login_required(login_url="/ingresar")
+def carteras(request):
+
+	id = request.user.id
+
+	empresa = AuthUser.objects.get(id=id).empresa.id
+
+	carteras = Carteraempresa.objects.filter(empresa_id=empresa).values('id','cartera__nombre','empresa__nombre')
+
+	data = json.dumps(ValuesQuerySetToDict(carteras))
 
 	return HttpResponse(data, content_type="application/json")
 
@@ -558,8 +571,7 @@ def usuarios(request):
 
 		if usuarios[i]['nivel__nombre'] == 'Agente':
 
-			usuarios[i]['supervisor'] = Agentes.objects.get(user=usuarios[i]['id']).supervisor.user.first_name
-	
+			usuarios[i]['supervisor'] = Supervisor.objects.get(id=Agentes.objects.get(user_id=usuarios[i]['id']).supervisor).user.first_name	
 
 	data = json.dumps(ValuesQuerySetToDict(usuarios))
 

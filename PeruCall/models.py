@@ -21,7 +21,7 @@ class Agentes(models.Model):
     contactadas = models.IntegerField(blank=True, null=True)
     estado = models.ForeignKey('Estado', db_column='estado', blank=True, null=True)
     user = models.ForeignKey('AuthUser', db_column='user', blank=True, null=True)
-    supervisor = models.ForeignKey('Supervisor', db_column='supervisor', blank=True, null=True)
+    supervisor = models.IntegerField(blank=True, null=True)
     disponible = models.IntegerField(blank=True, null=True)
     calificacion = models.IntegerField(blank=True, null=True)
 
@@ -124,6 +124,7 @@ class Base(models.Model):
     ciudad = models.CharField(max_length=100, blank=True)
     segmento = models.CharField(max_length=100, blank=True)
     grupo = models.CharField(max_length=100, blank=True)
+    status = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -160,6 +161,25 @@ class Campania(models.Model):
     class Meta:
         managed = False
         db_table = 'campania'
+
+
+class Cartera(models.Model):
+    id = models.IntegerField(primary_key=True)  # AutoField?
+    nombre = models.CharField(max_length=100)
+
+    class Meta:
+        managed = False
+        db_table = 'cartera'
+
+
+class Carteraempresa(models.Model):
+    id = models.IntegerField(primary_key=True)  # AutoField?
+    cartera = models.ForeignKey(Cartera, db_column='cartera')
+    empresa = models.ForeignKey('Empresa', db_column='empresa')
+
+    class Meta:
+        managed = False
+        db_table = 'carteraempresa'
 
 
 class Ciudad(models.Model):
@@ -285,6 +305,16 @@ class Supervisor(models.Model):
     class Meta:
         managed = False
         db_table = 'supervisor'
+
+
+class Supervisorcartera(models.Model):
+    id = models.IntegerField(primary_key=True)  # AutoField?
+    cartera = models.ForeignKey(Cartera, db_column='cartera')
+    supervisor = models.ForeignKey(Supervisor, db_column='supervisor')
+
+    class Meta:
+        managed = False
+        db_table = 'supervisorcartera'
 
 
 class Troncales(models.Model):

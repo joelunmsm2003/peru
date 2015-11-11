@@ -43,6 +43,18 @@ function Controller($scope,$http,$cookies,$filter) {
        
     });
 
+      $http.get("/carteras").success(function(response) {$scope.carteras = response;
+
+
+       
+    });
+
+     $http.get("/carteras").success(function(response) {$scope.carteras = response;
+
+
+       
+    });
+
 
 
     $http.get("/user").success(function(response) {$scope.user = response;
@@ -66,38 +78,19 @@ function Controller($scope,$http,$cookies,$filter) {
     
     };
 
-     $scope.usuariorepetido = function(data) 
+
+
+
+    $scope.MyCtrl = function() 
 
     {
 
-    
-
-    object = $scope.clientes
-
-    for( var key in object  ) {
-
-        console.log('data',data['username'])
-        console.log('object',object[key]['username'])
-        console.log('...........')
-
-        if((data['username']) ==  object[key]['username']){
-
-            console.log('ingreso')
-
-            $scope.alerta = 'username ya tomado, elegir otro ! =)'
-        }
-        else{
-
-            $scope.alerta = ''
-        }
-
+    $scope.agregar.cartera = [$scope.colors[0], $scope.colors[1]];
     }
-    
-    };
 
 
 
-    $scope.nivelagente = 0
+    $scope.nivelcartera= 0
 
     $scope.nivelp = function(agregar) 
 
@@ -107,15 +100,15 @@ function Controller($scope,$http,$cookies,$filter) {
 
 
     
-    if (nivel ==3){
+    if (nivel ==2){
 
 
-        $scope.nivelagente = 1
+        $scope.nivelcartera = 1
 
     }
     else{
 
-        $scope.nivelagente = 0
+        $scope.nivelcartera= 0
     }
 
 
