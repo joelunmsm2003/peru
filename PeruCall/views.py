@@ -92,8 +92,8 @@ def ingresar(request):
 
 
 @login_required(login_url="/ingresar")
-def home(request):
-	return render(request, 'index.html',{})
+def empresa(request):
+	return render(request, 'empresa.html',{})
 
 @login_required(login_url="/ingresar")
 def menu(request):
@@ -103,9 +103,6 @@ def menu(request):
 def teleoperador(request,id):
 	return render(request, 'teleoperador.html',{})
 
-@login_required(login_url="/ingresar")
-def empresa(request):
-	return render(request, 'empresa.html',{})
 
 @login_required(login_url="/ingresar")
 def usuario(request):
@@ -557,6 +554,8 @@ def usuarios(request):
 	for i in range(len(usuarios)):
 
 		if usuarios[i]['nivel__nombre'] == 'Agente':
+
+			print usuarios[i]['id']
 
 			usuarios[i]['supervisor'] = Agentes.objects.get(user=usuarios[i]['id']).supervisor.user.first_name
 	

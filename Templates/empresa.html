@@ -1,273 +1,301 @@
 <!DOCTYPE html>
+<html lang="en" class="app" ng-app="App" ng-controller="Controller">
+
+<head>
+	<meta charset="utf-8" />
+	<title>PeruCall | Web Application</title>
+	<meta name="description" content="app, web app, responsive, admin dashboard, admin, flat, flat ui, ui kit, off screen nav" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+	<link rel="stylesheet" href="/static/css/app.v1.css" type="text/css" />
+	<link rel="stylesheet" href="/static/js/calendar/bootstrap_calendar.css" type="text/css" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+	<link href="/static/css/sweetalert.css" rel="stylesheet">
+	<!--[if lt IE 9]> <script src="js/ie/html5shiv.js"></script> <script src="js/ie/respond.min.js"></script> <script src="js/ie/excanvas.js"></script> <![endif]-->
+</head>
+
+<body class="">
+
+
+{% include "navbar.html" %}
+
+			<section class="hbox stretch">
+			
+							
+				{% include "navbar_vertical.html" %}
+						
+				<section id="content">
+					<section class="hbox stretch">
+						<section>
+							<section class="vbox">
+								<section class="scrollable padder">
+									<section class="row m-b-md">
+										<div class="col-sm-6">
+											<h3 class="m-b-xs text-black">Empresas</h3>  <small>Welcome back, {[{user.first_name}]}, <i class="fa fa-map-marker fa-lg text-primary"></i> New York City</small> 
+										</div>
+
+										{% include "icon.html" %}
+									
+									</section>
+									<div class="row" >
+										<div class="col-sm-12" ng-if=" user.nivel == 4">
+																					
+										      <form ng-submit="addNew(agregar)">
+
+										          <div class="col-md-6">
+										          <div class="form-group">
+										          <label>Empresa/Cliente</label>
+										          <input type="text" ng-model="agregar.nombre" class="form-control" placeholder="Nombre" required ="">
+										          </div>
+										          </div>
+
+										          <div class="col-md-6">
+										          <div class="form-group">
+										          <label>Telefono</label>
+										          <input type="text" ng-model="agregar.telefono" class="form-control" placeholder="Telefono" required =""  >
+										          </div>
+										          </div>
+
+										          <div class="col-md-6">
+										          <div class="form-group">
+										          <label>Licencias</label>
+										          <input type="text" ng-model="agregar.licencias" class="form-control" placeholder="Licencias" required ="" >
+										          </div>
+										          </div>
+
+										          <div class="col-md-6">
+										          <div class="form-group">
+										          <label>Contacto</label>
+										          <input type="text" ng-model="agregar.contacto" class="form-control" placeholder="Contacto" required ="" >
+										          </div>
+										          </div>
+
+										          <div class="col-md-6">
+										          <div class="form-group">
+										          <label>Email</label>
+										          <input type="email" ng-model="agregar.mail" class="form-control" placeholder="Email" required =""  >
+										          </div>
+										          </div>
+
+										          <div class="col-md-6">
+										          <div class="form-group">
+										          <label>Mascara</label>
+										          <input type="text" ng-model="agregar.mascaras" class="form-control" placeholder="Mascara " required ="" >
+										          </div>
+										          </div>
+										          <br></br>
+
+										          <div class="col-md-6">
+										          <div class="form-group">
+										          <button class="btn btn-primary" type="submit">Agregar</button>
+										          </div>
+										          </div>
+
+										      </form>
+										</div>
+										<div class="col-md-12 col-sm-12">
+
+												<input placeholder="Buscar" ng-change="search()"  type="text" ng-model="tipo" class="form-control" >
+										
+										
+											    <h4>Cantidad de Registros {[{contador}]}</h4>
+
+
+											    <table class="table table-striped table-condensed table-hover">
+											    
+											        <tbody>
 
-<html lang="en">
+											            <thead>
 
-{% include "head.html" %}
+											            <tr>
+											                  <th>Id <a ng-click="sort_by('id',currentPage)"><i class="icon-sort"></i></a></th>
+											                  <th>Nombre <a ng-click="sort_by('nombre',currentPage)"><i class="icon-sort"></i></a></th>
+											                  <th>Telefono <a ng-click="sort_by('telefono',currentPage)"><i class="icon-sort"></i></a></th>
+											                  <th>Contacto <a ng-click="sort_by('contacto',currentPage)"><i class="icon-sort"></i></a></th>
+											                  <th>Mail <a ng-click="sort_by('mail',currentPage)"><i class="icon-sort"></i></a></th>
+											                  <th>Licencias <a ng-click="sort_by('licencias',currentPage)"><i class="icon-sort"></i></a></th>
+											                  <th>Mascaras <a ng-click="sort_by('mascaras',currentPage)"><i class="icon-sort"></i></a></th>
+											                  <th></th>
+											                  <th></th>
+											                        
+											            </tr>
 
-<script src="/static/js/empresa.js"></script>
+											            </thead>
 
-<body ng-app="App">
 
-<div class="container" ng-controller="Controller">
+											              <tfoot>
+											                    <td colspan="6">
+											                        <div class="pagination pull-right">
+											                            <ul>
+											                                <li ng-class="{disabled: currentPage == 0}">
+											                                    <a href ng-click="prevPage()">« Prev</a>
+											                                </li>
+											                                <li ng-repeat="n in range(pagedItems.length)"
+											                                    ng-class="{active: n == currentPage}"
+											                                ng-click="setPage()">
+											                                    <a href ng-bind="n + 1">1</a>
+											                                </li>
+											                                <li ng-class="{disabled: currentPage == pagedItems.length - 1}">
+											                                    <a href ng-click="nextPage()">Next »</a>
+											                                </li>
+											                            </ul>
+											                        </div>
+											                    </td>
+											                </tfoot>
 
-{% include "header.html" %}
 
-<h4>Datos de la Empresa</h4>
 
-<div ng-if=" user.nivel == 4">
+											              <tr  ng-repeat="contact in pagedItems[currentPage]  " ts-repeat>
 
+											                <td data-th="Origen">{[{contact.id}]} </td>
+											                <td data-th="Origen">{[{contact.nombre}]} </td>
+											                <td data-th="Destino">{[{contact.telefono}]}</td>
+											                <td data-th="Calldate">{[{contact.contacto}]}</td>
+											                <td data-th="Disposition">{[{contact.mail}]}</td>
+											                <td data-th="Duration">{[{contact.licencias}]}</td>
+											                <td data-th="Billsec">{[{contact.mascaras}]}</td>
 
-<div class="row">
+											                <td>
 
-      <form ng-submit="addNew(agregar)">
+											                <button type="button" class="btn btn-primary" ng-click="editContact(contact,$index,currentPage)" data-toggle="modal" data-target="#edit"><i class="fa fa-pencil-square-o"></i></button>
 
-          <div class="col-md-6">
-          <div class="form-group">
-          <label>Empresa/Cliente</label>
-          <input type="text" ng-model="agregar.nombre" class="form-control" placeholder="Nombre" required ="">
-          </div>
-          </div>
+											                <button type="button" class="btn btn-primary" ng-click="editContact(contact,$index,currentPage)"  data-toggle="modal" data-target="#eliminar"><i class="fa fa-trash-o"></i></button>
 
-          <div class="col-md-6">
-          <div class="form-group">
-          <label>Telefono</label>
-          <input type="text" ng-model="agregar.telefono" class="form-control" placeholder="Telefono" required =""  >
-          </div>
-          </div>
 
-          <div class="col-md-6">
-          <div class="form-group">
-          <label>Licencias</label>
-          <input type="text" ng-model="agregar.licencias" class="form-control" placeholder="Licencias" required ="" >
-          </div>
-          </div>
+											    
 
-          <div class="col-md-6">
-          <div class="form-group">
-          <label>Contacto</label>
-          <input type="text" ng-model="agregar.contacto" class="form-control" placeholder="Contacto" required ="" >
-          </div>
-          </div>
+											              </td>
 
-          <div class="col-md-6">
-          <div class="form-group">
-          <label>Email</label>
-          <input type="email" ng-model="agregar.mail" class="form-control" placeholder="Email" required =""  >
-          </div>
-          </div>
 
-          <div class="col-md-6">
-          <div class="form-group">
-          <label>Mascara</label>
-          <input type="text" ng-model="agregar.mascaras" class="form-control" placeholder="Mascara " required ="" >
-          </div>
-          </div>
-          <br></br>
+											           
+											                
 
-          <div class="col-md-6">
-          <div class="form-group">
-          <button class="btn btn-primary" type="submit">Agregar</button>
-          </div>
-          </div>
+											            
 
-      </form>
+											              </tr>
 
-</div>
 
-</div>
+											        </tbody>
 
-<div id="edit" class="modal fade" role="dialog">
 
-  <div class="modal-dialog">
+											        </table>
 
-    <div class="modal-content">
+								
 
-        <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Editar</h4>
-        </div>
-        <div class="modal-body">
+									</div>
 
-        <div class="row">
+								</div>
+									
+						
+					</section>
+					<a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen,open" data-target="#nav,html"></a>
+				</section>
+			</section>
+		</section>
+	</section>
+	<!-- Bootstrap -->
+	<!-- App -->
 
-        <form ng-submit="saveContact(index,numberPage)">
+	<!--Modales-->
 
-        <div class="col-md-6">
-        <label>Empresa/Cliente</label>
-        <input type="text" class="form-control" ng-model="model.nombre" required ="" >
-        </div>
+			<div id="edit" class="modal fade" role="dialog">
 
-        <div class="col-md-6">
-        <label>Telefono</label>
-        <input type="text" class="form-control" ng-model="model.telefono" required ="" >
-        </div>
+			<div class="modal-dialog">
 
-        <div class="col-md-6">
-        <label>Licencias</label>
-        <input type="text" class="form-control" ng-model="model.licencias" required ="" >
-        </div>
+			<div class="modal-content">
 
-        <div class="col-md-6">
-        <label>Contacto</label>
-        <input type="text" class="form-control" ng-model="model.contacto" required =""  >
-        </div>
+			<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+			<h4 class="modal-title">Editar</h4>
+			</div>
+			<div class="modal-body">
 
-        <div class="col-md-6">
-        <label>Email</label>
-        <input type="text" class="form-control" ng-model="model.mail" required ="" >
-        </div>
-
-        <div class="col-md-6">
-        <label>Mascara</label>
-        <input type="text" class="form-control" ng-model="model.mascaras" required ="" >
-        </div>
+			<div class="row">
 
+			<form ng-submit="saveContact(index,numberPage)">
 
-</div>
-</div>
+			<div class="col-md-6">
+			<label>Empresa/Cliente</label>
+			<input type="text" class="form-control" ng-model="model.nombre" required ="" >
+			</div>
 
+			<div class="col-md-6">
+			<label>Telefono</label>
+			<input type="text" class="form-control" ng-model="model.telefono" required ="" >
+			</div>
 
-      <div class="modal-footer">
-           <button type="submit" class="btn btn-primary">Editar</button>
-      </div>
+			<div class="col-md-6">
+			<label>Licencias</label>
+			<input type="text" class="form-control" ng-model="model.licencias" required ="" >
+			</div>
 
-      </form>
+			<div class="col-md-6">
+			<label>Contacto</label>
+			<input type="text" class="form-control" ng-model="model.contacto" required =""  >
+			</div>
 
+			<div class="col-md-6">
+			<label>Email</label>
+			<input type="text" class="form-control" ng-model="model.mail" required ="" >
+			</div>
 
+			<div class="col-md-6">
+			<label>Mascara</label>
+			<input type="text" class="form-control" ng-model="model.mascaras" required ="" >
+			</div>
 
-    </div>
 
-  </div>
-</div>
+			</div>
+			</div>
 
-<div id="eliminar" class="modal fade" role="dialog">
-  <div class="modal-dialog">
 
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Eliminar</h4>
-      </div>
-        <div class="modal-body">
+			<div class="modal-footer">
+			<button type="submit" class="btn btn-primary">Editar</button>
+			</div>
 
-        <td><input type="hidden" ng-model="model.id" required ="" /></td>
-       
-        <h4>Desea eliminar empresa {[{model.nombre}]}</h2>
-        </div>
+			</form>
 
-        <div class="modal-footer">
 
-            <button class="btn" data-dismiss="modal">Cerrar</button>
-            <button type="submit" ng-click="eliminarContact(index,currentPage)" class="btn btn-primary">Eliminar</button>
-            
 
-        </div>
-    </div>
+			</div>
 
-  </div>
-</div>
+			</div>
+			</div>
 
-      <div class='row'>
-      <div class="col-md-4"><input placeholder="Buscar" ng-change="search()"  type="text" ng-model="tipo" class="form-control" ></div>
-    </div>
-    <br></br>
+			<div id="eliminar" class="modal fade" role="dialog">
+			<div class="modal-dialog">
 
-    Cantidad de Registros {[{contador}]}
+			<div class="modal-content">
+			<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+			<h4 class="modal-title">Eliminar</h4>
+			</div>
+			<div class="modal-body">
 
+			<td><input type="hidden" ng-model="model.id" required ="" /></td>
 
-    <table class="table table-striped table-condensed table-hover">
-    
-        <tbody>
+			<h4>Desea eliminar empresa {[{model.nombre}]}</h2>
+			</div>
 
-            <thead>
+			<div class="modal-footer">
 
-            <tr>
-                  <th>Id <a ng-click="sort_by('id',currentPage)"><i class="icon-sort"></i></a></th>
-                  <th>Nombre <a ng-click="sort_by('nombre',currentPage)"><i class="icon-sort"></i></a></th>
-                  <th>Telefono <a ng-click="sort_by('telefono',currentPage)"><i class="icon-sort"></i></a></th>
-                  <th>Contacto <a ng-click="sort_by('contacto',currentPage)"><i class="icon-sort"></i></a></th>
-                  <th>Mail <a ng-click="sort_by('mail',currentPage)"><i class="icon-sort"></i></a></th>
-                  <th>Licencias <a ng-click="sort_by('licencias',currentPage)"><i class="icon-sort"></i></a></th>
-                  <th>Mascaras <a ng-click="sort_by('mascaras',currentPage)"><i class="icon-sort"></i></a></th>
-                  <th></th>
-                  <th></th>
-                        
-            </tr>
+			<button class="btn" data-dismiss="modal">Cerrar</button>
+			<button type="submit" ng-click="eliminarContact(index,currentPage)" class="btn btn-primary">Eliminar</button>
 
-            </thead>
 
+			</div>
+			</div>
 
-              <tfoot>
-                    <td colspan="6">
-                        <div class="pagination pull-right">
-                            <ul>
-                                <li ng-class="{disabled: currentPage == 0}">
-                                    <a href ng-click="prevPage()">« Prev</a>
-                                </li>
-                                <li ng-repeat="n in range(pagedItems.length)"
-                                    ng-class="{active: n == currentPage}"
-                                ng-click="setPage()">
-                                    <a href ng-bind="n + 1">1</a>
-                                </li>
-                                <li ng-class="{disabled: currentPage == pagedItems.length - 1}">
-                                    <a href ng-click="nextPage()">Next »</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </td>
-                </tfoot>
+			</div>
+			</div>
 
 
-
-              <tr  ng-repeat="contact in pagedItems[currentPage]  " ts-repeat>
-
-                <td data-th="Origen">{[{contact.id}]} </td>
-                <td data-th="Origen">{[{contact.nombre}]} </td>
-                <td data-th="Destino">{[{contact.telefono}]}</td>
-                <td data-th="Calldate">{[{contact.contacto}]}</td>
-                <td data-th="Disposition">{[{contact.mail}]}</td>
-                <td data-th="Duration">{[{contact.licencias}]}</td>
-                <td data-th="Billsec">{[{contact.mascaras}]}</td>
-
-                <td>
-
-                <button type="button" class="btn btn-primary" ng-click="editContact(contact,$index,currentPage)" data-toggle="modal" data-target="#edit">Editar</button>
-
-                <button type="button" class="btn btn-primary" ng-click="editContact(contact,$index,currentPage)"  data-toggle="modal" data-target="#eliminar">Eliminar</button>
-
-
-    
-
-              </td>
-
-
-           
-                
-
-            
-
-              </tr>
-
-
-        </tbody>
-
-
-        </table>
-
-
-      </div>
-
-
-
-
-
-
-
-
-
-
-
-
+	<script src="/static/js/app.v1.js"></script>	
+	<script src="/static/js/angular.js"></script>
+  	<script src="/static/js/angular-cookie.js"></script>
+  	<script src="/static/js/usuario.js"></script>
+  	<script src="/static/js/empresa.js"></script>
+  	<script src="/static/js/sweetalert.js"></script>
+  	
 </body>
 
 </html>
