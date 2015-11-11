@@ -1141,6 +1141,7 @@ pre code {
 }@media (min-width:992px) {
     .container {
     width: 970px;
+    margin-top: 5em;
 }
 }@media (min-width:1200px) {
     .container {
@@ -3327,7 +3328,7 @@ select[multiple].input-group-sm>.form-control, select[multiple].input-group-sm>.
 }
 }.navbar-default {
     background-color: #b71c1c ;
-    /*border-color: #b71c1c ;*/
+    border-color: #b71c1c ;
 }
 .navbar-default .navbar-brand {
     color: #FFE1E1;

@@ -88,7 +88,7 @@ def ingresar(request):
 		
 		else:
 
-			return render(request, 'logear.html',{})
+			return render(request, 'signin.html',{})
 
 
 @login_required(login_url="/ingresar")
