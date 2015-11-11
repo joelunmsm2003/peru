@@ -158,6 +158,11 @@ def monitoreo(request,id):
 	campania = Campania.objects.get(id=id)
 	return render(request, 'monitoreo.html',{'campania':campania})
 
+@login_required(login_url="/ingresar")
+def reportes(request,id):
+	campania = Campania.objects.get(id=id)
+	return render(request, 'reportes.html',{'campania':campania})
+
 
 @login_required(login_url="/ingresar")
 def agentes(request,id_campania):
@@ -207,6 +212,20 @@ def agregarfiltro(request):
 
 		print 'data',data
 
+
+		return HttpResponse(data, content_type="application/json")
+
+@login_required(login_url="/ingresar")
+def eliminarfiltro(request):
+
+	if request.method == 'POST':
+
+		dato= json.loads(request.body)['dato']
+
+
+		print dato
+
+		#data = Base.objects.filter(ciudad=ciudad,segmento=segmento,grupo=grupo).values('id','ciudad','segmento','grupo').count()
 
 		return HttpResponse(data, content_type="application/json")
 

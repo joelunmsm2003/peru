@@ -171,7 +171,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
             $scope.filtro.push(object)
 
-             swal({   title: "Filtro agregado",   text:"Fonos por barrer: " + r,   timer: 2000,   showConfirmButton: false });
+             swal({   title: "Filtro agregado",   text:"Fonos por barrer: " + r,   timer: 500,   showConfirmButton: false });
 
             console.log($scope.filtro)
 
@@ -206,7 +206,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-            swal({   title: "Asignacion de agentes",   text: data +' quitado',   timer: 2000,   showConfirmButton: false });
+            swal({   title: "Asignacion de agentes",   text: data +' quitado',   timer: 1000,   showConfirmButton: false });
     
     
         })
@@ -220,6 +220,59 @@ function Controller($scope,$http,$cookies,$filter) {
     return Math.ceil($scope.clientes.length / $scope.pageSize);
     
     };
+
+    $scope.eliminar = function(data,index) 
+
+    {
+
+    $scope.model = data
+    $scope.model.index = index
+
+    console.log('index',index)
+    
+    };
+
+    $scope.eliminarfiltro = function(data) 
+
+    {
+
+        $('#eliminar').modal('hide')
+        $('.modal-backdrop').remove();
+
+        console.log('data',data.index)
+
+        $scope.filtro.splice(data.index,1);
+
+        /*
+
+        var todo={
+
+            dato: data,
+            done:false
+        }
+
+        
+
+        $http({
+
+        url: "/eliminarfiltro/",
+        data: todo,
+        method: 'POST',
+        headers: {
+        'X-CSRFToken': $cookies['csrftoken']
+        }
+        }).
+        success(function(data) {
+
+            swal({   title: "Asignacion de agentes",   text: data +' quitado',   timer: 500,   showConfirmButton: false });
+    
+    
+        })
+        */
+
+    
+    };
+
 
 
 

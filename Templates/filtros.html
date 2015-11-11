@@ -10,6 +10,74 @@
 
 <div class="container" ng-controller="Controller">
 
+<div id="eliminar" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <div class="modal-content">
+
+      <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <h4 class="modal-title">Eliminar filtro</h4>
+      </div>
+
+      <div class="modal-body">
+
+      <div class ='row'>
+
+      <div class="col-md-5">
+     
+      <h4>Desea eliminar filtro :</h4>
+
+      </div>
+
+      <div class="col-md-7">
+ 
+       <table class="table table-striped table-condensed table-hover table-bordered ">
+                      <tbody>
+
+                      <thead>
+                          <tr>
+                        
+                          <th >Ciudad </th>
+                          <th >Segmento </th>   
+                          <th >Grupo </th> 
+                          
+                          
+                          </tr>
+                      </thead>
+                       
+                      <tr>
+                          
+                
+                  
+                      <td>{[{model.ciudad}]}</td>
+                      <td>{[{model.segmento}]}</td>
+                      <td>{[{model.grupo}]}</td>
+                     
+                      
+                  
+
+                      </tr>
+
+
+                      </tbody>
+                  </table>
+
+            </div>
+
+          </div>
+
+      </div>
+
+      <div class="modal-footer">
+      <button class="btn" data-dismiss="modal">Cerrar</button>
+      <button type="submit" ng-click="eliminarfiltro(model)" class="btn btn-primary">Eliminar</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 {% include "header.html" %}
 
 
@@ -23,11 +91,7 @@
 
             <div class="row">
 
-              <div class="col-sm-12">
-              <h5>{{campania.id}}</h5>
-              
-              </div>
-
+          
 
               <div class="col-sm-6">
               
@@ -137,6 +201,9 @@
                       <td>{[{filtro.ciudad}]}</td>
                       <td>{[{filtro.segmento}]}</td>
                       <td>{[{filtro.grupo}]}</td>
+                    
+                      
+
 
                       </tr>
 
@@ -155,6 +222,9 @@
                 </div>
                 
 
+
+                
+
                 <div class="col-sm-12">
 
       
@@ -170,6 +240,7 @@
                           <th >Status H / Grupo </th> 
                           <th >Fono por barrer</th>
                           <th >Fono sin exito </th> 
+                          <th></th>
                           </tr>
                       </thead>
                        
@@ -181,6 +252,8 @@
                       <td>{[{resultado.segmento}]}</td>
                       <td>{[{resultado.grupo}]}</td>
                       <td>{[{resultado.cantidad}]}</td>
+                      <td></td>
+                      <td><a ng-click="eliminar(resultado,$index)" class="btn btn-primary" data-toggle="modal" data-target="#eliminar"><i class="icon-trash"></i> </a></td>
 
                       </tr>
 
@@ -214,6 +287,10 @@
 
 </div>
 
+
+
+
+<!---Modales-->
 
 
 

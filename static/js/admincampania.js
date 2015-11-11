@@ -82,7 +82,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-            swal({   title: "Asignacion de agentes",   text: data +' agregado',   timer: 2000,   showConfirmButton: false });
+            swal({   title: "Asignacion de agentes",   text: data +' agregado',   timer: 1000,   showConfirmButton: false });
     
     
     
@@ -116,7 +116,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-            swal({   title: "Asignacion de agentes",   text: data +' quitado',   timer: 2000,   showConfirmButton: false });
+            swal({   title: "Asignacion de agentes",   text: data +' quitado',   timer: 1000,   showConfirmButton: false });
     
     
         })
