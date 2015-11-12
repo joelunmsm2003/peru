@@ -301,10 +301,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
     $scope.search = function () {
 
-        $http.get("/agentesdisponibles/"+campania).success(function(response) {$scope.usuarios = response;
 
-       
-        });
 
         String.prototype.capitalizeFirstLetter = function() {
 
