@@ -541,11 +541,11 @@ def usuarios(request):
 
 	if nivel == 4: #Manager
 
-		usuarios = AuthUser.objects.all().values('id','username','email','empresa__nombre','nivel__nombre','first_name').order_by('-id')
+		usuarios = AuthUser.objects.all().values('id','telefono','username','email','empresa__nombre','nivel__nombre','first_name').order_by('-id')
 	
 	if nivel == 3: #Agentes
 
-		usuarios = AuthUser.objects.filter(id=id).values('id','username','email','empresa__nombre','nivel__nombre','first_name').order_by('-id')
+		usuarios = AuthUser.objects.filter(id=id).values('id','telefono','username','email','empresa__nombre','nivel__nombre','first_name').order_by('-id')
 
 	if nivel == 2: #Supervisores
 
@@ -567,11 +567,6 @@ def usuarios(request):
 
 		usuarios = AuthUser.objects.filter(empresa=empresa).exclude(nivel=4).values('id','username','email','empresa__nombre','nivel__nombre','first_name').order_by('-id')
 
-	for i in range(len(usuarios)):
-
-		if usuarios[i]['nivel__nombre'] == 'Agente':
-
-			usuarios[i]['supervisor'] = Supervisor.objects.get(id=Agentes.objects.get(user_id=usuarios[i]['id']).supervisor).user.first_name	
 
 	data = json.dumps(ValuesQuerySetToDict(usuarios))
 
@@ -581,17 +576,24 @@ def usuarios(request):
 
 		data = json.loads(request.body)['dato']
 
-		print 'data',json.loads(request.body)
+		print data
 
 		if tipo == "New":
 
 			username = data['username']
-			empresa = data['empresa']
-			email = data['email']
+			telefono = data['telefono']
+
+			if nivel == 4:
+			
+				empresa = data['empresa']
+			else:
+				empresa = empresa.id
+		
 			nivel = data['nivel']
 			password = data['password']
 			
 			nombre=data['nombre']
+
 
 			users = User.objects.all()
 
@@ -599,18 +601,18 @@ def usuarios(request):
 
 			for users in users:
 
-				
-
 				if username == users.username:
 
-					info = username +' ya existe, escoja otro pofavor'
+					info = username +'este correo ya existe, escoja otro pofavor'
 					e = 0
+
+			print 'e',e
 
 			if e == 1:
 
-				info = username + ' ingresado al sistema, gracias'
+				
 
-				user = User.objects.create_user(username=username,email=email,password=password)
+				user = User.objects.create_user(username=username,password=password)
 
 				user.save()
 
@@ -621,14 +623,25 @@ def usuarios(request):
 				usuario.empresa_id = empresa
 				usuario.nivel_id = nivel
 				usuario.first_name = nombre
+				usuario.telefono = telefono
 				usuario.save()
 
+				info = 'Usuario ' + usuario.first_name + ' ingresado al sistema, gracias'
+
+				if nivel == 2: #Asignacion de carteras al supervisor
+
+					supi = Supervisor(user_id=id_user).save()
+
+					id_sup = Supervisor.objects.all().values('id').order_by('-id')[0]['id']
+
+					for i in data['cartera']:
+
+						Supervisorcartera(cartera_id=i['id'],supervisor_id=id_sup).save()
+
 		
-				if nivel == 3:
+				if nivel == 3: # Usuario Agente
 
-					print data['supervisor']
-
-					supervisor = data['supervisor']
+					supervisor = 1 #Por Default agente supervisor = 1 Supervisor Fantasma 
 					Agentes(user_id=id_user).save()
 
 					agente =Agentes.objects.get(user=id_user)

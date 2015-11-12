@@ -21,7 +21,7 @@ class Agentes(models.Model):
     contactadas = models.IntegerField(blank=True, null=True)
     estado = models.ForeignKey('Estado', db_column='estado', blank=True, null=True)
     user = models.ForeignKey('AuthUser', db_column='user', blank=True, null=True)
-    supervisor = models.IntegerField(blank=True, null=True)
+    supervisor = models.ForeignKey('Supervisor', db_column='supervisor', blank=True, null=True)
     disponible = models.IntegerField(blank=True, null=True)
     calificacion = models.IntegerField(blank=True, null=True)
 
@@ -84,6 +84,7 @@ class AuthUser(models.Model):
     date_joined = models.DateTimeField()
     empresa = models.ForeignKey('Empresa', db_column='empresa')
     nivel = models.ForeignKey('Nivel', db_column='nivel')
+    telefono = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False

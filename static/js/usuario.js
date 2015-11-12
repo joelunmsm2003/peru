@@ -37,7 +37,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
 
 
-     $http.get("/empresas").success(function(response) {$scope.empresas = response;
+     $http.get("/empresas").success(function(response) {$scope.empresas = response[0];
 
 
        
@@ -121,6 +121,8 @@ function Controller($scope,$http,$cookies,$filter) {
     $scope.addNew=function(agregar){
 
 
+
+
         console.log('agregar',agregar)
 
         var todo={
@@ -140,8 +142,13 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-        swal({   title: "Perucall",   text: data ,   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "OK",   }, function(){   window.location.href = "/usuario" });
+        $('#myModal').modal('hide')
+        $('.modal-backdrop').remove();
+
+        swal({   title: "Perucall",   text: data ,   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Aceptar",   }, function(){   window.location.href = "/usuario" });
  
+        
+
         $scope.agregar=""
 
         })
@@ -175,7 +182,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-        swal({   title: "Perucall",   text: "Usuario "+data +" editado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Editado",   }, function(){   });
+        swal({   title: "Perucall",   text: "Usuario "+data +" editado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Aceptar",   }, function(){   });
  
         })
 

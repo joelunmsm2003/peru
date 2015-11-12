@@ -62,7 +62,7 @@
         </div>
 
         
-        <div class="col-md-6">
+        <div class="col-md-6" ng-if="user.nivel == 4">
         <div class="form-group">
         <label>Empresa</label>
         <select ng-model="model.empresa" class="form-control" ng-options="cliente.id as cliente.nombre for cliente in empresas" required =""></select>
@@ -78,12 +78,7 @@
         </div>
         </div>
 
-        <div class="col-md-6">
-        <div class="form-group">
-        <label>Supevisor</label>
-        <select ng-model="model.supervisor" class="form-control" ng-options="cliente.id as cliente.user__first_name for cliente in supervisores" required =""></select>
-        </div>
-        </div>
+    
 
 
 
@@ -153,12 +148,13 @@
 
             <tr>
                   <th>Id <a ng-click="sort_by('id',currentPage)"><i class="icon-sort"></i></a></th>
-                  <th>Username <a ng-click="sort_by('username',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th>Email <a ng-click="sort_by('username',currentPage)"><i class="icon-sort"></i></a></th>
 
-                  <th>Email <a ng-click="sort_by('email',currentPage)"><i class="icon-sort"></i></a></th>
-                  <th ng-if="user.nivel == 3">Empresa <a ng-click="sort_by('empresa',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th>Nombre <a ng-click="sort_by('first_name',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th>Telefono <a ng-click="sort_by('telefono',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th ng-if="user.nivel == 4">Empresa <a ng-click="sort_by('empresa',currentPage)"><i class="icon-sort"></i></a></th>
                   <th>Nivel <a ng-click="sort_by('nivel',currentPage)"><i class="icon-sort"></i></a></th>
-                  <th>Supervisor <a ng-click="sort_by('supervisor',currentPage)"><i class="icon-sort"></i></a></th>
+                  
                   <th></th>
         
                         
@@ -195,10 +191,11 @@
 
                 <td data-th="Origen">{[{contact.id}]} </td>
                 <td data-th="Origen">{[{contact.username}]} </td>
-                <td data-th="Destino">{[{contact.email}]}</td>
-                <td ng-if="user.nivel == 3" data-th="Calldate">{[{contact.empresa__nombre}]}</td>
+                <td data-th="Destino">{[{contact.first_name}]}</td>
+                <td data-th="Destino">{[{contact.telefono}]}</td>
+                <td ng-if="user.nivel == 4" data-th="Calldate">{[{contact.empresa__nombre}]}</td>
                 <td data-th="Disposition">{[{contact.nivel__nombre}]}</td>
-                <td data-th="Disposition">{[{contact.supervisor}]}</td>
+                
  
 
                 <td>
@@ -260,8 +257,8 @@
 
                         <div class="col-md-6">
                         <div class="form-group">
-                        <label>Username</label>
-                        <input type="text" ng-change="usuariorepetido(agregar)" ng-model="agregar.username" class="form-control" placeholder="Username" required ="">{[{alerta}]}
+                        <label>Email</label>
+                        <input type="email" ng-change="usuariorepetido(agregar)" ng-model="agregar.username" class="form-control" placeholder="Username" required ="">{[{alerta}]}
                         </div>
                         </div>
 
@@ -282,14 +279,9 @@
 
 
 
-                        <div class="col-md-6">
-                        <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" ng-model="agregar.email" class="form-control" placeholder="Email" required =""  >
-                        </div>
-                        </div>
+                    
 
-                        <div class="col-md-6">
+                        <div class="col-md-6" ng-if="user.nivel == 4 ">
                         <div class="form-group">
                         <label>Empresa</label>
                         <select ng-model="agregar.empresa" class="form-control" ng-options="cliente.id as cliente.nombre for cliente in empresas"></select>
@@ -318,28 +310,29 @@
                           <div class="form-group">
                            <label>Carteras Asignadas</label>
 
-                              <div class='row'>
-
-                                  <div class="col-md-6">
+                      
+                                  <div class="col-md-12">
 
                                         <select class="form-control" id="myselection" multiple="true" ng-model="agregar.cartera" ng-options="c.cartera__nombre for c in carteras"></select>
 
-                                  </div>
+                                 
 
-                                  <div class="col-md-6">
-
-                                        <label>Carteras Seleccionadas</label>
-                                        <ul  ng-repeat="contact in agregar.cartera">
-                                            <li>{[{contact.cartera__nombre}]}</li>
-                                        </ul>
-
-                                  </div>
-
+                      
                               </div>
                             
                           </div>
 
                           </div>
+
+                            <div class="col-md-6" ng-show="nivelcartera">
+                            <div class="form-group">
+                           
+                             <label>Carteras Seleccionadas</label>
+                                        <ul  ng-repeat="contact in agregar.cartera">
+                                            <li>{[{contact.cartera__nombre}]}</li>
+                                        </ul>
+                            </div>
+                            </div>
 
                         
 
