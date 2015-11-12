@@ -202,7 +202,7 @@ def agregarfiltro(request):
 
 		datos= json.loads(request.body)['data']
 
-	
+		print 'agregar filtro',datos
 
 		ciudad = datos['ciudad'] 
 		grupo = datos['grupo']
@@ -419,6 +419,7 @@ def agentesdisponibles(request,id_campania):
 
 		agentes[i]['name'] = Agentes.objects.get(id=agentes[i]['id']).user.first_name
 		agentes[i]['estado'] = Agentes.objects.get(id=agentes[i]['id']).estado.nombre
+		agentes[i]['agente'] = agentes[i]['id']
 
 	data_dict = ValuesQuerySetToDict(agentes)
 

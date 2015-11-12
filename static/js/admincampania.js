@@ -34,7 +34,11 @@ function Controller($scope,$http,$cookies,$filter) {
        
     });
 
-     $http.get("/agentescampania/"+campania).success(function(response) {$scope.usuarioscampania = response;
+     $http.get("/agentescampania/"+campania).success(function(response) {
+
+
+        $scope.usuarioscampania = response;
+        $scope.agentesc =response
 
         
 
@@ -102,10 +106,12 @@ function Controller($scope,$http,$cookies,$filter) {
 
     {
 
+        console.log('quitar',contact)
+
     $scope.usuarios.push(contact);
     $scope.usuarioscampania.splice(index,1);
 
-            var todo={
+        var todo={
 
             campania: campania,
             dato: contact,
@@ -324,13 +330,35 @@ function Controller($scope,$http,$cookies,$filter) {
 
         console.log($scope.usuarios)
 
-        
 
-        
-
-        
 
     };
+
+        $scope.search1 = function () {
+
+
+
+        String.prototype.capitalizeFirstLetter = function() {
+
+        return this.charAt(0).toUpperCase() + this.slice(1);
+
+        }
+
+        var output = {};
+
+        obj = $filter('filter')($scope.agentesc,$scope.tipo)
+
+        $scope.contador2 = ObjectLength(obj)
+       
+
+        $scope.usuarioscampania = $filter('filter')($scope.agentesc,$scope.tipo);
+
+        console.log($scope.usuarios)
+
+
+
+    };
+
 
 
     function ObjectLength( object ) {

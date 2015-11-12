@@ -47,8 +47,6 @@ function Controller($scope,$http,$cookies,$filter) {
     };
 
 
-
-
     
     $http.get("/ciudad/").success(function(response) {$scope.ciudad = response;
 
@@ -127,28 +125,15 @@ function Controller($scope,$http,$cookies,$filter) {
 
 
 
-      $scope.filtrar = function(data) 
+      $scope.filtrado = function(datospositivos) 
 
     {   
-        var convArrToObj = function(array){
-
-                var thisEleObj = new Object();
-                if(typeof array == "object"){
-                for(var i in array){
-                var thisEle = convArrToObj(array[i]);
-                thisEleObj[i] = thisEle;
-                }
-                }else {
-                thisEleObj = array;
-                }
-                return thisEleObj;
-        }
-
-        object = convArrToObj(data)
+    
 
         
-        
-      
+        object = datospositivos
+
+        console.log(object)
 
         var todo={
 

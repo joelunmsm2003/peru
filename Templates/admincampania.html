@@ -23,16 +23,16 @@
 
 	<div class="row">
 
-	
+		<div class="col-sm-6">
+		 <h2>Asignacion de Agentes </h2>
+		</div>
 
 
 		<div class="col-sm-6">
 		
 		<h2>Campaña  {{campania.nombre}} </h2>  
 		</div>
-		<div class="col-sm-6">
-		 <h2>Asignacion de Agentes </h2>
-		</div>
+		
 		<div class="col-sm-6">
 		 <p>Supervisor : {{campania.supervisor.user.first_name}}</p>
 		</div>
@@ -121,6 +121,21 @@
 
 
 		<div class="col-sm-6">
+
+			<div class='row'>
+
+				<div class="col-sm-10">
+				<form class="navbar-search pull-left" action="">
+				<input placeholder="Buscar" ng-change="search1()"  type="text" ng-model="tipo" class="form-control" >
+				</form>
+
+				</div>
+
+				<div class="col-sm-2">
+				{[{contador2}]}
+
+				</div>
+			</div>
 	
 				<h4>Usuarios que pertenecen a esta Campaña</h4>
 		

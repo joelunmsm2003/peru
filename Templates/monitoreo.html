@@ -29,12 +29,14 @@
 <div class="jumbotron">
 
   <div class="row">
+
+    <div class="col-sm-6">
+     <h2>Monitoreo de Agentes </h2>
+    </div>
     <div class="col-sm-6">
     <h2>Campaña {{campania.nombre}} </h2>  
     </div>
-    <div class="col-sm-6">
-     <h2>Asignacion de Agentes </h2>
-    </div>
+    
     <div class="col-sm-6">
      <p>Supervisor : {{campania.supervisor.user.first_name}}</p>
     </div>
@@ -79,7 +81,7 @@
             <div class='row'>
             <ul  ng-repeat="contact in agentes " class='active' ts-repeat>
 
-            <div class="col-sm-4">
+            <div class="col-sm-3">
 
                 
                 <div class="panel panel-default">
