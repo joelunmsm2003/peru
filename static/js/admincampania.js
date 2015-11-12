@@ -19,7 +19,11 @@ function Controller($scope,$http,$cookies,$filter) {
     $scope.currentPage = 0;
 
     
-    $http.get("/agentesdisponibles/"+campania).success(function(response) {$scope.usuarios = response;
+    $http.get("/agentesdisponibles/"+campania).success(function(response) {
+
+
+        $scope.usuarios = response;
+        $scope.agentesd =response
 
        
     });
@@ -311,12 +315,12 @@ function Controller($scope,$http,$cookies,$filter) {
 
         var output = {};
 
-        obj = $filter('filter')($scope.usuarios,$scope.tipo)
+        obj = $filter('filter')($scope.agentesd,$scope.tipo)
 
         $scope.contador1 = ObjectLength(obj)
        
 
-        $scope.usuarios = $filter('filter')($scope.usuarios,$scope.tipo);
+        $scope.usuarios = $filter('filter')($scope.agentesd,$scope.tipo);
 
         console.log($scope.usuarios)
 
