@@ -21,8 +21,13 @@ function Controller($scope,$http,$cookies,$filter) {
     
     $http.get("/agentesdisponibles/"+campania).success(function(response) {$scope.usuarios = response;
 
-        console.log('hshhshshs',$scope.usuarios)
+       
+    });
 
+     $http.get("/empresas").success(function(response) {$scope.empresas = response[0];
+
+
+       
     });
 
      $http.get("/agentescampania/"+campania).success(function(response) {$scope.usuarioscampania = response;
@@ -31,11 +36,6 @@ function Controller($scope,$http,$cookies,$filter) {
 
     });
 
-     $http.get("/empresas").success(function(response) {$scope.empresas = response;
-
-
-       
-    });
 
 
 
@@ -60,6 +60,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
     {
 
+    console.log(contact)
 
     $scope.usuarioscampania.push(contact);
     $scope.usuarios.splice(index,1);
@@ -82,7 +83,9 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-            swal({   title: "Asignacion de agentes",   text: data +' agregado',   timer: 1000,   showConfirmButton: false });
+            console.log(data)
+
+            swal({   title: "Peru Call",   text: data[0]['agente__user__first_name'] +' agregado a la campaña ' +data[0]['campania__nombre'] ,   timer: 1500,   showConfirmButton: false });
     
     
     
@@ -116,7 +119,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-            swal({   title: "Asignacion de agentes",   text: data +' quitado',   timer: 1000,   showConfirmButton: false });
+            swal({   title: "Peru Call",   text: data +' quitado de esta campaña',   timer: 1000,   showConfirmButton: false });
     
     
         })
@@ -298,8 +301,10 @@ function Controller($scope,$http,$cookies,$filter) {
 
     $scope.search = function () {
 
-        
-        console.log('search')
+        $http.get("/agentesdisponibles/"+campania).success(function(response) {$scope.usuarios = response;
+
+       
+        });
 
         String.prototype.capitalizeFirstLetter = function() {
 
@@ -309,19 +314,20 @@ function Controller($scope,$http,$cookies,$filter) {
 
         var output = {};
 
-        obj = $filter('filter')($scope.clientes,$scope.tipo)
+        obj = $filter('filter')($scope.usuarios,$scope.tipo)
 
-        $scope.contador = ObjectLength(obj)
+        $scope.contador1 = ObjectLength(obj)
        
-        console.log('$scope.tipo',$scope.tipo)
 
-        $scope.filteredItems = $filter('filter')($scope.clientes,$scope.tipo);
+        $scope.usuarios = $filter('filter')($scope.usuarios,$scope.tipo);
 
-        $scope.currentPage = 0;
+        console.log($scope.usuarios)
 
-        console.log('$scope.filteredItems',$scope.filteredItems)
+        
 
-        $scope.groupToPages();
+        
+
+        
 
     };
 

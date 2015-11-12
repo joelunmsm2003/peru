@@ -314,6 +314,14 @@
                                   <div class="col-md-12">
 
                                         <select class="form-control" id="myselection" multiple="true" ng-model="agregar.cartera" ng-options="c.cartera__nombre for c in carteras"></select>
+                                        <div class="form-group">
+                           
+                                         <label>Carteras Seleccionadas</label>
+                                        <ul  ng-repeat="contact in agregar.cartera">
+                                            <li>{[{contact.cartera__nombre}]}</li>
+                                        </ul>
+
+                                  </div>
 
                                  
 
@@ -324,15 +332,7 @@
 
                           </div>
 
-                            <div class="col-md-6" ng-show="nivelcartera">
-                            <div class="form-group">
-                           
-                             <label>Carteras Seleccionadas</label>
-                                        <ul  ng-repeat="contact in agregar.cartera">
-                                            <li>{[{contact.cartera__nombre}]}</li>
-                                        </ul>
-                            </div>
-                            </div>
+                          
 
                         
 

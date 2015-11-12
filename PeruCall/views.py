@@ -143,9 +143,7 @@ def campania(request):
 	
 	return render(request, 'campania.html',{'supervisor':supervisor,'troncales':troncales})
 
-@login_required(login_url="/ingresar")
-def micampania(request):
-	return render(request, 'micampania.html',{})
+
 
 @login_required(login_url="/ingresar")
 def filtros(request,id):
@@ -402,7 +400,7 @@ def agentesdisponibles(request,id_campania):
 
 	nivel = AuthUser.objects.get(id=id).nivel.id
 
-	supervisor = Campania.objects.get(id=id_campania).supervisor
+	empresa = AuthUser.objects.get(id=id).empresa.id
 
 	agentescampania = Agentescampanias.objects.filter(campania=id_campania)
 
@@ -410,19 +408,17 @@ def agentesdisponibles(request,id_campania):
 
 	for a in agentescampania:
 
-		print a.agente
-
 		lista.append(a.agente.id) 
 
 	print lista
 
-	agentes = Agentes.objects.filter(supervisor=supervisor).exclude(id__in=lista).values('id')
+	agentes = Agentes.objects.filter(user__empresa__id=empresa).exclude(id__in=lista).values('id')
+
 
 	for i in range(len(agentes)):
 
-		agentes[i]['name'] = Agentes.objects.get(id=agentes[i]['id']).user.username
+		agentes[i]['name'] = Agentes.objects.get(id=agentes[i]['id']).user.first_name
 		agentes[i]['estado'] = Agentes.objects.get(id=agentes[i]['id']).estado.nombre
-	
 
 	data_dict = ValuesQuerySetToDict(agentes)
 
@@ -437,13 +433,11 @@ def agentescampania(request,id_campania):
 
 	nivel = AuthUser.objects.get(id=id).nivel.id
 
-	supervisor = Campania.objects.get(id=id_campania).supervisor
-
-	agentes = Agentescampanias.objects.filter(agente__supervisor=supervisor,campania=id_campania).values('id','agente')
+	agentes = Agentescampanias.objects.filter(campania=id_campania).values('id','agente','campania__nombre')
 
 	for i in range(len(agentes)):
 
-		agentes[i]['name'] = Agentescampanias.objects.get(id=agentes[i]['id']).agente.user.username
+		agentes[i]['name'] = Agentescampanias.objects.get(id=agentes[i]['id']).agente.user.first_name
 		agentes[i]['estado'] = Agentescampanias.objects.get(id=agentes[i]['id']).agente.estado.nombre
 
 	data_dict = ValuesQuerySetToDict(agentes)
@@ -466,9 +460,13 @@ def agregaragente(request):
 
 		Agentescampanias(agente_id=id_agente,campania_id=campania).save()
 
-		agente = Agentes.objects.get(id=id_agente)
+		id_ac = Agentescampanias.objects.all().values('id').order_by('-id')[0]['id']
 
-		return HttpResponse(agente.user.username, content_type="application/json")
+		data = Agentescampanias.objects.filter(id=id_ac).values('id','agente__user__first_name','campania__nombre')
+
+		data = json.dumps(ValuesQuerySetToDict(data))
+
+		return HttpResponse(data, content_type="application/json")
 
 @login_required(login_url="/ingresar")
 def quitaragente(request):
@@ -488,7 +486,7 @@ def quitaragente(request):
 		Agentescampanias.objects.filter(agente=agente.id,campania=campania).delete()
 
 
-		return HttpResponse(agente.user.username, content_type="application/json")
+		return HttpResponse(agente.user.first_name, content_type="application/json")
 
 @login_required(login_url="/ingresar")
 def supervisores(request):
