@@ -8,7 +8,6 @@ $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
 function Controller($scope,$http,$cookies,$filter) {
 
 
-    campania = window.location.href.split("filtros/")[1].split("/")[0]
     var sortingOrder ='-id';
     $scope.sortingOrder = sortingOrder;
     $scope.reverse = false;
@@ -18,51 +17,41 @@ function Controller($scope,$http,$cookies,$filter) {
     $scope.pagedItems = [];
     $scope.currentPage = 0;
 
-    $scope.filtro = []
-
-
-     $scope.statusA = function(contact) 
-
-    {
-
-        $scope.filtro.ciudad = contact.nombre
     
-    };
-
-     $scope.statusB = function(contact) 
-
-    {
-        $scope.filtro.segmento = contact.nombre
-
-    
-    };
-
-     $scope.statusC = function(contact) 
-
-    {
-        $scope.filtro.grupo = contact.nombre
-
-        console.log($scope.filtro)
-    
-    };
 
 
-    
-    $http.get("/ciudad/").success(function(response) {$scope.ciudad = response;
+     $http.get("/supervisores").success(function(response) {$scope.supervisores = response;
 
-     
+   
 
     });
-    $http.get("/grupo/").success(function(response) {$scope.grupo = response;});
-    $http.get("/segmento/").success(function(response) {$scope.segmento = response;});
+          $http.get("/troncales").success(function(response) {$scope.troncales = response[0];
+
+        console.log('trncales',$scope.troncales)
+       
+    });
 
 
-     $http.get("/empresas").success(function(response) {$scope.empresas = response;
+
+     $http.get("/empresas").success(function(response) {$scope.empresas = response[0];
 
 
        
     });
 
+       $http.get("/empresas").success(function(response) {$scope.empresasm = response;
+
+
+       
+    });
+
+    $http.get("/carteras/").success(function(response) {$scope.clientes = response;
+
+        $scope.search()
+
+
+       
+    });
 
 
 
@@ -74,153 +63,12 @@ function Controller($scope,$http,$cookies,$filter) {
 
     });
 
-    $http.get("/listafiltros/"+campania).success(function(response) {$scope.listafiltros = response;
-
-      
-
-    });
-
 
     $http.get("/nivel").success(function(response) {$scope.nivel = response;
 
         console.log('$scope.nivel',$scope.nivel)
 
     });
-
-
-    $scope.agregar = function(index,contact) 
-
-    {
-
-
-    $scope.usuarioscampania.push(contact);
-    $scope.usuarios.splice(index,1);
-
-        var todo={
-
-            campania: campania,
-            dato: contact,
-            done:false
-        }
-
-        $http({
-
-        url: "/agregaragente/",
-        data: todo,
-        method: 'POST',
-        headers: {
-        'X-CSRFToken': $cookies['csrftoken']
-        }
-        }).
-        success(function(data) {
-
-            swal({   title: "Asignacion de agentes",   text: data +' agregado',   timer: 2000,   showConfirmButton: false });
-    
-    
-    
-        })
-
-    
-    };
-
-
-        
-
-
-
-
-
-
-      $scope.filtrado = function(dato) 
-
-    {   
-
-        var convArrToObj = function(array){
-
-                var thisEleObj = new Object();
-                if(typeof array == "object"){
-                for(var i in array){
-                var thisEle = convArrToObj(array[i]);
-                thisEleObj[i] = thisEle;
-                }
-                }else {
-                thisEleObj = array;
-                }
-                return thisEleObj;
-        }
-        object = convArrToObj(dato)
-    
-    
-
-        
-        
-
-        console.log(object.ciudad)
-
-        var todo={
-
-            campania:campania,
-            segmento:dato.segmento,
-            grupo:dato.grupo,
-            ciudad:dato.ciudad,
-            done:false
-        }
-
-        $http({
-
-        url: "/agregarfiltro/",
-        data: todo,
-        method: 'POST',
-        headers: {
-        'X-CSRFToken': $cookies['csrftoken']
-        }
-        }).
-        success(function(r) {
-
-            object.cantidad = r
-
-            
-
-            swal({   title: "Perucall Fitros",   text: r +" registros por barrer",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Agregado",   }, function(){   window.location.href = "/filtros/"+campania });
-
-
-        })
-
-    
-    };
-
-
-    $scope.quitar = function(index,contact) 
-
-    {
-
-    $scope.usuarios.push(contact);
-    $scope.usuarioscampania.splice(index,1);
-
-            var todo={
-
-            campania: campania,
-            dato: contact,
-            done:false
-        }
-
-        $http({
-
-        url: "/quitaragente/",
-        data: todo,
-        method: 'POST',
-        headers: {
-        'X-CSRFToken': $cookies['csrftoken']
-        }
-        }).
-        success(function(data) {
-
-            swal({   title: "Asignacion de agentes",   text: data +' quitado',   timer: 1000,   showConfirmButton: false });
-    
-    
-        })
-    
-    };
 
     $scope.numberOfPages = function() 
 
@@ -230,54 +78,39 @@ function Controller($scope,$http,$cookies,$filter) {
     
     };
 
-    $scope.eliminar = function(data,index) 
+
+
+
+    $scope.MyCtrl = function() 
 
     {
 
-    $scope.model = data
-    $scope.model.index = index
+    $scope.agregar.cartera = [$scope.colors[0], $scope.colors[1]];
+    }
 
-    console.log('index',index)
-    
-    };
 
-    $scope.eliminarfiltro = function(data) 
+
+    $scope.nivelcartera= 0
+
+    $scope.nivelp = function(agregar) 
 
     {
 
-        $('#eliminar').modal('hide')
-        $('.modal-backdrop').remove();
+    nivel = agregar['nivel']
 
-        console.log('data',data.index)
 
-        $scope.listafiltros.splice(data.index,1);
-
-        
-
-        var todo={
-
-            dato: data,
-            done:false
-        }
-
-        
-
-        $http({
-
-        url: "/eliminarfiltro/",
-        data: todo,
-        method: 'POST',
-        headers: {
-        'X-CSRFToken': $cookies['csrftoken']
-        }
-        }).
-        success(function(data) {
-
-            swal({   title: "Peru Call ",   text: 'Filtro eliminado :(',   timer: 1500,   showConfirmButton: false });
     
-    
-        })
-        
+    if (nivel ==2){
+
+
+        $scope.nivelcartera = 1
+
+    }
+    else{
+
+        $scope.nivelcartera= 0
+    }
+
 
     
     };
@@ -286,6 +119,8 @@ function Controller($scope,$http,$cookies,$filter) {
 
 
     $scope.addNew=function(agregar){
+
+
 
 
         console.log('agregar',agregar)
@@ -298,7 +133,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }
 
         $http({
-        url: "/usuarios/",
+        url: "/carteras/",
         data: todo,
         method: 'POST',
         headers: {
@@ -307,8 +142,13 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-        swal({   title: "Perucall",   text: "Usuario "+data +" agregado",   type: "success",   confirmButtonColor: "#337ab7",   confirmButtonText: "OK",   }, function(){   window.location.href = "/usuario" });
+        $('#myModal').modal('hide')
+        $('.modal-backdrop').remove();
+
+        swal({   title: "Perucall",   text: 'Cartera '+data+' ingresada al sistema , gracias ',   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Aceptar",   }, function(){   window.location.href = "/cartera" });
  
+        
+
         $scope.agregar=""
 
         })
@@ -333,7 +173,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
 
         $http({
-        url: "/usuarios/",
+        url: "/carteras/",
         data: todo,
         method: 'POST',
         headers: {
@@ -342,7 +182,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-        swal({   title: "Perucall",   text: "Usuario "+data +" editado",   type: "success",   confirmButtonColor: "#337ab7",   confirmButtonText: "OK",   }, function(){   });
+        swal({   title: "Perucall Carteras",   text: "Cartera "+data +" editado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Aceptar",   }, function(){   });
  
         })
 
@@ -369,7 +209,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
 
         $http({
-        url: "/usuarios/",
+        url: "/carteras/",
         data: todo,
         method: 'POST',
         headers: {
@@ -379,6 +219,8 @@ function Controller($scope,$http,$cookies,$filter) {
         success(function(data) {
 
         $scope.contador =$scope.contador-1
+        swal({   title: "Peru Call Carteras",   text: "Cartera  eliminada",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Aceptar",   }, function(){   });
+ 
 
         })
 

@@ -151,6 +151,11 @@ def filtros(request,id):
 	return render(request, 'filtros.html',{'campania':campania})
 
 @login_required(login_url="/ingresar")
+def cartera(request):
+	
+	return render(request, 'cartera.html',{})
+
+@login_required(login_url="/ingresar")
 def adminCampania(request,id_campania):
 	campania = Campania.objects.get(id=id_campania)
 	return render(request, 'admincampania.html',{'campania':campania})
@@ -195,20 +200,62 @@ def agentes(request,id_campania):
 	return HttpResponse(data, content_type="application/json")
 
 
+
+@login_required(login_url="/ingresar")
+def agregarcartera(request):
+
+	if request.method == 'POST':
+
+
+		data= json.loads(request.body)['dato']
+		user=json.loads(request.body)['user']
+
+		id_user = user['id']
+		id_supervisor=Supervisor.objects.get(user_id=id_user).id
+		id_caem=data['id']
+
+		Supervisorcartera(supervisor_id=id_supervisor,cartera_id=id_caem).save()
+
+
+		return HttpResponse('data', content_type="application/json")
+
+
 @login_required(login_url="/ingresar")
 def agregarfiltro(request):
 
 	if request.method == 'POST':
 
-		datos= json.loads(request.body)['data']
+		grupo= json.loads(request.body)['grupo']
+		ciudad= json.loads(request.body)['ciudad']
+		segmento= json.loads(request.body)['segmento']
+		campania = json.loads(request.body)['campania']
 
-		print 'agregar filtro',datos
+		ciudadt = ""
+		grupot = ""
+		segmentot = ""
 
-		ciudad = datos['ciudad'] 
-		grupo = datos['grupo']
-		segmento = datos['segmento']
+		for i in range(len(ciudad)):
 
-		print grupo
+			print ciudad[i]['nombre']
+
+			ciudadt = ciudadt  + ciudad[i]['nombre'] +'/'
+
+		for i in range(len(grupo)):
+
+			print grupo[i]['nombre']
+
+			grupot = grupot  + grupo[i]['nombre'] +'/'
+
+		for i in range(len(segmento)):
+
+			print segmento[i]['nombre']
+
+			segmentot = segmentot  + segmento[i]['nombre'] +'/'
+  
+
+		Filtro(ciudad=ciudadt,grupo=grupot,segmento=segmentot,campania_id=campania).save()
+
+
 
 		data = Base.objects.filter(ciudad=ciudad,segmento=segmento,grupo=grupo).values('id','ciudad','segmento','grupo').count()
 
@@ -222,14 +269,141 @@ def eliminarfiltro(request):
 
 	if request.method == 'POST':
 
-		dato= json.loads(request.body)['dato']
+		id_filtro= json.loads(request.body)['dato']['id']
 
+		Filtro.objects.get(id=id_filtro).delete()
 
 		print dato
 
-		#data = Base.objects.filter(ciudad=ciudad,segmento=segmento,grupo=grupo).values('id','ciudad','segmento','grupo').count()
+		return HttpResponse(id_filtro, content_type="application/json")
+
+@login_required(login_url="/ingresar")
+def carteras(request):
+
+	id = request.user.id
+	nivel = AuthUser.objects.get(id=id).nivel.id
+	empresa = AuthUser.objects.get(id=id).empresa.id
+
+	if request.method == 'GET':
+
+
+
+		if nivel == 1:
+
+			data = Carteraempresa.objects.filter(empresa_id=empresa).values('id','cartera__nombre','empresa__nombre').order_by('-id')
+
+		if nivel == 2:
+
+			data = Carteraempresa.objects.filter(empresa_id=empresa).values('id','cartera__nombre','empresa__nombre').order_by('-id')
+
+		if nivel == 3:
+
+			data = Carteraempresa.objects.filter(empresa_id=empresa).values('id','cartera__nombre','empresa__nombre').order_by('-id')
+
+		if nivel == 4:
+
+			data = Carteraempresa.objects.all().values('id','cartera__nombre','empresa__nombre').order_by('-id')
+
+
+
+		data_dict = ValuesQuerySetToDict(data)
+
+		data = simplejson.dumps(data_dict)
 
 		return HttpResponse(data, content_type="application/json")
+
+	if request.method == 'POST':
+
+		data= json.loads(request.body)['dato']
+		tipo= json.loads(request.body)['add']
+
+		if tipo == 'New':
+
+			Cartera(nombre=data['cartera']).save()
+
+			id_cartera = Cartera.objects.all().values('id').order_by('-id')[0]['id']
+
+			Carteraempresa(cartera_id=id_cartera,empresa_id=empresa).save()
+
+			data = Cartera.objects.get(id=id_cartera)
+
+			return HttpResponse(data.nombre, content_type="application/json")
+
+		if tipo == 'Edit':
+
+			print data
+
+			id_cartera = data['id']
+			cartera = Carteraempresa.objects.get(id=id_cartera).cartera.id
+			cartera = Cartera.objects.get(id=cartera)
+			cartera.nombre = data['cartera__nombre']
+			cartera.save()
+
+			return HttpResponse(cartera.nombre, content_type="application/json")
+
+		if tipo == 'Eliminar':
+
+			print data
+
+			id_cartera = data['id']
+			cartera = Carteraempresa.objects.get(id=id_cartera)
+			
+			cartera.delete()
+
+			return HttpResponse('cartera.nombre', content_type="application/json")
+
+
+
+
+
+@login_required(login_url="/ingresar")
+def listafiltros(request,id_campania):
+
+
+	data = Filtro.objects.filter(campania_id=id_campania).values('id','ciudad','segmento','grupo').order_by('-id')
+
+	data_dict = ValuesQuerySetToDict(data)
+
+	data = simplejson.dumps(data_dict)
+
+	return HttpResponse(data, content_type="application/json")
+
+@login_required(login_url="/ingresar")
+def carterasupervisor(request,id_user):
+
+
+	data = Supervisorcartera.objects.filter(supervisor__user__id=id_user).values('id','supervisor__user__first_name','cartera__nombre').order_by('-id')
+
+	data_dict = ValuesQuerySetToDict(data)
+
+	data = simplejson.dumps(data_dict)
+
+	return HttpResponse(data, content_type="application/json")
+
+@login_required(login_url="/ingresar")
+def carteranosupervisor(request,id_user):
+
+	id = request.user.id
+	nivel = AuthUser.objects.get(id=id).nivel.id
+	empresa = AuthUser.objects.get(id=id).empresa.id
+
+	data = Supervisorcartera.objects.filter(supervisor__user__id=id_user)
+
+	lista=[]
+
+	for x in data:
+
+		lista.append(x.cartera.id)
+
+	print lista
+
+	data = Carteraempresa.objects.filter(empresa_id=empresa).exclude(cartera_id__in=lista).values('id','cartera__nombre','empresa__nombre').order_by('-id')
+
+	data_dict = ValuesQuerySetToDict(data)
+
+	data = simplejson.dumps(data_dict)
+
+	return HttpResponse(data, content_type="application/json")
 
 @login_required(login_url="/ingresar")
 def user(request):
@@ -515,18 +689,6 @@ def supervisores(request):
 
 	return HttpResponse(data, content_type="application/json")
 
-@login_required(login_url="/ingresar")
-def carteras(request):
-
-	id = request.user.id
-
-	empresa = AuthUser.objects.get(id=id).empresa.id
-
-	carteras = Carteraempresa.objects.filter(empresa_id=empresa).values('id','cartera__nombre','empresa__nombre')
-
-	data = json.dumps(ValuesQuerySetToDict(carteras))
-
-	return HttpResponse(data, content_type="application/json")
 
 
 @login_required(login_url="/ingresar")
@@ -564,7 +726,7 @@ def usuarios(request):
 
 	if nivel == 1: #Admin
 
-		usuarios = AuthUser.objects.filter(empresa=empresa).exclude(nivel=4).values('id','username','email','empresa__nombre','nivel__nombre','first_name').order_by('-id')
+		usuarios = AuthUser.objects.filter(empresa=empresa).exclude(nivel=4).values('id','telefono','username','email','empresa__nombre','nivel__nombre','first_name').order_by('-id')
 
 
 	data = json.dumps(ValuesQuerySetToDict(usuarios))
@@ -659,11 +821,11 @@ def usuarios(request):
 
 			print data
 
-			user = User.objects.get(id=id)
+			user = AuthUser.objects.get(id=id)
 			user.username =data['username']
-			user.empresa =data['empresa']
-			user.email = data['email']
-			user.nivel = data['nivel']
+			user.first_name =data['first_name']
+			user.telefono = data['telefono']
+			
 
 			user.save()
 
@@ -672,7 +834,18 @@ def usuarios(request):
 
 			id= data['id']
 
+			print 'jsjsjsjsjsjs',data
+		
+			if data['nivel__nombre']=='Supervisor':
+
+				Supervisor.objects.get(user_id=id).delete()
+
+			if data['nivel__nombre']=='Agente':
+
+				Agentes.objects.get(user_id=id).delete()
+
 			User.objects.get(id=id).delete()
+
 
 
 		return HttpResponse(data['username'], content_type="application/json")

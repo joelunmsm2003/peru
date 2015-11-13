@@ -49,11 +49,9 @@ function Controller($scope,$http,$cookies,$filter) {
        
     });
 
-     $http.get("/carteras").success(function(response) {$scope.carteras = response;
 
 
-       
-    });
+
 
 
 
@@ -75,6 +73,49 @@ function Controller($scope,$http,$cookies,$filter) {
     {
 
     return Math.ceil($scope.clientes.length / $scope.pageSize);
+    
+    };
+
+     $scope.agregarcartera = function(index,contact) 
+
+    {
+
+    
+    console.log($scope.carterasupervisor)
+
+    $scope.carteranosupervisor.splice(index,1);
+
+    $scope.carterasupervisor.push(contact);
+
+    var todo={
+
+            add: "New",
+            user:$scope.model,
+            dato: contact,
+            done:false
+        }
+
+       $http({
+        url: "/agregarcartera/",
+        data: todo,
+        method: 'POST',
+        headers: {
+        'X-CSRFToken': $cookies['csrftoken']
+        }
+        }).
+        success(function(data) {
+
+        $('#myModal').modal('hide')
+        $('.modal-backdrop').remove();
+
+         swal({   title: "Asignacion de agentes",   text: data +' agregado',   timer: 2000,   showConfirmButton: false });
+         
+        $scope.agregar=""
+
+        })
+
+
+
     
     };
 
@@ -163,6 +204,8 @@ function Controller($scope,$http,$cookies,$filter) {
         $('#edit').modal('hide')
         $('.modal-backdrop').remove();
 
+        console.log('modelo',$scope.model)
+
 
         var todo={
 
@@ -219,6 +262,8 @@ function Controller($scope,$http,$cookies,$filter) {
         success(function(data) {
 
         $scope.contador =$scope.contador-1
+        swal({   title: "Perucall",   text: "Usuario "+data +" eliminado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Aceptar",   }, function(){   });
+ 
 
         })
 
@@ -229,6 +274,29 @@ function Controller($scope,$http,$cookies,$filter) {
 
         $scope.index = index;
         $scope.numberPage =currentPage;
+
+        console.log(contact)
+
+        $http.get("/carterasupervisor/"+contact.id).success(function(response) {
+
+        $scope.carterasupervisor = response;
+
+        console.log('hshhshshs',$scope.carterasupervisor)
+
+        });
+
+        $http.get("/carteranosupervisor/"+contact.id).success(function(response) {
+
+        $scope.carteranosupervisor = response;
+
+        console.log('hshhshshs',$scope.carterasupervisor)
+
+        });
+
+
+
+
+
         $scope.model = angular.copy(contact);
         console.log('edit',$scope.model);
 

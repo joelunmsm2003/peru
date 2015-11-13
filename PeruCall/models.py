@@ -272,6 +272,18 @@ class Estado(models.Model):
         db_table = 'estado'
 
 
+class Filtro(models.Model):
+    id = models.IntegerField(primary_key=True)  # AutoField?
+    campania = models.ForeignKey(Campania, db_column='campania', blank=True, null=True)
+    ciudad = models.CharField(max_length=100, blank=True)
+    segmento = models.CharField(max_length=100, blank=True)
+    grupo = models.CharField(max_length=100, blank=True)
+
+    class Meta:
+        managed = False
+        db_table = 'filtro'
+
+
 class Grupo(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
     nombre = models.CharField(max_length=100, blank=True)
