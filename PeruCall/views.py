@@ -502,7 +502,16 @@ def uploadCampania(request):
 
 		id_campania = Campania.objects.all().values('id').order_by('-id')[0]['id']
 
+		archivo  = Campania.objects.get(id=id_campania).archivo
+
+
 		xls_name = '/var/www/html/'+str(archivo)
+
+		print xls_name
+
+		
+		
+		a ={}
 
 		book = xlrd.open_workbook(xls_name)
 
@@ -514,15 +523,30 @@ def uploadCampania(request):
 
 			for col in range(sh.ncols):
 
-				print rox
+				a[col] = str(sh.row(rx)[col])
 
+				a[col] = a[col].split(':')
 
+				a[col]= a[col][1][0:150]
 
+				a[col] = a[col].replace("u'","")
 
+				a[col] = a[col].replace("'","")
 
-				
+			telefono = a[0].replace(".0","")
+			orden = a[1].replace(".0","")
+			cliente = a[2]
+			id_cliente = a[3]
+			producto = a[4]
+			tarjeta = a[5]
+			deuda = a[6]
+			descuento =a[7]
+			diasmora= a[8].replace(".0","")
+			ciudad=a[9]
+			segmento= a[10]
+			grupo = a[11]
 
-		#Base()
+			Base(telefono=telefono,orden=orden,cliente=cliente,id_cliente=id_cliente,producto=producto,tarjeta=tarjeta,deuda=deuda,descuento=descuento,diasmora=diasmora,ciudad=ciudad,segmento=segmento,grupo=grupo).save()
 
 	return HttpResponseRedirect("/adminCampania/"+str(id_campania))
 

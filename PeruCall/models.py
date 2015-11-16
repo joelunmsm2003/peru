@@ -113,19 +113,19 @@ class AuthUserUserPermissions(models.Model):
 
 class Base(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
-    telefono = models.IntegerField(blank=True, null=True)
-    orden = models.IntegerField(blank=True, null=True)
+    telefono = models.CharField(max_length=100, blank=True)
+    orden = models.CharField(max_length=100, blank=True)
     cliente = models.CharField(max_length=100, blank=True)
-    id_cliente = models.IntegerField(blank=True, null=True)
+    id_cliente = models.CharField(max_length=100, blank=True)
     producto = models.CharField(max_length=100, blank=True)
     tarjeta = models.CharField(max_length=100, blank=True)
     deuda = models.CharField(max_length=100, blank=True)
     descuento = models.CharField(max_length=100, blank=True)
-    diasmora = models.IntegerField(blank=True, null=True)
+    diasmora = models.CharField(max_length=100, blank=True)
     ciudad = models.CharField(max_length=100, blank=True)
     segmento = models.CharField(max_length=100, blank=True)
     grupo = models.CharField(max_length=100, blank=True)
-    status = models.IntegerField(blank=True, null=True)
+    status = models.CharField(max_length=100, blank=True)
 
     class Meta:
         managed = False
@@ -156,7 +156,7 @@ class Campania(models.Model):
     mxllamada = models.IntegerField()
     llamadaxhora = models.IntegerField()
     hombreobjetivo = models.IntegerField()
-    archivo = models.CharField(max_length=100)
+    archivo = models.FileField(upload_to='files')
     supervisor = models.ForeignKey('Supervisor', db_column='supervisor', blank=True, null=True)
 
     class Meta:
