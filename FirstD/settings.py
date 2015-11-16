@@ -90,7 +90,7 @@ WSGI_APPLICATION = 'FirstD.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', 
-        'NAME': 'PeruCall',
+        'NAME': 'perucall',
         'USER': 'root',
         'PASSWORD': 's3rv3r',
         'HOST': 'xiencias.com',   # Or an IP Address that your DB is hosted on
