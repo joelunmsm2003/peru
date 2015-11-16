@@ -502,6 +502,28 @@ def uploadCampania(request):
 
 		id_campania = Campania.objects.all().values('id').order_by('-id')[0]['id']
 
+		xls_name = '/var/www/html/'+str(archivo)
+
+		book = xlrd.open_workbook(xls_name)
+
+		sh = book.sheet_by_index(0)
+		
+		date =datetime.now()
+
+		for rx in range(sh.nrows):
+
+			for col in range(sh.ncols):
+
+				print rox
+
+
+
+
+
+				
+
+		#Base()
+
 	return HttpResponseRedirect("/adminCampania/"+str(id_campania))
 
 
