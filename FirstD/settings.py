@@ -93,7 +93,7 @@ DATABASES = {
         'NAME': 'perucall',
         'USER': 'root',
         'PASSWORD': '123',
-        'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
+        'HOST': '127.0.0.1',   # Or an IP Address that your DB is hosted on
         'PORT': '3306',
     }
 }

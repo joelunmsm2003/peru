@@ -210,14 +210,16 @@ def agregarcartera(request):
 		data= json.loads(request.body)['dato']
 		user=json.loads(request.body)['user']
 
+		print data
 		id_user = user['id']
 		id_supervisor=Supervisor.objects.get(user_id=id_user).id
 		id_caem=data['id']
+		id_cartera = Carteraempresa.objects.get(id=id_caem).cartera.id
 
-		Supervisorcartera(supervisor_id=id_supervisor,cartera_id=id_caem).save()
+		data = Cartera.objects.get(id=id_cartera).nombre
 
-
-		return HttpResponse('data', content_type="application/json")
+		Supervisorcartera(supervisor_id=id_supervisor,cartera_id=id_cartera).save()
+		return HttpResponse(data, content_type="application/json")
 
 
 @login_required(login_url="/ingresar")
@@ -387,6 +389,7 @@ def carteranosupervisor(request,id_user):
 	nivel = AuthUser.objects.get(id=id).nivel.id
 	empresa = AuthUser.objects.get(id=id).empresa.id
 
+	
 	data = Supervisorcartera.objects.filter(supervisor__user__id=id_user)
 
 	lista=[]
@@ -396,6 +399,8 @@ def carteranosupervisor(request,id_user):
 		lista.append(x.cartera.id)
 
 	print lista
+
+	
 
 	data = Carteraempresa.objects.filter(empresa_id=empresa).exclude(cartera_id__in=lista).values('id','cartera__nombre','empresa__nombre').order_by('-id')
 
