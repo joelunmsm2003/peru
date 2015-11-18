@@ -346,12 +346,12 @@ function Controller($scope,$http,$cookies,$filter) {
 
         var output = {};
 
-        obj = $filter('filter')($scope.agentesc,$scope.tipo)
+        obj = $filter('filter')($scope.agentesc,$scope.tipo1)
 
         $scope.contador2 = ObjectLength(obj)
        
 
-        $scope.usuarioscampania = $filter('filter')($scope.agentesc,$scope.tipo);
+        $scope.usuarioscampania = $filter('filter')($scope.agentesc,$scope.tipo1);
 
         console.log($scope.usuarios)
 
