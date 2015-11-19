@@ -170,6 +170,11 @@ def reportes(request,id):
 	campania = Campania.objects.get(id=id)
 	return render(request, 'reportes.html',{'campania':campania})
 
+@login_required(login_url="/ingresar")
+def menu(request):
+	
+	return render(request, 'menu.html',{})
+
 
 @login_required(login_url="/ingresar")
 def agentes(request,id_campania):
@@ -257,11 +262,7 @@ def agregarfiltro(request):
 
 		Filtro(ciudad=ciudadt,grupo=grupot,segmento=segmentot,campania_id=campania).save()
 
-
-
 		data = Base.objects.filter(ciudad=ciudad,segmento=segmento,grupo=grupo).values('id','ciudad','segmento','grupo').count()
-
-		print 'data',data
 
 
 		return HttpResponse(data, content_type="application/json")
@@ -287,8 +288,6 @@ def carteras(request):
 	empresa = AuthUser.objects.get(id=id).empresa.id
 
 	if request.method == 'GET':
-
-
 
 		if nivel == 1:
 
@@ -663,6 +662,9 @@ def agentescampania(request,id_campania):
 
 	for i in range(len(agentes)):
 
+
+		print agentes[i]['id']
+
 		agentes[i]['name'] = Agentescampanias.objects.get(id=agentes[i]['id']).agente.user.first_name
 		agentes[i]['estado'] = Agentescampanias.objects.get(id=agentes[i]['id']).agente.estado.nombre
 
@@ -672,7 +674,7 @@ def agentescampania(request,id_campania):
 
 	return HttpResponse(data, content_type="application/json")
 
-
+'''
 @login_required(login_url="/ingresar")
 def agregaragente(request):
 
@@ -693,6 +695,31 @@ def agregaragente(request):
 		data = json.dumps(ValuesQuerySetToDict(data))
 
 		return HttpResponse(data, content_type="application/json")
+
+'''
+@login_required(login_url="/ingresar")
+def agregaragente(request):
+
+	if request.method == 'POST':
+
+		data= json.loads(request.body)['dato']
+
+		campania = json.loads(request.body)['campania'] 
+
+		print data
+
+		for data in data:
+
+			id_agente = data['agente']
+
+			Agentescampanias(agente_id=id_agente,campania_id=campania).save()
+
+
+		
+		
+
+		return HttpResponse('data', content_type="application/json")
+
 
 @login_required(login_url="/ingresar")
 def quitaragente(request):

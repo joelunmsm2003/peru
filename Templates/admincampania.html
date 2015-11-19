@@ -70,15 +70,22 @@
 				</div>
 			</div>
 
-  	 				<h4>Usuarios Disponibles</h4>
-		
+  	 		<h4>Usuarios Disponibles</h4>
+
+
+
+						
+
+  	 		<a ng-click="agregaruser()" class="btn btn-primary" >Agregar</a>
+
+			<br></br>
 			<table class="table table-striped table-condensed table-hover ">
 			<tbody>
 
 			 <thead>
 
-            <tr>
-           
+            	
+           		<th >Selecccionar </th>
                 <th >Estado </th>
                 <th >Nombre</th>
                 
@@ -93,14 +100,12 @@
             </thead>
             <tr  ng-repeat="contact in usuarios " class='active' ts-repeat>
 
-                
+                <td><input type="checkbox" ng-model='contact.seleccionar' ng-change="add($index,contact)"></td>
                 <td>{[{contact.estado}]}</td>
                 <td>{[{contact.name}]}</td>
-
-                
                 <td>
              
-                  <a ng-click="agregar($index,contact)" class="btn btn-primary" >Agregar</a>
+                  <!--<a ng-click="agregar($index,contact,seleccionar)" class="btn btn-primary" >Agregar</a>-->
 
                 </td>
 

@@ -63,12 +63,65 @@ function Controller($scope,$http,$cookies,$filter) {
 
     });
 
+    $scope.todo = []
 
-    $scope.agregar = function(index,contact) 
+    $scope.add = function(index,contact) 
 
     {
 
-    console.log(contact)
+        
+
+        
+        console.log($scope.usuarios);
+        
+        $scope.tipox = "true"
+        
+
+       
+    }
+
+    $scope.agregaruser = function() 
+
+    {
+        $scope.usuariosp = $filter('filter')($scope.usuarios,$scope.tipox);
+
+        console.log($scope.usuariosp)
+
+        var todo={
+
+            campania: campania,
+            dato: $scope.usuariosp,
+            done:false
+        }
+
+        $http({
+
+        url: "/agregaragente/",
+        data: todo,
+        method: 'POST',
+        headers: {
+        'X-CSRFToken': $cookies['csrftoken']
+        }
+        }).
+        success(function(data) {
+
+            console.log(data)
+
+            swal({   title: "Peru Call",   text: data[0]['agente__user__first_name'] +' agregado a la campaña ' +data[0]['campania__nombre'] ,   timer: 1500,   showConfirmButton: false });
+    
+    
+    
+        })
+
+
+    }
+
+
+    $scope.agregar = function(index,contact,seleccionar) 
+
+    {
+
+    console.log('contact',contact,seleccionar)
 
     $scope.usuarioscampania.push(contact);
     $scope.usuarios.splice(index,1);
