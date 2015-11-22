@@ -495,7 +495,7 @@ def uploadCampania(request):
 		now = datetime.now()
 		archivo =  request.FILES['process_file']
 
-		Campania(supervisor_id=supervisor,usuario_id=id,fecha_cargada= now,archivo = archivo,troncal=troncal,canales=canales,htinicio=inicio,htfin=fin,nombre=nombre,timbrados=timbrados,llamadaxhora=llamadaxhora,hombreobjetivo=hombreobjetivo,mxllamada=mxllamada).save()
+		Campania(supervisor_id=supervisor,usuario_id=id,fecha_cargada= now,archivo = archivo,canales=canales,htinicio=inicio,htfin=fin,nombre=nombre,timbrados=timbrados,llamadaxhora=llamadaxhora,hombreobjetivo=hombreobjetivo,mxllamada=mxllamada).save()
 
 		id_campania = Campania.objects.all().values('id').order_by('-id')[0]['id']
 
