@@ -324,6 +324,7 @@ def carteras(request):
 
 			id_cartera = Cartera.objects.all().values('id').order_by('-id')[0]['id']
 
+
 			Carteraempresa(cartera_id=id_cartera,empresa_id=empresa).save()
 
 			data = Cartera.objects.get(id=id_cartera)
@@ -482,9 +483,6 @@ def uploadCampania(request):
 
 		data = request.POST
 
-		print 'dataaaaaaaaaaaaaaaaaa',data
-
-		troncal = data['troncal']
 		canales = data['canales']
 		inicio = data['inicio']
 		fin = data['fin']
@@ -616,6 +614,23 @@ def nivel(request):
 
 	return HttpResponse(data, content_type="application/json")
 
+@login_required(login_url="/ingresar")
+def base(request):
+
+	id = request.user.id
+
+	empresa = AuthUser.objects.get(id=id).empresa.id
+
+
+	base = Base.objects.filter(id_cliente=empresa,status=1).values('id','telefono','orden','producto','id_cliente','tarjeta','deuda','descuento','diasmora',)
+
+
+	data_dict = ValuesQuerySetToDict(base)
+
+	data = simplejson.dumps(data_dict)
+
+	return HttpResponse(data, content_type="application/json")
+
 
 @login_required(login_url="/ingresar")
 def agentesdisponibles(request,id_campania):
@@ -674,29 +689,6 @@ def agentescampania(request,id_campania):
 
 	return HttpResponse(data, content_type="application/json")
 
-'''
-@login_required(login_url="/ingresar")
-def agregaragente(request):
-
-	if request.method == 'POST':
-
-		data= json.loads(request.body)['dato']
-
-		campania = json.loads(request.body)['campania']
-
-		id_agente = data['id']
-
-		Agentescampanias(agente_id=id_agente,campania_id=campania).save()
-
-		id_ac = Agentescampanias.objects.all().values('id').order_by('-id')[0]['id']
-
-		data = Agentescampanias.objects.filter(id=id_ac).values('id','agente__user__first_name','campania__nombre')
-
-		data = json.dumps(ValuesQuerySetToDict(data))
-
-		return HttpResponse(data, content_type="application/json")
-
-'''
 @login_required(login_url="/ingresar")
 def agregaragente(request):
 
@@ -714,10 +706,6 @@ def agregaragente(request):
 
 			Agentescampanias(agente_id=id_agente,campania_id=campania).save()
 
-
-		
-		
-
 		return HttpResponse('data', content_type="application/json")
 
 
@@ -730,13 +718,14 @@ def quitaragente(request):
 
 		campania = json.loads(request.body)['campania']
 
-		id_agente = data['agente']
+		for data in data:
 
-		print 'agente',id_agente
+			id_agente = data['agente']
 
-		agente = Agentes.objects.get(id=id_agente)
+			agente = Agentes.objects.get(id=id_agente)
 
-		Agentescampanias.objects.filter(agente=agente.id,campania=campania).delete()
+			Agentescampanias.objects.filter(agente=agente.id,campania=campania).delete()
+
 
 
 		return HttpResponse(agente.user.first_name, content_type="application/json")
@@ -827,6 +816,8 @@ def usuarios(request):
 				empresa = data['empresa']
 			else:
 				empresa = empresa.id
+
+			print empresa
 		
 			nivel = data['nivel']
 			password = data['password']
@@ -842,7 +833,7 @@ def usuarios(request):
 
 				if username == users.username:
 
-					info = username +'este correo ya existe, escoja otro pofavor'
+					info = username +' este correo ya existe, escoja otro pofavor'
 					e = 0
 
 			print 'e',e
@@ -880,11 +871,11 @@ def usuarios(request):
 		
 				if nivel == 3: # Usuario Agente
 
-					supervisor = 1 #Por Default agente supervisor = 1 Supervisor Fantasma 
+					
 					Agentes(user_id=id_user).save()
 
 					agente =Agentes.objects.get(user=id_user)
-					agente.supervisor_id = supervisor
+					
 					agente.atendidas = 0
 					agente.contactadas =0
 					agente.estado_id = 1
@@ -912,7 +903,6 @@ def usuarios(request):
 
 			id= data['id']
 
-			print 'jsjsjsjsjsjs',data
 		
 			if data['nivel__nombre']=='Supervisor':
 

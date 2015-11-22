@@ -145,7 +145,7 @@ function Controller($scope,$http,$cookies,$filter) {
         $('#myModal').modal('hide')
         $('.modal-backdrop').remove();
 
-        swal({   title: "Perucall",   text: 'Cartera '+data+' ingresada al sistema , gracias ',   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Aceptar",   }, function(){   window.location.href = "/cartera" });
+        swal({   title: $scope.empresas.nombre,   text: 'Cartera '+data+' ingresada al sistema , gracias ',   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Aceptar",   }, function(){   window.location.href = "/cartera" });
  
         
 
@@ -182,7 +182,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-        swal({   title: "Perucall Carteras",   text: "Cartera "+data +" editado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Aceptar",   }, function(){   });
+        swal({   title: $scope.empresas.nombre,   text: "Cartera "+data +" editado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Aceptar",   }, function(){   });
  
         })
 
@@ -219,7 +219,7 @@ function Controller($scope,$http,$cookies,$filter) {
         success(function(data) {
 
         $scope.contador =$scope.contador-1
-        swal({   title: "Peru Call Carteras",   text: "Cartera  eliminada",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Aceptar",   }, function(){   });
+        swal({   title: $scope.empresas.nombre,   text: "Cartera  eliminada",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Aceptar",   }, function(){   });
  
 
         })

@@ -73,15 +73,15 @@ class AuthPermission(models.Model):
 class AuthUser(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
     password = models.CharField(max_length=128)
-    last_login = models.DateTimeField()
-    is_superuser = models.IntegerField()
+    last_login = models.DateTimeField(blank=True, null=True)
+    is_superuser = models.IntegerField(blank=True, null=True)
     username = models.CharField(unique=True, max_length=30)
     first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
-    email = models.CharField(max_length=75)
-    is_staff = models.IntegerField()
-    is_active = models.IntegerField()
-    date_joined = models.DateTimeField()
+    last_name = models.CharField(max_length=30, blank=True)
+    email = models.CharField(max_length=75, blank=True)
+    is_staff = models.IntegerField(blank=True, null=True)
+    is_active = models.IntegerField(blank=True, null=True)
+    date_joined = models.DateTimeField(blank=True, null=True)
     empresa = models.ForeignKey('Empresa', db_column='empresa')
     nivel = models.ForeignKey('Nivel', db_column='nivel')
     telefono = models.IntegerField(blank=True, null=True)
@@ -156,7 +156,7 @@ class Campania(models.Model):
     mxllamada = models.IntegerField()
     llamadaxhora = models.IntegerField()
     hombreobjetivo = models.IntegerField()
-    archivo = models.FileField(upload_to='files')
+    archivo = models.CharField(max_length=100)
     supervisor = models.ForeignKey('Supervisor', db_column='supervisor', blank=True, null=True)
 
     class Meta:

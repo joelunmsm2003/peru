@@ -23,6 +23,8 @@ function Controller($scope,$http,$cookies,$filter) {
     $http.get("/empresas").success(function(response) {$scope.clientes = response;
 
         $scope.search();
+
+        $scope.empresas=response[0]
        
     });
 
@@ -73,7 +75,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-       swal({   title: "Perucall",   text: "Empresa "+data +" agregado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Agregado",   }, function(){   window.location.href = "/empresa" });
+       swal({   title: $scope.empresas.nombre,   text: "Empresa "+data +" agregado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Agregado",   }, function(){   window.location.href = "/empresa" });
 
  
          $scope.agregar=""
@@ -110,7 +112,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-            swal({title: "Perucall", text: "Empresa "+data +" editado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Editado",   }, function(){  });
+            swal({title: $scope.empresas.nombre, text: "Empresa "+data +" editado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Editado",   }, function(){  });
 
 
         })
@@ -148,7 +150,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-        swal({title: "Perucall", text: "Empresa "+data +" eliminado",   type: "success",   confirmButtonColor: "#337ab7",   confirmButtonText: "Eliminado",   }, function(){   });
+        swal({title: $scope.empresas.nombre , text: "Empresa "+data +" eliminado",   type: "success",   confirmButtonColor: "#337ab7",   confirmButtonText: "Eliminado",   }, function(){   });
 
         $scope.contador =$scope.contador-1
 

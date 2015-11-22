@@ -40,7 +40,9 @@ function Controller($scope,$http,$cookies,$filter) {
      $http.get("/empresas").success(function(response) {$scope.empresas = response[0];
 
 
-       
+       $scope.empresasf = response
+
+       console.log('empresasf',$scope.empresasf)
     });
 
       $http.get("/carteras").success(function(response) {$scope.carteras = response;
@@ -186,7 +188,7 @@ function Controller($scope,$http,$cookies,$filter) {
         $('#myModal').modal('hide')
         $('.modal-backdrop').remove();
 
-        swal({   title: "Perucall",   text: data ,   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Aceptar",   }, function(){   window.location.href = "/usuario" });
+        swal({   title: $scope.empresas.nombre,   text: data ,   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Aceptar",   }, function(){   window.location.href = "/usuario" });
  
         
 
@@ -225,7 +227,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-        swal({   title: "Perucall",   text: "Usuario "+data +" editado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Aceptar",   }, function(){   });
+        swal({   title: $scope.empresas.nombre,   text: "Usuario "+data +" editado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Aceptar",   }, function(){   });
  
         })
 
@@ -262,7 +264,7 @@ function Controller($scope,$http,$cookies,$filter) {
         success(function(data) {
 
         $scope.contador =$scope.contador-1
-        swal({   title: "Perucall",   text: "Usuario "+data +" eliminado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Aceptar",   }, function(){   });
+        swal({   title: $scope.empresas.nombre,   text: "Usuario "+data +" eliminado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Aceptar",   }, function(){   });
  
 
         })
