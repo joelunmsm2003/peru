@@ -615,15 +615,11 @@ def nivel(request):
 	return HttpResponse(data, content_type="application/json")
 
 @login_required(login_url="/ingresar")
-def base(request):
+def base(request,id_campania):
 
 	id = request.user.id
 
-	empresa = AuthUser.objects.get(id=id).empresa.id
-
-
-	base = Base.objects.filter(id_cliente=empresa,status=1).values('id','telefono','orden','producto','id_cliente','tarjeta','deuda','descuento','diasmora',)
-
+	base = Base.objects.filter(campania=id_campania,status=1).values('id','telefono','orden','producto','id_cliente','tarjeta','deuda','descuento','diasmora')
 
 	data_dict = ValuesQuerySetToDict(base)
 
