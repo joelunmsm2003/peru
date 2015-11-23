@@ -63,12 +63,105 @@ function Controller($scope,$http,$cookies,$filter) {
 
     });
 
+    $scope.todo = []
 
-    $scope.agregar = function(index,contact) 
+    $scope.add = function(index,contact) 
 
     {
 
-    console.log(contact)
+        
+
+        
+        console.log($scope.usuarios);
+        
+        $scope.tipox = "true"
+        
+
+       
+    }
+
+    $scope.agregaruser = function() 
+
+    {
+        $scope.usuariosp = $filter('filter')($scope.usuarios,$scope.tipox);
+
+        console.log($scope.usuariosp)
+
+        var todo={
+
+            campania: campania,
+            dato: $scope.usuariosp,
+            done:false
+        }
+
+        $http({
+
+        url: "/agregaragente/",
+        data: todo,
+        method: 'POST',
+        headers: {
+        'X-CSRFToken': $cookies['csrftoken']
+        }
+        }).
+        success(function(data) {
+
+            console.log(data)
+
+             swal({   title: "Perucall",   text: "Agentes agregados a esta campaña correctamente",   type: "success",   confirmButtonColor: "#337ab7",   confirmButtonText: "OK",   }, function(){   window.location.href = "/adminCampania/"+campania });
+ 
+    
+    
+        })
+
+
+    }
+
+
+       $scope.quitaruser = function() 
+
+    {
+        $scope.usuarioscampaniap = $filter('filter')($scope.usuarioscampania,$scope.tipox);
+
+        console.log($scope.usuarioscampaniap)
+
+
+
+
+        var todo={
+
+            campania: campania,
+            dato: $scope.usuarioscampaniap,
+            done:false
+        }
+
+        $http({
+
+        url: "/quitaragente/",
+        data: todo,
+        method: 'POST',
+        headers: {
+        'X-CSRFToken': $cookies['csrftoken']
+        }
+        }).
+        success(function(data) {
+
+            swal({   title: "Perucall",   text: "Agentes quitados de esta campaña correctamente",   type: "success",   confirmButtonColor: "#337ab7",   confirmButtonText: "OK",   }, function(){   window.location.href = "/adminCampania/"+campania });
+ 
+    
+        })
+    
+
+
+
+    }
+
+
+
+    $scope.agregar = function(index,contact,seleccionar) 
+
+    {
+
+    console.log('contact',contact,seleccionar)
 
     $scope.usuarioscampania.push(contact);
     $scope.usuarios.splice(index,1);
@@ -346,12 +439,12 @@ function Controller($scope,$http,$cookies,$filter) {
 
         var output = {};
 
-        obj = $filter('filter')($scope.agentesc,$scope.tipo)
+        obj = $filter('filter')($scope.agentesc,$scope.tipo1x)
 
         $scope.contador2 = ObjectLength(obj)
        
 
-        $scope.usuarioscampania = $filter('filter')($scope.agentesc,$scope.tipo);
+        $scope.usuarioscampania = $filter('filter')($scope.agentesc,$scope.tipo1x);
 
         console.log($scope.usuarios)
 

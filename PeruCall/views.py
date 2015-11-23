@@ -11,6 +11,7 @@ from django.db.models import Max,Count
 from django.core.mail import send_mail
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from PeruCall.models import *
+
 from django.db import transaction
 from django.contrib.auth.hashers import *
 from django.core.mail import send_mail
@@ -170,6 +171,11 @@ def reportes(request,id):
 	campania = Campania.objects.get(id=id)
 	return render(request, 'reportes.html',{'campania':campania})
 
+@login_required(login_url="/ingresar")
+def menu(request):
+	
+	return render(request, 'menu.html',{})
+
 
 @login_required(login_url="/ingresar")
 def agentes(request,id_campania):
@@ -238,30 +244,26 @@ def agregarfiltro(request):
 
 		for i in range(len(ciudad)):
 
-			print ciudad[i]['nombre']
+			print ciudad[i]['status_f']
 
-			ciudadt = ciudadt  + ciudad[i]['nombre'] +'/'
+			ciudadt = ciudadt  + ciudad[i]['status_f'] +'/'
 
 		for i in range(len(grupo)):
 
-			print grupo[i]['nombre']
+			print grupo[i]['status_g']
 
-			grupot = grupot  + grupo[i]['nombre'] +'/'
+			grupot = grupot  + grupo[i]['status_g'] +'/'
 
 		for i in range(len(segmento)):
 
-			print segmento[i]['nombre']
+			print segmento[i]['status_h']
 
-			segmentot = segmentot  + segmento[i]['nombre'] +'/'
+			segmentot = segmentot  + segmento[i]['status_h'] +'/'
   
 
 		Filtro(ciudad=ciudadt,grupo=grupot,segmento=segmentot,campania_id=campania).save()
 
-
-
-		data = Base.objects.filter(ciudad=ciudad,segmento=segmento,grupo=grupo).values('id','ciudad','segmento','grupo').count()
-
-		print 'data',data
+		data = Base.objects.filter(status_f=ciudad,status_g=grupo,status_h=segmento).values('id','status_f','status_g','status_h').count()
 
 
 		return HttpResponse(data, content_type="application/json")
@@ -287,8 +289,6 @@ def carteras(request):
 	empresa = AuthUser.objects.get(id=id).empresa.id
 
 	if request.method == 'GET':
-
-
 
 		if nivel == 1:
 
@@ -324,6 +324,7 @@ def carteras(request):
 			Cartera(nombre=data['cartera']).save()
 
 			id_cartera = Cartera.objects.all().values('id').order_by('-id')[0]['id']
+
 
 			Carteraempresa(cartera_id=id_cartera,empresa_id=empresa).save()
 
@@ -483,9 +484,6 @@ def uploadCampania(request):
 
 		data = request.POST
 
-		print 'dataaaaaaaaaaaaaaaaaa',data
-
-		troncal = data['troncal']
 		canales = data['canales']
 		inicio = data['inicio']
 		fin = data['fin']
@@ -498,7 +496,7 @@ def uploadCampania(request):
 		now = datetime.now()
 		archivo =  request.FILES['process_file']
 
-		Campania(supervisor_id=supervisor,usuario_id=id,fecha_cargada= now,archivo = archivo,troncal=troncal,canales=canales,htinicio=inicio,htfin=fin,nombre=nombre,timbrados=timbrados,llamadaxhora=llamadaxhora,hombreobjetivo=hombreobjetivo,mxllamada=mxllamada).save()
+		Campania(supervisor_id=supervisor,usuario_id=id,fecha_cargada= now,archivo = archivo,canales=canales,htinicio=inicio,htfin=fin,nombre=nombre,timbrados=timbrados,llamadaxhora=llamadaxhora,hombreobjetivo=hombreobjetivo,mxllamada=mxllamada).save()
 
 		id_campania = Campania.objects.all().values('id').order_by('-id')[0]['id']
 
@@ -617,6 +615,51 @@ def nivel(request):
 
 	return HttpResponse(data, content_type="application/json")
 
+@login_required(login_url="/ingresar")
+def status_f(request,id_campania):
+
+	id = request.user.id
+
+	empresa = AuthUser.objects.get(id=id).empresa.id
+
+	status_f = Base.objects.filter(campania_id=id_campania).values('status_f').annotate(total=Count('status_f'))
+
+	data_dict = ValuesQuerySetToDict(status_f)
+
+	data = simplejson.dumps(data_dict)
+
+	return HttpResponse(data, content_type="application/json")
+
+@login_required(login_url="/ingresar")
+def status_g(request,id_campania):
+
+	id = request.user.id
+
+	empresa = AuthUser.objects.get(id=id).empresa.id
+
+	status_g = Base.objects.filter(campania_id=id_campania).values('status_g').annotate(total=Count('status_g'))
+
+	data_dict = ValuesQuerySetToDict(status_g)
+
+	data = simplejson.dumps(data_dict)
+
+	return HttpResponse(data, content_type="application/json")
+
+@login_required(login_url="/ingresar")
+def status_h(request,id_campania):
+
+	id = request.user.id
+
+	empresa = AuthUser.objects.get(id=id).empresa.id
+
+	status_h = Base.objects.filter(campania_id=id_campania).values('status_h').annotate(total=Count('status_h'))
+
+	data_dict = ValuesQuerySetToDict(status_h)
+
+	data = simplejson.dumps(data_dict)
+
+	return HttpResponse(data, content_type="application/json")
+
 
 @login_required(login_url="/ingresar")
 def agentesdisponibles(request,id_campania):
@@ -663,6 +706,9 @@ def agentescampania(request,id_campania):
 
 	for i in range(len(agentes)):
 
+
+		print agentes[i]['id']
+
 		agentes[i]['name'] = Agentescampanias.objects.get(id=agentes[i]['id']).agente.user.first_name
 		agentes[i]['estado'] = Agentescampanias.objects.get(id=agentes[i]['id']).agente.estado.nombre
 
@@ -672,7 +718,6 @@ def agentescampania(request,id_campania):
 
 	return HttpResponse(data, content_type="application/json")
 
-
 @login_required(login_url="/ingresar")
 def agregaragente(request):
 
@@ -680,19 +725,18 @@ def agregaragente(request):
 
 		data= json.loads(request.body)['dato']
 
-		campania = json.loads(request.body)['campania']
+		campania = json.loads(request.body)['campania'] 
 
-		id_agente = data['id']
+		print data
 
-		Agentescampanias(agente_id=id_agente,campania_id=campania).save()
+		for data in data:
 
-		id_ac = Agentescampanias.objects.all().values('id').order_by('-id')[0]['id']
+			id_agente = data['agente']
 
-		data = Agentescampanias.objects.filter(id=id_ac).values('id','agente__user__first_name','campania__nombre')
+			Agentescampanias(agente_id=id_agente,campania_id=campania).save()
 
-		data = json.dumps(ValuesQuerySetToDict(data))
+		return HttpResponse('data', content_type="application/json")
 
-		return HttpResponse(data, content_type="application/json")
 
 @login_required(login_url="/ingresar")
 def quitaragente(request):
@@ -703,13 +747,14 @@ def quitaragente(request):
 
 		campania = json.loads(request.body)['campania']
 
-		id_agente = data['agente']
+		for data in data:
 
-		print 'agente',id_agente
+			id_agente = data['agente']
 
-		agente = Agentes.objects.get(id=id_agente)
+			agente = Agentes.objects.get(id=id_agente)
 
-		Agentescampanias.objects.filter(agente=agente.id,campania=campania).delete()
+			Agentescampanias.objects.filter(agente=agente.id,campania=campania).delete()
+
 
 
 		return HttpResponse(agente.user.first_name, content_type="application/json")
@@ -800,6 +845,8 @@ def usuarios(request):
 				empresa = data['empresa']
 			else:
 				empresa = empresa.id
+
+			print empresa
 		
 			nivel = data['nivel']
 			password = data['password']
@@ -815,7 +862,7 @@ def usuarios(request):
 
 				if username == users.username:
 
-					info = username +'este correo ya existe, escoja otro pofavor'
+					info = username +' este correo ya existe, escoja otro pofavor'
 					e = 0
 
 			print 'e',e
@@ -853,11 +900,11 @@ def usuarios(request):
 		
 				if nivel == 3: # Usuario Agente
 
-					supervisor = 1 #Por Default agente supervisor = 1 Supervisor Fantasma 
+					
 					Agentes(user_id=id_user).save()
 
 					agente =Agentes.objects.get(user=id_user)
-					agente.supervisor_id = supervisor
+					
 					agente.atendidas = 0
 					agente.contactadas =0
 					agente.estado_id = 1
@@ -885,7 +932,6 @@ def usuarios(request):
 
 			id= data['id']
 
-			print 'jsjsjsjsjsjs',data
 		
 			if data['nivel__nombre']=='Supervisor':
 

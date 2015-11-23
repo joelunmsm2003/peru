@@ -70,15 +70,22 @@
 				</div>
 			</div>
 
-  	 				<h4>Usuarios Disponibles</h4>
-		
+  	 		<h4>Usuarios Disponibles</h4>
+
+
+
+						
+
+  	 		<a ng-click="agregaruser()" class="btn btn-primary" >Agregar</a>
+
+			<br></br>
 			<table class="table table-striped table-condensed table-hover ">
 			<tbody>
 
 			 <thead>
 
-            <tr>
-           
+            	
+           		<th >Selecccionar </th>
                 <th >Estado </th>
                 <th >Nombre</th>
                 
@@ -93,14 +100,12 @@
             </thead>
             <tr  ng-repeat="contact in usuarios " class='active' ts-repeat>
 
-                
+                <td><input type="checkbox" ng-model='contact.seleccionar' ng-change="add($index,contact)"></td>
                 <td>{[{contact.estado}]}</td>
                 <td>{[{contact.name}]}</td>
-
-                
                 <td>
              
-                  <a ng-click="agregar($index,contact)" class="btn btn-primary" >Agregar</a>
+                  <!--<a ng-click="agregar($index,contact,seleccionar)" class="btn btn-primary" >Agregar</a>-->
 
                 </td>
 
@@ -126,7 +131,7 @@
 
 				<div class="col-sm-10">
 				<form class="navbar-search pull-left" action="">
-				<input placeholder="Buscar" ng-change="search1()"  type="text" ng-model="tipo" class="form-control" >
+				<input placeholder="Buscar" ng-change="search1()"  type="text" ng-model="tipo1x" class="form-control" >
 				</form>
 
 				</div>
@@ -139,7 +144,7 @@
 	
 				<h4>Usuarios que pertenecen a esta Campaña</h4>
 		
-					
+			<a ng-click="quitaruser()" class="btn btn-primary" >Quitar</a>	<br></br>
 			<table class="table table-striped table-condensed table-hover ">
 			<tbody>
 
@@ -147,6 +152,7 @@
 
             <tr>
            
+           		<th >Seleccionar </th>
                 <th >Estado </th>
                 <th >Nombre</th>
                 
@@ -162,11 +168,12 @@
             <tr  ng-repeat="contact in usuarioscampania " class='active' ts-repeat>
 
              
-                  <td>{[{contact.estado}]}</td>
+             	<td><input type="checkbox" ng-model='contact.seleccionar' ng-change="add($index,contact)"></td>
+                <td>{[{contact.estado}]}</td>
                 <td>{[{contact.name}]}</td>
                 <td>
              
-                  <a ng-click="quitar($index,contact)" class="btn btn-primary" >Quitar </a>
+                  <!--<a ng-click="quitar($index,contact)" class="btn btn-primary" >Quitar </a>-->
 
                 </td>
 

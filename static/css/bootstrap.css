@@ -1133,10 +1133,12 @@ pre code {
     padding-left: 15px;
     margin-right: auto;
     margin-left: auto;
+
 }
 @media (min-width:768px) {
     .container {
-    width: 750px;
+    /*width: 750px;*/
+    width: 850px;
 }
 }@media (min-width:992px) {
     .container {

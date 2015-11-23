@@ -17,9 +17,25 @@
 <div ng-if=" user.nivel == 4">
 
 
-<div class="row">
+ <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Agregar Empresa</button>
 
-      <form ng-submit="addNew(agregar)">
+
+<!---Modal-->
+
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Agregar Empresa </h4>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+
+                       
+
+                          
+ <form ng-submit="addNew(agregar)">
 
           <div class="col-md-6">
           <div class="form-group">
@@ -66,13 +82,29 @@
 
           <div class="col-md-6">
           <div class="form-group">
-          <button class="btn btn-primary" type="submit">Agregar</button>
+          
           </div>
           </div>
 
-      </form>
+                
 
-</div>
+                 
+
+                        
+
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+         <button class="btn btn-primary" type="submit">Agregar</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
 
 </div>
 
@@ -167,6 +199,8 @@
   </div>
 </div>
 
+<br>
+
       <div class='row'>
       <div class="col-md-4"><input placeholder="Buscar" ng-change="search()"  type="text" ng-model="tipo" class="form-control" ></div>
     </div>
@@ -229,7 +263,7 @@
                 <td data-th="Duration">{[{contact.licencias}]}</td>
                 <td data-th="Billsec">{[{contact.mascaras}]}</td>
 
-                <td>
+                <td ng-if=" user.nivel == 1 || user.nivel == 4">
 
                 <button type="button" class="btn btn-primary" ng-click="editContact(contact,$index,currentPage)" data-toggle="modal" data-target="#edit">Editar</button>
 
@@ -256,8 +290,6 @@
 
 
       </div>
-
-
 
 
 

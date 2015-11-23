@@ -25,7 +25,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
     {
 
-        $scope.filtro.ciudad = contact.nombre
+        $scope.filtro.ciudad = contact.status_f
     
     };
 
@@ -48,13 +48,13 @@ function Controller($scope,$http,$cookies,$filter) {
 
 
     
-    $http.get("/ciudad/").success(function(response) {$scope.ciudad = response;
+    $http.get("/status_f/"+campania).success(function(response) {$scope.ciudad = response;
 
      
 
     });
-    $http.get("/grupo/").success(function(response) {$scope.grupo = response;});
-    $http.get("/segmento/").success(function(response) {$scope.segmento = response;});
+    $http.get("/status_g/"+campania).success(function(response) {$scope.grupo = response;});
+    $http.get("/status_h/"+campania).success(function(response) {$scope.segmento = response;});
 
 
      $http.get("/empresas").success(function(response) {$scope.empresas = response;

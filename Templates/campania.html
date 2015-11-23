@@ -234,18 +234,7 @@
 
      
 
-          <div class="col-md-6">
-          <div class="form-group">
-          <label>Troncal</label>
-
-          <select name = 'troncal' class="form-control">
-          {% for troncal in troncales%}
-              <option value='{{troncal.id}}'>{{troncal.nombre}}</option>
-          {% endfor %}
-          </select>
-         
-          </div>
-          </div>
+    
 
 
 
@@ -259,7 +248,7 @@
           <div class="col-md-6">
           <div class="form-group">
           <label>Timbrados</label>
-          <input type="text"  name = 'timbrados' class="form-control" placeholder="Timbrados" required ="">
+          <input type="text"  name = 'timbrados' class="form-control" placeholder="Timbrados" value = "4" required ="">
           </div>
           </div>
 

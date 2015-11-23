@@ -121,12 +121,12 @@
                 <div class="col-sm-4">
 
 
-                     <select class="form-control" id="myselection" multiple="true" ng-model="filtro.ciudad" ng-options="c.nombre for c in ciudad"></select>
+                     <select class="form-control" id="myselection" multiple="true" ng-model="filtro.ciudad" ng-options="c.status_f for c in ciudad"></select>
                       <div class="form-group">
          
-                       <label>Ciudades Seleccionadas</label>
+                       <label>Status F</label>
                       <ul  ng-repeat="contact in filtro.ciudad">
-                          <li>{[{contact.nombre}]}</li>
+                          <li>{[{contact.status_f}]}</li>
                       </ul>
                       </div>
 
@@ -134,31 +134,33 @@
 
                   <div class="col-sm-4">
 
-                        <select class="form-control" id="myselection" multiple="true" ng-model="filtro.segmento" ng-options="c.nombre for c in segmento"></select>
+                         <select class="form-control" id="myselection" multiple="true" ng-model="filtro.grupo" ng-options="c.status_g for c in grupo"></select>
                         <div class="form-group">
            
-                        <label>Segmentos Seleccionados</label>
-                        <ul  ng-repeat="contact in filtro.segmento">
-                            <li>{[{contact.nombre}]}</li>
-                        </ul>
-
-                        </div>
-
-                    </div>
-                   <div class="col-sm-4">
-
-                         <select class="form-control" id="myselection" multiple="true" ng-model="filtro.grupo" ng-options="c.nombre for c in grupo"></select>
-                        <div class="form-group">
-           
-                        <label>Segmentos Seleccionados</label>
+                        <label>Status G</label>
                         <ul  ng-repeat="contact in filtro.grupo">
-                            <li>{[{contact.nombre}]}</li>
+                            <li>{[{contact.status_g}]}</li>
                         </ul>
                         </div>
 
       
 
                    </div>
+
+                  <div class="col-sm-4">
+
+                        <select class="form-control" id="myselection" multiple="true" ng-model="filtro.segmento" ng-options="c.status_h for c in segmento"></select>
+                        <div class="form-group">
+           
+                        <label>Status H</label>
+                        <ul  ng-repeat="contact in filtro.segmento">
+                            <li>{[{contact.status_h}]}</li>
+                        </ul>
+
+                        </div>
+
+                    </div>
+                 
 
 
                 <div class="col-sm-12">

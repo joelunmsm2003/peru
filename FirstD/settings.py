@@ -92,8 +92,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql', 
         'NAME': 'perucall',
         'USER': 'root',
-        'PASSWORD': 's3rv3r',
-        'HOST': 'xiencias.com',   # Or an IP Address that your DB is hosted on
+        'PASSWORD': '123',
+        'HOST': '127.0.0.1',   # Or an IP Address that your DB is hosted on
         'PORT': '3306',
     }
 }
