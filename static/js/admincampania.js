@@ -34,6 +34,8 @@ function Controller($scope,$http,$cookies,$filter) {
        
     });
 
+      
+
      $http.get("/agentescampania/"+campania).success(function(response) {
 
 
@@ -107,7 +109,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
             console.log(data)
 
-             swal({   title: "Perucall",   text: "Agentes agregados a esta campaña correctamente",   type: "success",   confirmButtonColor: "#337ab7",   confirmButtonText: "OK",   }, function(){   window.location.href = "/adminCampania/"+campania });
+             swal({   title: "Perucall",   text: "Agentes agregados a esta campaña correctamente",   type: "success",   confirmButtonColor: "#B71C1C",   confirmButtonText: "OK",   }, function(){   window.location.href = "/adminCampania/"+campania });
  
     
     
@@ -145,7 +147,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-            swal({   title: "Perucall",   text: "Agentes quitados de esta campaña correctamente",   type: "success",   confirmButtonColor: "#337ab7",   confirmButtonText: "OK",   }, function(){   window.location.href = "/adminCampania/"+campania });
+            swal({   title: "Perucall",   text: "Agentes quitados de esta campaña correctamente",   type: "success",   confirmButtonColor: "#B71C1C",   confirmButtonText: "OK",   }, function(){   window.location.href = "/adminCampania/"+campania });
  
     
         })

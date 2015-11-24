@@ -127,6 +127,7 @@ class Base(models.Model):
     status_h = models.CharField(max_length=100, blank=True)
     status = models.CharField(max_length=100, blank=True)
     campania = models.ForeignKey('Campania', db_column='campania', blank=True, null=True)
+    resultado = models.ForeignKey('Resultado', db_column='resultado', blank=True, null=True)
 
     class Meta:
         managed = False
@@ -157,8 +158,9 @@ class Campania(models.Model):
     mxllamada = models.IntegerField(blank=True, null=True)
     llamadaxhora = models.IntegerField(blank=True, null=True)
     hombreobjetivo = models.IntegerField(blank=True, null=True)
-    archivo = models.CharField(max_length=100, blank=True)
+    archivo = models.FileField(upload_to='files')
     supervisor = models.ForeignKey('Supervisor', db_column='supervisor', blank=True, null=True)
+    cartera = models.ForeignKey('Cartera', db_column='cartera', blank=True, null=True)
 
     class Meta:
         managed = False
@@ -182,15 +184,6 @@ class Carteraempresa(models.Model):
     class Meta:
         managed = False
         db_table = 'carteraempresa'
-
-
-class Ciudad(models.Model):
-    id = models.IntegerField(primary_key=True)  # AutoField?
-    nombre = models.CharField(max_length=100, blank=True)
-
-    class Meta:
-        managed = False
-        db_table = 'ciudad'
 
 
 class Data(models.Model):
@@ -276,22 +269,14 @@ class Estado(models.Model):
 class Filtro(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
     campania = models.ForeignKey(Campania, db_column='campania', blank=True, null=True)
-    ciudad = models.CharField(max_length=100, blank=True)
-    segmento = models.CharField(max_length=100, blank=True)
-    grupo = models.CharField(max_length=100, blank=True)
+    ciudad = models.CharField(max_length=1000, blank=True)
+    segmento = models.CharField(max_length=1000, blank=True)
+    grupo = models.CharField(max_length=1000, blank=True)
+    resultado = models.CharField(max_length=1000, blank=True)
 
     class Meta:
         managed = False
         db_table = 'filtro'
-
-
-class Grupo(models.Model):
-    id = models.IntegerField(primary_key=True)  # AutoField?
-    nombre = models.CharField(max_length=100, blank=True)
-
-    class Meta:
-        managed = False
-        db_table = 'grupo'
 
 
 class Nivel(models.Model):
@@ -303,13 +288,13 @@ class Nivel(models.Model):
         db_table = 'nivel'
 
 
-class Segmento(models.Model):
+class Resultado(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
-    nombre = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, blank=True)
 
     class Meta:
         managed = False
-        db_table = 'segmento'
+        db_table = 'resultado'
 
 
 class Supervisor(models.Model):

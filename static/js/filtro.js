@@ -20,32 +20,14 @@ function Controller($scope,$http,$cookies,$filter) {
 
     $scope.filtro = []
 
+    $http.get("/resultado").success(function(response) {$scope.resultado = response;
 
-     $scope.statusA = function(contact) 
 
-    {
+       
+    });
 
-        $scope.filtro.ciudad = contact.status_f
-    
-    };
 
-     $scope.statusB = function(contact) 
-
-    {
-        $scope.filtro.segmento = contact.nombre
-
-    
-    };
-
-     $scope.statusC = function(contact) 
-
-    {
-        $scope.filtro.grupo = contact.nombre
-
-        console.log($scope.filtro)
-    
-    };
-
+ 
 
     
     $http.get("/status_f/"+campania).success(function(response) {$scope.ciudad = response;
@@ -57,7 +39,7 @@ function Controller($scope,$http,$cookies,$filter) {
     $http.get("/status_h/"+campania).success(function(response) {$scope.segmento = response;});
 
 
-     $http.get("/empresas").success(function(response) {$scope.empresas = response;
+     $http.get("/empresas").success(function(response) {$scope.empresas = response[0];
 
 
        
@@ -74,11 +56,22 @@ function Controller($scope,$http,$cookies,$filter) {
 
     });
 
-    $http.get("/listafiltros/"+campania).success(function(response) {$scope.listafiltros = response;
+    $http.get("/listafiltros/"+campania).success(function(response) {
 
-      
+        $scope.listafiltros = response; 
 
     });
+
+    setInterval(function(){ 
+
+    $http.get("/listafiltros/"+campania).success(function(response) {
+
+    $scope.listafiltros = response; 
+
+    });
+
+
+    },5000);
 
 
     $http.get("/nivel").success(function(response) {$scope.nivel = response;
@@ -163,6 +156,7 @@ function Controller($scope,$http,$cookies,$filter) {
             segmento:dato.segmento,
             grupo:dato.grupo,
             ciudad:dato.ciudad,
+            resultado:dato.resultado,
             done:false
         }
 
@@ -181,7 +175,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
             
 
-            swal({   title: "Perucall Fitros",   text: r +" registros por barrer",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Agregado",   }, function(){   window.location.href = "/filtros/"+campania });
+            swal({   title: $scope.empresas.nombre,   text: r +" registros por barrer",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Agregado",   }, function(){   window.location.href = "/filtros/"+campania });
 
 
         })
