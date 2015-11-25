@@ -23,6 +23,7 @@ from django.contrib.auth.decorators import permission_required
 from django.views.decorators.csrf import csrf_exempt
 from ws4redis.redis_store import RedisMessage
 from ws4redis.publisher import RedisPublisher
+from django.db.models import Count, Min, Sum, Avg
 
 import xlrd
 import json 
@@ -32,7 +33,7 @@ import xlwt
 import requests
 import os
 
-from datetime import datetime
+from datetime import datetime,date
 from django.contrib.auth import authenticate
 
 def ingresar(request):
@@ -62,7 +63,7 @@ def ingresar(request):
 
 					nivel = AuthUser.objects.get(username=user).nivel.id
 
-					id_user= AuthUser.objects.get(username=user).id
+					id_agente= Agentes.objects.get(user_id=user).id
 
 					print nivel
 
@@ -76,7 +77,7 @@ def ingresar(request):
 
 					if nivel == 3:
 
-						return HttpResponseRedirect("/teleoperador/"+str(id_user))
+						return HttpResponseRedirect("/teleoperador/"+str(id_agente))
 
 					if nivel == 4:
 
@@ -292,13 +293,143 @@ def eliminarfiltro(request):
 @login_required(login_url="/ingresar")
 def resultado(request):
 
-		data = Resultado.objects.all().values('id','name').order_by('-id')
+		data = Resultado.objects.all().values('id','name','tipo','codigo').order_by('-id')
 
 		data_dict = ValuesQuerySetToDict(data)
 
 		data = simplejson.dumps(data_dict)
 
 		return HttpResponse(data, content_type="application/json")
+
+
+@login_required(login_url="/ingresar")
+def agente(request,id_agente):
+
+
+
+		data = Agentes.objects.filter(id=id_agente).values('id','anexo','fono','atendidas','contactadas','estado__nombre','user__first_name','supervisor','calificacion').order_by('-id')
+
+		for i in range(len(data)):
+
+			data[i]['media'] = data[i]['contactadas']*100/data[i]['atendidas']
+
+		data_dict = ValuesQuerySetToDict(data)
+
+		data = simplejson.dumps(data_dict)
+
+		atendidas = Base.objects.filter(agente_id=id_agente,status=1).count()
+
+		acuerdos = Base.objects.filter(agente_id=id_agente,resultado_id__in=[4,1,2]).count()
+
+		data = {'data':data,'atendidas':atendidas,'acuerdos':acuerdos,'media':3}
+
+		data = simplejson.dumps(data)
+
+		return HttpResponse(data, content_type="application/json")
+
+
+
+@login_required(login_url="/ingresar")
+def cliente(request,id_agente):
+
+	
+		base = Base.objects.filter(agente_id=id_agente,status=1).values('id','telefono','orden','cliente','id_cliente','status_a','status_b','status_c','status_d','status_e','status_f','status_g','status_h','status','campania__nombre','resultado__name')
+
+		data_dict = ValuesQuerySetToDict(base)
+
+		data = simplejson.dumps(data_dict)
+
+		return HttpResponse(data, content_type="application/json")
+
+
+@login_required(login_url="/ingresar")
+def atendida(request,id_agente):
+
+
+
+		
+		cantidad = Base.objects.filter(agente_id=id_agente).values('agente').annotate(total=Sum('duracion'))
+		num=int(cantidad[0]['total'])  
+		hor=(int(num/3600))  
+		minu=int((num-(hor*3600))/60)  
+		seg=num-((hor*3600)+(minu*60))  
+		
+		print minu
+
+		atendida = str(hor)+":"+str(minu)+":"+str(seg)
+
+		if minu < 10:
+
+			atendida = str(hor)+":0"+str(minu)+":"+str(seg)
+
+		if seg < 10:
+
+			atendida = str(hor)+":"+str(minu)+"0:"+str(seg)
+
+		if seg < 10 or minu < 10 :
+
+			atendida = str(hor)+":0"+str(minu)+":0"+str(seg)
+
+
+		
+
+
+		return HttpResponse(atendida, content_type="application/json")
+
+
+@login_required(login_url="/ingresar")
+def desfase(request,id_agente):
+
+		id = request.user.id
+
+		user = AuthUser.objects.filter(id=id).values('id')
+
+		fmt = '%Y-%m-%d %H:%M:%S %Z'
+
+		for i in range(len(user)):
+
+			user[i]['last_login'] = AuthUser.objects.get(id=user[i]['id']).last_login.strftime(fmt)
+
+			datex = AuthUser.objects.get(id=user[i]['id']).last_login
+		
+			a = datetime(datex.year,datex.month,datex.day,datex.hour,datex.minute,datex.second)
+
+			b = datetime.now()
+			
+			user[i]['conectado'] = str(b - a)[0:7]
+
+		conectado = user[0]['conectado']
+
+		
+		cantidad = Base.objects.filter(agente_id=id_agente).values('agente').annotate(total=Sum('duracion'))
+		num=int(cantidad[0]['total'])  
+		hor=(int(num/3600))  
+		minu=int((num-(hor*3600))/60)  
+		seg=num-((hor*3600)+(minu*60))  
+
+		atendida = str(hor)+":"+str(minu)+":"+str(seg)
+		
+		if minu < 10:
+
+			atendida = str(hor)+":0"+str(minu)+":"+str(seg)
+
+		if seg < 10:
+
+			atendida = str(hor)+":"+str(minu)+"0:"+str(seg)
+
+		if seg < 10 or minu < 10 :
+
+			atendida = str(hor)+":0"+str(minu)+":0"+str(seg)
+
+		at = datetime.strptime(atendida, "%H:%M:%S")
+
+		co = datetime.strptime(conectado, "%H:%M:%S")
+
+		data = co-at
+
+		return HttpResponse(data, content_type="application/json")
+
+
 
 @login_required(login_url="/ingresar")
 def resultadofiltro(request,id_filtro):
@@ -504,6 +635,21 @@ def user(request):
 
 	user = AuthUser.objects.filter(id=id).values('id','username','email','empresa','nivel','first_name','nivel__nombre')
 
+	fmt = '%Y-%m-%d %H:%M:%S %Z'
+
+	for i in range(len(user)):
+
+		user[i]['last_login'] = AuthUser.objects.get(id=user[i]['id']).last_login.strftime(fmt)
+
+		datex = AuthUser.objects.get(id=user[i]['id']).last_login
+	
+		a = datetime(datex.year,datex.month,datex.day,datex.hour,datex.minute,datex.second)
+
+		b = datetime.now()
+		
+		user[i]['conectado'] = str(b - a)[0:7]
+
+
 	data_dict = ValuesQuerySetToDict(user)
 
 	data = simplejson.dumps(data_dict)
@@ -548,6 +694,28 @@ def reasignarsupervisor(request):
 
 
 	return HttpResponse(data, content_type="application/json")
+
+
+@login_required(login_url="/ingresar")
+def botonera(request):
+
+	if request.method == 'POST':
+
+		id = request.user.id
+
+		id_resultado= json.loads(request.body)['resultado']['id']
+		agente= json.loads(request.body)['agente']
+		id_base= json.loads(request.body)['cliente']['id']
+
+		resultado = Resultado.objects.get(id=id_resultado).name
+
+		base = Base.objects.get(id=id_base)
+		base.resultado_id = id_resultado
+		base.save()
+
+	
+	return HttpResponse(resultado, content_type="application/json")
+
 
 
 @login_required(login_url="/ingresar")

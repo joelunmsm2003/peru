@@ -23,7 +23,7 @@ class Agentes(models.Model):
     user = models.ForeignKey('AuthUser', db_column='user', blank=True, null=True)
     supervisor = models.ForeignKey('Supervisor', db_column='supervisor', blank=True, null=True)
     disponible = models.IntegerField(blank=True, null=True)
-    calificacion = models.IntegerField(blank=True, null=True)
+    calificacion = models.ForeignKey('Base', db_column='calificacion', blank=True, null=True)
 
     class Meta:
         managed = False
@@ -128,6 +128,11 @@ class Base(models.Model):
     status = models.CharField(max_length=100, blank=True)
     campania = models.ForeignKey('Campania', db_column='campania', blank=True, null=True)
     resultado = models.ForeignKey('Resultado', db_column='resultado', blank=True, null=True)
+    agente = models.ForeignKey(Agentes, db_column='agente', blank=True, null=True)
+    duracion = models.IntegerField(blank=True, null=True)
+    detalle = models.CharField(max_length=100, blank=True)
+    monto = models.CharField(max_length=100, blank=True)
+    fecha = models.DateTimeField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -158,7 +163,7 @@ class Campania(models.Model):
     mxllamada = models.IntegerField(blank=True, null=True)
     llamadaxhora = models.IntegerField(blank=True, null=True)
     hombreobjetivo = models.IntegerField(blank=True, null=True)
-    archivo = models.FileField(upload_to='files')
+    archivo = models.CharField(max_length=100, blank=True)
     supervisor = models.ForeignKey('Supervisor', db_column='supervisor', blank=True, null=True)
     cartera = models.ForeignKey('Cartera', db_column='cartera', blank=True, null=True)
 
@@ -291,6 +296,8 @@ class Nivel(models.Model):
 class Resultado(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
     name = models.CharField(max_length=100, blank=True)
+    codigo = models.CharField(max_length=100, blank=True)
+    tipo = models.CharField(max_length=100, blank=True)
 
     class Meta:
         managed = False
