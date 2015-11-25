@@ -184,14 +184,16 @@ def agentes(request,id_campania):
 
 	for i in range(len(user)):
 
-		print 'aaa',user[i]['id']
+		
 
 
 		user[i]['agente__tiempo'] = Agentescampanias.objects.get(id=user[i]['id']).agente.tiempo.strftime(fmt)
 		
 		if user[i]['agente__atendidas'] > 0:
 
-			user[i]['performance'] =  (user[i]['agente__contactadas']/user[i]['agente__atendidas'])*100
+			user[i]['performance'] =  (user[i]['agente__contactadas']*100/user[i]['agente__atendidas'])
+
+			print 'performance',user[i]['performance']
 
 		else:
 
