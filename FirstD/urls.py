@@ -31,6 +31,8 @@ urlpatterns = patterns('',
     url(r'^agregaragente/', 'PeruCall.views.agregaragente'),
     url(r'^quitaragente/', 'PeruCall.views.quitaragente'),
     url(r'^supervisores/', 'PeruCall.views.supervisores'),
+    url(r'^reasignarsupervisor/', 'PeruCall.views.reasignarsupervisor'),
+
     url(r'^monitoreo/(\w+)/$', 'PeruCall.views.monitoreo'),
     url(r'^agentes/(\w+)/$', 'PeruCall.views.agentes'),
     url(r'^troncales/$', 'PeruCall.views.troncales'),
@@ -46,12 +48,19 @@ urlpatterns = patterns('',
     url(r'^agregarfiltro/', 'PeruCall.views.agregarfiltro'),
     url(r'^eliminarfiltro/', 'PeruCall.views.eliminarfiltro'),
     url(r'^reportes/(\w+)/$', 'PeruCall.views.reportes'),
+    url(r'^resultadofiltro/(\w+)/$', 'PeruCall.views.resultadofiltro'),
     url(r'^home/', 'PeruCall.views.home'),
     url(r'^agregarcartera/', 'PeruCall.views.agregarcartera'),
+
   
     url(r'^teleoperador/(\w+)/$', 'PeruCall.views.teleoperador'),
     url(r'^menu/$', 'PeruCall.views.menu'),
-    url(r'^base/(\w+)/$', 'PeruCall.views.base'),
+
+    url(r'^status_f/(\w+)/$', 'PeruCall.views.status_f'),
+    url(r'^status_g/(\w+)/$', 'PeruCall.views.status_g'),
+    url(r'^status_h/(\w+)/$', 'PeruCall.views.status_h'),
+    url(r'^resultado/$', 'PeruCall.views.resultado'),
+
 
 )
 

@@ -118,47 +118,64 @@
 
             <form ng-submit="filtrado(filtro)">
 
-                <div class="col-sm-4">
+
+                  <div class="col-sm-3">
 
 
-                     <select class="form-control" id="myselection" multiple="true" ng-model="filtro.ciudad" ng-options="c.nombre for c in ciudad"></select>
+                     <select class="form-control" id="myselection" multiple="true" ng-model="filtro.resultado" ng-options="c.name for c in resultado"></select>
                       <div class="form-group">
          
-                       <label>Ciudades Seleccionadas</label>
-                      <ul  ng-repeat="contact in filtro.ciudad">
-                          <li>{[{contact.nombre}]}</li>
+                       <label>Estado</label>
+                      <ul  ng-repeat="contact in filtro.resultado">
+                          <li>{[{contact.name}]}</li>
                       </ul>
                       </div>
 
                 </div>
 
-                  <div class="col-sm-4">
+                <div class="col-sm-3">
 
-                        <select class="form-control" id="myselection" multiple="true" ng-model="filtro.segmento" ng-options="c.nombre for c in segmento"></select>
+
+                     <select class="form-control" id="myselection" multiple="true" ng-model="filtro.ciudad" ng-options="c.status_f for c in ciudad"></select>
+                      <div class="form-group">
+         
+                       <label>Status F</label>
+                      <ul  ng-repeat="contact in filtro.ciudad">
+                          <li>{[{contact.status_f}]}</li>
+                      </ul>
+                      </div>
+
+                </div>
+
+                  <div class="col-sm-3">
+
+                         <select class="form-control" id="myselection" multiple="true" ng-model="filtro.grupo" ng-options="c.status_g for c in grupo"></select>
                         <div class="form-group">
            
-                        <label>Segmentos Seleccionados</label>
-                        <ul  ng-repeat="contact in filtro.segmento">
-                            <li>{[{contact.nombre}]}</li>
-                        </ul>
-
-                        </div>
-
-                    </div>
-                   <div class="col-sm-4">
-
-                         <select class="form-control" id="myselection" multiple="true" ng-model="filtro.grupo" ng-options="c.nombre for c in grupo"></select>
-                        <div class="form-group">
-           
-                        <label>Segmentos Seleccionados</label>
+                        <label>Status G</label>
                         <ul  ng-repeat="contact in filtro.grupo">
-                            <li>{[{contact.nombre}]}</li>
+                            <li>{[{contact.status_g}]}</li>
                         </ul>
                         </div>
 
       
 
                    </div>
+
+                  <div class="col-sm-3">
+
+                        <select class="form-control" id="myselection" multiple="true" ng-model="filtro.segmento" ng-options="c.status_h for c in segmento"></select>
+                        <div class="form-group">
+           
+                        <label>Status H</label>
+                        <ul  ng-repeat="contact in filtro.segmento">
+                            <li>{[{contact.status_h}]}</li>
+                        </ul>
+
+                        </div>
+
+                    </div>
+                 
 
 
                 <div class="col-sm-12">
@@ -182,10 +199,11 @@
 
                       <thead>
                           <tr>
-                        
-                          <th >Status F / Ciudad </th>
-                          <th >Status G / Segmento </th>   
-                          <th >Status H / Grupo </th> 
+                          
+                          <th >Estado </th>
+                          <th >Status F  </th>
+                          <th >Status G  </th>   
+                          <th >Status H  </th> 
                           <th >Fono por barrer</th>
                           <th >Fono sin exito </th> 
                           <th></th>
@@ -194,13 +212,14 @@
                        
                       <tr  ng-repeat="resultado in listafiltros " class='active' ts-repeat>
                           
-                
-                      
+                     
+                      <td>{[{resultado.resultado}]}</td> 
                       <td>{[{resultado.ciudad}]}</td>
                       <td>{[{resultado.segmento}]}</td>
                       <td>{[{resultado.grupo}]}</td>
-                      <td>{[{resultado.cantidad}]}</td>
-                      <td></td>
+                      <td>{[{resultado.fonosporbarrer}]} / {[{resultado.total}]}</td>
+                      <td>{[{resultado.fonosinexito}]} </td>
+                      
                       <td><a ng-click="eliminar(resultado,$index)" class="btn btn-primary" data-toggle="modal" data-target="#eliminar"><i class="icon-trash"></i> </a></td>
 
                       </tr>

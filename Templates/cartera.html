@@ -19,7 +19,7 @@
 
 <h4>Datos de Cartera</h4>
 
-<div ng-if="user.nivel == 1 || user.nivel == 4 || user.nivel == 2">
+<div ng-if="user.nivel == 1 || user.nivel == 4 ">
 
  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Agregar Cartera</button>
 
@@ -135,7 +135,7 @@
             <thead>
 
             <tr>
-                  <th>Id <a ng-click="sort_by('id',currentPage)"><i class="icon-sort"></i></a></th>
+                
                   <th>Cartera <a ng-click="sort_by('cartera__nombre',currentPage)"><i class="icon-sort"></i></a></th>
 
                   <th ng-if="user.nivel == 4">Empresa <a ng-click="sort_by('empresa__nombre',currentPage)"><i class="icon-sort"></i></a></th>
@@ -174,7 +174,7 @@
 
               <tr  ng-repeat="contact in pagedItems[currentPage]  " ts-repeat>
 
-                <td data-th="Origen">{[{contact.id}]} </td>
+                
                 <td data-th="Origen">{[{contact.cartera__nombre}]} </td>
                 <td data-th="Destino" ng-if="user.nivel == 4">{[{contact.empresa__nombre}]}</td>
 
@@ -184,7 +184,7 @@
                 <td>
 
 
-                <div ng-if="user.nivel == 1 || user.nivel == 4 || user.nivel == 2">
+                <div ng-if="user.nivel == 1 || user.nivel == 4 ">
 
                     
 

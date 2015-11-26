@@ -104,6 +104,43 @@
   </div>
 </div>
 
+<div id="reasignar" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Reasignar Campaña {[{model.nombre}]}</h4>
+      </div>
+        <div class="modal-body" ng-if="user.nivel == 1">
+
+
+        <label>Supervisor</label>
+
+
+        <form ng-submit="reasig(model)">
+
+        <select  ng-model="model.supervisor" class="form-control" ng-options="cliente.id as cliente.user__first_name for cliente in supervisores" required =""></select>
+        <br></br>
+
+
+        <button class="btn" data-dismiss="modal">Cerrar</button>
+        <button type="submit" class="btn btn-primary">Aceptar</button>
+        </form>
+
+       
+      
+      
+        </div>
+
+     
+
+
+    </div>
+
+  </div>
+</div>
+
 
 
 <h4>Campañas registradas</h4>
@@ -128,11 +165,12 @@
                   <th>Estado <a ng-click="sort_by('status',currentPage)"><i class="icon-sort"></i></a></th>
                   <th>Campaña <a ng-click="sort_by('nombre',currentPage)"><i class="icon-sort"></i></a></th>
 
-                  <th>Usuario <a ng-click="sort_by('usuario',currentPage)"><i class="icon-sort"></i></a></th>
+                  
                   <th>Cargados/ Barridos/ Errados <a ng-click="sort_by('empresa',currentPage)"><i class="icon-sort"></i></a></th>
                   <th>Agentes/ Conectados <a ng-click="sort_by('nivel',currentPage)"><i class="icon-sort"></i></a></th>
                   <th>Fecha Carga</th>
                    <th>Supervisor <a ng-click="sort_by('supervisor',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th></th>
                   <th></th>
         
                         
@@ -169,7 +207,7 @@
 
                 <td data-th="Estado">{[{contact.estado}]}</td>
                 <td data-th="Origen">{[{contact.nombre}]} </td>
-                <td data-th="Destino">{[{contact.usuario__first_name}]}</td>
+               
                 <td data-th="Calldate">{[{contact.cargado}]}</td>
                  <td data-th="Calldate">{[{contact.cargado}]}</td>
                 <td data-th="Disposition">{[{contact.fecha_cargada}]}</td>
@@ -178,6 +216,11 @@
 
                 <td>
                 <button class="btn btn-primary" ng-click='Admin(contact)'>Administrar</button>
+              </td>
+              <td>
+
+                 
+                <button ng-if="user.nivel == 1" class="btn btn-primary" data-toggle="modal" data-target="#reasignar" ng-click='Reasignar(contact)'>Reasignar</button>
               </td>
 
 
@@ -224,13 +267,28 @@
           </div>
           </div>
 
-
-          <div class="col-md-6">
+          <div class="col-md-12">
           <div class="form-group">
           <label>Nombre de campaña</label>
           <input type="text"  name = 'nombre' class="form-control" placeholder="Nombre" required ="">
           </div>
           </div>
+
+          <div class="col-md-4">
+          <div class="form-group">
+          <label>Cartera</label>
+          <select name = 'cartera' class="form-control">
+          {% for cartera in cartera%}
+              <option value='{{cartera.cartera.nombre}}'>{{cartera.cartera.nombre}}</option>
+          {% endfor %}
+          </select>
+          </div>
+          </div>
+
+
+
+
+      
 
      
 
@@ -238,14 +296,14 @@
 
 
 
-          <div class="col-md-6">
+          <div class="col-md-4">
           <div class="form-group">
           <label>Cantidad de Canales</label>
           <input type="text"  name = 'canales' class="form-control" placeholder="Canales" required ="">
           </div>
           </div>
 
-          <div class="col-md-6">
+          <div class="col-md-4">
           <div class="form-group">
           <label>Timbrados</label>
           <input type="text"  name = 'timbrados' class="form-control" placeholder="Timbrados" value = "4" required ="">
@@ -253,21 +311,21 @@
           </div>
 
 
-          <div class="col-md-6">
+          <div class="col-md-4">
           <div class="form-group">
           <label>Hora de trabajo Inicio</label>
-          <input type="time"  name = 'inicio' class="form-control" placeholder="Hora Inicio" required ="">
+          <input type="time"  name = 'inicio' class="form-control" placeholder="Hora Inicio" required ="" value='08:00'>
           </div>
           </div>
 
-          <div class="col-md-6">
+          <div class="col-md-4">
           <div class="form-group">
           <label>Hora de trabajo Fin</label>
-          <input type="time"  name = 'fin' class="form-control" placeholder="Hora Fin" required ="">
+          <input type="time"  name = 'fin' class="form-control" placeholder="Hora Fin" required ="" value='19:00'>
           </div>
           </div>
 
-          <div class="col-md-12">
+          <div class="col-md-4">
           <div class="form-group">
           <label>Supervisor</label>
 
@@ -286,7 +344,9 @@
 
           <div class="modal-header">
           <h4>Indicadores de Control (KPI)</h4>
+
         </div>
+        <br>
 
 
 
