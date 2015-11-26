@@ -5,7 +5,6 @@ App.config(function($interpolateProvider){
 $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
 });
 
-
 function Controller($scope,$http,$cookies,$filter) {
 
 
@@ -19,27 +18,49 @@ function Controller($scope,$http,$cookies,$filter) {
     $scope.currentPage = 0;
 
 
+    user = window.location.href.split("supervisorcartera/")[1].split("/")[0]
+
     
-    $http.get("/campanias").success(function(response) {$scope.clientes = response;
 
-        $scope.search();
+
+     $http.get("/carterasupervisor/"+user).success(function(response) {
+
+        $scope.carteras = response;
+
+        console.log($scope.carteras)
+
+    });
+
+
+          $http.get("/troncales").success(function(response) {$scope.troncales = response[0];
+
+        console.log('trncales',$scope.troncales)
        
     });
 
-    $http.get("/empresas").success(function(response) {$scope.empresas = response[0];
 
-        
+
+     $http.get("/empresas").success(function(response) {$scope.empresas = response[0];
+
+
        
     });
 
-    $http.get("/supervisores").success(function(response) {$scope.supervisores = response;
+       $http.get("/empresas").success(function(response) {$scope.empresasm = response;
 
-      
+
        
     });
 
-   
-    
+    $http.get("/carteras/").success(function(response) {$scope.clientes = response;
+
+        $scope.search()
+
+
+       
+    });
+
+
 
 
 
@@ -50,79 +71,74 @@ function Controller($scope,$http,$cookies,$filter) {
     });
 
 
-    $scope.Admin = function(contact) 
-    {
+    $http.get("/nivel").success(function(response) {$scope.nivel = response;
 
-    console.log(contact.id)
-    window.location="/adminCampania/"+contact.id
-    
-    };
+        console.log('$scope.nivel',$scope.nivel)
 
-    $scope.Reasignar = function(contact) 
-    {
-
-        $scope.model = angular.copy(contact);
-        console.log($scope.model)
- 
-    };
-
-     $scope.reasig = function(contact) 
-    {
-
-        console.log('jjjj',contact)
-
-        var todo={
-
-            add: "New",
-            dato: contact,
-            done:false
-        }
-
-        $http({
-        url: "/reasignarsupervisor/",
-        data: todo,
-        method: 'POST',
-        headers: {
-        'X-CSRFToken': $cookies['csrftoken']
-        }
-        }).
-        success(function(data) {
-
-        swal({   title: "Perucall",   text: "Supervisor actualizado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Aceptar",   }, function(){   window.location.href = "/campania" });
-
-         
-         $scope.agregar=""
-
-
-        })
-
-
- 
-    };
-
-
-
-
-
+    });
 
     $scope.numberOfPages = function() 
+
     {
 
     return Math.ceil($scope.clientes.length / $scope.pageSize);
     
     };
 
+    $scope.cartera = function(contact) 
+
+    {
+
+    console.log(contact)
+    
+    };
 
 
+
+
+    $scope.MyCtrl = function() 
+
+    {
+
+    $scope.agregar.cartera = [$scope.colors[0], $scope.colors[1]];
+    }
+
+
+
+    $scope.nivelcartera= 0
+
+    $scope.nivelp = function(agregar) 
+
+    {
+
+    nivel = agregar['nivel']
+
+
+    
+    if (nivel ==2){
+
+
+        $scope.nivelcartera = 1
+
+    }
+    else{
+
+        $scope.nivelcartera= 0
+    }
+
+
+    
+    };
 
 
 
 
     $scope.addNew=function(agregar){
 
-      
 
 
+
+        console.log('agregar',agregar)
 
         var todo={
 
@@ -132,7 +148,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }
 
         $http({
-        url: "/empresas/",
+        url: "/carteras/",
         data: todo,
         method: 'POST',
         headers: {
@@ -141,11 +157,14 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-       swal({   title: "Perucall",   text: "Empresa "+data +" agregado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Agregado",   }, function(){   window.location.href = "/empresa" });
+        $('#myModal').modal('hide')
+        $('.modal-backdrop').remove();
 
-         
-         $scope.agregar=""
+        swal({   title: $scope.empresas.nombre,   text: 'Cartera '+data+' ingresada al sistema , gracias ',   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Aceptar",   }, function(){   window.location.href = "/cartera" });
+ 
+        
 
+        $scope.agregar=""
 
         })
 
@@ -154,7 +173,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
     $scope.saveContact = function (idx,currentPage) {
 
-     
+
         $scope.pagedItems[currentPage][idx] = angular.copy($scope.model);
         $('#edit').modal('hide')
         $('.modal-backdrop').remove();
@@ -169,7 +188,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
 
         $http({
-        url: "/empresas/",
+        url: "/carteras/",
         data: todo,
         method: 'POST',
         headers: {
@@ -178,23 +197,21 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-            swal({title: "Perucall", text: "Empresa "+data +" editado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Editado",   }, function(){  });
-
-
+        swal({   title: $scope.empresas.nombre,   text: "Cartera "+data +" editado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Aceptar",   }, function(){   });
+ 
         })
 
 
+        $('#Edit').modal('hide')
+        $('.modal-backdrop').remove();
     };
 
 
 
     $scope.eliminarContact = function (idx,currentPage) {
 
-
         $('#eliminar').modal('hide')
         $('.modal-backdrop').remove();
-
-        
 
         $scope.pagedItems[currentPage].splice(idx,1);
 
@@ -207,7 +224,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
 
         $http({
-        url: "/empresas/",
+        url: "/carteras/",
         data: todo,
         method: 'POST',
         headers: {
@@ -216,12 +233,12 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-        swal({title: "Perucall", text: "Empresa "+data +" eliminado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Eliminado",   }, function(){   });
-
         $scope.contador =$scope.contador-1
-
+        swal({   title: $scope.empresas.nombre,   text: "Cartera  eliminada",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Aceptar",   }, function(){   });
+ 
 
         })
+
     };
 
 
@@ -238,7 +255,6 @@ function Controller($scope,$http,$cookies,$filter) {
     $scope.sort_by = function(newSortingOrder,currentPage) {
 
 
-        
         function sortByKey(array, key) {
             return array.sort(function(a, b) {
             var x = a[key]; var y = b[key];
@@ -277,18 +293,19 @@ function Controller($scope,$http,$cookies,$filter) {
         $scope.search()
 
 
-
-
-
         // icon setup
         $('th i').each(function(){
-            // icon reset
-            $(this).removeClass().addClass('icon-sort');
+
+            console.log($(this))
+
+            $(this).removeClass().addClass('fa fa-chevron-down');
+
+
         });
         if ($scope.reverse)
-            $('th.'+newSortingOrder+' i').removeClass().addClass('icon-chevron-up');
+            $('th.'+newSortingOrder+' i').removeClass().addClass('fa fa-chevron-up');
         else
-            $('th.'+newSortingOrder+' i').removeClass().addClass('icon-chevron-down');
+            $('th.'+newSortingOrder+' i').removeClass().addClass('fa fa-chevron-down');
     
     };
 
@@ -303,7 +320,6 @@ function Controller($scope,$http,$cookies,$filter) {
 
         }
 
- 
         var output = {};
 
         obj = $filter('filter')($scope.clientes,$scope.tipo)

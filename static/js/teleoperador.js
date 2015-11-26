@@ -9,6 +9,9 @@ $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
 function Controller($scope,$http,$cookies,$filter) {
 
 
+    agente = window.location.href.split("teleoperador/")[1].split("/")[0]
+
+
     var sortingOrder ='-id';
     $scope.sortingOrder = sortingOrder;
     $scope.reverse = false;
@@ -20,11 +23,23 @@ function Controller($scope,$http,$cookies,$filter) {
 
 
     
-    $http.get("/campanias").success(function(response) {$scope.clientes = response;
+    $http.get("/resultado").success(function(response) {$scope.resultado = response;
 
-        $scope.search();
+       
        
     });
+
+    $http.get("/cliente/"+agente).success(function(response) {$scope.cliente = response[0];
+
+       console.log($scope.cliente)
+       base_ant = $scope.cliente.id
+       
+    });
+
+
+
+
+
 
     $http.get("/empresas").success(function(response) {$scope.empresas = response[0];
 
@@ -32,22 +47,72 @@ function Controller($scope,$http,$cookies,$filter) {
        
     });
 
-    $http.get("/supervisores").success(function(response) {$scope.supervisores = response;
+
+
+ 
+
+
+    setInterval(function(){ 
+
+     $http.get("/cliente/"+agente).success(function(response) {
+
+        $scope.cliente = response[0];
+
+        base_act = $scope.cliente.id
+
+        console.log(base_act,base_ant)
+      
+
+        if (base_act != base_ant){
+
+         swal({   title: 'Campaña ' + $scope.cliente.campania__nombre,   text: "Tienes una nueva llamada ",   type: "success",   confirmButtonColor: "#b71c1c",  confirmButtonText: "Ok", }, function(){ window.location.href = "/teleoperador/"+agente });
+
+        
+         setTimeout(
+          function() 
+          {
+            window.location.href = "/teleoperador/"+agente
+          }, 3000);
+
+
+        }
+
+        base_ant = $scope.cliente.id
 
       
        
     });
-
-   
-    
-
-
 
     $http.get("/user").success(function(response) {$scope.user = response;
 
         $scope.user = $scope.user[0]
 
     });
+
+    $http.get("/atendida/"+agente).success(function(response) {$scope.atendida = response;
+
+       
+    });
+
+    $http.get("/desfase/"+agente).success(function(response) {$scope.desfase = response;
+
+
+       
+    });
+
+    $http.get("/agente/"+agente).success(function(response) {$scope.agente = response;
+
+
+            data = JSON.parse($scope.agente['data'])
+
+            $scope.datoagente =data[0]
+
+      
+
+    });
+
+
+    }, 1000);
 
 
     $scope.Admin = function(contact) 
@@ -65,6 +130,39 @@ function Controller($scope,$http,$cookies,$filter) {
         console.log($scope.model)
  
     };
+
+    $scope.botonera = function(contact) 
+    {
+
+       
+        console.log(agente)
+
+        var todo={
+
+            resultado: contact,
+            cliente : $scope.cliente,
+            agente: agente,
+            done:false
+        }
+
+        $http({
+        url: "/botonera/",
+        data: todo,
+        method: 'POST',
+        headers: {
+        'X-CSRFToken': $cookies['csrftoken']
+        }
+        }).
+        success(function(data) {
+
+        swal({   title: $scope.empresas.nombre,   text: "Acuerdo actualizado a "+ data,   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Aceptar",   }, function(){  });
+
+        
+
+        })
+ 
+    };
+
 
      $scope.reasig = function(contact) 
     {
@@ -283,12 +381,12 @@ function Controller($scope,$http,$cookies,$filter) {
         // icon setup
         $('th i').each(function(){
             // icon reset
-            $(this).removeClass().addClass('icon-sort');
+            $(this).removeClass().addClass('fa fa-chevron-up');
         });
         if ($scope.reverse)
-            $('th.'+newSortingOrder+' i').removeClass().addClass('icon-chevron-up');
+            $('th.'+newSortingOrder+' i').removeClass().addClass('fa-chevron-up');
         else
-            $('th.'+newSortingOrder+' i').removeClass().addClass('icon-chevron-down');
+            $('th.'+newSortingOrder+' i').removeClass().addClass('fa-chevron-down');
     
     };
 

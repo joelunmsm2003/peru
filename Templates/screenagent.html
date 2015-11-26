@@ -1,383 +1,250 @@
-<html class=""><head><meta charset="UTF-8"><meta name="robots" content="noindex"><link rel="canonical" href="http://codepen.io/sergep/pen/vkaFt">
-<title>Agente</title>
-  <script src="/static/js/angular.js"></script>
-  <script src="/static/js/angular-cookie.js"></script>
-  <script src="/static/js/a.js"></script>
-  <script type="text/javascript" src ="/static/js/jquery-2.1.1.min.js"></script>
-  <link rel="stylesheet" href="/static/css/bootstrap.css" >
-  <script src="/static/js/bootstrap.js"></script>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Teleoperador</title>
+  {% include "head.html" %}
+  <script src="/static/js/teleoperador.js"></script>
 
 
-<style class="cp-pen-styles">@import url(http://fonts.googleapis.com/css?family=Asap);
+</head>
+<body class="container" ng-app="App" ng-controller="Controller">
 
 
-*{
-  margin: 0;
-  padding: 0;
-}
-#contenedor{
-  margin: 10px auto;
-  width: 540px;
-  height: 115px;
-}
-.reloj{
-  float: left;
-  font-size: 20px;
-  font-family: Courier,sans-serif;
-  color: #ffffff;
-}
-.boton{
-  outline: none;
-  border: 1px solid #363431;
-  width: 30px;
-  height: 30px;
-  text-shadow: 0px -1px 1px black;
-  font-size: 20px;
-  border-radius: 5px;
-  font-family: Helvetica;
-  cursor: pointer;
-  background-image: linear-gradient(#8A1A2A,#8A1A2A);
-}
-.boton:active{
-  background-image: linear-gradient(#8A1A2A,#8A1A2A);
-}
-.boton:hover{
-  box-shadow: 0px 0px 14px #8A1A2A;
-}
-#progressBar{
-    background-color:#8A1A2A;
-}
+<div  id ='cliente' class='container-fluid animated bounceInRight'>
+
+<div class='row'>
+
+              <div class="col-md-4">
+
+                  <div class='row'>
+
+                      <div class="col-md-12">
+                      <h4>Campaña : {[{cliente.campania__nombre}]}</h4>
+                      </div>
+
+                      <div class="col-md-12">
+                      <h4>Teleoperador : {[{datoagente.user__first_name}]} </h4>
+                      </div>
+
+                      <div class="col-md-12">
+                      <h4>Estado : {[{datoagente.estado__nombre}]} </h4>
+                      </div>
 
 
 
-html, body {
-  padding: 0;
-  margin: 0;
-}
+                  </div>
 
-.oops {
-  display: none;
-}
 
-span {
-  color: #fff;
-  text-align: center;
-  display: block;
-  font-size: 27px;
-  font-family: 'Asap', sans-serif;
-  padding: 10px;
-}
 
-body {
-  padding: 0px 10px 10px;
-  background: #8A1A2A;
-  -webkit-transition: background-color 0.4s ease;
-  -moz-transition: background-color 0.4s ease;
-  -o-transition: background-color 0.4s ease;
-  transition: background-color 0.4s ease;
-}
+              </div>
 
-/* Transition definition */
-.container {
-  -webkit-transition: width 0.4s ease, height 0.4s ease;
-  -moz-transition: width 0.4s ease, height 0.4s ease;
-  -o-transition: width 0.4s ease, height 0.4s ease;
-  transition: width 0.4s ease, height 0.4s ease;
-}
+              <div class="col-md-8">
 
-/* The container that defines the dimenions of the monitor - used in media queries */
-.container {
-  width: 900px;
-  height: 525px;
-  margin: 0 auto;
-}
+                      <div class='row'>
 
-.container:hover {
-  width: 950px;
-  height: 555px;
-}
+                      <div class="col-md-6">
 
-/* Black monitor outline */
-.monitor {
-  padding: 4%;
-  position:relative;
-  background: #333;
-  border-radius: 10px;
-  height: 100%;
-}
+                        <table class="table">
+                              
+                              <tbody>
+                                <tr>
+                                <td>Conectado</td>
+                                <td>{[{user.conectado}]}</td>
+                                
+                               </tr>
 
-/* Camera on top of the monitor */
-.monitor:before {
-  content: "";
-  display: block;
-  background: #E6E9ED;
-  position: absolute;
-  padding: 0.8%;
-  margin-right: -0.4%;
-  border-radius: 50%;
-  right: 50%;
-  top: 1.8%;
-}
+                               <tr>
+                               <td>Atendidas (seg)</td>
+                               <td>{[{atendida}]}</td>
+                               </tr>
 
-/* Power button on the bottom of monitor */
-.monitor:after {
-  content: "";
-  display: block;
-  background: #AAB2BD;
-  position: absolute;
-  padding: 1%;
-  border-radius: 10%;
-  right: 4%;
-  bottom: 1.5%;
-}
+                               <tr>
+                               <td>Desfase</td>
+                               <td>{[{desfase}]}</td>
+                               </tr>
 
-/* The container of the content */
-.screen {
-  height: 100%;
-  color: white;
-  /*overflow: hidden; /* so that scroll bar is hidden */
-}
+                              </tbody>
+                          </table>
+                     
+                      </div>
 
-/* Scrollable section inside the screen */
-.content {
-  height: 100%;
-  width: calc(100% + 17px); /* 17px for scroll bar */
-  overflow-y: scroll;
-  position: relative;
-}
+                      <div class="col-md-6">
 
-.screen:after {
-  content:'';
-  display: block;
-  height: 88%;
-  background: #333;
-  position: absolute;
-  right: 0;
-  top: 6%;
-  width: 4%;
-}
+                          <table class="table">
+                              
+                              <tbody>
+                                <tr>
+                                <td>ATENDIDAS</td>
+                                <td>{[{agente.atendidas}]}</td>
+                                
+                               </tr>
 
-/* Image on the screen */
-.content img {
-  display: block;
-  width: 100%;
-}
+                               <tr>
+                               <td>ACUERDOS</td>
+                               <td>{[{agente.acuerdos}]}</td>
+                               </tr>
 
-/* Stand */
-.monitor-stand {
-  position: relative;
-  margin: 0 auto;
-  height: 10%;
-  width: 20%;
-  background: #F3F3F4;
-}
+                               <tr>
+                               <td>MEDIA</td>
+                               <td>{[{agente.media}]} %</td>
+                               </tr>
 
-/* Shadow on stand - have to set manually since border-top doesn't support % :( */
-.monitor-stand {
-  border-top: 24px solid #D1D3D6;
-}
+                              </tbody>
+                          </table>
 
-/* Bottom of stand */
-.monitor-stand:after {
-  content: '';
-  position: absolute;
-  background: #E7E8E9;
-  height: 20%;
-  width: 200%;
-  margin-left: -50%;
-  margin-top: 29%;
-  border-radius: 5px;
-}
 
-/* Shadow */
-.monitor-stand:before {
-  content: '';
-  position: absolute;
-  width: 250%;
-  height: 50%;
-  margin-left: -75%;
-  margin-top: 60%;
-  opacity: 0.3;
-  background: #000;
-  border-radius: 50%;
-}
+                      </div>
 
-/* 1200px and less ------------------------------ */
-@media (max-width: 1200px) {
-  body {
-    background: #5D9CEC;
-  }
 
-  .container {
-    width: 800px;
-    height: 466px;
-  }
-
-  .container:hover {
-    width: 820px;
-    height: 477px;
-  }
-
-  .monitor-stand {
-    border-top: 20px solid #D1D3D6;
-  }
-}
-
-/* 992px and less ------------------------------ */
-@media (max-width: 992px) {
-  body {
-    background: #2ecc71;
-  }
-
-  .container {
-    width: 600px;
-    height: 350px;
-  }
-
-  .container:hover {
-    width: 615px;
-    height: 358px;
-  }
-
-  .monitor-stand {
-    border-top: 15px solid #D1D3D6;
-  }
-}
-
-/* 768px and less ------------------------------ */
-@media (max-width: 768px) {
-  body {
-    background: #AC92EC ;
-  }
-
-  .container,
-  .container:hover {
-    width: 450px;
-    height: 262px;
-  }
-
-  .monitor-stand {
-    border-top: 12px solid #D1D3D6;
-  }
-}
-
-/* 480px and less ------------------------------ */
-@media (max-width: 480px) {
-  body {
-    background: #FFCE54 ;
-  }
-
-  .container,
-  .container:hover {
-    width: 300px;
-    height: 175px;
-  }
-
-  .monitor-stand {
-    border-top: 8px solid #D1D3D6;
-  }
-}
-
-/* 320px and less ------------------------------ */
-@media (max-width: 320px) {
-  body {
-    background: #ED5565;
-  }
-
-  span {
-    display: none;
-  }
-
-  .oops {
-    display: block;
-  }
-}
-
-#wrapper {
-  display: block;
-  width: 100%;
-  background: #fff;
-  margin: 0 auto;
-  padding: 10px 17px;
-  height: 300px;
-}
-
-</style>
-
-</head><body>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<h1></h1>
-<div class="container">
-  <div class="monitor">
-  	<div class="screen">
-
-<table>
-	
-	<td>
-			<h4>HH:MM CONECTADO</h4>
-			<div class="reloj" id="Horas">00</div>
-			<div class="reloj" id="Minutos">:00</div>
-			<div class="reloj" id="Segundos">:00</div>
-			<div class="reloj" id="Centesimas">:00</div>
-			<input type="button" class="boton" id="inicio" value="&#9658;" onclick="inicio();">
-			<input type="button" class="boton" id="parar" value="&#8718;" onclick="parar();" disabled>
-			<input type="button" class="boton" id="continuar" value="&#8634;" onclick="inicio();" disabled>
-			<input type="button" class="boton" id="reinicio" value="&#8635;" onclick="reinicio();" disabled>	
-
-			<p>
-				
-			</p>	
-			<h4>HH:MM ATENDIDAS</h4>
-			<div class="reloj" id="Horas">00</div>
-			<div class="reloj" id="Minutos">:00</div>
-			<div class="reloj" id="Segundos">:00</div>
-			<div class="reloj" id="Centesimas">:00</div>
-	</td>
-	<td></td>
-	<td>
-
-			<table class="dataTable">
-			    <tbody>
-			        <tr>
-			            <td><h4>Nº Llamadas Atendidas</h4></td>
-			            <td><div class="reloj">XXX</div></td>
-			        </tr>
-			        <tr>
-			            <td><h4>Nº Acuerdos</h4></td>
-			            <td><div class="reloj">XXX</div></td>
-			        </tr>
-					<tr>
-						<td><h4>Media</h4></td>
-						<td><div class="reloj">XX%</div></td>
-					</tr>
-			    </tbody>
-			</table>
-
-	</td>
-
-</table>
-<p>
-	
-</p>
-<div></div>
-
-<table>
-	<body>
-	<div id="wrapper">
-
-	</div> 
-	</body>
-</table>
-
-<table>
-
-</table>
-
-    </div>
-  </div>
 </div>
 
 
 
-<script src="//codepen.io/assets/editor/live/css_live_reload_init.js"></script>
-</body></html>
+
+
+
+
+</div>
+
+
+<div class='row'>
+
+    <div class="col-md-4">
+
+    <h3>Acuerdo</h3>
+
+          <table class="table" id='cliente'>
+        
+              <tbody>
+                
+              <tr  ng-repeat="contact in resultado  " ts-repeat>
+
+              <td>{[{contact.codigo}]}</td>
+              <td>{[{contact.name}]}</td>
+
+
+               <td ng-if="contact.name == cliente.resultado__name">
+
+               <button type="button" ng-click='botonera(contact)' class="btn btn-primary"><i class="fa fa-thumbs-up"></i></button>
+
+               </td>
+
+               <td ng-if="contact.name != cliente.resultado__name">
+
+               <button type="button" ng-click='botonera(contact)' class="btn btn-second"><i class="fa fa-thumbs-up"></i></button>
+
+               </td>
+
+
+             
+
+              </tr>
+
+              </tbody>
+            </table>
+
+    </div>
+
+
+    <div class="col-md-8">
+
+          <h3> Gestion</h3>
+
+    
+           <table   class="table animated bounceInRight">
+            
+              <tbody>
+                
+             
+              <tr><td>Id</td>
+              <td>{[{cliente.id}]}</td>
+              <td>Status A</td>
+              <td>{[{cliente.status_a}]}</td>
+
+
+              </tr>
+
+              <tr><td>Telefono</td>
+              <td>{[{cliente.telefono}]}</td>
+              <td>Status B</td>
+              <td>{[{cliente.status_b}]}</td>
+
+
+              </tr>
+
+              <tr><td>Orden</td>
+              <td>{[{cliente.orden}]}</td>
+              <td>Status C</td>
+              <td>{[{cliente.status_c}]}</td>
+
+
+              </tr>
+              <tr><td>Id Cliente</td>
+              <td>{[{cliente.orden}]}</td>
+              <td>Status D</td>
+              <td>{[{cliente.status_d}]}</td>
+              </tr>
+
+              
+              <tr><td>Acuerdo</td>
+              <td>{[{cliente.resultado__name}]}</td>
+              <td>Status E</td>
+              <td>{[{cliente.status_e}]}</td>
+              </tr>
+
+              <tr><td></td>
+              <td></td>
+              <td>Status F</td>
+              <td>{[{cliente.status_f}]}</td>
+              </tr>
+
+              <tr><td></td>
+              <td></td>
+              <td>Status G</td>
+              <td>{[{cliente.status_g}]}</td>
+              </tr>
+
+              <tr><td></td>
+              <td></td>
+              <td>Status H</td>
+              <td>{[{cliente.status_h}]}</td>
+              </tr>
+
+     
+
+              
+
+
+              </tbody>
+            </table>
+
+
+    </div>
+
+
+</div>
+
+
+</div>
+
+<style type="text/css">
+  
+.btn-primary {
+  color: #F7F7F7;
+  background-color: rgb(183, 28, 28);
+  border-color: #b71c1c;
+}
+
+  .btn-second{
+  color: #DD1010;
+  background-color: #E2E2F4;
+  border-color: #b71c1c;
+}
+
+
+</style>
+
+
+
+</body>
+</html>
