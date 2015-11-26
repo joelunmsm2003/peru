@@ -8,6 +8,11 @@
 
 <body ng-app="App">
 
+<div style="position: absolute;">
+  <div class='vertical'> {% include "vertical.html" %} </div>
+ 
+</div>
+
 <div class="container" ng-controller="Controller">
 
 <div id="eliminar" class="modal fade" role="dialog">
@@ -78,13 +83,14 @@
   </div>
 </div>
 
+
+
 {% include "header.html" %}
 
 
-<div class="row">
-{% include "vertical.html" %}
 
-<div class="col-sm-10">
+
+
 
 
           <div class="jumbotron">
@@ -93,18 +99,16 @@
 
           
 
-              <div class="col-sm-6">
+              <div class="col-sm-3">
               
-              <h2>Campaña  {{campania.nombre}} </h2>  
+              <p><i class="fa fa-cube"></i> Campaña  {{campania.nombre}} </p>  
               </div>
-              <div class="col-sm-6">
-               <h2>Filtro </h2>
+              
+              <div class="col-sm-3">
+               <p><i class="fa fa-user"></i> Supervisor : {{campania.supervisor.user.first_name}}</p>
               </div>
-              <div class="col-sm-6">
-               <p>Supervisor : {{campania.supervisor.user.first_name}}</p>
-              </div>
-              <div class="col-sm-6">
-               <p>Timbrados: {{campania.timbrados}}</p>
+              <div class="col-sm-3">
+               <p><i class="fa fa-phone"></i> Timbrados: {{campania.timbrados}}</p>
               </div>
 
             </div>
@@ -240,10 +244,8 @@
     
 
 
-</div>
 
 
-</div>
 
 
 

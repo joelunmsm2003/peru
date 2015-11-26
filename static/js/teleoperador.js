@@ -155,9 +155,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-        swal({   title: $scope.empresas.nombre,   text: "Acuerdo actualizado a "+ data,   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Aceptar",   }, function(){  });
-
-        
+   
 
         })
  
