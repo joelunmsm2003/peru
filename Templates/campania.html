@@ -205,7 +205,8 @@
 
               <tr  ng-repeat="contact in pagedItems[currentPage]  " ts-repeat>
 
-                <td data-th="Estado">{[{contact.estado}]}</td>
+                <td data-th="Estado">{[{contact.id}]} </td>
+                <td data-th="Estado"> {[{contact.estado}]}</td>
                 <td data-th="Origen">{[{contact.nombre}]} </td>
                
                 <td data-th="Calldate">{[{contact.cargado}]}</td>

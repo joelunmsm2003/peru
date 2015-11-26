@@ -1193,6 +1193,7 @@ def usuarios(request):
 					agente.atendidas = 0
 					agente.contactadas =0
 					agente.estado_id = 1
+					agente.tiempo = datetime.strptime("00:00:00", "%H:%M:%S")
 					agente.save()
 
 			return HttpResponse(info, content_type="application/json")

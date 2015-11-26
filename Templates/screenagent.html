@@ -113,12 +113,16 @@
 
     <h3>Acuerdo</h3>
 
+
+          
+
           <table class="table" id='cliente'>
         
               <tbody>
                 
-              <tr  ng-repeat="contact in resultado  " ts-repeat>
+              <tr>
 
+              <td>{[{r1.codigo}]}</td><td>{[{r1.name}]}</td><td>{[{r2.codigo}]}</td><td>{[{r2.name}]}</td>
               <td>{[{contact.codigo}]}</td>
               <td>{[{contact.name}]}</td>
 
@@ -219,10 +223,74 @@
             </table>
 
 
+              <div class="col-md-6">
+
+              <form ng-submit="gestion()">
+
+
+              <div class="form-group">
+              <label for="">Comentario</label>
+              <textarea class="form-control" rows="5" id="comment"></textarea>
+              </div>
+
+
+
+              <button type="submit" class="btn btn-primary">Guardar</button>
+              </form>
+
+              </div>
+
+              <div class="col-md-6">
+
+              <form ng-submit="gestion()">
+
+
+              <div class="form-group">
+              <label for="">Fecha</label>
+             <input type="date" name="" id="input" class="form-control" value="" required="required" title="">
+              </div>
+
+               <div class="form-group">
+              <label for="">Monto Acuerdo</label>
+             <input type="text" name="" id="input" class="form-control" value="" required="required" title="">
+              </div>
+
+
+
+
+              </form>
+              </div>
+
+
+
     </div>
+
+     
+ 
+
+
+
+
+
+ 
+ 
+
+
+ 
+
+
+
 
 
 </div>
+
+
+
+
+
+
+
+
 
 
 </div>
