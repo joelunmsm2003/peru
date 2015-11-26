@@ -7,7 +7,6 @@ $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
 
 
 
-
 function Controller($scope,$http,$cookies,$filter) {
 
 
@@ -25,22 +24,8 @@ function Controller($scope,$http,$cookies,$filter) {
 
 
     
-    $http.get("/resultado").success(function(response) {
+    $http.get("/resultado").success(function(response) {$scope.resultado = response;
 
-        $scope.r1= response[0];
-        $scope.r2= response[1];
-        $scope.r3= response[0];
-        $scope.r4= response[0];
-        $scope.r5= response[0];
-        $scope.r6= response[0];
-        $scope.r7= response[0];
-        $scope.r8= response[0];
-        $scope.r9= response[0];
-        $scope.r10= response[0];
-        $scope.r11= response[0];
-        $scope.r12= response[0];
-        $scope.r13= response[0];
-        
        
        
     });
