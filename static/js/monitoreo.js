@@ -26,19 +26,20 @@ function Controller($scope,$http,$cookies,$filter) {
     $scope.pagedItems = [];
     $scope.currentPage = 0;
 
-    
+    setInterval(function(){ 
+
     $http.get("/agentes/"+campania).success(function(response) {$scope.agentes = response;
 
-        $scope.labels = ["Atendidas", "Contactadas"];
 
-        console.log($scope.agentes)
+    console.log('agentes',$scope.agentes)
 
-        $scope.datax = [300, 50];
-
-
-      
 
     });
+
+    }, 1000);
+
+    
+
 
      $http.get("/agentescampania/"+campania).success(function(response) {$scope.usuarioscampania = response;
 

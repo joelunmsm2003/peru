@@ -12,6 +12,23 @@ from __future__ import unicode_literals
 from django.db import models
 
 
+class Agentebase(models.Model):
+    id = models.IntegerField(primary_key=True)  # AutoField?
+    agente = models.ForeignKey('Agentes', db_column='agente', blank=True, null=True)
+    base = models.ForeignKey('Base', db_column='base', blank=True, null=True)
+    tiniciogestion = models.DateTimeField(blank=True, null=True)
+    tfingestion = models.DateTimeField(blank=True, null=True)
+    duracion = models.IntegerField(blank=True, null=True)
+    comentario = models.TextField(blank=True)
+    facuerdo = models.DateTimeField(blank=True, null=True)
+    macuerdo = models.IntegerField(blank=True, null=True)
+    status = models.ForeignKey('Estado', db_column='status', blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'agentebase'
+
+
 class Agentes(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
     anexo = models.IntegerField(blank=True, null=True)
@@ -133,6 +150,8 @@ class Base(models.Model):
     detalle = models.CharField(max_length=100, blank=True)
     monto = models.CharField(max_length=100, blank=True)
     fecha = models.DateTimeField(blank=True, null=True)
+    tiniciogestion = models.DateTimeField(blank=True, null=True)
+    tfingestion = models.DateTimeField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -163,7 +182,7 @@ class Campania(models.Model):
     mxllamada = models.IntegerField(blank=True, null=True)
     llamadaxhora = models.IntegerField(blank=True, null=True)
     hombreobjetivo = models.IntegerField(blank=True, null=True)
-    archivo = models.FileField(upload_to='files')
+    archivo = models.CharField(max_length=100, blank=True)
     supervisor = models.ForeignKey('Supervisor', db_column='supervisor', blank=True, null=True)
     cartera = models.ForeignKey('Cartera', db_column='cartera', blank=True, null=True)
 

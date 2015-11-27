@@ -9,6 +9,11 @@ $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
 
 function Controller($scope,$http,$cookies,$filter) {
 
+    $('.gestion').hide()
+
+
+
+
 
     agente = window.location.href.split("teleoperador/")[1].split("/")[0]
 
@@ -61,7 +66,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
         base_act = $scope.cliente.id
 
-        console.log(base_act,base_ant)
+   
       
 
         if (base_act != base_ant){
@@ -101,6 +106,65 @@ function Controller($scope,$http,$cookies,$filter) {
        
     });
 
+
+
+    if ($scope.word >2){
+
+    $http.get("/tgestion/"+$scope.cliente.id+"/"+agente).success(function(response) {
+
+        $scope.tgestion = response;
+        fecha = response.split(":")
+      
+        var year = '2015';
+        var month = '04';
+        var day = '18';
+
+        var hour = fecha[0];
+        var min = fecha[1];
+        var sec = fecha[2];
+
+        if(min > 0){
+
+            sec=60
+        }
+
+        $scope.secgestion = sec*6
+
+        
+
+        
+
+         if (sec<30 && sec>0){
+
+            $scope.color="#81C784"
+        }
+
+        if (sec>30 && sec<55){
+
+            $scope.color="#2196F3"
+        }
+
+
+        if (sec>55){
+
+            $scope.color="#EF5350"
+            
+        }
+
+        var reserv = new Date(year,month,day,hour,min,sec)
+
+        console.log(reserv);
+
+
+        console.log(sec)
+
+ 
+    });
+
+    }
+
+    
+
     $http.get("/agente/"+agente).success(function(response) {$scope.agente = response;
 
 
@@ -124,6 +188,36 @@ function Controller($scope,$http,$cookies,$filter) {
     
     };
 
+     $scope.gestionlanza = function(contact) 
+    {
+
+    console.log(contact)
+
+      var todo={
+
+            gestion: contact,
+            cliente : $scope.cliente,
+            agente:agente,
+            done:false
+            }
+
+            $http({
+            url: "/gestionupdate/",
+            data: todo,
+            method: 'POST',
+            headers: {
+            'X-CSRFToken': $cookies['csrftoken']
+            }
+            }).
+            success(function(data) {
+
+       
+
+            })
+   
+    
+    };
+
     $scope.Reasignar = function(contact) 
     {
 
@@ -132,11 +226,64 @@ function Controller($scope,$http,$cookies,$filter) {
  
     };
 
+    $scope.word=0
+
+    $scope.tipeo = function() 
+    {
+        var dateactual = new Date();
+
+        $scope.word=$scope.word+1
+
+        if($scope.word<2){
+
+
+            var fechagestion = new Date();
+            
+
+             
+            var todo={
+
+            fechagestion: fechagestion,
+            cliente : $scope.cliente,
+            agente:agente,
+            agente: agente,
+            done:false
+            }
+
+            $http({
+            url: "/gestion/",
+            data: todo,
+            method: 'POST',
+            headers: {
+            'X-CSRFToken': $cookies['csrftoken']
+            }
+            }).
+            success(function(data) {
+
+       
+
+            })
+        }
+
+     
+    };
+
     $scope.botonera = function(contact) 
     {
 
        
-        console.log(agente)
+        console.log(contact)
+
+        if(contact['id']==11){
+
+            $('.gestion').show()
+
+            $('.gestion').addClass('animated bounce')
+        }
+        else{
+            $('.gestion').hide()
+
+        }
 
         var todo={
 

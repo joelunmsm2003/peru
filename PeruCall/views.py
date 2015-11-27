@@ -186,13 +186,41 @@ def menu(request):
 def agentes(request,id_campania):
 	id = request.user.id
 
-	user = Agentescampanias.objects.filter(campania=id_campania).values('id','agente__user__first_name','agente__fono','agente__anexo','agente__atendidas','agente__contactadas','agente__estado')
+	user = Agentescampanias.objects.filter(campania=id_campania).values('id','agente','agente__user__first_name','agente__fono','agente__anexo','agente__atendidas','agente__contactadas','agente__estado')
 
 	fmt = '%Y-%m-%d %H:%M:%S %Z'
+	fmt1 = '%Y-%m-%d %H:%M:%S'
+	fmt2='%H:%M:%S'
 
 	for i in range(len(user)):
 
-		
+		agentebase = Agentebase.objects.filter(agente_id=user[i]['agente'],status_id=6)
+
+		for agente in agentebase:
+
+			tiniciogestion = agente.tiniciogestion
+
+			ti= str(tiniciogestion)[0:19]
+			tf= str(datetime.now())[0:19]
+
+			ti = datetime.strptime(ti,fmt1)
+			tf = datetime.strptime(tf,fmt1)
+
+			user[i]['tgestion'] = str(tf-ti)
+
+			sec = str(tf-ti).split(':')
+			print 'sec',sec[2]
+
+			user[i]['secgestion'] = sec[2]
+
+			if sec[2] > 0 and sec[2]< 30:
+				user[i]['color'] = '#81C784'
+			if sec[2] > 30 and sec[2]< 55:
+				user[i]['color'] = '#2196F3'
+			if sec[2] > 55 :
+				user[i]['color'] = '#EF5350'
+
+
 
 
 		user[i]['agente__tiempo'] = Agentescampanias.objects.get(id=user[i]['id']).agente.tiempo.strftime(fmt)
@@ -236,6 +264,85 @@ def agregarcartera(request):
 		return HttpResponse(data, content_type="application/json")
 
 
+@login_required(login_url="/ingresar")
+def gestion(request):
+
+
+	if request.method == 'POST':
+
+		cliente = json.loads(request.body)['cliente']
+		fecha= json.loads(request.body)['fechagestion']
+		id_agente =json.loads(request.body)['agente']
+
+		id_cliente = cliente['id']
+		base = Agentebase.objects.get(base_id=id_cliente,agente_id=id_agente)
+		base.tiniciogestion = fecha
+		base.save()
+
+		return HttpResponse('data', content_type="application/json")
+
+@login_required(login_url="/ingresar")
+def gestionupdate(request):
+
+
+	if request.method == 'POST':
+
+		gestion = json.loads(request.body)['gestion']
+		agente = json.loads(request.body)['agente']
+		cliente = json.loads(request.body)['cliente']['id']
+
+		print cliente
+
+		comentario = gestion['comentario']
+
+		print 'gestion',gestion
+
+		print len(gestion)
+
+		if len(gestion)>1:
+
+			if gestion['fecha']:
+				fecha = gestion['fecha']
+			if gestion['monto']:
+				monto = gestion['monto']
+
+			base = Agentebase.objects.get(base_id=cliente,agente_id=agente)
+			base.facuerdo = fecha
+			base.macuerdo = monto
+			base.save()
+
+
+
+		base = Agentebase.objects.get(base_id=cliente,agente_id=agente)
+		base.comentario = comentario
+		base.save()
+
+		
+
+		return HttpResponse('data', content_type="application/json")
+
+
+
+
+@login_required(login_url="/ingresar")
+def tgestion(request,id_base,id_agente):
+
+
+	agentebase = Agentebase.objects.get(base_id=id_base,agente_id=id_agente)
+
+	fecha = agentebase.tiniciogestion
+
+	ti= str(fecha)[0:19]
+	tf= str(datetime.now())[0:19]
+
+	fmt = '%Y-%m-%d %H:%M:%S'
+
+	ti = datetime.strptime(ti,fmt)
+	tf = datetime.strptime(tf,fmt)
+
+	return HttpResponse(tf-ti, content_type="application/json")
+
+	
 @login_required(login_url="/ingresar")
 def agregarfiltro(request):
 
@@ -312,27 +419,25 @@ def resultado(request):
 @login_required(login_url="/ingresar")
 def agente(request,id_agente):
 
+	data = Agentes.objects.filter(id=id_agente).values('id','anexo','fono','atendidas','contactadas','estado__nombre','user__first_name','supervisor','calificacion').order_by('-id')
 
+	#for i in range(len(data)):
 
-		data = Agentes.objects.filter(id=id_agente).values('id','anexo','fono','atendidas','contactadas','estado__nombre','user__first_name','supervisor','calificacion').order_by('-id')
+		#data[i]['media'] = data[i]['contactadas']*100/data[i]['atendidas']
 
-		for i in range(len(data)):
+	data_dict = ValuesQuerySetToDict(data)
 
-			data[i]['media'] = data[i]['contactadas']*100/data[i]['atendidas']
+	data = simplejson.dumps(data_dict)
 
-		data_dict = ValuesQuerySetToDict(data)
+	atendidas = Base.objects.filter(agente_id=id_agente,status=1).count()
 
-		data = simplejson.dumps(data_dict)
+	acuerdos = Base.objects.filter(agente_id=id_agente,resultado_id__in=[4,1,2]).count()
 
-		atendidas = Base.objects.filter(agente_id=id_agente,status=1).count()
+	data = {'data':data,'atendidas':atendidas,'acuerdos':acuerdos,'media':3}
 
-		acuerdos = Base.objects.filter(agente_id=id_agente,resultado_id__in=[4,1,2]).count()
+	data = simplejson.dumps(data)
 
-		data = {'data':data,'atendidas':atendidas,'acuerdos':acuerdos,'media':3}
-
-		data = simplejson.dumps(data)
-
-		return HttpResponse(data, content_type="application/json")
+	return HttpResponse(data, content_type="application/json")
 
 
 
@@ -351,9 +456,6 @@ def cliente(request,id_agente):
 
 @login_required(login_url="/ingresar")
 def atendida(request,id_agente):
-
-
-
 		
 		cantidad = Base.objects.filter(agente_id=id_agente).values('agente').annotate(total=Sum('duracion'))
 		num=int(cantidad[0]['total'])  
@@ -664,16 +766,7 @@ def user(request):
 	return HttpResponse(data, content_type="application/json")
 
 
-@login_required(login_url="/ingresar")
-def ciudad(request):
 
-	user = Ciudad.objects.all().values('id','nombre')
-
-	data_dict = ValuesQuerySetToDict(user)
-
-	data = simplejson.dumps(data_dict)
-
-	return HttpResponse(data, content_type="application/json")
 
 @login_required(login_url="/ingresar")
 def reasignarsupervisor(request):
@@ -725,27 +818,6 @@ def botonera(request):
 
 
 
-@login_required(login_url="/ingresar")
-def grupo(request):
-
-	user = Grupo.objects.all().values('id','nombre')
-
-	data_dict = ValuesQuerySetToDict(user)
-
-	data = simplejson.dumps(data_dict)
-
-	return HttpResponse(data, content_type="application/json")
-
-@login_required(login_url="/ingresar")
-def segmento(request):
-
-	user = Segmento.objects.all().values('id','nombre')
-
-	data_dict = ValuesQuerySetToDict(user)
-
-	data = simplejson.dumps(data_dict)
-
-	return HttpResponse(data, content_type="application/json")
 
 
 
@@ -1001,6 +1073,8 @@ def agentescampania(request,id_campania):
 
 
 		print agentes[i]['id']
+
+
 
 		agentes[i]['name'] = Agentescampanias.objects.get(id=agentes[i]['id']).agente.user.first_name
 		agentes[i]['estado'] = Agentescampanias.objects.get(id=agentes[i]['id']).agente.estado.nombre
