@@ -26,6 +26,14 @@ function Controller($scope,$http,$cookies,$filter) {
     $scope.pagedItems = [];
     $scope.currentPage = 0;
 
+    $http.get("/agentes/"+campania).success(function(response) {$scope.agentes = response;
+
+
+    console.log('agentes',$scope.agentes)
+
+
+    });
+
     setInterval(function(){ 
 
     $http.get("/agentes/"+campania).success(function(response) {$scope.agentes = response;
@@ -36,7 +44,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
     });
 
-    }, 1000);
+    }, 100000);
 
     
 

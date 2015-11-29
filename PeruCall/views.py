@@ -192,6 +192,8 @@ def agentes(request,id_campania):
 	fmt1 = '%Y-%m-%d %H:%M:%S'
 	fmt2='%H:%M:%S'
 
+	print 'estado',AuthUser.objects.get(id=2).is_superuser
+
 	for i in range(len(user)):
 
 		agentebase = Agentebase.objects.filter(agente_id=user[i]['agente'],status_id=6)

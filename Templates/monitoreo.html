@@ -14,7 +14,7 @@
 <body ng-app="App">
 
 
-<div style="position: absolute;">
+<div class='vertical' style="position: absolute;">
   <div class='vertical'> {% include "vertical.html" %} </div>
  
 </div>
@@ -62,6 +62,7 @@
                       <li><span class="kindaawesome"></span> En Llamada</li>
                       <li><span class="notawesome"></span> Descolgado</li>
                       <li><span class="enpause"></span> En Pause</li>
+                       <li><span class="engestion"></span> En Gestion</li>
                       </ul>
                   </div>
                 </div>
@@ -76,15 +77,17 @@
                 
                 <div class="panel panel-default">
                     
-                      <div class="panel-heading" ng-if="contact.agente__estado == '1'" style="background-color:#75889B; color:#fff;">{[{contact.agente__user__first_name}]}</div>
+                      <div class="panel-heading" ng-if="contact.agente__estado == '1'" style="background-color:#8FB0B3; color:#fff;">{[{contact.agente__user__first_name}]}</div>
 
-                      <div class="panel-heading" ng-if="contact.agente__estado == '2'" style="background-color:#321; color:#fff;">{[{contact.agente__user__first_name}]}</div>
+                      <div class="panel-heading" ng-if="contact.agente__estado == '2'" style="background-color:#82BF72; color:#fff;">{[{contact.agente__user__first_name}]}</div>
 
-                      <div class="panel-heading" ng-if="contact.agente__estado == '3'" style="background-color:#585B94; color:#fff;">{[{contact.agente__user__first_name}]}</div>
+                      <div class="panel-heading" ng-if="contact.agente__estado == '3'" style="background-color:#478BCE; color:#fff;">{[{contact.agente__user__first_name}]}</div>
 
-                      <div class="panel-heading" ng-if="contact.agente__estado == '4'" style="background-color:#654; color:#fff;">{[{contact.agente__user__first_name}]}</div>
+                      <div class="panel-heading" ng-if="contact.agente__estado == '4'" style="background-color:#D2447A; color:#fff;">{[{contact.agente__user__first_name}]}</div>
 
-                      <div class="panel-heading" ng-if="contact.agente__estado == '5'" style="background-color:#789; color:#fff;">{[{contact.agente__user__first_name}]}</div>
+                      <div class="panel-heading" ng-if="contact.agente__estado == '5'" style="background-color:#D0CA40; color:#fff;">{[{contact.agente__user__first_name}]}</div>
+
+                      <div class="panel-heading" ng-if="contact.agente__estado == '6'" style="background-color:#A36AA5; color:#fff;">{[{contact.agente__user__first_name}]}</div>
 
 
                 <div class="panel-body">

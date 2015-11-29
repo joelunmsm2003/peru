@@ -12,7 +12,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#" onclick='ocultarmenu()'>Peru Call</a>
+      <a class="navbar-brand" href="#" onclick='ocultarmenu()'><i class="fa fa-bars"></i> Peru Call</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -23,9 +23,9 @@
           <li id="empresa" class="active" ng-if="user.nivel == 4 "><a href="/empresa">Empresas  <span class="sr-only">(current)</span></a></li>
         
 
-        <li id="usuario"><a href="/usuario">Usuarios </a></li>
-        <li id="cartera" ng-if="user.nivel == 1 || user.nivel == 2 ||user.nivel == 4"><a href="/cartera">Carteras </a></li>
-        <li id="campania"><a href="/campania">Campañas </a></li>
+        <li id="usuario"><a href="/usuario">  Usuarios <i class="fa fa-users"></i> </a></li>
+        <li id="cartera" ng-if="user.nivel == 1 || user.nivel == 2 ||user.nivel == 4"><a href="/cartera"> Carteras  <i class="fa fa-building-o"></i>  </a></li>
+        <li id="campania"><a href="/campania"> Campañas   <i class="fa fa-bullhorn"></i> </a></li>
        
         
         <li><a href="#">Reporte </a></li>
@@ -78,3 +78,108 @@
   }
 
 </script>
+
+<style type="text/css">
+  
+
+  .navbar-default .navbar-nav>li>a:hover{
+
+    color:#B71C1C;
+  }
+
+
+
+  #empresa:hover{
+
+      background-color: white;
+    animation-name: example;
+    animation-duration: .6s;
+  }
+  #campania:hover{
+
+    background-color: white;
+    animation-name: example;
+    animation-duration: .6s;
+  }
+
+
+
+  #micampania:hover{
+
+    background-color: #345;
+       background-color: white;
+    animation-name: example;
+    animation-duration: 1s;
+  }
+
+  #usuario:hover{
+
+    background-color: #345;
+       background-color: white;
+    animation-name: example;
+    animation-duration: 1s;
+  }
+
+  #cartera:hover{
+
+    background-color: #345;
+       background-color: white;
+    animation-name: example;
+    animation-duration: 1s;
+  }
+
+  #reporte:hover{
+
+    background-color: #345;
+       background-color: white;
+    animation-name: example;
+    animation-duration: 1s;
+  }
+
+    #adminCampania:hover{
+
+    background-color: #345;
+       background-color: white;
+    animation-name: example;
+    animation-duration: 1s;
+  }
+
+      #monitoreo:hover{
+
+    background-color: #345;
+       background-color: white;
+    animation-name: example;
+    animation-duration: 1s;
+  }
+
+      #filtros:hover{
+
+    background-color: #345;
+       background-color: white;
+    animation-name: example;
+    animation-duration: 1s;
+  }
+
+        #reportes:hover{
+
+    background-color: #345;
+       background-color: white;
+    animation-name: example;
+    animation-duration: 1s;
+  }
+
+
+
+
+    @keyframes example {
+    from {
+      background-color: #B71C1C;
+      color:white;
+      }
+    to {background-color: white;
+        color:red;}
+}
+
+
+
+</style>
