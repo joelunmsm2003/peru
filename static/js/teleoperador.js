@@ -106,12 +106,6 @@ function Controller($scope,$http,$cookies,$filter) {
        
     });
 
-    $http.get("/tllamada/"+$scope.cliente.id+"/"+agente).success(function(response) {$scope.tllamada = response;
-
-
-       
-    });
-
 
 
     if ($scope.word >2){
@@ -134,7 +128,7 @@ function Controller($scope,$http,$cookies,$filter) {
             sec=60
         }
 
-        $scope.secgestion = sec*2
+        $scope.secgestion = sec*6
 
         
 
@@ -195,10 +189,9 @@ function Controller($scope,$http,$cookies,$filter) {
     };
 
      $scope.gestionlanza = function(contact) 
-
     {
 
-        console.log(contact)
+    console.log(contact)
 
       var todo={
 

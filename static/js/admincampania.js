@@ -34,6 +34,9 @@ function Controller($scope,$http,$cookies,$filter) {
        
     });
 
+    
+
+
       
 
      $http.get("/agentescampania/"+campania).success(function(response) {

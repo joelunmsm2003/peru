@@ -811,6 +811,91 @@ def listafiltros(request,id_campania):
 
 	return HttpResponse(data, content_type="application/json")
 
+
+@login_required(login_url="/ingresar")
+def activafiltro(request,id_filtro):
+
+
+	data = Filtro.objects.filter(id=id_filtro).values('id','ciudad','segmento','grupo','resultado').order_by('-id')
+
+	for i in range(len(data)):
+
+		print data[i]['id']
+
+		filtro = Filtro.objects.get(id=data[i]['id'])
+
+		resultado = filtro.resultado
+
+		resultado =  resultado.split('/')
+
+		status_f = filtro.ciudad
+
+		status_f =  status_f.split('/')
+
+		status_h = filtro.segmento
+
+		status_h =  status_h.split('/')
+
+		status_g = filtro.grupo
+
+		status_g =  status_g.split('/')
+
+		base = Base.objects.filter(campania_id=id_campania,resultado__name__in=resultado,status_f__in=status_f,status_g__in=status_g,status_h__in=status_h)
+
+		for base in base:
+
+			base.status = 1
+			base.save()
+
+
+	data_dict = ValuesQuerySetToDict(data)
+
+	data = simplejson.dumps(data_dict)
+
+	return HttpResponse(data, content_type="application/json")
+
+@login_required(login_url="/ingresar")
+def desactivafiltro(request,id_campania):
+
+
+	data = Filtro.objects.filter(campania_id=id_campania).values('id','ciudad','segmento','grupo','resultado').order_by('-id')
+
+	for i in range(len(data)):
+
+		print data[i]['id']
+
+		filtro = Filtro.objects.get(id=data[i]['id'])
+
+		resultado = filtro.resultado
+
+		resultado =  resultado.split('/')
+
+		status_f = filtro.ciudad
+
+		status_f =  status_f.split('/')
+
+		status_h = filtro.segmento
+
+		status_h =  status_h.split('/')
+
+		status_g = filtro.grupo
+
+		status_g =  status_g.split('/')
+
+		base = Base.objects.filter(campania_id=id_campania,resultado__name__in=resultado,status_f__in=status_f,status_g__in=status_g,status_h__in=status_h)
+
+		for base in base:
+
+			base.status = 0
+			base.save()
+			
+
+	data_dict = ValuesQuerySetToDict(data)
+
+	data = simplejson.dumps(data_dict)
+
+	return HttpResponse(data, content_type="application/json")
+
 @login_required(login_url="/ingresar")
 def carterasupervisor(request,id_user):
 
@@ -822,6 +907,20 @@ def carterasupervisor(request,id_user):
 	data = simplejson.dumps(data_dict)
 
 	return HttpResponse(data, content_type="application/json")
+
+@login_required(login_url="/ingresar")
+def header(request,id_campania):
+
+
+	data = Header.objects.filter(campania_id=id_campania).values('id','campania__nombre','statusa','statusb','statusc','statusd','statuse','statusf','statusg','statush').order_by('-id')
+
+	data_dict = ValuesQuerySetToDict(data)
+
+	data = simplejson.dumps(data_dict)
+
+	return HttpResponse(data, content_type="application/json")
+
+
 
 @login_required(login_url="/ingresar")
 def carteranosupervisor(request,id_user):
@@ -975,19 +1074,15 @@ def uploadCampania(request):
 		now = datetime.now()
 		archivo =  request.FILES['process_file']
 
+
 		Campania(cartera_id=cartera,supervisor_id=supervisor,usuario_id=id,fecha_cargada= now,archivo = archivo,canales=canales,htinicio=inicio,htfin=fin,nombre=nombre,timbrados=timbrados,llamadaxhora=llamadaxhora,hombreobjetivo=hombreobjetivo,mxllamada=mxllamada).save()
 
 		id_campania = Campania.objects.all().values('id').order_by('-id')[0]['id']
 
 		archivo  = Campania.objects.get(id=id_campania).archivo
 
-
 		xls_name = '/var/www/html/'+str(archivo)
 
-		print xls_name
-
-		
-		
 		a ={}
 
 		book = xlrd.open_workbook(xls_name)
@@ -998,32 +1093,65 @@ def uploadCampania(request):
 
 		for rx in range(sh.nrows):
 
-			for col in range(sh.ncols):
+			print 'rx',rx
 
-				a[col] = str(sh.row(rx)[col])
+			if rx == 0:
 
-				a[col] = a[col].split(':')
+				for col in range(sh.ncols):
 
-				a[col]= a[col][1][0:150]
+					a[col] = str(sh.row(rx)[col])
 
-				a[col] = a[col].replace("u'","")
+					a[col] = a[col].split(':')
 
-				a[col] = a[col].replace("'","")
+					a[col]= a[col][1][0:150]
 
-			telefono = a[0].replace(".0","")
-			orden = a[1].replace(".0","")
-			cliente = a[2]
-			id_cliente = a[3]
-			status_a = a[4]
-			status_b = a[5]
-			status_c = a[6]
-			status_d =a[7]
-			status_e= a[8].replace(".0","")
-			status_f=a[9]
-			status_g= a[10]
-			status_h = a[11]
+					a[col] = a[col].replace("u'","")
 
-			Base(resultado_id=7,campania_id=id_campania,telefono=telefono,orden=orden,cliente=cliente,id_cliente=id_cliente,status_a=status_a,status_b=status_b,status_c=status_c,status_d=status_d,status_e=status_e,status_f=status_f,status_g=status_g,status_h=status_h).save()
+					a[col] = a[col].replace("'","")
+
+				telefono = a[0]
+				orden = a[1]
+				cliente = a[2]
+				id_cliente = a[3]
+				status_a = a[4]
+				status_b = a[5]
+				status_c = a[6]
+				status_d =a[7]
+				status_e= a[8]
+				status_f=a[9]
+				status_g= a[10]
+				status_h = a[11]
+
+				Header(campania_id=id_campania,statusa=status_a,statusb=status_b,statusc=status_c,statusd=status_d,statuse=status_e,statusf=status_f,statusg=status_g,statush=status_h).save()
+
+			else:
+
+				for col in range(sh.ncols):
+
+					a[col] = str(sh.row(rx)[col])
+
+					a[col] = a[col].split(':')
+
+					a[col]= a[col][1][0:150]
+
+					a[col] = a[col].replace("u'","")
+
+					a[col] = a[col].replace("'","")
+
+				telefono = a[0]
+				orden = a[1]
+				cliente = a[2]
+				id_cliente = a[3]
+				status_a = a[4]
+				status_b = a[5]
+				status_c = a[6]
+				status_d =a[7]
+				status_e= a[8].replace(".0","")
+				status_f=a[9]
+				status_g= a[10]
+				status_h = a[11]
+
+				Base(campania_id=id_campania,telefono=telefono,orden=orden,cliente=cliente,id_cliente=id_cliente,status_a=status_a,status_b=status_b,status_c=status_c,status_d=status_d,status_e=status_e,status_f=status_f,status_g=status_g,status_h=status_h).save()
 
 	return HttpResponseRedirect("/adminCampania/"+str(id_campania))
 

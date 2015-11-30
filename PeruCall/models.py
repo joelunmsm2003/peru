@@ -186,7 +186,7 @@ class Campania(models.Model):
     mxllamada = models.IntegerField(blank=True, null=True)
     llamadaxhora = models.IntegerField(blank=True, null=True)
     hombreobjetivo = models.IntegerField(blank=True, null=True)
-    archivo = models.CharField(max_length=100, blank=True)
+    archivo = models.FileField(upload_to='files')
     supervisor = models.ForeignKey('Supervisor', db_column='supervisor', blank=True, null=True)
     cartera = models.ForeignKey('Cartera', db_column='cartera', blank=True, null=True)
 
@@ -305,6 +305,23 @@ class Filtro(models.Model):
     class Meta:
         managed = False
         db_table = 'filtro'
+
+
+class Header(models.Model):
+    id = models.IntegerField(primary_key=True)  # AutoField?
+    campania = models.ForeignKey(Campania, db_column='campania', blank=True, null=True)
+    statusa = models.CharField(max_length=100, blank=True)
+    statusb = models.CharField(max_length=100, blank=True)
+    statusc = models.CharField(max_length=100, blank=True)
+    statusd = models.CharField(max_length=100, blank=True)
+    statuse = models.CharField(max_length=100, blank=True)
+    statusf = models.CharField(max_length=100, blank=True)
+    statusg = models.CharField(max_length=100, blank=True)
+    statush = models.CharField(max_length=100, blank=True)
+
+    class Meta:
+        managed = False
+        db_table = 'header'
 
 
 class Nivel(models.Model):
