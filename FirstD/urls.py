@@ -58,7 +58,10 @@ urlpatterns = patterns('',
     url(r'^gestion/$', 'PeruCall.views.gestion'),
     url(r'^tgestion/(\w+)/(\w+)/$', 'PeruCall.views.tgestion'),
     url(r'^gestionupdate/$', 'PeruCall.views.gestionupdate'),
-
+    url(r'^tllamada/(\w+)/(\w+)/$', 'PeruCall.views.tllamada'),
+    url(r'^pausa/(\w+)/$', 'PeruCall.views.pausa'),
+    url(r'^play/(\w+)/$', 'PeruCall.views.play'),
+    url(r'^game/$', 'PeruCall.views.game'),
   
     url(r'^teleoperador/(\w+)/$', 'PeruCall.views.teleoperador'),
     url(r'^menu/$', 'PeruCall.views.menu'),

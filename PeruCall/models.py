@@ -23,6 +23,8 @@ class Agentebase(models.Model):
     facuerdo = models.DateTimeField(blank=True, null=True)
     macuerdo = models.IntegerField(blank=True, null=True)
     status = models.ForeignKey('Estado', db_column='status', blank=True, null=True)
+    tiniciollamada = models.DateTimeField(blank=True, null=True)
+    tfinllamada = models.DateTimeField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -152,6 +154,8 @@ class Base(models.Model):
     fecha = models.DateTimeField(blank=True, null=True)
     tiniciogestion = models.DateTimeField(blank=True, null=True)
     tfingestion = models.DateTimeField(blank=True, null=True)
+    tiniciollamada = models.DateTimeField(blank=True, null=True)
+    tfinllamada = models.DateTimeField(blank=True, null=True)
 
     class Meta:
         managed = False

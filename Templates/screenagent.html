@@ -17,140 +17,280 @@
 
 
 
-<div class='row'>
+<div class='row '>
 
-              <div class="col-md-4  ">
+            
+              <div class="col-md-12 ">
 
-                
-
-                  <div class='row'>
-
-                      <div class="col-md-12">
-                      <h4>Campaña : {[{cliente.campania__nombre}]}</h4>
-                      </div>
-
-                      <div class="col-md-12">
-                      <h4>Teleoperador : {[{datoagente.user__first_name}]} </h4>
-                      </div>
-
-                      <div class="col-md-12">
-                      <h4>Estado : {[{datoagente.estado__nombre}]} </h4>
-                      </div>
+                      <div class='row '>
 
 
 
+                      <div class="col-md-3 panel panel-default">
 
-      
-                  </div>
+                          <div class='row panel-body c1'>
+                              <div class="col-md-12">
+                                 <div class='row'>
+                                  <div class="col-md-6"><i class="fa fa-wifi"></i> Teleoperador :
+                                  </div>
+                                  <div class="col-md-6">{[{datoagente.user__first_name}]} 
+                                  </div>
+                                  </div>
 
 
+                              </div>
 
-              </div>
+                              <div class="col-md-12">
 
-              <div class="col-md-8">
+                                   <div class='row'>
+                                  <div class="col-md-6"><i class="fa fa-laptop"></i> Anexo :
+                                  </div>
+                                  <div class="col-md-6">{[{datoagente.anexo}]} 
+                                  </div>
+                                  </div>
+                              </div>
 
-                      <div class='row'>
+                              <div class="col-md-12">
 
-                      <div class="col-md-6">
+                                  <div class='row'>
+                                  <div class="col-md-6"><i class="fa fa-diamond"></i> Estado :
+                                  </div>
+                                  <div class="col-md-6">{[{datoagente.estado__nombre}]}
+                                  
+                                  </div>
 
-                        <table class="table">
+
+                                  </div>
+
+                              </div>
                               
-                              <tbody>
-                                <tr>
-                                <td>Conectado</td>
-                                <td>{[{user.conectado}]}</td>
-                                
-                               </tr>
 
-                               <tr>
-                               <td>Atendidas (seg)</td>
-                               <td>{[{atendida}]}</td>
-                               </tr>
 
-                               <tr>
-                               <td>Desfase</td>
-                               <td>{[{desfase}]}</td>
-                               </tr>
+                          </div>
 
-                              </tbody>
-                          </table>
+                 
                      
                       </div>
 
-                      <div class="col-md-6">
 
-                          <table class="table">
-                              
-                              <tbody>
-                                <tr>
-                                <td>ATENDIDAS</td>
-                                <td>{[{agente.atendidas}]}</td>
-                                
-                               </tr>
-
-                               <tr>
-                               <td>ACUERDOS</td>
-                               <td>{[{agente.acuerdos}]}</td>
-                               </tr>
-
-                               <tr>
-                               <td>MEDIA</td>
-                               <td>{[{agente.media}]} %</td>
-                               </tr>
-
-                              </tbody>
-                          </table>
+                    <div class="col-md-3 panel panel-default" ng-if="datoagente.estado__nombre == 'En gestion'">
 
 
-                      </div>
+                          <div class='row panel-body c4'>
 
+                              <div class="col-md-12">
 
-                      <div class="col-md-12">
+                                  <div class='row'>
+                                    <div class="col-md-6" >
+                                    <i class="fa fa-phone"></i> Telefono
+                                    </div>
+                                    <div class="col-md-6" >{[{cliente.telefono}]}
+                      
+                                    </div>
 
-                          <div class='row'>
-                            <div class="col-md-6">
-                              <div class="progre">
-                              <div class="progressi">
+                                    </div>
 
-                              <div class="barr" style='width:4px;'></div>
+                       
 
+                               
                               </div>
+
+                              <div class="col-md-12">
+
+                                  <div class='row'>
+                                    <div class="col-md-6" >
+                                    <i class="fa fa-phone-square"></i> Tiempo
+                                    </div>
+                                    <div class="col-md-6" >{[{tllamada}]}
+                      
+                                    </div>
+
+                                    </div>
+
+                       
+
+                               
                               </div>
+
+                              <div class="col-md-12">
+                                  <div class='row'>
+                                    <div class="col-md-6" >
+                                    <i class="fa fa-tasks"></i> {[{tgestion}]}
+                                    </div>
+                                    <div class="col-md-6" >
+                                    <div class="progre">
+                                    <div class="progressi">
+
+
+                                    <div class="barr" style="width:{[{secgestion}]}px; background-color: {[{color}]};"></div>
+
+                                    </div>
+                                    </div>
+
+                                    </div>
+
+                                 </div>
+
 
                             </div>
-                            <div class="col-md-6">
 
-                              <div class='row'>
-                              <div class="col-md-2"><p>{[{tgestion}]}</p>
-                              </div>
-                              <div class="col-md-10">
-                               <div class="progre">
-                              <div class="progressi">
-
-                              
-
-                                <div class="barr" style="width:{[{secgestion}]}px; background-color: {[{color}]};"></div>
-
-
+                          
 
                        
 
 
-                              </div>
+                          </div>
+
+                          
+                      </div>
+
+                         <div class="col-md-3 panel panel-default" ng-if="datoagente.estado__nombre == 'En Llamada'">
+
+
+                          <div class='row panel-body c4'>
+
+                              <div class="col-md-12">
+
+                                  <div class='row'>
+                                    <div class="col-md-6" >
+                                    <i class="fa fa-phone"></i> Telefono
+                                    </div>
+                                    <div class="col-md-6" >{[{cliente.telefono}]}
+                      
+                                    </div>
+
+                                    </div>
+
+                       
+
+                               
                               </div>
 
+                              <div class="col-md-12">
+
+                                  <div class='row'>
+                                    <div class="col-md-6" >
+                                    <i class="fa fa-phone-square"></i> Tiempo
+                                    </div>
+                                    <div class="col-md-6" >{[{tllamada}]}
+                      
+                                    </div>
+
+                                    </div>
+
+                       
+
+                               
                               </div>
 
-                              </div>
-                              
-                             
-                            </div>
+               
+                          
+
+                       
+
 
                           </div>
 
-
+                          
                       </div>
 
+                      <div class="col-md-3 panel panel-default">
+
+                          <div class='row panel-body c2'>
+                              <div class="col-md-12">
+                                  <div class='row'>
+                                  <div class="col-md-8"><i class="fa fa-wifi"></i> Horas Conectadas
+                                  </div>
+                                  <div class="col-md-4">{[{user.conectado}]}
+                                  </div>
+
+                                  </div>
+
+                              </div>
+
+                              <div class="col-md-12">
+
+                                  <div class='row'>
+                                  <div class="col-md-8"><i class="fa fa-paper-plane"></i> Horas Atendidas
+                                  </div>
+                                  <div class="col-md-4">{[{atendida}]}
+                                  </div>
+
+                                  </div>
+                              </div>
+
+                              <div class="col-md-12">
+
+                                  <div class='row'>
+                                  <div class="col-md-8"><i class="fa fa-eye"></i> Horas Muertas 
+                                  </div>
+                                  <div class="col-md-4"> {[{desfase}]}
+                                  </div>
+
+                                  </div>
+
+                              </div>
+                              
+
+
+                          </div>
+
+                 
+                     
+                      </div>
+
+                      <div class="col-md-3 panel panel-default">
+
+
+                                <div class='row panel-body c3'>
+                              <div class="col-md-12">
+                                  <div class='row'>
+                                  
+                                  <div class="col-md-8"><i class="fa fa-phone"></i> Atendidas
+                                  </div>
+                                  <div class="col-md-4">{[{agente.atendidas}]}
+                                  </div>
+
+                                  </div>
+
+                              </div>
+
+                              <div class="col-md-12">
+
+                                  <div class='row'>
+                                  <div class="col-md-8"><i class="fa fa-phone-square"></i> Acuerdos  
+                                  </div>
+                                  <div class="col-md-4">{[{agente.acuerdos}]}
+                                  </div>
+
+                                  </div>
+                              </div>
+
+                              <div class="col-md-12">
+
+                                  <div class='row'>
+                                  <div class="col-md-8"><i class="fa fa-percent"></i> Media  
+                                  </div>
+                                  <div class="col-md-4"> {[{agente.media}]} %
+                                  </div>
+
+                                  </div>
+
+                              </div>
+                              
+
+
+                          </div>
+
+                          
+                      </div>
+
+             
+
+
+
+                
+
 
 </div>
 
@@ -163,7 +303,15 @@
 </div>
 
 
-<div class='row'>
+
+<div class='row' ng-if="datoagente.estado__nombre == 'En Espera'">
+
+<center><iframe src="http://localhost:8000/game" width="1000" height="500" frameborder="NO"></iframe></center>
+
+</div>
+
+
+<div class='row' ng-if="datoagente.estado__nombre == 'En Llamada' || datoagente.estado__nombre == 'En gestion' ">
 
     <div class="col-md-4">
 
@@ -204,7 +352,23 @@
 
             </div>
 
-          </div>
+          </div><br>
+
+          <div class="panel panel-default">
+
+
+          <div class='panel-body'>
+
+
+           <a class="btn btn-primary" ng-if="datoagente.estado__nombre == 'En Llamada'" href="/pausa/{[{datoagente.id}]}"><i class="fa fa-pause"></i> Pausa</a>
+
+          <a class="btn btn-primary" ng-if="datoagente.estado__nombre == 'En Pausa'" href="/play/{[{datoagente.id}]}"><i class="fa fa-play"></i> Play </a>
+
+          </div></div>
+
+
+
+          
 
       
 
@@ -216,13 +380,13 @@
           <h3> Gestion</h3>
 
     
-           <table class="table animated bounceInRight">
+           <table class="table">
             
               <tbody>
-                
-             
-              <tr><td>Id</td>
-              <td>{[{cliente.id}]}</td>
+
+
+              <tr><td>Campaña</td>
+              <td>{[{cliente.campania__nombre}]}</td>
               <td>Status A</td>
               <td>{[{cliente.status_a}]}</td>
 
@@ -357,17 +521,24 @@
 </div>
 
 <style type="text/css">
+
+body{
+
+  color: #454E58;
+
+
+}
   
 .btn-primary {
   color: #F7F7F7;
-  background-color: rgb(183, 28, 28);
+  background-color: #b71c1c;
   border-color: #b71c1c;
 }
 
-  .btn-second{
-  color: #DD1010;
-  background-color: #E2E2F4;
-  border-color: #b71c1c;
+.btn-second {
+color: #DD1010;
+background-color: #E2E2E2;
+border-color: #C6ADAD;
 }
 
 .boton {
@@ -386,7 +557,43 @@
 }
 
 
+.container {
 
+margin-top: 1em;
+}
+
+.c1 {
+padding: 15px;
+background-color: #C198B2;
+color: #284058;
+font-weight: bold;
+/* font-size: 14px; */
+}
+
+
+.c2 {
+padding: 15px;
+/*background-color: #B4B7D2;*/
+color: #284058;
+font-weight: bold;
+}
+.c3 {
+padding: 15px;
+/*background-color: #9EB9A6;*/
+color: #284058;
+font-weight: bold;
+}
+
+.c4 {
+padding: 15px;
+/*background-color: #D4D8F2;*/
+color: #284058;
+font-weight: bold;
+}
+
+
+
+/* f
 
 
 </style>
