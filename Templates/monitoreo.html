@@ -13,6 +13,13 @@
 
 <body ng-app="App">
 
+
+<div class='vertical' style="position: absolute;">
+  <div class='vertical'> {% include "vertical.html" %} </div>
+ 
+</div>
+
+
 <div class="container" ng-controller="Controller">
 
 
@@ -20,48 +27,34 @@
 {% include "header.html" %}
 
 
-<div class="row">
-{% include "vertical.html" %}
+    <div class="row">
 
-<div class="col-sm-10">
-
-
-<div class="jumbotron">
-
-  <div class="row">
-    <div class="col-sm-6">
-    <h2>Campaña {{campania.nombre}} </h2>  
+    <div class="col-sm-3">
+    Monitoreo de Agentes
     </div>
-    <div class="col-sm-6">
-     <h2>Asignacion de Agentes </h2>
+
+    <div class="col-sm-3">
+    Campaña {{campania.nombre}}
     </div>
-    <div class="col-sm-6">
-     <p>Supervisor : {{campania.supervisor.user.first_name}}</p>
+    <div class="col-sm-3">
+    Supervisor : {{campania.supervisor.user.first_name}}
     </div>
-    <div class="col-sm-6">
-     <p>Timbrados: {{campania.timbrados}}</p>
+    <div class="col-sm-3">
+    Timbrados: {{campania.timbrados}}
     </div>
-  </div>
-   
-      
-   
-   
- 
-  </div>
+
+    </div>
+
+    <br>
+
+
+    
 
 
 
-
-     <div class='row'>
-
-
-
-
-
-  
              <div class="panel panel-default">
               
-                  <div class="panel-body">
+                  <div class="panel-body c1">
 
                       <ul class="legend">
                       <li><span class="superawesome"></span> No Login</li>
@@ -69,30 +62,34 @@
                       <li><span class="kindaawesome"></span> En Llamada</li>
                       <li><span class="notawesome"></span> Descolgado</li>
                       <li><span class="enpause"></span> En Pause</li>
+                       <li><span class="engestion"></span> En Gestion</li>
                       </ul>
                   </div>
                 </div>
 
-            </div>
+        
 
+          <div class='row'>
+            <div  ng-repeat="contact in agentes " class='active' ts-repeat>
 
-            <div class='row'>
-            <ul  ng-repeat="contact in agentes " class='active' ts-repeat>
-
-            <div class="col-sm-4">
+            <div class="col-sm-2">
 
                 
                 <div class="panel panel-default">
                     
-                      <div class="panel-heading" ng-if="contact.agente__estado == '1'" style="background-color:#75889B; color:#fff;">{[{contact.agente__user__first_name}]}</div>
+                      <div class="panel-heading" ng-if="contact.agente__estado == '1'" style="background-color:#8FB0B3; color:#fff;">
+                      {% include "legend.html" %}
+                      </div>
 
-                      <div class="panel-heading" ng-if="contact.agente__estado == '2'" style="background-color:#321; color:#fff;">{[{contact.agente__user__first_name}]}</div>
+                      <div class="panel-heading" ng-if="contact.agente__estado == '2'" style="background-color:#82BF72; color:#fff;">{% include "legend.html" %}</div>
 
-                      <div class="panel-heading" ng-if="contact.agente__estado == '3'" style="background-color:#585B94; color:#fff;">{[{contact.agente__user__first_name}]}</div>
+                      <div class="panel-heading" ng-if="contact.agente__estado == '3'" style="background-color:#478BCE; color:#fff;">{% include "legend.html" %}</div>
 
-                      <div class="panel-heading" ng-if="contact.agente__estado == '4'" style="background-color:#654; color:#fff;">{[{contact.agente__user__first_name}]}</div>
+                      <div class="panel-heading" ng-if="contact.agente__estado == '4'" style="background-color:#D2447A; color:#fff;">{% include "legend.html" %}</div>
 
-                      <div class="panel-heading" ng-if="contact.agente__estado == '5'" style="background-color:#789; color:#fff;">{[{contact.agente__user__first_name}]}</div>
+                      <div class="panel-heading" ng-if="contact.agente__estado == '5'" style="background-color:#D0CA40; color:#fff;">{% include "legend.html" %}</div>
+
+                      <div class="panel-heading" ng-if="contact.agente__estado == '6'" style="background-color:#A36AA5; color:#fff;">{% include "legend.html" %}</div>
 
 
                 <div class="panel-body">
@@ -100,44 +97,48 @@
 
                     
 
-                      <div class="col-sm-6">
+                      
+
+                          <div class="col-sm-12" ng-if="contact.agente__estado == '3'">
+                          <center><i class="flaticon-phone64"></i> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp   {[{contact.agente__fono}]}</center>
+                          </div>
 
 
-                          <div class="row">
-                          <div class="col-sm-12">
-                          Fono: {[{contact.agente__fono}]}
+                          <div class="col-sm-6">
+                          <i class="flaticon-cloud148"></i> &nbsp {[{contact.agente__atendidas}]}
                           </div>
-                          <div class="col-sm-12">
-                          Anexo: {[{contact.agente__anexo}]}
-                          </div>
-                          <div class="col-sm-12">
-                          Tiempo: {[{contact.agente__tiempo}]}
-                          </div>
-                          <div class="col-sm-12">
-                          Atendidas: {[{contact.agente__atendidas}]}
-                          </div>
-                          <div class="col-sm-12">
-                          Contactadas: {[{contact.agente__contactadas}]}
+                          <div class="col-sm-6">
+                          <i class="flaticon-cloud126"></i> &nbsp {[{contact.agente__contactadas}]}
                           </div>
 
+                          <div class="col-sm-12" ng-if="contact.agente__estado == '6'">
+                          T. Gestion: {[{contact.tgestion}]}
                           </div>
 
-                      </div>
-                      <div class="col-sm-6">
+                         
+                          <div class="col-sm-12" ng-if="contact.agente__estado == '6'">
+                          <div class="progre">
+                          <div class="progressi">
 
-                            <canvas id="doughnut" class="chart chart-doughnut"
+                          <div class="barr" style="width:{[{contact.secgestion}]}px; background-color: {[{contact.color}]};"></div>
+                          </div>
+                          </div>
+
+
+                   
+                           <!-- <canvas id="doughnut" class="chart chart-doughnut"
                             chart-data="[contact.agente__atendidas,contact.agente__contactadas]" chart-labels="labels">
                             </canvas>
                             <center><h6>Performance</h6></center>
-                            <center><h6>{[{contact.agente__contactadas}]} %</h6></center>
-
-                      </div>
+                            <center><h6>{[{contact.agente__contactadas}]} %</h6></center>-->
+                          </div>
+                      
 
                   </div>
                 </div>
                 </div>
                 </div>
-            </ul>
+            </div>
 
             
    
@@ -148,11 +149,8 @@
   </div>
 
 
-</div>
-
-
-</div>
-
+          
+            
 
 
 
@@ -161,6 +159,15 @@
 
 
 
+</div>
+
+
+<style type="text/css">
+  
+
+
+
+</style>
 
 
 

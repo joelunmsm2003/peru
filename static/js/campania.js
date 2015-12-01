@@ -1,5 +1,5 @@
 
-var App=angular.module('App', ['ngCookies','ngRoute']);
+var App=angular.module('App', ['ngCookies']);
 
 App.config(function($interpolateProvider){
 $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
@@ -26,6 +26,18 @@ function Controller($scope,$http,$cookies,$filter) {
        
     });
 
+    $http.get("/empresas").success(function(response) {$scope.empresas = response[0];
+
+        
+       
+    });
+
+    $http.get("/supervisores").success(function(response) {$scope.supervisores = response;
+
+      
+       
+    });
+
    
     
 
@@ -45,6 +57,49 @@ function Controller($scope,$http,$cookies,$filter) {
     window.location="/adminCampania/"+contact.id
     
     };
+
+    $scope.Reasignar = function(contact) 
+    {
+
+        $scope.model = angular.copy(contact);
+        console.log($scope.model)
+ 
+    };
+
+     $scope.reasig = function(contact) 
+    {
+
+        console.log('jjjj',contact)
+
+        var todo={
+
+            add: "New",
+            dato: contact,
+            done:false
+        }
+
+        $http({
+        url: "/reasignarsupervisor/",
+        data: todo,
+        method: 'POST',
+        headers: {
+        'X-CSRFToken': $cookies['csrftoken']
+        }
+        }).
+        success(function(data) {
+
+        swal({   title: "Perucall",   text: "Supervisor actualizado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Aceptar",   }, function(){   window.location.href = "/campania" });
+
+         
+         $scope.agregar=""
+
+
+        })
+
+
+ 
+    };
+
 
 
 
@@ -86,7 +141,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-       swal({   title: "Perucall",   text: "Empresa "+data +" agregado",   type: "success",   confirmButtonColor: "#337ab7",   confirmButtonText: "Agregado",   }, function(){   window.location.href = "/empresa" });
+       swal({   title: "Perucall",   text: "Empresa "+data +" agregado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Agregado",   }, function(){   window.location.href = "/empresa" });
 
          
          $scope.agregar=""
@@ -123,7 +178,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-            swal({title: "Perucall", text: "Empresa "+data +" editado",   type: "success",   confirmButtonColor: "#337ab7",   confirmButtonText: "Editado",   }, function(){  });
+            swal({title: "Perucall", text: "Empresa "+data +" editado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Editado",   }, function(){  });
 
 
         })
@@ -161,7 +216,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-        swal({title: "Perucall", text: "Empresa "+data +" eliminado",   type: "success",   confirmButtonColor: "#337ab7",   confirmButtonText: "Eliminado",   }, function(){   });
+        swal({title: "Perucall", text: "Empresa "+data +" eliminado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Eliminado",   }, function(){   });
 
         $scope.contador =$scope.contador-1
 

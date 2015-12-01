@@ -8,153 +8,129 @@
 
 <body ng-app="App">
 
-<div class="container" ng-controller="Controller">
+
+
+
+<div class ='vertical' style="position: absolute;">
+  <div class='vertical'> {% include "vertical.html" %} </div>
+ 
+</div>
+
+
+<div  class ='container' ng-controller="Controller">
 
 {% include "header.html" %}
 
 
-<div class="row">
-{% include "vertical.html" %}
-
-<div class="col-sm-10">
 
 
-<div class="jumbotron">
 
-	<div class="row">
-
-	
-
-
-		<div class="col-sm-6">
+	<div class="jumbotron">
+		<div class="row">
 		
-		<h2>Campaña  {{campania.nombre}} </h2>  
-		</div>
-		<div class="col-sm-6">
-		 <h2>Asignacion de Agentes </h2>
-		</div>
-		<div class="col-sm-6">
-		 <p>Supervisor : {{campania.supervisor.user.first_name}}</p>
-		</div>
-		<div class="col-sm-6">
-		 <p>Timbrados: {{campania.timbrados}}</p>
+			<div class="col-md-6">
+			<p>Asignacion de Agentes </p>
+			</div>
+
+			
+
+
+				
 		</div>
 	</div>
-	 
-      
-   
-   
- 
+
+
+
+  <div class="panel-body">
+
+    	<div class='row'>
+  	 	<div class="col-sm-6">
+  	 		<div class='row'>
+				<div class="col-sm-10">
+				<form class="navbar-search pull-left" action="">
+				<input placeholder="Buscar" ng-change="search()"  type="text" ng-model="tipo" class="form-control" >
+				</form>
+				</div>
+				<div class="col-sm-2">
+				{[{contador1}]}
+				</div>
+			</div>
+
+  	 		<h4>Usuarios Disponibles</h4>
+
+			<a ng-click="agregaruser()" class="btn btn-primary" >Agregar</a>
+
+			<br></br>
+			<table class="table table-striped table-condensed table-hover ">
+				<tbody>
+				<thead>
+	           		<th >Selecccionar </th>
+	                <th >Estado </th>
+	                <th >Nombre</th>
+	                <th></th>
+					</tr>
+
+	            </thead>
+	            <tr  ng-repeat="contact in usuarios " class='active' ts-repeat>
+
+	                <td><input type="checkbox" ng-model='contact.seleccionar' ng-change="add($index,contact)"></td>
+	                <td>{[{contact.estado}]}</td>
+	                <td>{[{contact.name}]}</td>
+
+	            </tr>
+	            </tbody>
+
+            </table>				
+		</div>
+		<div class="col-sm-6">
+
+			<div class='row'>
+
+				<div class="col-sm-10">
+				<form class="navbar-search pull-left" action="">
+				<input placeholder="Buscar" ng-change="search1()"  type="text" ng-model="tipo1x" class="form-control" >
+				</form>
+
+				</div>
+
+				<div class="col-sm-2">
+				{[{contador2}]}
+
+				</div>
+			</div>
+	
+			<h4>Usuarios que pertenecen a esta Campaña</h4>
+		
+			<a ng-click="quitaruser()" class="btn btn-primary" >Quitar</a>	<br></br>
+			<table class="table table-striped table-condensed table-hover ">
+				<tbody>
+
+				 <thead>
+
+	            <tr><th >Seleccionar </th>
+	                <th >Estado </th>
+	                <th >Nombre</th><th></th></tr>
+	            </thead>
+
+	            <tr  ng-repeat="contact in usuarioscampania " class='active' ts-repeat>
+	             	<td><input type="checkbox" ng-model='contact.seleccionar' ng-change="add($index,contact)"></td>
+	                <td>{[{contact.estado}]}</td>
+	                <td>{[{contact.name}]}</td>
+	            </tr>
+            </tbody>
+
+            </table>							 
+		</div>
+	</div>
+
+
+
   </div>
 
 
 
 
-  	 <div class='row'>
 
-  	 	<div class="col-sm-6">
-
-  	 				<h4>Usuarios Disponibles</h4>
-		
-			<table class="table table-striped table-condensed table-hover table-bordered">
-			<tbody>
-
-			 <thead>
-
-            <tr>
-           
-                <th >Estado </th>
-                <th >Nombre</th>
-                
-          
-                <th></th>
-         
-                
-            
-                            
-            </tr>
-
-            </thead>
-            <tr  ng-repeat="contact in usuarios " class='active' ts-repeat>
-
-                
-                <td>{[{contact.estado}]}</td>
-                <td>{[{contact.name}]}</td>
-
-                
-                <td>
-             
-                  <a ng-click="agregar($index,contact)" class="btn btn-primary" >Agregar</a>
-
-                </td>
-
-            </tr>
-            </tbody>
-
-            </table>	
-					
-
-					
-
-					
-     
-		
-			 
-		</div>
-
-
-
-		<div class="col-sm-6">
-	
-				<h4>En Campaña</h4>
-		
-					
-			<table class="table table-striped table-condensed table-hover table-bordered">
-			<tbody>
-
-			 <thead>
-
-            <tr>
-           
-                <th >Estado </th>
-                <th >Nombre</th>
-                
-                 
-                <th></th>
-         
-                
-            
-                            
-            </tr>
-
-            </thead>
-            <tr  ng-repeat="contact in usuarioscampania " class='active' ts-repeat>
-
-             
-                  <td>{[{contact.estado}]}</td>
-                <td>{[{contact.name}]}</td>
-                <td>
-             
-                  <a ng-click="quitar($index,contact)" class="btn btn-primary" >Quitar </a>
-
-                </td>
-
-            </tr>
-            </tbody>
-
-            </table>	
-					
-			 
-		</div>
-
-
-	</div>
-
-
-</div>
-
-
-</div>
 
 
 

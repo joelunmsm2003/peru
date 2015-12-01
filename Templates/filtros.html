@@ -8,6 +8,11 @@
 
 <body ng-app="App">
 
+<div class='vertical' style="position: absolute;">
+  <div class='vertical'> {% include "vertical.html" %} </div>
+ 
+</div>
+
 <div class="container" ng-controller="Controller">
 
 <div id="eliminar" class="modal fade" role="dialog">
@@ -24,13 +29,13 @@
 
       <div class ='row'>
 
-      <div class="col-md-5">
+      <div class="col-md-3">
      
       <h4>Desea eliminar filtro :</h4>
 
       </div>
 
-      <div class="col-md-7">
+      <div class="col-md-9">
  
        <table class="table table-striped table-condensed table-hover table-bordered ">
                       <tbody>
@@ -78,13 +83,35 @@
   </div>
 </div>
 
+<div id="activafiltro" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <div class="modal-content">
+
+      <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <h4 class="modal-title">Desea activar el filtro</h4>
+      </div>
+
+
+      <div class="modal-footer">
+      <button class="btn" data-dismiss="modal">Cerrar</button>
+      <button type="submit" ng-click="eliminarfiltro(model)" class="btn btn-primary">Activar</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+
 {% include "header.html" %}
 
 
-<div class="row">
-{% include "vertical.html" %}
 
-<div class="col-sm-10">
+
+
 
 
           <div class="jumbotron">
@@ -93,18 +120,16 @@
 
           
 
-              <div class="col-sm-6">
+              <div class="col-sm-3">
               
-              <h2>Campaña  {{campania.nombre}} </h2>  
+              <p><i class="fa fa-cube"></i> Campaña  {{campania.nombre}} </p>  
               </div>
-              <div class="col-sm-6">
-               <h2>Filtro </h2>
+              
+              <div class="col-sm-3">
+               <p><i class="fa fa-user"></i> Supervisor : {{campania.supervisor.user.first_name}}</p>
               </div>
-              <div class="col-sm-6">
-               <p>Supervisor : {{campania.supervisor.user.first_name}}</p>
-              </div>
-              <div class="col-sm-6">
-               <p>Timbrados: {{campania.timbrados}}</p>
+              <div class="col-sm-3">
+               <p><i class="fa fa-phone"></i> Timbrados: {{campania.timbrados}}</p>
               </div>
 
             </div>
@@ -116,108 +141,73 @@
 
             <div class='row'>
 
-              <div class="col-sm-4">
+            <form ng-submit="filtrado(filtro)">
 
-                  <table class="table table-striped table-condensed table-hover table-bordered">
-                      <tbody>
-                          <thead>
-                          <tr>
-                          <th >Status F / Ciudad</th>
-                         
-                          
-                                   
-                          </tr>
-                          </thead>
-                      <tr  ng-repeat="contact in ciudad " class='active' ts-repeat>
-                          
-                          
-                          <td ng-click='statusA(contact)'>{[{contact.nombre}]}</td>
-                          
-                      </tr>
-                      </tbody>
-                  </table>
+
+                  <div class="col-sm-3">
+
+
+                     <select required="" class="form-control" id="myselection" multiple="true" ng-model="filtro.resultado" ng-options="c.name for c in resultado"></select>
+                      <div class="form-group">
+         
+                       <label>Estado</label>
+                      <ul  ng-repeat="contact in filtro.resultado">
+                          <li>{[{contact.name}]}</li>
+                      </ul>
+                      </div>
 
                 </div>
 
-                   <div class="col-sm-4">
+                <div class="col-sm-3">
 
-                  <table class="table table-striped table-condensed table-hover table-bordered">
-                      <tbody>
-                          <thead>
-                          <tr>
-                          <th >Status G / Segmento </th>
-                         
-                          
-                                   
-                          </tr>
-                          </thead>
-                      <tr  ng-repeat="contact in segmento " class='active' ts-repeat>
-                          
-                        
-                          <td ng-click='statusB(contact)'>{[{contact.nombre}]}</td>
-                          
-                      </tr>
-                      </tbody>
-                  </table>
 
-                </div>
-                   <div class="col-sm-4">
-
-                  <table class="table table-striped table-condensed table-hover table-bordered">
-                      <tbody>
-                          <thead>
-                          <tr>
-                          <th >Status H / Grupo </th>
-                         
-                          
-                                   
-                          </tr>
-                          </thead>
-                      <tr  ng-repeat="contact in grupo " class='active' ts-repeat>
-                          
-                        
-                          <td ng-click='statusC(contact)'>{[{contact.nombre}]}</td>
-                          
-                      </tr>
-                      </tbody>
-                  </table>
+                     <select required="" class="form-control" id="myselection" multiple="true" ng-model="filtro.ciudad" ng-options="c.status_f for c in ciudad"></select>
+                      <div class="form-group">
+         
+                       <label>{[{header.statusf}]}</label>
+                      <ul  ng-repeat="contact in filtro.ciudad">
+                          <li>{[{contact.status_f}]}</li>
+                      </ul>
+                      </div>
 
                 </div>
 
-                <div class="col-sm-4">
+                  <div class="col-sm-3">
 
-                  <table class="table table-striped table-condensed table-hover table-bordered">
-                      <tbody>
+                         <select required="" class="form-control" id="myselection" multiple="true" ng-model="filtro.grupo" ng-options="c.status_g for c in grupo"></select>
+                        <div class="form-group">
+           
+                        <label>{[{header.statusg}]}</label>
+                        <ul  ng-repeat="contact in filtro.grupo">
+                            <li>{[{contact.status_g}]}</li>
+                        </ul>
+                        </div>
 
-                      <thead>
-                          <tr>
-                          <th >Ciudad </th>  
-                          <th >Segmento </th>
-                          <th >Grupo </th>   
-                          </tr>
-                      </thead>
-                       
-                      <tr>
-                      <td>{[{filtro.ciudad}]}</td>
-                      <td>{[{filtro.segmento}]}</td>
-                      <td>{[{filtro.grupo}]}</td>
-                    
-                      
+      
 
+                   </div>
 
-                      </tr>
+                  <div class="col-sm-3">
 
+                        <select required="" class="form-control" id="myselection" multiple="true" ng-model="filtro.segmento" ng-options="c.status_h for c in segmento"></select>
+                        <div class="form-group">
+           
+                        <label>{[{header.statush}]}</label>
+                        <ul  ng-repeat="contact in filtro.segmento">
+                            <li>{[{contact.status_h}]}</li>
+                        </ul>
 
-                      </tbody>
-                  </table>
+                        </div>
 
-                </div>
+                    </div>
+                 
+
 
                 <div class="col-sm-12">
 
-                <a ng-click="filtrar(filtro)" class="btn btn-primary" >Agregar Filtro</a>
+                 <button class="btn btn-primary" type="submit">Agregar</button>
 
-                <br></br>
+               </form>
 
                 </div>
                 
@@ -228,32 +218,40 @@
                 <div class="col-sm-12">
 
       
-
-                  <table class="table table-striped table-condensed table-hover table-bordered">
+                <br></br>
+                  <table class="table table-striped table-condensed table-hover ">
                       <tbody>
 
                       <thead>
                           <tr>
-                        
-                          <th >Status F / Ciudad </th>
-                          <th >Status G / Segmento </th>   
-                          <th >Status H / Grupo </th> 
+                          
+                          <th >Estado </th>
+                          <th >Botonera </th>
+                          <th >{[{header.statusf}]} </th>
+                          <th >{[{header.statusg}]}  </th>   
+                          <th >{[{header.statush}]} </th> 
                           <th >Fono por barrer</th>
                           <th >Fono sin exito </th> 
                           <th></th>
                           </tr>
                       </thead>
                        
-                      <tr  ng-repeat="resultado in filtro " class='active' ts-repeat>
+                      <tr  ng-repeat="resultado in listafiltros " class='active' ts-repeat>
                           
-                
-                      
+                      <td>{[{resultado.status}]}</td> 
+                      <td>{[{resultado.resultado}]}</td> 
                       <td>{[{resultado.ciudad}]}</td>
                       <td>{[{resultado.segmento}]}</td>
                       <td>{[{resultado.grupo}]}</td>
-                      <td>{[{resultado.cantidad}]}</td>
-                      <td></td>
+                      <td style='background:{[{resultado.color}]}'>{[{resultado.fonosporbarrer}]} / {[{resultado.total}]}</td>
+                      <td>{[{resultado.fonosinexito}]} </td>
+                      
                       <td><a ng-click="eliminar(resultado,$index)" class="btn btn-primary" data-toggle="modal" data-target="#eliminar"><i class="icon-trash"></i> </a></td>
+
+                      <td>
+                      <a ng-click="desactivafiltro(resultado,$index)" ng-if="resultado.status == 1" class="btn btn-primary" ><i class="fa fa-stop"></i></a>
+
+                      <a ng-click="activafiltro(resultado,$index)" ng-if="resultado.status == 0" class="btn btn-primary"  ><i class="fa fa-play"></i> </a></td>
 
                       </tr>
 
@@ -273,10 +271,8 @@
     
 
 
-</div>
 
 
-</div>
 
 
 

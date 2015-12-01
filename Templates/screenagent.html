@@ -1,383 +1,604 @@
-<html class=""><head><meta charset="UTF-8"><meta name="robots" content="noindex"><link rel="canonical" href="http://codepen.io/sergep/pen/vkaFt">
-<title>Agente</title>
-  <script src="/static/js/angular.js"></script>
-  <script src="/static/js/angular-cookie.js"></script>
-  <script src="/static/js/a.js"></script>
-  <script type="text/javascript" src ="/static/js/jquery-2.1.1.min.js"></script>
-  <link rel="stylesheet" href="/static/css/bootstrap.css" >
-  <script src="/static/js/bootstrap.js"></script>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Teleoperador</title>
+  {% include "head.html" %}
+  <script src="/static/js/teleoperador.js"></script>
 
 
-<style class="cp-pen-styles">@import url(http://fonts.googleapis.com/css?family=Asap);
-
-
-*{
-  margin: 0;
-  padding: 0;
-}
-#contenedor{
-  margin: 10px auto;
-  width: 540px;
-  height: 115px;
-}
-.reloj{
-  float: left;
-  font-size: 20px;
-  font-family: Courier,sans-serif;
-  color: #ffffff;
-}
-.boton{
-  outline: none;
-  border: 1px solid #363431;
-  width: 30px;
-  height: 30px;
-  text-shadow: 0px -1px 1px black;
-  font-size: 20px;
-  border-radius: 5px;
-  font-family: Helvetica;
-  cursor: pointer;
-  background-image: linear-gradient(#8A1A2A,#8A1A2A);
-}
-.boton:active{
-  background-image: linear-gradient(#8A1A2A,#8A1A2A);
-}
-.boton:hover{
-  box-shadow: 0px 0px 14px #8A1A2A;
-}
-#progressBar{
-    background-color:#8A1A2A;
-}
+</head>
+<body class="container" ng-app="App" ng-controller="Controller">
 
 
 
-html, body {
-  padding: 0;
-  margin: 0;
-}
+<div  id ='cliente' class='container-fluid animated bounceInRight'>
 
-.oops {
-  display: none;
-}
 
-span {
-  color: #fff;
-  text-align: center;
-  display: block;
-  font-size: 27px;
-  font-family: 'Asap', sans-serif;
-  padding: 10px;
-}
 
-body {
-  padding: 0px 10px 10px;
-  background: #8A1A2A;
-  -webkit-transition: background-color 0.4s ease;
-  -moz-transition: background-color 0.4s ease;
-  -o-transition: background-color 0.4s ease;
-  transition: background-color 0.4s ease;
-}
 
-/* Transition definition */
-.container {
-  -webkit-transition: width 0.4s ease, height 0.4s ease;
-  -moz-transition: width 0.4s ease, height 0.4s ease;
-  -o-transition: width 0.4s ease, height 0.4s ease;
-  transition: width 0.4s ease, height 0.4s ease;
-}
 
-/* The container that defines the dimenions of the monitor - used in media queries */
-.container {
-  width: 900px;
-  height: 525px;
-  margin: 0 auto;
-}
+<div class='row '>
 
-.container:hover {
-  width: 950px;
-  height: 555px;
-}
+            
+              <div class="col-md-12 ">
 
-/* Black monitor outline */
-.monitor {
-  padding: 4%;
-  position:relative;
-  background: #333;
-  border-radius: 10px;
-  height: 100%;
-}
+                      <div class='row '>
 
-/* Camera on top of the monitor */
-.monitor:before {
-  content: "";
-  display: block;
-  background: #E6E9ED;
-  position: absolute;
-  padding: 0.8%;
-  margin-right: -0.4%;
-  border-radius: 50%;
-  right: 50%;
-  top: 1.8%;
-}
 
-/* Power button on the bottom of monitor */
-.monitor:after {
-  content: "";
-  display: block;
-  background: #AAB2BD;
-  position: absolute;
-  padding: 1%;
-  border-radius: 10%;
-  right: 4%;
-  bottom: 1.5%;
-}
 
-/* The container of the content */
-.screen {
-  height: 100%;
-  color: white;
-  /*overflow: hidden; /* so that scroll bar is hidden */
-}
+                      <div class="col-md-3 panel panel-default">
 
-/* Scrollable section inside the screen */
-.content {
-  height: 100%;
-  width: calc(100% + 17px); /* 17px for scroll bar */
-  overflow-y: scroll;
-  position: relative;
-}
+                          <div class='row panel-body c1'>
+                              <div class="col-md-12">
+                                 <div class='row'>
+                                  <div class="col-md-6"><i class="fa fa-wifi"></i> Teleoperador :
+                                  </div>
+                                  <div class="col-md-6">{[{datoagente.user__first_name}]} 
+                                  </div>
+                                  </div>
 
-.screen:after {
-  content:'';
-  display: block;
-  height: 88%;
-  background: #333;
-  position: absolute;
-  right: 0;
-  top: 6%;
-  width: 4%;
-}
 
-/* Image on the screen */
-.content img {
-  display: block;
-  width: 100%;
-}
+                              </div>
 
-/* Stand */
-.monitor-stand {
-  position: relative;
-  margin: 0 auto;
-  height: 10%;
-  width: 20%;
-  background: #F3F3F4;
-}
+                              <div class="col-md-12">
 
-/* Shadow on stand - have to set manually since border-top doesn't support % :( */
-.monitor-stand {
-  border-top: 24px solid #D1D3D6;
-}
+                                   <div class='row'>
+                                  <div class="col-md-6"><i class="fa fa-laptop"></i> Anexo :
+                                  </div>
+                                  <div class="col-md-6">{[{datoagente.anexo}]} 
+                                  </div>
+                                  </div>
+                              </div>
 
-/* Bottom of stand */
-.monitor-stand:after {
-  content: '';
-  position: absolute;
-  background: #E7E8E9;
-  height: 20%;
-  width: 200%;
-  margin-left: -50%;
-  margin-top: 29%;
-  border-radius: 5px;
-}
+                              <div class="col-md-12">
 
-/* Shadow */
-.monitor-stand:before {
-  content: '';
-  position: absolute;
-  width: 250%;
-  height: 50%;
-  margin-left: -75%;
-  margin-top: 60%;
-  opacity: 0.3;
-  background: #000;
-  border-radius: 50%;
-}
+                                  <div class='row'>
+                                  <div class="col-md-6"><i class="fa fa-diamond"></i> Estado :
+                                  </div>
+                                  <div class="col-md-6">{[{datoagente.estado__nombre}]}
+                                  
+                                  </div>
 
-/* 1200px and less ------------------------------ */
-@media (max-width: 1200px) {
-  body {
-    background: #5D9CEC;
-  }
 
-  .container {
-    width: 800px;
-    height: 466px;
-  }
+                                  </div>
 
-  .container:hover {
-    width: 820px;
-    height: 477px;
-  }
+                              </div>
+                              
 
-  .monitor-stand {
-    border-top: 20px solid #D1D3D6;
-  }
-}
 
-/* 992px and less ------------------------------ */
-@media (max-width: 992px) {
-  body {
-    background: #2ecc71;
-  }
+                          </div>
 
-  .container {
-    width: 600px;
-    height: 350px;
-  }
+                 
+                     
+                      </div>
 
-  .container:hover {
-    width: 615px;
-    height: 358px;
-  }
 
-  .monitor-stand {
-    border-top: 15px solid #D1D3D6;
-  }
-}
+                    <div class="col-md-3 panel panel-default" ng-if="datoagente.estado__nombre == 'En gestion'">
 
-/* 768px and less ------------------------------ */
-@media (max-width: 768px) {
-  body {
-    background: #AC92EC ;
-  }
 
-  .container,
-  .container:hover {
-    width: 450px;
-    height: 262px;
-  }
+                          <div class='row panel-body c4'>
 
-  .monitor-stand {
-    border-top: 12px solid #D1D3D6;
-  }
-}
+                              <div class="col-md-12">
 
-/* 480px and less ------------------------------ */
-@media (max-width: 480px) {
-  body {
-    background: #FFCE54 ;
-  }
+                                  <div class='row'>
+                                    <div class="col-md-6" >
+                                    <i class="fa fa-phone"></i> Telefono
+                                    </div>
+                                    <div class="col-md-6" >{[{cliente.telefono}]}
+                      
+                                    </div>
 
-  .container,
-  .container:hover {
-    width: 300px;
-    height: 175px;
-  }
+                                    </div>
 
-  .monitor-stand {
-    border-top: 8px solid #D1D3D6;
-  }
-}
+                       
 
-/* 320px and less ------------------------------ */
-@media (max-width: 320px) {
-  body {
-    background: #ED5565;
-  }
+                               
+                              </div>
 
-  span {
-    display: none;
-  }
+                              <div class="col-md-12">
 
-  .oops {
-    display: block;
-  }
-}
+                                  <div class='row'>
+                                    <div class="col-md-6" >
+                                    <i class="fa fa-phone-square"></i> Tiempo
+                                    </div>
+                                    <div class="col-md-6" >{[{tllamada}]}
+                      
+                                    </div>
 
-#wrapper {
-  display: block;
-  width: 100%;
-  background: #fff;
-  margin: 0 auto;
-  padding: 10px 17px;
-  height: 300px;
-}
+                                    </div>
 
-</style>
+                       
 
-</head><body>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<h1></h1>
-<div class="container">
-  <div class="monitor">
-  	<div class="screen">
+                               
+                              </div>
 
-<table>
-	
-	<td>
-			<h4>HH:MM CONECTADO</h4>
-			<div class="reloj" id="Horas">00</div>
-			<div class="reloj" id="Minutos">:00</div>
-			<div class="reloj" id="Segundos">:00</div>
-			<div class="reloj" id="Centesimas">:00</div>
-			<input type="button" class="boton" id="inicio" value="&#9658;" onclick="inicio();">
-			<input type="button" class="boton" id="parar" value="&#8718;" onclick="parar();" disabled>
-			<input type="button" class="boton" id="continuar" value="&#8634;" onclick="inicio();" disabled>
-			<input type="button" class="boton" id="reinicio" value="&#8635;" onclick="reinicio();" disabled>	
+                              <div class="col-md-12">
+                                  <div class='row'>
+                                    <div class="col-md-6" >
+                                    <i class="fa fa-tasks"></i> {[{tgestion}]}
+                                    </div>
+                                    <div class="col-md-6" >
+                                    <div class="progre">
+                                    <div class="progressi">
 
-			<p>
-				
-			</p>	
-			<h4>HH:MM ATENDIDAS</h4>
-			<div class="reloj" id="Horas">00</div>
-			<div class="reloj" id="Minutos">:00</div>
-			<div class="reloj" id="Segundos">:00</div>
-			<div class="reloj" id="Centesimas">:00</div>
-	</td>
-	<td></td>
-	<td>
 
-			<table class="dataTable">
-			    <tbody>
-			        <tr>
-			            <td><h4>Nº Llamadas Atendidas</h4></td>
-			            <td><div class="reloj">XXX</div></td>
-			        </tr>
-			        <tr>
-			            <td><h4>Nº Acuerdos</h4></td>
-			            <td><div class="reloj">XXX</div></td>
-			        </tr>
-					<tr>
-						<td><h4>Media</h4></td>
-						<td><div class="reloj">XX%</div></td>
-					</tr>
-			    </tbody>
-			</table>
+                                    <div class="barr" style="width:{[{secgestion}]}px; background-color: {[{color}]};"></div>
 
-	</td>
+                                    </div>
+                                    </div>
 
-</table>
-<p>
-	
-</p>
-<div></div>
+                                    </div>
 
-<table>
-	<body>
-	<div id="wrapper">
+                                 </div>
 
-	</div> 
-	</body>
-</table>
 
-<table>
+                            </div>
 
-</table>
+                          
 
-    </div>
-  </div>
+                       
+
+
+                          </div>
+
+                          
+                      </div>
+
+                         <div class="col-md-3 panel panel-default" ng-if="datoagente.estado__nombre == 'En Llamada'">
+
+
+                          <div class='row panel-body c4'>
+
+                              <div class="col-md-12">
+
+                                  <div class='row'>
+                                    <div class="col-md-6" >
+                                    <i class="fa fa-phone"></i> Telefono
+                                    </div>
+                                    <div class="col-md-6" >{[{cliente.telefono}]}
+                      
+                                    </div>
+
+                                    </div>
+
+                       
+
+                               
+                              </div>
+
+                              <div class="col-md-12">
+
+                                  <div class='row'>
+                                    <div class="col-md-6" >
+                                    <i class="fa fa-phone-square"></i> Tiempo
+                                    </div>
+                                    <div class="col-md-6" >{[{tllamada}]}
+                      
+                                    </div>
+
+                                    </div>
+
+                       
+
+                               
+                              </div>
+
+               
+                          
+
+                       
+
+
+                          </div>
+
+                          
+                      </div>
+
+                      <div class="col-md-3 panel panel-default">
+
+                          <div class='row panel-body c2'>
+                              <div class="col-md-12">
+                                  <div class='row'>
+                                  <div class="col-md-8"><i class="fa fa-wifi"></i> Horas Conectadas
+                                  </div>
+                                  <div class="col-md-4">{[{user.conectado}]}
+                                  </div>
+
+                                  </div>
+
+                              </div>
+
+                              <div class="col-md-12">
+
+                                  <div class='row'>
+                                  <div class="col-md-8"><i class="fa fa-paper-plane"></i> Horas Atendidas
+                                  </div>
+                                  <div class="col-md-4">{[{atendida}]}
+                                  </div>
+
+                                  </div>
+                              </div>
+
+                              <div class="col-md-12">
+
+                                  <div class='row'>
+                                  <div class="col-md-8"><i class="fa fa-eye"></i> Horas Muertas 
+                                  </div>
+                                  <div class="col-md-4"> {[{desfase}]}
+                                  </div>
+
+                                  </div>
+
+                              </div>
+                              
+
+
+                          </div>
+
+                 
+                     
+                      </div>
+
+                      <div class="col-md-3 panel panel-default">
+
+
+                                <div class='row panel-body c3'>
+                              <div class="col-md-12">
+                                  <div class='row'>
+                                  
+                                  <div class="col-md-8"><i class="fa fa-phone"></i> Atendidas
+                                  </div>
+                                  <div class="col-md-4">{[{agente.atendidas}]}
+                                  </div>
+
+                                  </div>
+
+                              </div>
+
+                              <div class="col-md-12">
+
+                                  <div class='row'>
+                                  <div class="col-md-8"><i class="fa fa-phone-square"></i> Acuerdos  
+                                  </div>
+                                  <div class="col-md-4">{[{agente.acuerdos}]}
+                                  </div>
+
+                                  </div>
+                              </div>
+
+                              <div class="col-md-12">
+
+                                  <div class='row'>
+                                  <div class="col-md-8"><i class="fa fa-percent"></i> Media  
+                                  </div>
+                                  <div class="col-md-4"> {[{agente.media}]} %
+                                  </div>
+
+                                  </div>
+
+                              </div>
+                              
+
+
+                          </div>
+
+                          
+                      </div>
+
+             
+
+
+
+                
+
+
 </div>
 
 
 
-<script src="//codepen.io/assets/editor/live/css_live_reload_init.js"></script>
-</body></html>
+
+
+
+
+</div>
+
+
+
+<div class='row' ng-if="datoagente.estado__nombre == 'En Espera'">
+
+<center><iframe src="http://localhost:8000/game" width="1000" height="500" frameborder="NO"></iframe></center>
+
+</div>
+
+
+<div class='row' ng-if="datoagente.estado__nombre == 'En Llamada' || datoagente.estado__nombre == 'En gestion' ">
+
+    <div class="col-md-4">
+
+    <h3>Acuerdo</h3>
+
+
+          <div class='row'>
+
+            <div ng-repeat="contact in resultado  ">
+
+             <div class="col-md-6 botonera">
+
+                <div class='row boton'>
+
+                   
+
+                  
+                          <div class="col-md-8">
+                          {[{contact.name}]}
+                          </div>
+
+                          <div class="col-md-4">
+                              <span ng-if="contact.name == cliente.resultado__name">
+                              <button type="button" ng-click='botonera(contact)' class="btn btn-primary"><i class="fa fa-thumbs-up"></i></button></span>
+                              <span ng-if="contact.name != cliente.resultado__name">
+                              <button type="button" ng-click='botonera(contact)' class="btn btn-second"><i class="fa fa-thumbs-up"></i></button></span>
+                          </div>
+
+                 
+
+
+                </div>
+            
+
+             </div>
+
+
+
+            </div>
+
+          </div><br>
+
+          <div class="panel panel-default">
+
+
+          <div class='panel-body'>
+
+
+           <a class="btn btn-primary" ng-if="datoagente.estado__nombre == 'En Llamada'" href="/pausa/{[{datoagente.id}]}"><i class="fa fa-pause"></i> Pausa</a>
+
+          <a class="btn btn-primary" ng-if="datoagente.estado__nombre == 'En Pausa'" href="/play/{[{datoagente.id}]}"><i class="fa fa-play"></i> Play </a>
+
+          </div></div>
+
+
+
+          
+
+      
+
+    </div>
+
+
+    <div class="col-md-8">
+
+          <h3> Gestion</h3>
+
+    
+           <table class="table">
+            
+              <tbody>
+
+
+              <tr><td>Campaña</td>
+              <td>{[{cliente.campania__nombre}]}</td>
+              <td>Status A</td>
+              <td>{[{cliente.status_a}]}</td>
+
+
+              </tr>
+
+              <tr><td>Telefono</td>
+              <td>{[{cliente.telefono}]}</td>
+              <td>Status B</td>
+              <td>{[{cliente.status_b}]}</td>
+
+
+              </tr>
+
+              <tr><td>Orden</td>
+              <td>{[{cliente.orden}]}</td>
+              <td>Status C</td>
+              <td>{[{cliente.status_c}]}</td>
+
+
+              </tr>
+              <tr><td>Id Cliente</td>
+              <td>{[{cliente.orden}]}</td>
+              <td>Status D</td>
+              <td>{[{cliente.status_d}]}</td>
+              </tr>
+
+              
+              <tr><td>Acuerdo</td>
+              <td>{[{cliente.resultado__name}]}</td>
+              <td>Status E</td>
+              <td>{[{cliente.status_e}]}</td>
+              </tr>
+
+              <tr><td></td>
+              <td></td>
+              <td>Status F</td>
+              <td>{[{cliente.status_f}]}</td>
+              </tr>
+
+              <tr><td></td>
+              <td></td>
+              <td>Status G</td>
+              <td>{[{cliente.status_g}]}</td>
+              </tr>
+
+              <tr><td></td>
+              <td></td>
+              <td>Status H</td>
+              <td>{[{cliente.status_h}]}</td>
+              </tr>
+
+     
+
+              
+
+
+              </tbody>
+            </table>
+
+
+              <div class="col-md-6">
+
+              <form ng-submit="gestionlanza(gestion)">
+
+
+              <div class="form-group">
+              <label for="">Comentario</label>
+              
+              <textarea ng-change='tipeo()' ng-model='gestion.comentario' class="form-control" ></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-primary">Guardar</button>
+              </form>
+
+              </div>
+
+              <div class="col-md-6 gestion">
+
+            
+
+
+              <div class="form-group">
+              <label for="">Fecha</label>
+             <input type="date" name="" ng-model='gestion.fecha'  class="form-control" value="" required="" title="">
+              </div>
+
+               <div class="form-group">
+              <label for="">Monto Acuerdo</label>
+             <input type="number" name="" ng-model='gestion.monto'  class="form-control" value="" required="" title="">
+              </div>
+
+
+
+
+
+              </form>
+              </div>
+
+
+
+    </div>
+
+     
+ 
+
+
+
+
+
+ 
+ 
+
+
+ 
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+</div>
+
+<style type="text/css">
+
+body{
+
+  color: #454E58;
+
+
+}
+  
+.btn-primary {
+  color: #F7F7F7;
+  background-color: #b71c1c;
+  border-color: #b71c1c;
+}
+
+.btn-second {
+color: #DD1010;
+background-color: #E2E2E2;
+border-color: #C6ADAD;
+}
+
+.boton {
+  /* background: #782; */
+  border-color: #DDCCCC;
+  /* height: 52px; */
+  padding: 7px;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 4px;
+}
+
+.botonera {
+  padding-top: 3px;
+  padding-right: 18px;
+}
+
+
+.container {
+
+margin-top: 1em;
+}
+
+.c1 {
+padding: 15px;
+background-color: #C198B2;
+color: #284058;
+font-weight: bold;
+/* font-size: 14px; */
+}
+
+
+.c2 {
+padding: 15px;
+/*background-color: #B4B7D2;*/
+color: #284058;
+font-weight: bold;
+}
+.c3 {
+padding: 15px;
+/*background-color: #9EB9A6;*/
+color: #284058;
+font-weight: bold;
+}
+
+.c4 {
+padding: 15px;
+/*background-color: #D4D8F2;*/
+color: #284058;
+font-weight: bold;
+}
+
+
+
+/* f
+
+
+</style>
+
+
+
+</body>
+</html>

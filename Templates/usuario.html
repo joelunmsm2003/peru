@@ -56,6 +56,7 @@
 													      </div>
 													      </div>
 
+<<<<<<< HEAD
 													      <div class="col-md-6">
 													      <div class="form-group">
 													      <label>Nombre</label>
@@ -128,8 +129,18 @@
 												<br></br>
 
 												Cantidad de Registros {[{contador}]}
+=======
+<body ng-app="App" ng-controller="Controller">
 
 
+>>>>>>> 88bc32eb37dd0da15496583b0f1133b12ea57744
+
+{% include "header.html" %}
+
+<<<<<<< HEAD
+=======
+<div class="container" >
+>>>>>>> 88bc32eb37dd0da15496583b0f1133b12ea57744
 
 												<table class="table table-striped table-condensed table-hover ">
 
@@ -137,6 +148,7 @@
 
 												        <thead>
 
+<<<<<<< HEAD
 												        <tr>
 												              <th>Id <a ng-click="sort_by('id',currentPage)"><i class="icon-sort"></i></a></th>
 												              <th>Username <a ng-click="sort_by('username',currentPage)"><i class="icon-sort"></i></a></th>
@@ -152,6 +164,14 @@
 												        </tr>
 
 												        </thead>
+=======
+<h4>Datos de Usuario</h4>
+
+<div ng-if="user.nivel == 1 || user.nivel == 4 ">
+
+ <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Agregar Usuario</button>
+
+>>>>>>> 88bc32eb37dd0da15496583b0f1133b12ea57744
 
 
 
@@ -176,6 +196,10 @@
 												            </tfoot>
 
 
+<<<<<<< HEAD
+=======
+  <div class="modal-dialog modal-lg">
+>>>>>>> 88bc32eb37dd0da15496583b0f1133b12ea57744
 
 												          <tr  ng-repeat="contact in pagedItems[currentPage]  " ts-repeat>
 
@@ -189,6 +213,7 @@
 
 												            <td>
 
+<<<<<<< HEAD
 
 												            <div ng-if="user.nivel == 1 || user.nivel == 4 || user.nivel == 2">
 
@@ -201,11 +226,90 @@
 												              
 												                
 												            </div>
+=======
+        
+
+      
+        
+        <div class="col-md-12">
+        <div class="form-group">
+        <label>Email</label>
+        <input type="text" class="form-control" ng-model="model.username" required ="" >
+        </div>
+        </div>
+
+        <div class="col-md-6">
+        <div class="form-group">
+        <label>Nombre</label>
+        <input type="text" class="form-control" ng-model="model.first_name" required ="" >
+        </div>
+        </div>
+
+         <div class="col-md-6">
+        <div class="form-group">
+        <label>Telefono</label>
+        <input type="number" class="form-control" ng-model="model.telefono" required ="" >
+        </div>
+        </div>
+
+
+        
+        <div class="col-md-6" ng-if="user.nivel == 4">
+        <div class="form-group">
+        <label>Empresa</label>
+        <select ng-model="model.empresa" class="form-control" ng-options="cliente.id as cliente.nombre for cliente in empresasf" required =""></select>
+      
+        </div>
+        </div>
+
+           
+
+        <div class="col-md-6" ng-if="model.nivel__nombre == 'Supervisor'">
+        
+        <div class="form-group">
+        <label>Carteras Disponibles </label>
+        <table class="table table-striped table-condensed table-hover  ">
+        <tbody>
+     
+        <tr  ng-repeat="contact in carteranosupervisor " ts-repeat>
+       
+        <td>{[{contact.cartera__nombre}]}</td>
+        <td><a class="btn btn-primary" ng-click="agregarcartera($index,contact)">Add</a></td>
+        </tr>
+        </tbody>
+        </table>
+        </div>
+        </div>
+
+        <div class="col-md-6" ng-if="model.nivel__nombre == 'Supervisor'">
+        <div class="form-group">
+        <label>Carteras Asignadas</label>
+        <table class="table table-striped table-condensed table-hover ">
+        <tbody>
+      
+        <tr  ng-repeat="contactx in carterasupervisor " ts-repeat>
+        
+        <td center>{[{contactx.cartera__nombre}]}</td>
+        </tr>
+        </tbody>
+        </table>
+        </div>
+        </div>
+
+        
+>>>>>>> 88bc32eb37dd0da15496583b0f1133b12ea57744
 
 
 
 												     
 
+<<<<<<< HEAD
+=======
+      <div class="modal-footer">
+          <button class="btn" data-dismiss="modal">Cerrar</button>
+           <button type="submit" class="btn btn-primary">Editar</button>
+      </div>
+>>>>>>> 88bc32eb37dd0da15496583b0f1133b12ea57744
 
 												          </td>
 
@@ -220,6 +324,13 @@
 
 												    </tbody>
 
+<<<<<<< HEAD
+=======
+        <td><input type="hidden" ng-model="model.id" required ="" /></td>
+       
+        <h4>Desea eliminar usuario {[{model.first_name}]}</h2>
+        </div>
+>>>>>>> 88bc32eb37dd0da15496583b0f1133b12ea57744
 
 												    </table>
 
@@ -231,6 +342,7 @@
 
 									</div>
 
+<<<<<<< HEAD
 								</div>
 									
 						
@@ -242,6 +354,9 @@
 	</section>
 	<!-- Bootstrap -->
 	<!-- App -->
+=======
+<h4>Usuarios registrados</h4>
+>>>>>>> 88bc32eb37dd0da15496583b0f1133b12ea57744
 
 	<!--Modales-->
 
@@ -261,6 +376,7 @@
 
 				<form ng-submit="saveContact(index,numberPage)">
 
+<<<<<<< HEAD
 
 				<div class="col-md-6">
 				<div class="form-group">
@@ -268,6 +384,20 @@
 				<input type="text" class="form-control" ng-model="model.username" required ="" >
 				</div>
 				</div>
+=======
+            <tr>
+                  <th ng-if="user.nivel == 1">Id <a ng-click="sort_by('id',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th>Email <a ng-click="sort_by('username',currentPage)"><i class="icon-sort"></i></a></th>
+
+                  <th>Nombre <a ng-click="sort_by('first_name',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th>Telefono <a ng-click="sort_by('telefono',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th ng-if="user.nivel == 4">Empresa <a ng-click="sort_by('empresa',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th>Nivel <a ng-click="sort_by('nivel',currentPage)"><i class="icon-sort"></i></a></th>
+                  
+                  <th></th>
+        
+                        
+>>>>>>> 88bc32eb37dd0da15496583b0f1133b12ea57744
 
 
 
@@ -295,17 +425,32 @@
 				</div>
 				</div>
 
+<<<<<<< HEAD
 				<div class="col-md-6">
 				<div class="form-group">
 				<label>Supevisor</label>
 				<select ng-model="model.supervisor" class="form-control" ng-options="cliente.id as cliente.user__first_name for cliente in supervisores" required =""></select>
 				</div>
 				</div>
+=======
+                <td ng-if="user.nivel == 1" data-th="Origen">{[{contact.id}]} </td>
+                <td data-th="Origen">{[{contact.username}]} </td>
+                <td data-th="Destino">{[{contact.first_name}]}</td>
+                <td data-th="Destino">{[{contact.telefono}]}</td>
+                <td ng-if="user.nivel == 4" data-th="Calldate">{[{contact.empresa__nombre}]}</td>
+                <td data-th="Disposition">{[{contact.nivel__nombre}]}</td>
+                
+ 
+>>>>>>> 88bc32eb37dd0da15496583b0f1133b12ea57744
 
 
 
+<<<<<<< HEAD
 				</div>
 				</div>
+=======
+                <div ng-if="user.nivel == 1 || user.nivel == 4 ">
+>>>>>>> 88bc32eb37dd0da15496583b0f1133b12ea57744
 
 
 				<div class="modal-footer">
@@ -314,6 +459,14 @@
 
 				</form>
 
+<<<<<<< HEAD
+=======
+                        <a type="button" class="btn btn-primary" ng-href="/supervisorcartera/{[{contact.id}]}">Carteras</a>
+
+                  
+                    
+                </div>
+>>>>>>> 88bc32eb37dd0da15496583b0f1133b12ea57744
 
 
 				</div>
@@ -336,10 +489,121 @@
 				<h4>Desea eliminar usuario {[{model.nombre}]}</h2>
 				</div>
 
+<<<<<<< HEAD
 				<div class="modal-footer">
+=======
+<!---Modal-->
+
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Agregar Usuario </h4>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+
+                        <form ng-submit="addNew(agregar)">
+
+                        <div class="col-md-6">
+                        <div class="form-group">
+                        <label>Email</label>
+                        <input type="text" ng-change="usuariorepetido(agregar)" ng-model="agregar.username" class="form-control" placeholder="Email" required ="">{[{alerta}]}
+                        </div>
+                        </div>
+
+
+                        <div class="col-md-6">
+                        <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" ng-model="agregar.password" class="form-control" placeholder="Password" required ="">
+                        </div>
+                        </div>
+
+                        <div class="col-md-6">
+                        <div class="form-group">
+                        <label>Nombre</label>
+                        <input type="text" ng-model="agregar.nombre" class="form-control" placeholder="Nombre" required ="">
+                        </div>
+                        </div>
+
+>>>>>>> 88bc32eb37dd0da15496583b0f1133b12ea57744
 
 				<button class="btn" data-dismiss="modal">Cerrar</button>
 				<button type="submit" ng-click="eliminarContact(index,currentPage)" class="btn btn-primary">Eliminar</button>
+
+                    
+
+                        <div class="col-md-6" ng-if="user.nivel == 4 ">
+                        <div class="form-group">
+                        <label>Empresa</label>
+                        <select ng-model="agregar.empresa" class="form-control" ng-options="cliente.id as cliente.nombre for cliente in empresasf"></select>
+                        </div>
+                        </div>
+                       
+
+                      
+                        <div class="col-md-6">
+                        <div class="form-group">
+                        <label>Telefono</label>
+                        <input type="number" ng-model="agregar.telefono" class="form-control" placeholder="Telefono"  >
+                        </div>
+                        </div>
+
+                        <div class="col-md-6">
+                        <div class="form-group">
+                        <label>Nivel</label>
+                        <select ng-model="agregar.nivel" ng-change="nivelp(agregar)" class="form-control" ng-options="cliente.id as cliente.nombre for cliente in nivel"></select>
+                        </div>
+                        </div>
+
+
+
+                          <div class="col-md-6" ng-show="nivelcartera">
+                          <div class="form-group">
+                           <label>Carteras Asignadas</label>
+
+                      
+                                  <div class="col-md-12">
+
+                                        <select class="form-control" id="myselection" multiple="true" ng-model="agregar.cartera" ng-options="c.cartera__nombre for c in carteras"></select>
+                                        <div class="form-group">
+                           
+                                         <label>Carteras Seleccionadas</label>
+                                        <ul  ng-repeat="contact in agregar.cartera">
+                                            <li>{[{contact.cartera__nombre}]}</li>
+                                        </ul>
+
+                                  </div>
+
+                                 
+
+                      
+                              </div>
+                            
+                          </div>
+
+                          </div>
+
+                          
+
+                        
+
+                 
+
+                        
+
+                  </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button class="btn btn-primary" type="submit">Agregar</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
 				</div>

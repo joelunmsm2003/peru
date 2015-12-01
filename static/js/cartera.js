@@ -1,22 +1,13 @@
 
-var App=angular.module('App', ['ngCookies','chart.js']);
+var App=angular.module('App', ['ngCookies']);
 
 App.config(function($interpolateProvider){
 $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
 });
 
-
-
 function Controller($scope,$http,$cookies,$filter) {
 
 
-
-
-
-
-    console.log(window.location.href.split("monitoreo/"))
-
-    campania = window.location.href.split("monitoreo/")[1].split("/")[0]
     var sortingOrder ='-id';
     $scope.sortingOrder = sortingOrder;
     $scope.reverse = false;
@@ -26,41 +17,41 @@ function Controller($scope,$http,$cookies,$filter) {
     $scope.pagedItems = [];
     $scope.currentPage = 0;
 
-    $http.get("/agentes/"+campania).success(function(response) {$scope.agentes = response;
-
-
-    console.log('agentes',$scope.agentes)
-
-
-    });
-
-    setInterval(function(){ 
-
-    $http.get("/agentes/"+campania).success(function(response) {$scope.agentes = response;
-
-
-    console.log('agentes',$scope.agentes)
-
-
-    });
-
-    }, 1000);
-
     
 
 
-     $http.get("/agentescampania/"+campania).success(function(response) {$scope.usuarioscampania = response;
+     $http.get("/supervisores").success(function(response) {$scope.supervisores = response;
 
-        
+   
 
     });
+          $http.get("/troncales").success(function(response) {$scope.troncales = response[0];
 
-     $http.get("/empresas").success(function(response) {$scope.empresas = response;
+        console.log('trncales',$scope.troncales)
+       
+    });
+
+
+
+     $http.get("/empresas").success(function(response) {$scope.empresas = response[0];
 
 
        
     });
 
+       $http.get("/empresas").success(function(response) {$scope.empresasm = response;
+
+
+       
+    });
+
+    $http.get("/carteras/").success(function(response) {$scope.clientes = response;
+
+        $scope.search()
+
+
+       
+    });
 
 
 
@@ -79,74 +70,6 @@ function Controller($scope,$http,$cookies,$filter) {
 
     });
 
-
-    $scope.agregar = function(index,contact) 
-
-    {
-
-
-    $scope.usuarioscampania.push(contact);
-    $scope.usuarios.splice(index,1);
-
-        var todo={
-
-            campania: campania,
-            dato: contact,
-            done:false
-        }
-
-        $http({
-
-        url: "/agregaragente/",
-        data: todo,
-        method: 'POST',
-        headers: {
-        'X-CSRFToken': $cookies['csrftoken']
-        }
-        }).
-        success(function(data) {
-
-            swal({   title: "Asignacion de agentes",   text: data +' agregado',   timer: 2000,   showConfirmButton: false });
-    
-    
-    
-        })
-
-    
-    };
-
-    $scope.quitar = function(index,contact) 
-
-    {
-
-    $scope.usuarios.push(contact);
-    $scope.usuarioscampania.splice(index,1);
-
-            var todo={
-
-            campania: campania,
-            dato: contact,
-            done:false
-        }
-
-        $http({
-
-        url: "/quitaragente/",
-        data: todo,
-        method: 'POST',
-        headers: {
-        'X-CSRFToken': $cookies['csrftoken']
-        }
-        }).
-        success(function(data) {
-
-            swal({   title: "Asignacion de agentes",   text: data +' quitado',   timer: 2000,   showConfirmButton: false });
-    
-    
-        })
-    
-    };
-
     $scope.numberOfPages = function() 
 
     {
@@ -157,7 +80,47 @@ function Controller($scope,$http,$cookies,$filter) {
 
 
 
+
+    $scope.MyCtrl = function() 
+
+    {
+
+    $scope.agregar.cartera = [$scope.colors[0], $scope.colors[1]];
+    }
+
+
+
+    $scope.nivelcartera= 0
+
+    $scope.nivelp = function(agregar) 
+
+    {
+
+    nivel = agregar['nivel']
+
+
+    
+    if (nivel ==2){
+
+
+        $scope.nivelcartera = 1
+
+    }
+    else{
+
+        $scope.nivelcartera= 0
+    }
+
+
+    
+    };
+
+
+
+
     $scope.addNew=function(agregar){
+
+
 
 
         console.log('agregar',agregar)
@@ -170,7 +133,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }
 
         $http({
-        url: "/usuarios/",
+        url: "/carteras/",
         data: todo,
         method: 'POST',
         headers: {
@@ -179,8 +142,13 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-        swal({   title: "Perucall",   text: "Usuario "+data +" agregado",   type: "success",   confirmButtonColor: "#337ab7",   confirmButtonText: "OK",   }, function(){   window.location.href = "/usuario" });
+        $('#myModal').modal('hide')
+        $('.modal-backdrop').remove();
+
+        swal({   title: $scope.empresas.nombre,   text: 'Cartera '+data+' ingresada al sistema , gracias ',   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Aceptar",   }, function(){   window.location.href = "/cartera" });
  
+        
+
         $scope.agregar=""
 
         })
@@ -205,7 +173,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
 
         $http({
-        url: "/usuarios/",
+        url: "/carteras/",
         data: todo,
         method: 'POST',
         headers: {
@@ -214,7 +182,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-        swal({   title: "Perucall",   text: "Usuario "+data +" editado",   type: "success",   confirmButtonColor: "#337ab7",   confirmButtonText: "OK",   }, function(){   });
+        swal({   title: $scope.empresas.nombre,   text: "Cartera "+data +" editado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Aceptar",   }, function(){   });
  
         })
 
@@ -241,7 +209,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
 
         $http({
-        url: "/usuarios/",
+        url: "/carteras/",
         data: todo,
         method: 'POST',
         headers: {
@@ -251,6 +219,8 @@ function Controller($scope,$http,$cookies,$filter) {
         success(function(data) {
 
         $scope.contador =$scope.contador-1
+        swal({   title: $scope.empresas.nombre,   text: "Cartera  eliminada",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Aceptar",   }, function(){   });
+ 
 
         })
 

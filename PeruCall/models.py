@@ -12,6 +12,25 @@ from __future__ import unicode_literals
 from django.db import models
 
 
+class Agentebase(models.Model):
+    id = models.IntegerField(primary_key=True)  # AutoField?
+    agente = models.ForeignKey('Agentes', db_column='agente', blank=True, null=True)
+    base = models.ForeignKey('Base', db_column='base', blank=True, null=True)
+    tiniciogestion = models.DateTimeField(blank=True, null=True)
+    tfingestion = models.DateTimeField(blank=True, null=True)
+    duracion = models.IntegerField(blank=True, null=True)
+    comentario = models.TextField(blank=True)
+    facuerdo = models.DateTimeField(blank=True, null=True)
+    macuerdo = models.IntegerField(blank=True, null=True)
+    status = models.ForeignKey('Estado', db_column='status', blank=True, null=True)
+    tiniciollamada = models.DateTimeField(blank=True, null=True)
+    tfinllamada = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'agentebase'
+
+
 class Agentes(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
     anexo = models.IntegerField(blank=True, null=True)
@@ -23,7 +42,7 @@ class Agentes(models.Model):
     user = models.ForeignKey('AuthUser', db_column='user', blank=True, null=True)
     supervisor = models.ForeignKey('Supervisor', db_column='supervisor', blank=True, null=True)
     disponible = models.IntegerField(blank=True, null=True)
-    calificacion = models.IntegerField(blank=True, null=True)
+    calificacion = models.ForeignKey('Base', db_column='calificacion', blank=True, null=True)
 
     class Meta:
         managed = False
@@ -73,17 +92,18 @@ class AuthPermission(models.Model):
 class AuthUser(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
     password = models.CharField(max_length=128)
-    last_login = models.DateTimeField()
-    is_superuser = models.IntegerField()
+    last_login = models.DateTimeField(blank=True, null=True)
+    is_superuser = models.IntegerField(blank=True, null=True)
     username = models.CharField(unique=True, max_length=30)
     first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
-    email = models.CharField(max_length=75)
-    is_staff = models.IntegerField()
-    is_active = models.IntegerField()
-    date_joined = models.DateTimeField()
-    empresa = models.ForeignKey('Empresa', db_column='empresa')
+    last_name = models.CharField(max_length=30, blank=True)
+    email = models.CharField(max_length=75, blank=True)
+    is_staff = models.IntegerField(blank=True, null=True)
+    is_active = models.IntegerField(blank=True, null=True)
+    date_joined = models.DateTimeField(blank=True, null=True)
+    empresa = models.ForeignKey('Empresa', db_column='empresa', blank=True, null=True)
     nivel = models.ForeignKey('Nivel', db_column='nivel')
+    telefono = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -112,18 +132,30 @@ class AuthUserUserPermissions(models.Model):
 
 class Base(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
-    telefono = models.IntegerField(blank=True, null=True)
-    orden = models.IntegerField(blank=True, null=True)
+    telefono = models.CharField(max_length=100, blank=True)
+    orden = models.CharField(max_length=100, blank=True)
     cliente = models.CharField(max_length=100, blank=True)
-    id_cliente = models.IntegerField(blank=True, null=True)
-    producto = models.CharField(max_length=100, blank=True)
-    tarjeta = models.CharField(max_length=100, blank=True)
-    deuda = models.CharField(max_length=100, blank=True)
-    descuento = models.CharField(max_length=100, blank=True)
-    diasmora = models.IntegerField(blank=True, null=True)
-    ciudad = models.CharField(max_length=100, blank=True)
-    segmento = models.CharField(max_length=100, blank=True)
-    grupo = models.CharField(max_length=100, blank=True)
+    id_cliente = models.CharField(max_length=100, blank=True)
+    status_a = models.CharField(max_length=100, blank=True)
+    status_b = models.CharField(max_length=100, blank=True)
+    status_c = models.CharField(max_length=100, blank=True)
+    status_d = models.CharField(max_length=100, blank=True)
+    status_e = models.CharField(max_length=100, blank=True)
+    status_f = models.CharField(max_length=100, blank=True)
+    status_g = models.CharField(max_length=100, blank=True)
+    status_h = models.CharField(max_length=100, blank=True)
+    status = models.CharField(max_length=100, blank=True)
+    campania = models.ForeignKey('Campania', db_column='campania', blank=True, null=True)
+    resultado = models.ForeignKey('Resultado', db_column='resultado', blank=True, null=True)
+    agente = models.ForeignKey(Agentes, db_column='agente', blank=True, null=True)
+    duracion = models.IntegerField(blank=True, null=True)
+    detalle = models.CharField(max_length=100, blank=True)
+    monto = models.CharField(max_length=100, blank=True)
+    fecha = models.DateTimeField(blank=True, null=True)
+    tiniciogestion = models.DateTimeField(blank=True, null=True)
+    tfingestion = models.DateTimeField(blank=True, null=True)
+    tiniciollamada = models.DateTimeField(blank=True, null=True)
+    tfinllamada = models.DateTimeField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -142,33 +174,44 @@ class Calificacion(models.Model):
 
 class Campania(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
-    fecha_cargada = models.DateTimeField(db_column='fecha cargada')  # Field renamed to remove unsuitable characters.
-    usuario = models.ForeignKey(AuthUser, db_column='usuario')
-    estado = models.TextField()
-    nombre = models.CharField(max_length=100)
-    troncal = models.IntegerField()
-    canales = models.IntegerField()
-    timbrados = models.IntegerField()
-    htinicio = models.TimeField()
-    htfin = models.TimeField()
-    mxllamada = models.IntegerField()
-    llamadaxhora = models.IntegerField()
-    hombreobjetivo = models.IntegerField()
-    archivo = models.CharField(max_length=100)
+    fecha_cargada = models.DateTimeField(db_column='fecha cargada', blank=True, null=True)  # Field renamed to remove unsuitable characters.
+    usuario = models.ForeignKey(AuthUser, db_column='usuario', blank=True, null=True)
+    estado = models.TextField(blank=True)
+    nombre = models.CharField(max_length=100, blank=True)
+    troncal = models.IntegerField(blank=True, null=True)
+    canales = models.IntegerField(blank=True, null=True)
+    timbrados = models.IntegerField(blank=True, null=True)
+    htinicio = models.TimeField(blank=True, null=True)
+    htfin = models.TimeField(blank=True, null=True)
+    mxllamada = models.IntegerField(blank=True, null=True)
+    llamadaxhora = models.IntegerField(blank=True, null=True)
+    hombreobjetivo = models.IntegerField(blank=True, null=True)
+    archivo = models.FileField(upload_to='files')
     supervisor = models.ForeignKey('Supervisor', db_column='supervisor', blank=True, null=True)
+    cartera = models.ForeignKey('Cartera', db_column='cartera', blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'campania'
 
 
-class Ciudad(models.Model):
+class Cartera(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
-    nombre = models.CharField(max_length=100, blank=True)
+    nombre = models.CharField(max_length=100)
 
     class Meta:
         managed = False
-        db_table = 'ciudad'
+        db_table = 'cartera'
+
+
+class Carteraempresa(models.Model):
+    id = models.IntegerField(primary_key=True)  # AutoField?
+    cartera = models.ForeignKey(Cartera, db_column='cartera')
+    empresa = models.ForeignKey('Empresa', db_column='empresa')
+
+    class Meta:
+        managed = False
+        db_table = 'carteraempresa'
 
 
 class Data(models.Model):
@@ -251,13 +294,35 @@ class Estado(models.Model):
         db_table = 'estado'
 
 
-class Grupo(models.Model):
+class Filtro(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
-    nombre = models.CharField(max_length=100, blank=True)
+    campania = models.ForeignKey(Campania, db_column='campania', blank=True, null=True)
+    ciudad = models.CharField(max_length=1000, blank=True)
+    segmento = models.CharField(max_length=1000, blank=True)
+    grupo = models.CharField(max_length=1000, blank=True)
+    resultado = models.CharField(max_length=1000, blank=True)
+    status = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
-        db_table = 'grupo'
+        db_table = 'filtro'
+
+
+class Header(models.Model):
+    id = models.IntegerField(primary_key=True)  # AutoField?
+    campania = models.ForeignKey(Campania, db_column='campania', blank=True, null=True)
+    statusa = models.CharField(max_length=100, blank=True)
+    statusb = models.CharField(max_length=100, blank=True)
+    statusc = models.CharField(max_length=100, blank=True)
+    statusd = models.CharField(max_length=100, blank=True)
+    statuse = models.CharField(max_length=100, blank=True)
+    statusf = models.CharField(max_length=100, blank=True)
+    statusg = models.CharField(max_length=100, blank=True)
+    statush = models.CharField(max_length=100, blank=True)
+
+    class Meta:
+        managed = False
+        db_table = 'header'
 
 
 class Nivel(models.Model):
@@ -269,13 +334,15 @@ class Nivel(models.Model):
         db_table = 'nivel'
 
 
-class Segmento(models.Model):
+class Resultado(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
-    nombre = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, blank=True)
+    codigo = models.CharField(max_length=100, blank=True)
+    tipo = models.CharField(max_length=100, blank=True)
 
     class Meta:
         managed = False
-        db_table = 'segmento'
+        db_table = 'resultado'
 
 
 class Supervisor(models.Model):
@@ -285,6 +352,16 @@ class Supervisor(models.Model):
     class Meta:
         managed = False
         db_table = 'supervisor'
+
+
+class Supervisorcartera(models.Model):
+    id = models.IntegerField(primary_key=True)  # AutoField?
+    cartera = models.ForeignKey(Cartera, db_column='cartera')
+    supervisor = models.ForeignKey(Supervisor, db_column='supervisor')
+
+    class Meta:
+        managed = False
+        db_table = 'supervisorcartera'
 
 
 class Troncales(models.Model):

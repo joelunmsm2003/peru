@@ -4,7 +4,7 @@
 
 {% include "head.html" %}
 
-<script src="/static/js/campania.js"></script>
+<script src="/static/js/carterasupervisor.js"></script>
 
 <body ng-app="App">
 
@@ -14,7 +14,7 @@
 
 <div ng-if="user.nivel == 1 || user.nivel == 4 || user.nivel == 2">
 
- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Crear Campaña</button>
+ <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Agregar Cartera</button>
 
 </div>
 
@@ -162,17 +162,9 @@
             <thead>
 
             <tr>
-
-                   <th>Id <a ng-click="sort_by('id',currentPage)"><i class="icon-sort"></i></a></th>
                   
-                  <th>Estado <a ng-click="sort_by('status',currentPage)"><i class="icon-sort"></i></a></th>
-                  <th>Campaña <a ng-click="sort_by('nombre',currentPage)"><i class="icon-sort"></i></a></th>
-
-                  
-                  <th>Cargados/ Barridos/ Errados <a ng-click="sort_by('empresa',currentPage)"><i class="icon-sort"></i></a></th>
-                  <th>Agentes/ Conectados <a ng-click="sort_by('nivel',currentPage)"><i class="icon-sort"></i></a></th>
-                  <th>Fecha Carga</th>
-                   <th>Supervisor <a ng-click="sort_by('supervisor',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th>Id <a ng-click="sort_by('id',currentPage)"><i class="fa fa-chevron-down"></i></a></th>
+                   <th>Cartera <a ng-click="sort_by('cartera__nombre',currentPage)"><i class="fa fa-chevron-down"></i></i></a></th>
                   <th></th>
                   <th></th>
         
@@ -206,22 +198,19 @@
 
 
 
-              <tr  ng-repeat="contact in pagedItems[currentPage]  " ts-repeat>
+              <tr  ng-repeat="contact in carteras  " ts-repeat>
 
-                <td data-th="Estado">{[{contact.id}]} </td>
-                <td data-th="Estado"> {[{contact.estado}]}</td>
-                <td data-th="Origen">{[{contact.nombre}]} </td>
+                <td>{[{contact.id}]}</td>
+              
                
-                <td data-th="Calldate">{[{contact.cargado}]}</td>
-                 <td data-th="Calldate">{[{contact.cargado}]}</td>
-                <td data-th="Disposition">{[{contact.fecha_cargada}]}</td>
-                <td data-th="Disposition">{[{contact.supervisor__user__first_name}]}</td>
+                <td>{[{contact.cartera__nombre}]}</td>
+   
 
 
                 <td>
-                <button class="btn btn-primary" ng-click='Admin(contact)'>Administrar</button>
-              </td>
-              <td>
+                <button class="btn btn-primary" ng-click='Admin(contact)'>Eliminar</button>
+               
+           
 
                  
                 <button ng-if="user.nivel == 1" class="btn btn-primary" data-toggle="modal" data-target="#reasignar" ng-click='Reasignar(contact)'>Reasignar</button>
@@ -250,143 +239,37 @@
 <!---Modal-->
 
 
-            <div class="modal fade" id="myModal" role="dialog">
+  <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Crear Campaña </h4>
+          <h4 class="modal-title">Agregar Cartera </h4>
         </div>
         <div class="modal-body">
-          <div class="row">
-
-                    <form action="/uploadCampania/" method="post"  role="form" enctype="multipart/form-data">
-
-          {% csrf_token %}
-
-          <div class="col-md-12">
-          <div class="form-group">
-          <label>Importar Data</label>
-          <input type="file" required=""  name="process_file">
-          </div>
-          </div>
-
-          <div class="col-md-12">
-          <div class="form-group">
-          <label>Nombre de campaña</label>
-          <input type="text"  name = 'nombre' class="form-control" placeholder="Nombre" required ="">
-          </div>
-          </div>
-
-          <div class="col-md-4">
-          <div class="form-group">
-          <label>Cartera</label>
-          <select name = 'cartera' class="form-control">
-          {% for cartera in cartera%}
-              <option value='{{cartera.cartera.nombre}}'>{{cartera.cartera.nombre}}</option>
-          {% endfor %}
-          </select>
-          </div>
-          </div>
-
-
-
-
-      
-
-     
-
-    
-
-
-
-          <div class="col-md-4">
-          <div class="form-group">
-          <label>Cantidad de Canales</label>
-          <input type="text"  name = 'canales' class="form-control" placeholder="Canales" required ="">
-          </div>
-          </div>
-
-          <div class="col-md-4">
-          <div class="form-group">
-          <label>Timbrados</label>
-          <input type="text"  name = 'timbrados' class="form-control" placeholder="Timbrados" value = "4" required ="">
-          </div>
-          </div>
-
-
-          <div class="col-md-4">
-          <div class="form-group">
-          <label>Hora de trabajo Inicio</label>
-          <input type="time"  name = 'inicio' class="form-control" placeholder="Hora Inicio" required ="" value='08:00'>
-          </div>
-          </div>
-
-          <div class="col-md-4">
-          <div class="form-group">
-          <label>Hora de trabajo Fin</label>
-          <input type="time"  name = 'fin' class="form-control" placeholder="Hora Fin" required ="" value='19:00'>
-          </div>
-          </div>
-
-          <div class="col-md-4">
-          <div class="form-group">
-          <label>Supervisor</label>
-
-          <select name = 'supervisor' class="form-control">
-          {% for supervisor in supervisor%}
-              <option value='{{supervisor.id}}'>{{supervisor.user.first_name}}</option>
-          {% endfor %}
-          </select>
          
-          </div>
-          </div>
 
-     
+          <form ng-submit="cartera(model)">
 
-          
+          <label>Cartera</label>
+          <select ng-model="model.cartera" class="form-control" ng-options="cliente.id as cliente.cartera__nombre for cliente in carteras" required =""></select>
 
-          <div class="modal-header">
-          <h4>Indicadores de Control (KPI)</h4>
+          <br></br>
 
-        </div>
-        <br>
-
-
-
-          <div class="col-md-4">
-          <div class="form-group">
-          <label>Minutos por llamada (min)</label>
-          <input type="text" required=""  class="form-control" name="mxllamada" placeholder = "Minutos por llamada" value='2'>
-          </div>
-          </div>
-
-
-          <div class="col-md-4">
-          <div class="form-group">
-          <label>Llamadas por hora </label>
-          <input type="text"  name = 'llamadaxhora' class="form-control" placeholder="Llamadas por hora" required ="" value="25">
-          </div>
-          </div>
-
-          <div class="col-md-4">
-          <div class="form-group">
-          <label>Horas hombre objetivo (%)</label>
-          <input type="text"  name = 'hombreobjetivo' class="form-control" placeholder="Horas hombre" required ="" value="80">
-          </div>
-          </div>
-
-   
-
-
-                        
-
-                  </div>
-        </div>
-        <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
           <button class="btn btn-primary" type="submit">Agregar</button>
+
+
           </form>
+
+         
+
+
+         
+
+        </div>
+        <div class="modal-footer">
+          
           
         </div>
       </div>
