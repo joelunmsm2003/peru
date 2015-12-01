@@ -501,7 +501,7 @@ def agregarfiltro(request):
 			segmentot = segmentot  + segmento[i]['status_h'] +'/'
   
 
-		Filtro(resultado = resultadot,ciudad=ciudadt,grupo=grupot,segmento=segmentot,campania_id=campania).save()
+		Filtro(resultado = resultadot,ciudad=ciudadt,grupo=grupot,segmento=segmentot,campania_id=campania,status=1).save()
 
 	
 		return HttpResponse('data', content_type="application/json")
