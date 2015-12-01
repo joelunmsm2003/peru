@@ -196,7 +196,7 @@ def campania(request):
 	if nivel == 4:
 
 		supervisor = Supervisor.objects.all()
-
+		cartera = Cartera.objects.all()
 	
 	return render(request, 'campania.html',{'supervisor':supervisor,'troncales':troncales,'cartera':cartera})
 
