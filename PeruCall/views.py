@@ -53,6 +53,25 @@ def ingresar(request):
 
 	if request.user.is_authenticated():
 
+		
+		id =request.user.id
+		nivel = AuthUser.objects.get(id=id).nivel.id
+		id_agente = Agentes.objects.get(user_id=id).id
+
+		
+		if nivel == 1:
+			return HttpResponseRedirect("/campania")
+		if nivel == 2:
+			return HttpResponseRedirect("/campania")
+		if nivel == 3:
+			return HttpResponseRedirect("/teleoperador/"+str(id_agente))
+		if nivel == 4:
+			return HttpResponseRedirect("/usuario")
+			
+		
+		
+
+
 		return HttpResponseRedirect("/empresa")
 
 	else:

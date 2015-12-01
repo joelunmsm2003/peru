@@ -11114,6 +11114,8 @@ html, body {
 }
 .m-b-lg {
     margin-bottom: 30px;
+        width: 69%;
+ margin-left: 56px;
 }
 .m-b-xl {
     margin-bottom: 40px;
