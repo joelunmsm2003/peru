@@ -24,6 +24,7 @@ from django.views.decorators.csrf import csrf_exempt
 from ws4redis.redis_store import RedisMessage
 from ws4redis.publisher import RedisPublisher
 from django.db.models import Count, Min, Sum, Avg
+import collections
 
 import xlrd
 import json 
@@ -200,6 +201,63 @@ def campania(request):
 	
 	return render(request, 'campania.html',{'supervisor':supervisor,'troncales':troncales,'cartera':cartera})
 
+@login_required(login_url="/ingresar")
+def base(request):
+
+	id = request.user.id
+
+	nivel = AuthUser.objects.get(id=id).nivel.id
+	empresa = AuthUser.objects.get(id=id).empresa.id
+	con = 1
+	objects_list = []
+
+	if 1 == 1:
+
+		for row in Base.objects.raw("SELECT id,telefono,orden,cliente,id_cliente,status_a,status_b,status_c,status_d,status_e,status_f,status_g,status_h,status,campania,resultado,agente,duracion,detalle,monto,fecha,tiniciogestion,tfingestion,tiniciollamada,tfinllamada FROM base ORDER BY id DESC"):
+
+				fmt = '%Y-%m-%d %H:%M:%S %Z'
+
+				d = collections.OrderedDict()
+				d['id'] = row.id
+				d['telefono'] = row.telefono
+				d['orden'] = row.orden
+				d['cliente'] = row.cliente
+				d['id_cliente'] = row.id_cliente
+				d['status_a'] = row.status_a
+				d['status_b'] = row.status_b
+				d['status_c'] = row.status_c
+				d['status_d'] = row.status_d
+				d['status_e'] = row.status_e
+				d['status_f'] = row.status_f
+				d['status_g'] = row.status_g
+				d['status_h'] = row.status_h
+				d['status'] = row.status
+				if row.campania:
+					d['campania'] = row.campania.id
+				if row.resultado:
+					d['resultado'] = row.resultado.id
+				if row.agente:
+					d['agente'] = row.agente.id
+				d['duracion'] = row.duracion
+				d['detalle'] = row.detalle
+				d['monto'] = row.monto
+				d['fecha'] = row.fecha.strftime(fmt)
+				d['tiniciogestion'] = row.tiniciogestion.strftime(fmt)
+				d['tfingestion'] = row.tfingestion.strftime(fmt)
+				d['tiniciollamada'] = row.tiniciollamada.strftime(fmt)
+				if row.tfinllamada:
+					d['tfinllamada'] = row.tfinllamada.strftime(fmt)
+
+				con =con+1
+				objects_list.append(d)
+
+		j= json.dumps(objects_list)
+
+	
+		 
+		return HttpResponse(j, content_type="application/json")
+
+
 
 
 @login_required(login_url="/ingresar")
@@ -211,6 +269,12 @@ def filtros(request,id):
 def cartera(request):
 	
 	return render(request, 'cartera.html',{})
+
+@login_required(login_url="/ingresar")
+def reporteg(request):
+	
+	return render(request, 'reporteg.html',{})
+
 
 @login_required(login_url="/ingresar")
 def supervisorcartera(request,id_supervisor):
