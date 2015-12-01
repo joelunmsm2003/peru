@@ -347,11 +347,21 @@ def gestion(request):
 		fecha= json.loads(request.body)['fechagestion']
 		id_agente =json.loads(request.body)['agente']
 
-		print 'fecha',fecha
-
+		
 
 
 		id_cliente = cliente['id']
+
+		print id_cliente,id_agente
+
+		agente = Agentes.objects.filter(id=id_agente)
+		
+		for agente in agente:
+			agente.estado_id = 6
+			agente.save()
+
+
+
 		base = Agentebase.objects.filter(base_id=id_cliente,agente_id=id_agente).order_by('-id')[:1]
 		
 		for base in base:
@@ -386,16 +396,14 @@ def gestionupdate(request):
 			if gestion['monto']:
 				monto = gestion['monto']
 
-			base = Agentebase.objects.get(base_id=cliente,agente_id=agente)
-			base.facuerdo = fecha
-			base.macuerdo = monto
-			base.save()
+			base = Agentebase.objects.filter(base_id=cliente,agente_id=agente).order_by('-id')[:1]
 
+			for base in base:
 
+				base.facuerdo = fecha
+				base.macuerdo = monto
+				base.save()
 
-		base = Agentebase.objects.get(base_id=cliente,agente_id=agente)
-		base.comentario = comentario
-		base.save()
 
 		agente = Agentes.objects.get(id=agente)
 		agente.estado_id = 2
@@ -553,7 +561,8 @@ def agente(request,id_agente):
 @login_required(login_url="/ingresar")
 def cliente(request,id_agente):
 
-	
+		
+
 		base = Base.objects.filter(agente_id=id_agente,status=1).values('id','telefono','orden','cliente','id_cliente','status_a','status_b','status_c','status_d','status_e','status_f','status_g','status_h','status','campania__nombre','resultado__name')
 
 		data_dict = ValuesQuerySetToDict(base)
@@ -789,13 +798,29 @@ def carteras(request):
 def listafiltros(request,id_campania):
 
 
-	data = Filtro.objects.filter(campania_id=id_campania).values('id','ciudad','segmento','grupo','resultado').order_by('-id')
+	data = Filtro.objects.filter(campania_id=id_campania).values('id','ciudad','segmento','grupo','resultado','status').order_by('-id')
+
+
 
 	for i in range(len(data)):
 
 		print data[i]['id']
 
 		filtro = Filtro.objects.get(id=data[i]['id'])
+
+		if data[i]['status']==1:
+
+			data[i]['color'] = '#91BE95'
+
+		
+		else:
+
+			data[i]['color'] = '#E7DFE1'
+
+
+
+
+		
 
 		resultado = filtro.resultado
 
@@ -832,7 +857,7 @@ def listafiltros(request,id_campania):
 
 
 @login_required(login_url="/ingresar")
-def activafiltro(request,id_filtro):
+def activafiltro(request,id_filtro,id_campania):
 
 
 	data = Filtro.objects.filter(id=id_filtro).values('id','ciudad','segmento','grupo','resultado').order_by('-id')
@@ -842,6 +867,13 @@ def activafiltro(request,id_filtro):
 		print data[i]['id']
 
 		filtro = Filtro.objects.get(id=data[i]['id'])
+
+		
+
+
+		print 'status',filtro.status
+		filtro.status = 1
+		filtro.save() 
 
 		resultado = filtro.resultado
 
@@ -874,16 +906,19 @@ def activafiltro(request,id_filtro):
 	return HttpResponse(data, content_type="application/json")
 
 @login_required(login_url="/ingresar")
-def desactivafiltro(request,id_campania):
+def desactivafiltro(request,id_filtro,id_campania):
 
 
-	data = Filtro.objects.filter(campania_id=id_campania).values('id','ciudad','segmento','grupo','resultado').order_by('-id')
+	data = Filtro.objects.filter(id=id_filtro).values('id','ciudad','segmento','grupo','resultado').order_by('-id')
 
 	for i in range(len(data)):
 
 		print data[i]['id']
 
 		filtro = Filtro.objects.get(id=data[i]['id'])
+
+		filtro.status = 0
+		filtro.save() 
 
 		resultado = filtro.resultado
 

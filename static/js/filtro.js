@@ -76,10 +76,12 @@ function Controller($scope,$http,$cookies,$filter) {
 
     $scope.listafiltros = response; 
 
+    console.log($scope.listafiltros)
+
     });
 
 
-    },5000);
+    },1000);
 
 
     $http.get("/nivel").success(function(response) {$scope.nivel = response;
@@ -87,6 +89,34 @@ function Controller($scope,$http,$cookies,$filter) {
         console.log('$scope.nivel',$scope.nivel)
 
     });
+
+    $scope.activafiltro = function(contact,index) 
+
+
+
+    {
+
+        $('.filtro').css("background-color","#234 !important")
+        console.log(campania)
+
+        $http.get("/activafiltro/"+contact.id+'/'+campania).success(function(response) {
+
+
+    });
+
+    }
+
+
+    $scope.desactivafiltro = function(contact,index) 
+
+    {
+
+         $http.get("/desactivafiltro/"+contact.id+'/'+campania).success(function(response) {
+
+    });
+
+
+    }
 
 
     $scope.agregar = function(index,contact) 

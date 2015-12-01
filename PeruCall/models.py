@@ -186,7 +186,7 @@ class Campania(models.Model):
     mxllamada = models.IntegerField(blank=True, null=True)
     llamadaxhora = models.IntegerField(blank=True, null=True)
     hombreobjetivo = models.IntegerField(blank=True, null=True)
-    archivo = models.FileField(upload_to='files')
+    archivo = models.CharField(max_length=100, blank=True)
     supervisor = models.ForeignKey('Supervisor', db_column='supervisor', blank=True, null=True)
     cartera = models.ForeignKey('Cartera', db_column='cartera', blank=True, null=True)
 
@@ -301,6 +301,7 @@ class Filtro(models.Model):
     segmento = models.CharField(max_length=1000, blank=True)
     grupo = models.CharField(max_length=1000, blank=True)
     resultado = models.CharField(max_length=1000, blank=True)
+    status = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False

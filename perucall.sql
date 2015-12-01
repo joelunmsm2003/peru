@@ -1,32 +1,28 @@
--- phpMyAdmin SQL Dump
--- version 4.0.10deb1
--- http://www.phpmyadmin.net
+-- MySQL dump 10.13  Distrib 5.5.43, for debian-linux-gnu (x86_64)
 --
--- Servidor: localhost
--- Tiempo de generación: 30-11-2015 a las 00:50:43
--- Versión del servidor: 5.5.41-0ubuntu0.14.04.1
--- Versión de PHP: 5.5.9-1ubuntu4.11
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
-
+-- Host: localhost    Database: perucall
+-- ------------------------------------------------------
+-- Server version	5.5.43-0ubuntu0.14.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Base de datos: `perucall`
+-- Table structure for table `agentebase`
 --
 
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `agentebase`
---
-
-CREATE TABLE IF NOT EXISTS `agentebase` (
+DROP TABLE IF EXISTS `agentebase`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `agentebase` (
   `id` int(100) NOT NULL AUTO_INCREMENT,
   `agente` int(100) DEFAULT NULL,
   `base` int(100) DEFAULT NULL,
@@ -42,26 +38,31 @@ CREATE TABLE IF NOT EXISTS `agentebase` (
   PRIMARY KEY (`id`),
   KEY `agente` (`agente`),
   KEY `base` (`base`),
-  KEY `status` (`status`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+  KEY `status` (`status`),
+  CONSTRAINT `agentebase_ibfk_1` FOREIGN KEY (`agente`) REFERENCES `agentes` (`id`),
+  CONSTRAINT `agentebase_ibfk_2` FOREIGN KEY (`base`) REFERENCES `base` (`id`),
+  CONSTRAINT `agentebase_ibfk_3` FOREIGN KEY (`status`) REFERENCES `estado` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `agentebase`
+-- Dumping data for table `agentebase`
 --
 
-INSERT INTO `agentebase` (`id`, `agente`, `base`, `tiniciogestion`, `tfingestion`, `duracion`, `comentario`, `facuerdo`, `macuerdo`, `status`, `tiniciollamada`, `tfinllamada`) VALUES
-(1, 14, 6, '2015-11-27 21:33:32', NULL, 0, 'trtrt', '2016-02-01 00:00:00', 54534, 6, NULL, NULL),
-(2, 14, 6, '2015-11-29 20:38:41', NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL),
-(3, 21, 7, '2015-11-29 18:34:14', NULL, 0, 'wewewewewewewewewewewewewe', NULL, NULL, 6, NULL, NULL),
-(4, 18, 7, '2015-11-30 05:38:08', NULL, 0, 'ieuiurie', NULL, NULL, 3, '2015-11-29 00:00:00', NULL);
-
--- --------------------------------------------------------
+LOCK TABLES `agentebase` WRITE;
+/*!40000 ALTER TABLE `agentebase` DISABLE KEYS */;
+INSERT INTO `agentebase` VALUES (1,14,6,'2015-11-27 21:33:32',NULL,0,'trtrt','2016-02-01 00:00:00',54534,6,NULL,NULL),(2,14,6,'2015-11-29 20:38:41',NULL,0,NULL,NULL,NULL,NULL,NULL,NULL),(3,21,7,'2015-11-29 18:34:14',NULL,0,'wewewewewewewewewewewewewe',NULL,NULL,6,NULL,NULL),(4,18,7,'2015-11-30 05:38:08',NULL,0,'ieuiurie',NULL,NULL,3,'2015-11-29 00:00:00',NULL);
+/*!40000 ALTER TABLE `agentebase` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `agentes`
+-- Table structure for table `agentes`
 --
 
-CREATE TABLE IF NOT EXISTS `agentes` (
+DROP TABLE IF EXISTS `agentes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `agentes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `anexo` int(11) DEFAULT NULL,
   `fono` int(11) DEFAULT NULL,
@@ -77,131 +78,143 @@ CREATE TABLE IF NOT EXISTS `agentes` (
   KEY `user` (`user`),
   KEY `supervisor` (`supervisor`),
   KEY `estado` (`estado`),
-  KEY `calificacion` (`calificacion`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=23 ;
+  KEY `calificacion` (`calificacion`),
+  CONSTRAINT `agentes_ibfk_1` FOREIGN KEY (`user`) REFERENCES `auth_user` (`id`),
+  CONSTRAINT `agentes_ibfk_3` FOREIGN KEY (`estado`) REFERENCES `estado` (`id`),
+  CONSTRAINT `agentes_ibfk_4` FOREIGN KEY (`supervisor`) REFERENCES `supervisor` (`id`),
+  CONSTRAINT `agentes_ibfk_5` FOREIGN KEY (`calificacion`) REFERENCES `base` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `agentes`
+-- Dumping data for table `agentes`
 --
 
-INSERT INTO `agentes` (`id`, `anexo`, `fono`, `tiempo`, `atendidas`, `contactadas`, `estado`, `user`, `supervisor`, `disponible`, `calificacion`) VALUES
-(14, NULL, NULL, '00:00:00', 700, 350, 1, 89, NULL, NULL, NULL),
-(15, NULL, NULL, '00:00:00', 0, 0, 1, 90, NULL, NULL, NULL),
-(16, NULL, NULL, '00:00:00', 0, 0, 1, 96, NULL, NULL, NULL),
-(17, NULL, NULL, '00:00:00', 0, 0, 1, 97, NULL, NULL, NULL),
-(18, NULL, NULL, '00:00:00', 0, 0, 2, 98, NULL, NULL, NULL),
-(19, NULL, NULL, '00:00:00', 0, 0, 1, 99, NULL, NULL, NULL),
-(20, NULL, NULL, '00:00:00', 0, 0, 1, 100, NULL, NULL, NULL),
-(21, 102, 980698120, '00:00:00', 0, 0, 2, 101, NULL, NULL, NULL),
-(22, NULL, NULL, '00:00:00', 0, 0, 1, 107, NULL, NULL, NULL);
-
--- --------------------------------------------------------
+LOCK TABLES `agentes` WRITE;
+/*!40000 ALTER TABLE `agentes` DISABLE KEYS */;
+INSERT INTO `agentes` VALUES (14,NULL,NULL,'00:00:00',700,350,1,89,NULL,NULL,NULL),(15,NULL,NULL,'00:00:00',0,0,1,90,NULL,NULL,NULL),(16,NULL,NULL,'00:00:00',0,0,1,96,NULL,NULL,NULL),(17,NULL,NULL,'00:00:00',0,0,1,97,NULL,NULL,NULL),(18,NULL,NULL,'00:00:00',0,0,2,98,NULL,NULL,NULL),(19,NULL,NULL,'00:00:00',0,0,1,99,NULL,NULL,NULL),(20,NULL,NULL,'00:00:00',0,0,1,100,NULL,NULL,NULL),(21,102,980698120,'00:00:00',0,0,2,101,NULL,NULL,NULL),(22,NULL,NULL,'00:00:00',0,0,1,107,NULL,NULL,NULL);
+/*!40000 ALTER TABLE `agentes` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `agentescampanias`
+-- Table structure for table `agentescampanias`
 --
 
-CREATE TABLE IF NOT EXISTS `agentescampanias` (
+DROP TABLE IF EXISTS `agentescampanias`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `agentescampanias` (
   `id` int(100) NOT NULL AUTO_INCREMENT,
   `agente` int(100) NOT NULL,
   `campania` int(100) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `agente` (`agente`),
-  KEY `campania` (`campania`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=202 ;
+  KEY `campania` (`campania`),
+  CONSTRAINT `agentescampanias_ibfk_1` FOREIGN KEY (`agente`) REFERENCES `agentes` (`id`),
+  CONSTRAINT `agentescampanias_ibfk_2` FOREIGN KEY (`campania`) REFERENCES `campania` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=202 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `agentescampanias`
+-- Dumping data for table `agentescampanias`
 --
 
-INSERT INTO `agentescampanias` (`id`, `agente`, `campania`) VALUES
-(180, 14, 54),
-(181, 15, 54),
-(183, 15, 8),
-(187, 14, 57),
-(188, 15, 57),
-(189, 14, 63),
-(190, 15, 63),
-(199, 19, 66),
-(200, 20, 66),
-(201, 21, 66);
-
--- --------------------------------------------------------
+LOCK TABLES `agentescampanias` WRITE;
+/*!40000 ALTER TABLE `agentescampanias` DISABLE KEYS */;
+INSERT INTO `agentescampanias` VALUES (180,14,54),(181,15,54),(183,15,8),(187,14,57),(188,15,57),(189,14,63),(190,15,63),(199,19,66),(200,20,66),(201,21,66);
+/*!40000 ALTER TABLE `agentescampanias` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `auth_group`
+-- Table structure for table `auth_group`
 --
 
-CREATE TABLE IF NOT EXISTS `auth_group` (
+DROP TABLE IF EXISTS `auth_group`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `auth_group` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(80) COLLATE utf8_spanish_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Estructura de tabla para la tabla `auth_group_permissions`
+-- Dumping data for table `auth_group`
 --
 
-CREATE TABLE IF NOT EXISTS `auth_group_permissions` (
+LOCK TABLES `auth_group` WRITE;
+/*!40000 ALTER TABLE `auth_group` DISABLE KEYS */;
+/*!40000 ALTER TABLE `auth_group` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `auth_group_permissions`
+--
+
+DROP TABLE IF EXISTS `auth_group_permissions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `auth_group_permissions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `group_id` int(11) NOT NULL,
   `permission_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `group_id` (`group_id`,`permission_id`),
   KEY `auth_group_permissions_0e939a4f` (`group_id`),
-  KEY `auth_group_permissions_8373b171` (`permission_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
+  KEY `auth_group_permissions_8373b171` (`permission_id`),
+  CONSTRAINT `auth_group_permission_group_id_689710a9a73b7457_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`),
+  CONSTRAINT `auth_group__permission_id_1f49ccbbdc69d2fc_fk_auth_permission_id` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Estructura de tabla para la tabla `auth_permission`
+-- Dumping data for table `auth_group_permissions`
 --
 
-CREATE TABLE IF NOT EXISTS `auth_permission` (
+LOCK TABLES `auth_group_permissions` WRITE;
+/*!40000 ALTER TABLE `auth_group_permissions` DISABLE KEYS */;
+/*!40000 ALTER TABLE `auth_group_permissions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `auth_permission`
+--
+
+DROP TABLE IF EXISTS `auth_permission`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `auth_permission` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
   `content_type_id` int(11) NOT NULL,
   `codename` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `content_type_id` (`content_type_id`,`codename`),
-  KEY `auth_permission_417f1b1c` (`content_type_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=19 ;
+  KEY `auth_permission_417f1b1c` (`content_type_id`),
+  CONSTRAINT `auth__content_type_id_508cf46651277a81_fk_django_content_type_id` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `auth_permission`
+-- Dumping data for table `auth_permission`
 --
 
-INSERT INTO `auth_permission` (`id`, `name`, `content_type_id`, `codename`) VALUES
-(1, 'Can add log entry', 1, 'add_logentry'),
-(2, 'Can change log entry', 1, 'change_logentry'),
-(3, 'Can delete log entry', 1, 'delete_logentry'),
-(4, 'Can add permission', 2, 'add_permission'),
-(5, 'Can change permission', 2, 'change_permission'),
-(6, 'Can delete permission', 2, 'delete_permission'),
-(7, 'Can add group', 3, 'add_group'),
-(8, 'Can change group', 3, 'change_group'),
-(9, 'Can delete group', 3, 'delete_group'),
-(10, 'Can add user', 4, 'add_user'),
-(11, 'Can change user', 4, 'change_user'),
-(12, 'Can delete user', 4, 'delete_user'),
-(13, 'Can add content type', 5, 'add_contenttype'),
-(14, 'Can change content type', 5, 'change_contenttype'),
-(15, 'Can delete content type', 5, 'delete_contenttype'),
-(16, 'Can add session', 6, 'add_session'),
-(17, 'Can change session', 6, 'change_session'),
-(18, 'Can delete session', 6, 'delete_session');
-
--- --------------------------------------------------------
+LOCK TABLES `auth_permission` WRITE;
+/*!40000 ALTER TABLE `auth_permission` DISABLE KEYS */;
+INSERT INTO `auth_permission` VALUES (1,'Can add log entry',1,'add_logentry'),(2,'Can change log entry',1,'change_logentry'),(3,'Can delete log entry',1,'delete_logentry'),(4,'Can add permission',2,'add_permission'),(5,'Can change permission',2,'change_permission'),(6,'Can delete permission',2,'delete_permission'),(7,'Can add group',3,'add_group'),(8,'Can change group',3,'change_group'),(9,'Can delete group',3,'delete_group'),(10,'Can add user',4,'add_user'),(11,'Can change user',4,'change_user'),(12,'Can delete user',4,'delete_user'),(13,'Can add content type',5,'add_contenttype'),(14,'Can change content type',5,'change_contenttype'),(15,'Can delete content type',5,'delete_contenttype'),(16,'Can add session',6,'add_session'),(17,'Can change session',6,'change_session'),(18,'Can delete session',6,'delete_session');
+/*!40000 ALTER TABLE `auth_permission` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `auth_user`
+-- Table structure for table `auth_user`
 --
 
-CREATE TABLE IF NOT EXISTS `auth_user` (
+DROP TABLE IF EXISTS `auth_user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `auth_user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `password` varchar(128) COLLATE utf8_spanish_ci NOT NULL,
   `last_login` datetime DEFAULT NULL,
@@ -219,81 +232,88 @@ CREATE TABLE IF NOT EXISTS `auth_user` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`),
   KEY `nivel` (`nivel`),
-  KEY `empresa` (`empresa`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=108 ;
+  KEY `empresa` (`empresa`),
+  CONSTRAINT `auth_user_ibfk_1` FOREIGN KEY (`empresa`) REFERENCES `empresa` (`id`),
+  CONSTRAINT `auth_user_ibfk_2` FOREIGN KEY (`nivel`) REFERENCES `nivel` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=108 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `auth_user`
+-- Dumping data for table `auth_user`
 --
 
-INSERT INTO `auth_user` (`id`, `password`, `last_login`, `is_superuser`, `username`, `first_name`, `last_name`, `email`, `is_staff`, `is_active`, `date_joined`, `empresa`, `nivel`, `telefono`) VALUES
-(2, 'pbkdf2_sha256$15000$emGDFLEMc6GK$mfEdE/RXj7/Ixs7DSIY86vR4oHBYsjsTQ9tdLogTBI8=', '2015-10-12 16:42:02', 0, 'joel', 'Joelinho', '', '', 0, 1, '2015-10-12 16:41:07', 2, 2, NULL),
-(3, 'pbkdf2_sha256$12000$1ee3TNce9VKq$rmiUYRobIm+hIigZABIXDWGWkC6FUQiCECE8DHSh4a8=', '2015-10-27 22:30:55', 0, 'viewCall', 'Berta', '', '', 0, 1, '2015-10-27 22:30:55', 3, 1, NULL),
-(8, 'pbkdf2_sha256$15000$R6A1kAjrrj24$DKEGqrFG4doN/tvYg2A5p2NnunS3UBKymViGMXjP91A=', '2015-11-26 17:13:36', 0, 'manager', 'Elizabet', '', '', 0, 1, '2015-10-30 17:28:49', 2, 4, NULL),
-(37, 'pbkdf2_sha256$15000$l8MUv7ReZfZI$Dg3DXLA30+y3IYKUIKNWRxnvvBSgoNuBfifeAlyIXAo=', '2015-11-04 23:22:35', 0, 'Carlota', '', '', 'carlota@perucall.com', 0, 1, '2015-11-04 23:22:35', 53, 1, NULL),
-(38, 'pbkdf2_sha256$15000$fkRolrDbTOY2$W9DqqYy+u4pRznedSkxNhkYay7sjLNZqwHBZbN25VAQ=', '2015-11-04 23:24:46', 0, 'asde', '', '', 'brujas@gmail.com', 0, 1, '2015-11-04 23:24:46', 53, 1, NULL),
-(39, 'pbkdf2_sha256$15000$sK8ebMBxLGHq$vJfUpu8Mim13WLIVwkR3xBAZ5mFBXnSLsbbZq6s74xo=', '2015-11-05 02:14:27', 0, 'lucho', 'lucho', '', 'joelunmsm2@gmail.com', 0, 1, '2015-11-05 02:14:27', 54, 1, NULL),
-(86, 'pbkdf2_sha256$15000$JAtGrjW1aWVC$B8Lcxz7SyPjNuWOjfmQDRRLXE9dqZl4ryMW3BiAagb4=', '2015-11-29 05:18:49', 0, 'admin', 'Hugo', '', '', 0, 1, '2015-11-22 01:31:48', 53, 1, 12121),
-(87, 'pbkdf2_sha256$15000$G6eGxwyuxwOc$OW76zec9G73yDpkLDYeAqEj4fyfy/66L8UOwotEfNf8=', '2015-11-29 17:08:50', 0, 'supervisor', 'Federica', '', '', 0, 1, '2015-11-22 01:45:57', 53, 2, 123),
-(89, 'pbkdf2_sha256$15000$S55ukFOMqFjT$QAq9ACzZEVgTxI6D47LzlhR2r6L6qrXYoJlyqQTef6Q=', '2015-11-26 14:55:26', 0, 'agente', 'Cesar', '', '', 0, 1, '2015-11-22 01:56:00', 53, 3, 32131),
-(90, 'pbkdf2_sha256$15000$ur85YVflSuWh$0dfeb0I/My0hwsK9bgLAkyRySMqpxG/ypy8Rhc4xETk=', '2015-11-22 01:59:43', 0, 'ania', 'Ania', '', '', 0, 1, '2015-11-22 01:59:43', 53, 3, 33131),
-(91, 'pbkdf2_sha256$15000$15Ziw4FUFv3M$DVoJUa2Fdbw01TjGgBgGF5815QM5qJZr/f4JwqObHr8=', '2015-11-24 17:37:01', 0, 'joel123@gmail.com', 'joel', '', '', 0, 1, '2015-11-24 17:37:01', 53, 2, 123),
-(92, 'pbkdf2_sha256$15000$ynX8KopAjvgd$ku8w9XgLYRRdl7R5ub7cc0VLl4GGN5ZloCfWksfBlww=', '2015-11-24 17:40:00', 0, 'dff', 'ew', '', '', 0, 1, '2015-11-24 17:40:00', 53, 2, 122),
-(93, 'pbkdf2_sha256$15000$jxfhJEU7WaeO$tvLL/mPqDUAWhEiY5wRUPcQGrqLpoNPqUjOjNSIYi64=', '2015-11-24 17:40:50', 0, '5656', '656', '', '', 0, 1, '2015-11-24 17:40:50', 53, 2, 123),
-(94, 'pbkdf2_sha256$15000$ADSec2EQjLRf$wCw9zdstT0TPhFApX29xPIaqX5bh8qbeTwI99wEYIlM=', '2015-11-24 17:45:10', 0, 'rtr', 'fdfd', '', '', 0, 1, '2015-11-24 17:45:10', 53, 2, 1212),
-(95, 'pbkdf2_sha256$15000$gBdNy5SlViIr$7+0T5vBuTETot8Nvm6T45P9iL/F84jNuJtdNATpCmfE=', '2015-11-24 17:48:23', 0, 'kolo', 'Kolito', '', '', 0, 1, '2015-11-24 17:48:23', 53, 2, 13),
-(96, 'pbkdf2_sha256$15000$nfoidoYGu5k2$9W2sOgQsKlJtwDi6HWvXHqlcMyrq3TCbKq/Uk/Ewj5s=', '2015-11-26 21:06:33', 0, 'joel1@gmail.com', 'Joel', '', '', 0, 1, '2015-11-26 21:06:33', 53, 3, 123),
-(97, 'pbkdf2_sha256$15000$SQpsthaJxwQk$8EuI1+Z40EW/AiHRl6kSPf26zjWVxnod5EVry2tM02I=', '2015-11-26 21:06:56', 0, 'joel2@gmail.com', 'Joel2', '', '', 0, 1, '2015-11-26 21:06:56', 53, 3, 123),
-(98, 'pbkdf2_sha256$15000$gaTbS4VvL2I3$YHJdPuthIYPLTduGw5O8hVsbO8KdDMtsuhfjBMwf6kg=', '2015-11-30 02:28:13', 0, 'joel3@gmail.com', 'Joel3', '', '', 0, 1, '2015-11-26 21:07:16', 53, 3, 1234),
-(99, 'pbkdf2_sha256$15000$7N8ByyjbDqid$HTbJAcjbXy9hTVTzgs/e0YI9qANPMXlE//9xAgHT4gU=', '2015-11-26 21:07:48', 0, 'joel4@gmail.com', 'Joel4', '', '', 0, 1, '2015-11-26 21:07:48', 53, 3, 123),
-(100, 'pbkdf2_sha256$15000$DOiB6Ffmtzmz$8uZTUlCYJkNhB0nGy/lzyvl+ot7eiwMTUoEzxyvCLM4=', '2015-11-26 21:08:07', 0, 'joel5@gmail.com', 'joel5', '', '', 0, 1, '2015-11-26 21:08:07', 53, 3, 123),
-(101, 'pbkdf2_sha256$15000$gOCf4era7C65$SfooVRf97Bch7fdOk7SzvCRR9QBvUyz13TNvsUWpXWY=', '2015-11-29 17:18:55', 0, 'joel9@gmail.com', 'Pancrasia', '', '', 0, 1, '2015-11-26 21:20:19', 53, 3, 323),
-(102, 'pbkdf2_sha256$15000$4mHeOK9wcalf$pCQ6J18K+EX7DO0dc4zTVgP9GHHRkWNOKFsZ6U5Gdgo=', '2015-11-29 05:56:35', 0, 'hshsh@gmail.com', 'Joelr', '', '', 0, 1, '2015-11-29 05:56:35', 53, 2, 11234),
-(103, 'pbkdf2_sha256$15000$P0xv7eXyjY15$wPQFBD8J78C+IZQsjB7xPezhcjdITvrq6ndjuvXoGuw=', '2015-11-29 05:58:42', 0, 'agente2@gmail.com', 'agente', '', '', 0, 1, '2015-11-29 05:58:42', 53, 2, 123),
-(104, 'pbkdf2_sha256$15000$u7cDqktzUCos$imfs/A5sX+LUc8NWuaWWJmli0vOU1Hqi+1kNxvo8v18=', '2015-11-29 06:02:19', 0, 'agente2', '', '', '', 0, 1, '2015-11-29 06:02:19', 1, 4, NULL),
-(105, 'pbkdf2_sha256$15000$XkoGmvQhDwPO$TehI+EuL6PHuGzo1ZEcbzqL5lmD29mj+zlIqmU2BqSA=', '2015-11-29 06:04:30', 0, 'agente3', '', '', '', 0, 1, '2015-11-29 06:04:30', 1, 4, NULL),
-(106, 'pbkdf2_sha256$15000$BIjay9QZS5qt$9i6plvyenVzZqzMK2+ZGAAwLXSpgtaQS561TbMuOhW0=', '2015-11-29 06:04:38', 0, 'agente4', '', '', '', 0, 1, '2015-11-29 06:04:38', 1, 4, NULL),
-(107, 'pbkdf2_sha256$15000$GcTvE5dMIIFN$bjKmPrM9wBu7HujOT3wLxLEXUJ6nYjfYnDA5sFTwTPU=', '2015-11-29 06:06:11', 0, 'agente42', 'agente32', '', '', 0, 1, '2015-11-29 06:06:11', 53, 3, 123);
-
--- --------------------------------------------------------
+LOCK TABLES `auth_user` WRITE;
+/*!40000 ALTER TABLE `auth_user` DISABLE KEYS */;
+INSERT INTO `auth_user` VALUES (2,'pbkdf2_sha256$15000$emGDFLEMc6GK$mfEdE/RXj7/Ixs7DSIY86vR4oHBYsjsTQ9tdLogTBI8=','2015-10-12 16:42:02',0,'joel','Joelinho','','',0,1,'2015-10-12 16:41:07',2,2,NULL),(3,'pbkdf2_sha256$12000$1ee3TNce9VKq$rmiUYRobIm+hIigZABIXDWGWkC6FUQiCECE8DHSh4a8=','2015-10-27 22:30:55',0,'viewCall','Berta','','',0,1,'2015-10-27 22:30:55',3,1,NULL),(8,'pbkdf2_sha256$15000$R6A1kAjrrj24$DKEGqrFG4doN/tvYg2A5p2NnunS3UBKymViGMXjP91A=','2015-11-26 17:13:36',0,'manager','Elizabet','','',0,1,'2015-10-30 17:28:49',2,4,NULL),(37,'pbkdf2_sha256$15000$l8MUv7ReZfZI$Dg3DXLA30+y3IYKUIKNWRxnvvBSgoNuBfifeAlyIXAo=','2015-11-04 23:22:35',0,'Carlota','','','carlota@perucall.com',0,1,'2015-11-04 23:22:35',53,1,NULL),(38,'pbkdf2_sha256$15000$fkRolrDbTOY2$W9DqqYy+u4pRznedSkxNhkYay7sjLNZqwHBZbN25VAQ=','2015-11-04 23:24:46',0,'asde','','','brujas@gmail.com',0,1,'2015-11-04 23:24:46',53,1,NULL),(39,'pbkdf2_sha256$15000$sK8ebMBxLGHq$vJfUpu8Mim13WLIVwkR3xBAZ5mFBXnSLsbbZq6s74xo=','2015-11-05 02:14:27',0,'lucho','lucho','','joelunmsm2@gmail.com',0,1,'2015-11-05 02:14:27',54,1,NULL),(86,'pbkdf2_sha256$15000$JAtGrjW1aWVC$B8Lcxz7SyPjNuWOjfmQDRRLXE9dqZl4ryMW3BiAagb4=','2015-11-29 05:18:49',0,'admin','Hugo','','',0,1,'2015-11-22 01:31:48',53,1,12121),(87,'pbkdf2_sha256$15000$G6eGxwyuxwOc$OW76zec9G73yDpkLDYeAqEj4fyfy/66L8UOwotEfNf8=','2015-11-30 16:36:47',0,'supervisor','Federica','','',0,1,'2015-11-22 01:45:57',53,2,123),(89,'pbkdf2_sha256$15000$S55ukFOMqFjT$QAq9ACzZEVgTxI6D47LzlhR2r6L6qrXYoJlyqQTef6Q=','2015-11-30 16:05:11',0,'agente','Cesar','','',0,1,'2015-11-22 01:56:00',53,3,32131),(90,'pbkdf2_sha256$15000$ur85YVflSuWh$0dfeb0I/My0hwsK9bgLAkyRySMqpxG/ypy8Rhc4xETk=','2015-11-22 01:59:43',0,'ania','Ania','','',0,1,'2015-11-22 01:59:43',53,3,33131),(91,'pbkdf2_sha256$15000$15Ziw4FUFv3M$DVoJUa2Fdbw01TjGgBgGF5815QM5qJZr/f4JwqObHr8=','2015-11-24 17:37:01',0,'joel123@gmail.com','joel','','',0,1,'2015-11-24 17:37:01',53,2,123),(92,'pbkdf2_sha256$15000$ynX8KopAjvgd$ku8w9XgLYRRdl7R5ub7cc0VLl4GGN5ZloCfWksfBlww=','2015-11-24 17:40:00',0,'dff','ew','','',0,1,'2015-11-24 17:40:00',53,2,122),(93,'pbkdf2_sha256$15000$jxfhJEU7WaeO$tvLL/mPqDUAWhEiY5wRUPcQGrqLpoNPqUjOjNSIYi64=','2015-11-24 17:40:50',0,'5656','656','','',0,1,'2015-11-24 17:40:50',53,2,123),(94,'pbkdf2_sha256$15000$ADSec2EQjLRf$wCw9zdstT0TPhFApX29xPIaqX5bh8qbeTwI99wEYIlM=','2015-11-24 17:45:10',0,'rtr','fdfd','','',0,1,'2015-11-24 17:45:10',53,2,1212),(95,'pbkdf2_sha256$15000$gBdNy5SlViIr$7+0T5vBuTETot8Nvm6T45P9iL/F84jNuJtdNATpCmfE=','2015-11-24 17:48:23',0,'kolo','Kolito','','',0,1,'2015-11-24 17:48:23',53,2,13),(96,'pbkdf2_sha256$15000$nfoidoYGu5k2$9W2sOgQsKlJtwDi6HWvXHqlcMyrq3TCbKq/Uk/Ewj5s=','2015-11-26 21:06:33',0,'joel1@gmail.com','Joel','','',0,1,'2015-11-26 21:06:33',53,3,123),(97,'pbkdf2_sha256$15000$SQpsthaJxwQk$8EuI1+Z40EW/AiHRl6kSPf26zjWVxnod5EVry2tM02I=','2015-11-26 21:06:56',0,'joel2@gmail.com','Joel2','','',0,1,'2015-11-26 21:06:56',53,3,123),(98,'pbkdf2_sha256$15000$gaTbS4VvL2I3$YHJdPuthIYPLTduGw5O8hVsbO8KdDMtsuhfjBMwf6kg=','2015-11-30 02:28:13',0,'joel3@gmail.com','Joel3','','',0,1,'2015-11-26 21:07:16',53,3,1234),(99,'pbkdf2_sha256$15000$7N8ByyjbDqid$HTbJAcjbXy9hTVTzgs/e0YI9qANPMXlE//9xAgHT4gU=','2015-11-26 21:07:48',0,'joel4@gmail.com','Joel4','','',0,1,'2015-11-26 21:07:48',53,3,123),(100,'pbkdf2_sha256$15000$DOiB6Ffmtzmz$8uZTUlCYJkNhB0nGy/lzyvl+ot7eiwMTUoEzxyvCLM4=','2015-11-26 21:08:07',0,'joel5@gmail.com','joel5','','',0,1,'2015-11-26 21:08:07',53,3,123),(101,'pbkdf2_sha256$15000$gOCf4era7C65$SfooVRf97Bch7fdOk7SzvCRR9QBvUyz13TNvsUWpXWY=','2015-11-29 17:18:55',0,'joel9@gmail.com','Pancrasia','','',0,1,'2015-11-26 21:20:19',53,3,323),(102,'pbkdf2_sha256$15000$4mHeOK9wcalf$pCQ6J18K+EX7DO0dc4zTVgP9GHHRkWNOKFsZ6U5Gdgo=','2015-11-29 05:56:35',0,'hshsh@gmail.com','Joelr','','',0,1,'2015-11-29 05:56:35',53,2,11234),(103,'pbkdf2_sha256$15000$P0xv7eXyjY15$wPQFBD8J78C+IZQsjB7xPezhcjdITvrq6ndjuvXoGuw=','2015-11-29 05:58:42',0,'agente2@gmail.com','agente','','',0,1,'2015-11-29 05:58:42',53,2,123),(104,'pbkdf2_sha256$15000$u7cDqktzUCos$imfs/A5sX+LUc8NWuaWWJmli0vOU1Hqi+1kNxvo8v18=','2015-11-29 06:02:19',0,'agente2','','','',0,1,'2015-11-29 06:02:19',1,4,NULL),(105,'pbkdf2_sha256$15000$XkoGmvQhDwPO$TehI+EuL6PHuGzo1ZEcbzqL5lmD29mj+zlIqmU2BqSA=','2015-11-29 06:04:30',0,'agente3','','','',0,1,'2015-11-29 06:04:30',1,4,NULL),(106,'pbkdf2_sha256$15000$BIjay9QZS5qt$9i6plvyenVzZqzMK2+ZGAAwLXSpgtaQS561TbMuOhW0=','2015-11-29 06:04:38',0,'agente4','','','',0,1,'2015-11-29 06:04:38',1,4,NULL),(107,'pbkdf2_sha256$15000$GcTvE5dMIIFN$bjKmPrM9wBu7HujOT3wLxLEXUJ6nYjfYnDA5sFTwTPU=','2015-11-29 06:06:11',0,'agente42','agente32','','',0,1,'2015-11-29 06:06:11',53,3,123);
+/*!40000 ALTER TABLE `auth_user` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `auth_user_groups`
+-- Table structure for table `auth_user_groups`
 --
 
-CREATE TABLE IF NOT EXISTS `auth_user_groups` (
+DROP TABLE IF EXISTS `auth_user_groups`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `auth_user_groups` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `group_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_id` (`user_id`,`group_id`),
   KEY `auth_user_groups_e8701ad4` (`user_id`),
-  KEY `auth_user_groups_0e939a4f` (`group_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
+  KEY `auth_user_groups_0e939a4f` (`group_id`),
+  CONSTRAINT `auth_user_groups_group_id_33ac548dcf5f8e37_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`),
+  CONSTRAINT `auth_user_groups_user_id_4b5ed4ffdb8fd9b0_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Estructura de tabla para la tabla `auth_user_user_permissions`
+-- Dumping data for table `auth_user_groups`
 --
 
-CREATE TABLE IF NOT EXISTS `auth_user_user_permissions` (
+LOCK TABLES `auth_user_groups` WRITE;
+/*!40000 ALTER TABLE `auth_user_groups` DISABLE KEYS */;
+/*!40000 ALTER TABLE `auth_user_groups` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `auth_user_user_permissions`
+--
+
+DROP TABLE IF EXISTS `auth_user_user_permissions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `auth_user_user_permissions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `permission_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_id` (`user_id`,`permission_id`),
   KEY `auth_user_user_permissions_e8701ad4` (`user_id`),
-  KEY `auth_user_user_permissions_8373b171` (`permission_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
+  KEY `auth_user_user_permissions_8373b171` (`permission_id`),
+  CONSTRAINT `auth_user_user_permissi_user_id_7f0938558328534a_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`),
+  CONSTRAINT `auth_user_u_permission_id_384b62483d7071f0_fk_auth_permission_id` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Estructura de tabla para la tabla `base`
+-- Dumping data for table `auth_user_user_permissions`
 --
 
-CREATE TABLE IF NOT EXISTS `base` (
+LOCK TABLES `auth_user_user_permissions` WRITE;
+/*!40000 ALTER TABLE `auth_user_user_permissions` DISABLE KEYS */;
+/*!40000 ALTER TABLE `auth_user_user_permissions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `base`
+--
+
+DROP TABLE IF EXISTS `base`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `base` (
   `id` int(100) NOT NULL AUTO_INCREMENT,
   `telefono` varchar(100) COLLATE utf8_spanish_ci DEFAULT NULL,
   `orden` varchar(100) COLLATE utf8_spanish_ci DEFAULT NULL,
@@ -322,209 +342,56 @@ CREATE TABLE IF NOT EXISTS `base` (
   PRIMARY KEY (`id`),
   KEY `campania` (`campania`),
   KEY `resultado` (`resultado`),
-  KEY `agente` (`agente`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=167 ;
+  KEY `agente` (`agente`),
+  CONSTRAINT `base_ibfk_1` FOREIGN KEY (`campania`) REFERENCES `campania` (`id`),
+  CONSTRAINT `base_ibfk_2` FOREIGN KEY (`resultado`) REFERENCES `resultado` (`id`),
+  CONSTRAINT `base_ibfk_3` FOREIGN KEY (`agente`) REFERENCES `agentes` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=205 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `base`
+-- Dumping data for table `base`
 --
 
-INSERT INTO `base` (`id`, `telefono`, `orden`, `cliente`, `id_cliente`, `status_a`, `status_b`, `status_c`, `status_d`, `status_e`, `status_f`, `status_g`, `status_h`, `status`, `campania`, `resultado`, `agente`, `duracion`, `detalle`, `monto`, `fecha`, `tiniciogestion`, `tfingestion`, `tiniciollamada`, `tfinllamada`) VALUES
-(1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'AYACUCHO', 'DIRECTO', 'SCORE C', '1', 8, 2, NULL, 8, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'LIMA', 'NUEVO', 'SCORE C', '0', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'LIMA', 'INDIRECTO', 'SCORE C', '0', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(4, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'AYACUCHO', 'DIRECTO', 'SCORE C', '1', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(5, '996867686.0', '1.0', 'u''PITILLO BENAVIDES''', '41909034.0', 'u''VISA CLASICA''', 'u''4457896457851660''', '9671.35', '8634.75', '36.0', 'u''AREQUIPA''', 'u''DIRECTO''', 'u''SCORE A''', '0', 8, 2, 14, 9, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(6, '979864789.0', '2.0', 'u''PITILLO BENAVIDES''', '41909034.0', 'u''MASTERCARD ORO''', 'u''5598676334682245''', '6789.45', '5987.36', '15.0', 'u''AREQUIPA''', 'u''DIRECTO''', 'u''SCORE A''', '1', 8, 2, 14, 888, '', NULL, NULL, '2015-11-27 17:50:50', NULL, NULL, NULL),
-(7, '975874897.0', '1.0', 'u''TOTO TERRY''', '67985478.0', 'u''AMERICAN EXPRESS''', 'u''6689745898756981''', '1687.35', '1168.95', '67.0', 'u''AYACUCHO''', 'u''INDIRECTO''', 'u''SCORE C''', '1', 8, 9, 18, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(8, '943215048.0', '1.0', 'u''ALBERTO BEINGOLEA''', '88749235.0', 'u''PRESTAMO PERSONAL''', 'u''00026987469''', '10369.48', '9168.74', '69.0', 'u''LIMA''', 'u''NUEVO''', 'u''SCORE B''', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(9, '967810348.0', '1.0', 'u''POLO CAMPO''', '77495678.0', 'u''CREDITO VEHICULAR''', 'u''99647952658''', '32697.48', '28367.14', '49.0', 'u''AYACUCHO''', 'u''DIRECTO''', 'u''SCORE C''', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(10, '991357001.0', '2.0', 'u''POLO CAMPO''', '77495678.0', 'u''CREDITO HIOPTECARIO''', 'u''99886974695''', '105369.45', '94698.36', '102.0', 'u''AYACUCHO''', 'u''INDIRECTO''', 'u''SCORE C''', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(11, '996867689.0', '1.0', 'u''PITILLO BENAVIDES''', '41909034.0', 'u''VISA CLASICA''', 'u''4457896457851660''', '9671.35', '8634.75', '36.0', 'u''AREQUIPA''', 'u''DIRECTO''', 'u''SCORE A''', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(12, '979864782.0', '2.0', 'u''PITILLO BENAVIDES''', '41909034.0', 'u''MASTERCARD ORO''', 'u''5598676334682245''', '6789.45', '5987.36', '15.0', 'u''AREQUIPA''', 'u''DIRECTO''', 'u''SCORE A''', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(13, '975874896.0', '1.0', 'u''Cesar''', '67985478.0', 'u''AMERICAN EXPRESS''', 'u''6689745898756981''', '1687.35', '1168.95', '67.0', 'u''AYACUCHO''', 'u''INDIRECTO''', 'u''SCORE C''', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(14, '9432150483.0', '1.0', 'u''Juan''', '88749235.0', 'u''PRESTAMO PERSONAL''', 'u''00026987469''', '10369.48', '9168.74', '69.0', 'u''LIMA''', 'u''NUEVO''', 'u''SCORE B''', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(15, '967810348.0', '1.0', 'u''Carlos''', '77495678.0', 'u''CREDITO VEHICULAR''', 'u''99647952658''', '32697.48', '28367.14', '49.0', 'u''AYACUCHO''', 'u''DIRECTO''', 'u''SCORE C''', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(16, '991357001.0', '2.0', 'u''Ana''', '77495678.0', 'u''CREDITO HIOPTECARIO''', 'u''99886974695''', '105369.45', '94698.36', '102.0', 'u''AYACUCHO''', 'u''INDIRECTO''', 'u''SCORE C''', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(17, '996867686.0', '1.0', 'PITILLO BENAVIDES', '41909034.0', 'VISA CLASICA', '4457896457851660', '9671.35', '8634.75', '36.0', 'AREQUIPA', 'DIRECTO', 'SCORE A', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(18, '979864789.0', '2.0', 'PITILLO BENAVIDES', '41909034.0', 'MASTERCARD ORO', '5598676334682245', '6789.45', '5987.36', '15.0', 'AREQUIPA', 'DIRECTO', 'SCORE A', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(19, '975874897.0', '1.0', 'TOTO TERRY', '67985478.0', 'AMERICAN EXPRESS', '6689745898756981', '1687.35', '1168.95', '67.0', 'AYACUCHO', 'INDIRECTO', 'SCORE C', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(20, '943215048.0', '1.0', 'ALBERTO BEINGOLEA', '88749235.0', 'PRESTAMO PERSONAL', '00026987469', '10369.48', '9168.74', '69.0', 'LIMA', 'NUEVO', 'SCORE B', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(21, '967810348.0', '1.0', 'POLO CAMPO', '77495678.0', 'CREDITO VEHICULAR', '99647952658', '32697.48', '28367.14', '49.0', 'AYACUCHO', 'DIRECTO', 'SCORE C', '1', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(22, '991357001.0', '2.0', 'POLO CAMPO', '77495678.0', 'CREDITO HIOPTECARIO', '99886974695', '105369.45', '94698.36', '102.0', 'AYACUCHO', 'INDIRECTO', 'SCORE C', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(23, '996867689.0', '1.0', 'PITILLO BENAVIDES', '41909034.0', 'VISA CLASICA', '4457896457851660', '9671.35', '8634.75', '36.0', 'AREQUIPA', 'DIRECTO', 'SCORE A', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(24, '979864782.0', '2.0', 'PITILLO BENAVIDES', '41909034.0', 'MASTERCARD ORO', '5598676334682245', '6789.45', '5987.36', '15.0', 'AREQUIPA', 'DIRECTO', 'SCORE A', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(25, '975874896.0', '1.0', 'Cesar', '67985478.0', 'AMERICAN EXPRESS', '6689745898756981', '1687.35', '1168.95', '67.0', 'AYACUCHO', 'INDIRECTO', 'SCORE C', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(26, '9432150483.0', '1.0', 'Juan', '88749235.0', 'PRESTAMO PERSONAL', '00026987469', '10369.48', '9168.74', '69.0', 'LIMA', 'NUEVO', 'SCORE B', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(27, '967810348.0', '1.0', 'Carlos', '77495678.0', 'CREDITO VEHICULAR', '99647952658', '32697.48', '28367.14', '49.0', 'AYACUCHO', 'DIRECTO', 'SCORE C', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(28, '991357001.0', '2.0', 'Ana', '77495678.0', 'CREDITO HIOPTECARIO', '99886974695', '105369.45', '94698.36', '102.0', 'AYACUCHO', 'INDIRECTO', 'SCORE C', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(29, '996867686', '1', 'PITILLO BENAVIDES', '41909034.0', 'VISA CLASICA', '4457896457851660', '9671.35', '8634.75', '36', 'AREQUIPA', 'DIRECTO', 'SCORE A', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(30, '979864789', '2', 'PITILLO BENAVIDES', '41909034.0', 'MASTERCARD ORO', '5598676334682245', '6789.45', '5987.36', '15', 'AREQUIPA', 'DIRECTO', 'SCORE A', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(31, '975874897', '1', 'TOTO TERRY', '67985478.0', 'AMERICAN EXPRESS', '6689745898756981', '1687.35', '1168.95', '67', 'AYACUCHO', 'INDIRECTO', 'SCORE C', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(32, '943215048', '1', 'ALBERTO BEINGOLEA', '88749235.0', 'PRESTAMO PERSONAL', '00026987469', '10369.48', '9168.74', '69', 'LIMA', 'NUEVO', 'SCORE B', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(33, '967810348', '1', 'POLO CAMPO', '77495678.0', 'CREDITO VEHICULAR', '99647952658', '32697.48', '28367.14', '49', 'AYACUCHO', 'DIRECTO', 'SCORE C', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(34, '991357001', '2', 'POLO CAMPO', '77495678.0', 'CREDITO HIOPTECARIO', '99886974695', '105369.45', '94698.36', '102', 'AYACUCHO', 'INDIRECTO', 'SCORE C', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(35, '996867689', '1', 'PITILLO BENAVIDES', '41909034.0', 'VISA CLASICA', '4457896457851660', '9671.35', '8634.75', '36', 'AREQUIPA', 'DIRECTO', 'SCORE A', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(36, '979864782', '2', 'PITILLO BENAVIDES', '41909034.0', 'MASTERCARD ORO', '5598676334682245', '6789.45', '5987.36', '15', 'AREQUIPA', 'DIRECTO', 'SCORE A', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(37, '975874896', '1', 'Cesar', '67985478.0', 'AMERICAN EXPRESS', '6689745898756981', '1687.35', '1168.95', '67', 'AYACUCHO', 'INDIRECTO', 'SCORE C', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(38, '9432150483', '1', 'Juan', '88749235.0', 'PRESTAMO PERSONAL', '00026987469', '10369.48', '9168.74', '69', 'LIMA', 'NUEVO', 'SCORE B', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(39, '967810348', '1', 'Carlos', '77495678.0', 'CREDITO VEHICULAR', '99647952658', '32697.48', '28367.14', '49', 'AYACUCHO', 'DIRECTO', 'SCORE C', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(40, '991357001', '2', 'Ana', '77495678.0', 'CREDITO HIOPTECARIO', '99886974695', '105369.45', '94698.36', '102', 'AYACUCHO', 'INDIRECTO', 'SCORE C', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(41, '996867686', '1', 'PITILLO BENAVIDES', '41909034.0', 'VISA CLASICA', '4457896457851660', '9671.35', '8634.75', '36', 'AREQUIPA', 'DIRECTO', 'SCORE A', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(42, '979864789', '2', 'PITILLO BENAVIDES', '41909034.0', 'MASTERCARD ORO', '5598676334682245', '6789.45', '5987.36', '15', 'AREQUIPA', 'DIRECTO', 'SCORE A', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(43, '975874897', '1', 'TOTO TERRY', '67985478.0', 'AMERICAN EXPRESS', '6689745898756981', '1687.35', '1168.95', '67', 'AYACUCHO', 'INDIRECTO', 'SCORE C', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(44, '943215048', '1', 'ALBERTO BEINGOLEA', '88749235.0', 'PRESTAMO PERSONAL', '00026987469', '10369.48', '9168.74', '69', 'LIMA', 'NUEVO', 'SCORE B', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(45, '967810348', '1', 'POLO CAMPO', '77495678.0', 'CREDITO VEHICULAR', '99647952658', '32697.48', '28367.14', '49', 'AYACUCHO', 'DIRECTO', 'SCORE C', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(46, '991357001', '2', 'POLO CAMPO', '77495678.0', 'CREDITO HIOPTECARIO', '99886974695', '105369.45', '94698.36', '102', 'AYACUCHO', 'INDIRECTO', 'SCORE C', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(47, '996867689', '1', 'PITILLO BENAVIDES', '41909034.0', 'VISA CLASICA', '4457896457851660', '9671.35', '8634.75', '36', 'AREQUIPA', 'DIRECTO', 'SCORE A', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(48, '979864782', '2', 'PITILLO BENAVIDES', '41909034.0', 'MASTERCARD ORO', '5598676334682245', '6789.45', '5987.36', '15', 'AREQUIPA', 'DIRECTO', 'SCORE A', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(49, '975874896', '1', 'Cesar', '67985478.0', 'AMERICAN EXPRESS', '6689745898756981', '1687.35', '1168.95', '67', 'AYACUCHO', 'INDIRECTO', 'SCORE C', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(50, '9432150483', '1', 'Juan', '88749235.0', 'PRESTAMO PERSONAL', '00026987469', '10369.48', '9168.74', '69', 'LIMA', 'NUEVO', 'SCORE B', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(51, '967810348', '1', 'Carlos', '77495678.0', 'CREDITO VEHICULAR', '99647952658', '32697.48', '28367.14', '49', 'AYACUCHO', 'DIRECTO', 'SCORE C', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(52, '991357001', '2', 'Ana', '77495678.0', 'CREDITO HIOPTECARIO', '99886974695', '105369.45', '94698.36', '102', 'AYACUCHO', 'INDIRECTO', 'SCORE C', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(53, '996867686', '1', 'PITILLO BENAVIDES', '41909034.0', 'VISA CLASICA', '4457896457851660', '9671.35', '8634.75', '36', 'AREQUIPA', 'DIRECTO', 'SCORE A', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(54, '979864789', '2', 'PITILLO BENAVIDES', '41909034.0', 'MASTERCARD ORO', '5598676334682245', '6789.45', '5987.36', '15', 'AREQUIPA', 'DIRECTO', 'SCORE A', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(55, '975874897', '1', 'TOTO TERRY', '67985478.0', 'AMERICAN EXPRESS', '6689745898756981', '1687.35', '1168.95', '67', 'AYACUCHO', 'INDIRECTO', 'SCORE C', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(56, '943215048', '1', 'ALBERTO BEINGOLEA', '88749235.0', 'PRESTAMO PERSONAL', '00026987469', '10369.48', '9168.74', '69', 'LIMA', 'NUEVO', 'SCORE B', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(57, '967810348', '1', 'POLO CAMPO', '77495678.0', 'CREDITO VEHICULAR', '99647952658', '32697.48', '28367.14', '49', 'AYACUCHO', 'DIRECTO', 'SCORE C', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(58, '991357001', '2', 'POLO CAMPO', '77495678.0', 'CREDITO HIOPTECARIO', '99886974695', '105369.45', '94698.36', '102', 'AYACUCHO', 'INDIRECTO', 'SCORE C', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(59, '996867689', '1', 'PITILLO BENAVIDES', '41909034.0', 'VISA CLASICA', '4457896457851660', '9671.35', '8634.75', '36', 'AREQUIPA', 'DIRECTO', 'SCORE A', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(60, '979864782', '2', 'PITILLO BENAVIDES', '41909034.0', 'MASTERCARD ORO', '5598676334682245', '6789.45', '5987.36', '15', 'AREQUIPA', 'DIRECTO', 'SCORE A', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(61, '975874896', '1', 'Cesar', '67985478.0', 'AMERICAN EXPRESS', '6689745898756981', '1687.35', '1168.95', '67', 'AYACUCHO', 'INDIRECTO', 'SCORE C', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(62, '9432150483', '1', 'Juan', '88749235.0', 'PRESTAMO PERSONAL', '00026987469', '10369.48', '9168.74', '69', 'LIMA', 'NUEVO', 'SCORE B', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(63, '967810348', '1', 'Carlos', '77495678.0', 'CREDITO VEHICULAR', '99647952658', '32697.48', '28367.14', '49', 'AYACUCHO', 'DIRECTO', 'SCORE C', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(64, '991357001', '2', 'Ana', '77495678.0', 'CREDITO HIOPTECARIO', '99886974695', '105369.45', '94698.36', '102', 'AYACUCHO', 'INDIRECTO', 'SCORE C', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(65, '996867686', '1', 'PITILLO BENAVIDES', '41909034.0', 'VISA CLASICA', '4457896457851660', '9671.35', '8634.75', '36', 'AREQUIPA', 'DIRECTO', 'SCORE A', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(66, '979864789', '2', 'PITILLO BENAVIDES', '41909034.0', 'MASTERCARD ORO', '5598676334682245', '6789.45', '5987.36', '15', 'AREQUIPA', 'DIRECTO', 'SCORE A', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(67, '975874897', '1', 'TOTO TERRY', '67985478.0', 'AMERICAN EXPRESS', '6689745898756981', '1687.35', '1168.95', '67', 'AYACUCHO', 'INDIRECTO', 'SCORE C', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(68, '943215048', '1', 'ALBERTO BEINGOLEA', '88749235.0', 'PRESTAMO PERSONAL', '00026987469', '10369.48', '9168.74', '69', 'LIMA', 'NUEVO', 'SCORE B', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(69, '967810348', '1', 'POLO CAMPO', '77495678.0', 'CREDITO VEHICULAR', '99647952658', '32697.48', '28367.14', '49', 'AYACUCHO', 'DIRECTO', 'SCORE C', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(70, '991357001', '2', 'POLO CAMPO', '77495678.0', 'CREDITO HIOPTECARIO', '99886974695', '105369.45', '94698.36', '102', 'AYACUCHO', 'INDIRECTO', 'SCORE C', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(71, '996867689', '1', 'PITILLO BENAVIDES', '41909034.0', 'VISA CLASICA', '4457896457851660', '9671.35', '8634.75', '36', 'AREQUIPA', 'DIRECTO', 'SCORE A', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(72, '979864782', '2', 'PITILLO BENAVIDES', '41909034.0', 'MASTERCARD ORO', '5598676334682245', '6789.45', '5987.36', '15', 'AREQUIPA', 'DIRECTO', 'SCORE A', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(73, '975874896', '1', 'Cesar', '67985478.0', 'AMERICAN EXPRESS', '6689745898756981', '1687.35', '1168.95', '67', 'AYACUCHO', 'INDIRECTO', 'SCORE C', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(74, '9432150483', '1', 'Juan', '88749235.0', 'PRESTAMO PERSONAL', '00026987469', '10369.48', '9168.74', '69', 'LIMA', 'NUEVO', 'SCORE B', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(75, '967810348', '1', 'Carlos', '77495678.0', 'CREDITO VEHICULAR', '99647952658', '32697.48', '28367.14', '49', 'AYACUCHO', 'DIRECTO', 'SCORE C', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(76, '991357001', '2', 'Ana', '77495678.0', 'CREDITO HIOPTECARIO', '99886974695', '105369.45', '94698.36', '102', 'AYACUCHO', 'INDIRECTO', 'SCORE C', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(77, '996867686', '1', 'PITILLO BENAVIDES', '41909034.0', 'VISA CLASICA', '4457896457851660', '9671.35', '8634.75', '36', 'AREQUIPA', 'DIRECTO', 'SCORE A', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(78, '979864789', '2', 'PITILLO BENAVIDES', '41909034.0', 'MASTERCARD ORO', '5598676334682245', '6789.45', '5987.36', '15', 'AREQUIPA', 'DIRECTO', 'SCORE A', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(79, '975874897', '1', 'TOTO TERRY', '67985478.0', 'AMERICAN EXPRESS', '6689745898756981', '1687.35', '1168.95', '67', 'AYACUCHO', 'INDIRECTO', 'SCORE C', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(80, '943215048', '1', 'ALBERTO BEINGOLEA', '88749235.0', 'PRESTAMO PERSONAL', '00026987469', '10369.48', '9168.74', '69', 'LIMA', 'NUEVO', 'SCORE B', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(81, '967810348', '1', 'POLO CAMPO', '77495678.0', 'CREDITO VEHICULAR', '99647952658', '32697.48', '28367.14', '49', 'AYACUCHO', 'DIRECTO', 'SCORE C', '', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(82, '991357001', '2', 'POLO CAMPO', '77495678.0', 'CREDITO HIOPTECARIO', '99886974695', '105369.45', '94698.36', '102', 'AYACUCHO', 'DIRECTO', 'SCORE C', '1', 8, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(83, '996867686', '1', 'PITILLO BENAVIDES', '41909034.0', 'VISA CLASICA', '4457896457851660', '9671.35', '8634.75', '36', 'AREQUIPA', 'DIRECTO', 'SCORE A', '', NULL, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(84, '979864789', '2', 'PITILLO BENAVIDES', '41909034.0', 'MASTERCARD ORO', '5598676334682245', '6789.45', '5987.36', '15', 'AREQUIPA', 'DIRECTO', 'SCORE A', '', NULL, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(85, '975874897', '1', 'TOTO TERRY', '67985478.0', 'AMERICAN EXPRESS', '6689745898756981', '1687.35', '1168.95', '67', 'AYACUCHO', 'INDIRECTO', 'SCORE C', '', NULL, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(86, '943215048', '1', 'ALBERTO BEINGOLEA', '88749235.0', 'PRESTAMO PERSONAL', '00026987469', '10369.48', '9168.74', '69', 'LIMA', 'NUEVO', 'SCORE B', '', NULL, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(87, '967810348', '1', 'POLO CAMPO', '77495678.0', 'CREDITO VEHICULAR', '99647952658', '32697.48', '28367.14', '49', 'AYACUCHO', 'DIRECTO', 'SCORE C', '', NULL, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(88, '991357001', '2', 'POLO CAMPO', '77495678.0', 'CREDITO HIOPTECARIO', '99886974695', '105369.45', '94698.36', '102', 'AYACUCHO', 'INDIRECTO', 'SCORE C', '', NULL, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(89, '996867689', '1', 'PITILLO BENAVIDES', '41909034.0', 'VISA CLASICA', '4457896457851660', '9671.35', '8634.75', '36', 'AREQUIPA', 'DIRECTO', 'SCORE A', '', NULL, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(90, '979864782', '2', 'PITILLO BENAVIDES', '41909034.0', 'MASTERCARD ORO', '5598676334682245', '6789.45', '5987.36', '15', 'AREQUIPA', 'DIRECTO', 'SCORE A', '', NULL, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(91, '975874896', '1', 'Cesar', '67985478.0', 'AMERICAN EXPRESS', '6689745898756981', '1687.35', '1168.95', '67', 'AYACUCHO', 'INDIRECTO', 'SCORE C', '', NULL, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(92, '9432150483', '1', 'Juan', '88749235.0', 'PRESTAMO PERSONAL', '00026987469', '10369.48', '9168.74', '69', 'LIMA', 'NUEVO', 'SCORE B', '', NULL, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(93, '967810348', '1', 'Carlos', '77495678.0', 'CREDITO VEHICULAR', '99647952658', '32697.48', '28367.14', '49', 'AYACUCHO', 'DIRECTO', 'SCORE C', '', NULL, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(94, '991357001', '2', 'Ana', '77495678.0', 'CREDITO HIOPTECARIO', '99886974695', '105369.45', '94698.36', '102', 'AYACUCHO', 'INDIRECTO', 'SCORE C', '', NULL, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(95, '996867686', '1', 'PITILLO BENAVIDES', '41909034.0', 'VISA CLASICA', '4457896457851660', '9671.35', '8634.75', '36', 'AREQUIPA', 'DIRECTO', 'SCORE A', '', NULL, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(96, '979864789', '2', 'PITILLO BENAVIDES', '41909034.0', 'MASTERCARD ORO', '5598676334682245', '6789.45', '5987.36', '15', 'AREQUIPA', 'DIRECTO', 'SCORE A', '', NULL, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(97, '975874897', '1', 'TOTO TERRY', '67985478.0', 'AMERICAN EXPRESS', '6689745898756981', '1687.35', '1168.95', '67', 'AYACUCHO', 'INDIRECTO', 'SCORE C', '', NULL, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(98, '943215048', '1', 'ALBERTO BEINGOLEA', '88749235.0', 'PRESTAMO PERSONAL', '00026987469', '10369.48', '9168.74', '69', 'LIMA', 'NUEVO', 'SCORE B', '', NULL, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(99, '967810348', '1', 'POLO CAMPO', '77495678.0', 'CREDITO VEHICULAR', '99647952658', '32697.48', '28367.14', '49', 'AYACUCHO', 'DIRECTO', 'SCORE C', '', NULL, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(100, '991357001', '2', 'POLO CAMPO', '77495678.0', 'CREDITO HIOPTECARIO', '99886974695', '105369.45', '94698.36', '102', 'AYACUCHO', 'INDIRECTO', 'SCORE C', '', NULL, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(101, '996867689', '1', 'PITILLO BENAVIDES', '41909034.0', 'VISA CLASICA', '4457896457851660', '9671.35', '8634.75', '36', 'AREQUIPA', 'DIRECTO', 'SCORE A', '', NULL, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(102, '979864782', '2', 'PITILLO BENAVIDES', '41909034.0', 'MASTERCARD ORO', '5598676334682245', '6789.45', '5987.36', '15', 'AREQUIPA', 'DIRECTO', 'SCORE A', '', NULL, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(103, '975874896', '1', 'Cesar', '67985478.0', 'AMERICAN EXPRESS', '6689745898756981', '1687.35', '1168.95', '67', 'AYACUCHO', 'INDIRECTO', 'SCORE C', '', NULL, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(104, '9432150483', '1', 'Juan', '88749235.0', 'PRESTAMO PERSONAL', '00026987469', '10369.48', '9168.74', '69', 'LIMA', 'NUEVO', 'SCORE B', '', NULL, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(105, '967810348', '1', 'Carlos', '77495678.0', 'CREDITO VEHICULAR', '99647952658', '32697.48', '28367.14', '49', 'AYACUCHO', 'DIRECTO', 'SCORE C', '', NULL, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(106, '991357001', '2', 'Ana', '77495678.0', 'CREDITO HIOPTECARIO', '99886974695', '105369.45', '94698.36', '102', 'AYACUCHO', 'INDIRECTO', 'SCORE C', '', NULL, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(107, '996867686', '1', 'PITILLO BENAVIDES', '41909034.0', 'VISA CLASICA', '4457896457851660', '9671.35', '8634.75', '36', 'AREQUIPA', 'DIRECTO', 'SCORE A', '', NULL, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(108, '979864789', '2', 'PITILLO BENAVIDES', '41909034.0', 'MASTERCARD ORO', '5598676334682245', '6789.45', '5987.36', '15', 'AREQUIPA', 'DIRECTO', 'SCORE A', '', NULL, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(109, '975874897', '1', 'TOTO TERRY', '67985478.0', 'AMERICAN EXPRESS', '6689745898756981', '1687.35', '1168.95', '67', 'AYACUCHO', 'INDIRECTO', 'SCORE C', '', NULL, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(110, '943215048', '1', 'ALBERTO BEINGOLEA', '88749235.0', 'PRESTAMO PERSONAL', '00026987469', '10369.48', '9168.74', '69', 'LIMA', 'NUEVO', 'SCORE B', '', NULL, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(111, '967810348', '1', 'POLO CAMPO', '77495678.0', 'CREDITO VEHICULAR', '99647952658', '32697.48', '28367.14', '49', 'AYACUCHO', 'DIRECTO', 'SCORE C', '', NULL, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(112, '991357001', '2', 'POLO CAMPO', '77495678.0', 'CREDITO HIOPTECARIO', '99886974695', '105369.45', '94698.36', '102', 'AYACUCHO', 'INDIRECTO', 'SCORE C', '', NULL, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(113, '996867689', '1', 'PITILLO BENAVIDES', '41909034.0', 'VISA CLASICA', '4457896457851660', '9671.35', '8634.75', '36', 'AREQUIPA', 'DIRECTO', 'SCORE A', '', NULL, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(114, '979864782', '2', 'PITILLO BENAVIDES', '41909034.0', 'MASTERCARD ORO', '5598676334682245', '6789.45', '5987.36', '15', 'AREQUIPA', 'DIRECTO', 'SCORE A', '', NULL, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(115, '975874896', '1', 'Cesar', '67985478.0', 'AMERICAN EXPRESS', '6689745898756981', '1687.35', '1168.95', '67', 'AYACUCHO', 'INDIRECTO', 'SCORE C', '', NULL, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(116, '9432150483', '1', 'Juan', '88749235.0', 'PRESTAMO PERSONAL', '00026987469', '10369.48', '9168.74', '69', 'LIMA', 'NUEVO', 'SCORE B', '', NULL, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(117, '967810348', '1', 'Carlos', '77495678.0', 'CREDITO VEHICULAR', '99647952658', '32697.48', '28367.14', '49', 'AYACUCHO', 'DIRECTO', 'SCORE C', '', NULL, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(118, '991357001', '2', 'Ana', '77495678.0', 'CREDITO HIOPTECARIO', '99886974695', '105369.45', '94698.36', '102', 'AYACUCHO', 'INDIRECTO', 'SCORE C', '', NULL, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(119, '996867686', '1', 'PITILLO BENAVIDES', '41909034.0', 'VISA CLASICA', '4457896457851660', '9671.35', '8634.75', '36', 'AREQUIPA', 'DIRECTO', 'SCORE A', '', 60, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(120, '979864789', '2', 'PITILLO BENAVIDES', '41909034.0', 'MASTERCARD ORO', '5598676334682245', '6789.45', '5987.36', '15', 'AREQUIPA', 'DIRECTO', 'SCORE A', '', 60, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(121, '975874897', '1', 'TOTO TERRY', '67985478.0', 'AMERICAN EXPRESS', '6689745898756981', '1687.35', '1168.95', '67', 'AYACUCHO', 'INDIRECTO', 'SCORE C', '', 60, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(122, '943215048', '1', 'ALBERTO BEINGOLEA', '88749235.0', 'PRESTAMO PERSONAL', '00026987469', '10369.48', '9168.74', '69', 'LIMA', 'NUEVO', 'SCORE B', '', 60, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(123, '967810348', '1', 'POLO CAMPO', '77495678.0', 'CREDITO VEHICULAR', '99647952658', '32697.48', '28367.14', '49', 'AYACUCHO', 'DIRECTO', 'SCORE C', '', 60, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(124, '991357001', '2', 'POLO CAMPO', '77495678.0', 'CREDITO HIOPTECARIO', '99886974695', '105369.45', '94698.36', '102', 'AYACUCHO', 'INDIRECTO', 'SCORE C', '', 60, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(125, '996867689', '1', 'PITILLO BENAVIDES', '41909034.0', 'VISA CLASICA', '4457896457851660', '9671.35', '8634.75', '36', 'AREQUIPA', 'DIRECTO', 'SCORE A', '', 60, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(126, '979864782', '2', 'PITILLO BENAVIDES', '41909034.0', 'MASTERCARD ORO', '5598676334682245', '6789.45', '5987.36', '15', 'AREQUIPA', 'DIRECTO', 'SCORE A', '', 60, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(127, '975874896', '1', 'Cesar', '67985478.0', 'AMERICAN EXPRESS', '6689745898756981', '1687.35', '1168.95', '67', 'AYACUCHO', 'INDIRECTO', 'SCORE C', '', 60, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(128, '9432150483', '1', 'Juan', '88749235.0', 'PRESTAMO PERSONAL', '00026987469', '10369.48', '9168.74', '69', 'LIMA', 'NUEVO', 'SCORE B', '', 60, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(129, '967810348', '1', 'Carlos', '77495678.0', 'CREDITO VEHICULAR', '99647952658', '32697.48', '28367.14', '49', 'AYACUCHO', 'DIRECTO', 'SCORE C', '', 60, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(130, '991357001', '2', 'Ana', '77495678.0', 'CREDITO HIOPTECARIO', '99886974695', '105369.45', '94698.36', '102', 'AYACUCHO', 'INDIRECTO', 'SCORE C', '', 60, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(131, '996867686', '1', 'PITILLO BENAVIDES', '41909034.0', 'VISA CLASICA', '4457896457851660', '9671.35', '8634.75', '36', 'AREQUIPA', 'DIRECTO', 'SCORE A', '', 61, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(132, '979864789', '2', 'PITILLO BENAVIDES', '41909034.0', 'MASTERCARD ORO', '5598676334682245', '6789.45', '5987.36', '15', 'AREQUIPA', 'DIRECTO', 'SCORE A', '', 61, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(133, '975874897', '1', 'TOTO TERRY', '67985478.0', 'AMERICAN EXPRESS', '6689745898756981', '1687.35', '1168.95', '67', 'AYACUCHO', 'INDIRECTO', 'SCORE C', '', 61, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(134, '943215048', '1', 'ALBERTO BEINGOLEA', '88749235.0', 'PRESTAMO PERSONAL', '00026987469', '10369.48', '9168.74', '69', 'LIMA', 'NUEVO', 'SCORE B', '', 61, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(135, '967810348', '1', 'POLO CAMPO', '77495678.0', 'CREDITO VEHICULAR', '99647952658', '32697.48', '28367.14', '49', 'AYACUCHO', 'DIRECTO', 'SCORE C', '', 61, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(136, '991357001', '2', 'POLO CAMPO', '77495678.0', 'CREDITO HIOPTECARIO', '99886974695', '105369.45', '94698.36', '102', 'AYACUCHO', 'INDIRECTO', 'SCORE C', '', 61, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(137, '996867689', '1', 'PITILLO BENAVIDES', '41909034.0', 'VISA CLASICA', '4457896457851660', '9671.35', '8634.75', '36', 'AREQUIPA', 'DIRECTO', 'SCORE A', '', 61, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(138, '979864782', '2', 'PITILLO BENAVIDES', '41909034.0', 'MASTERCARD ORO', '5598676334682245', '6789.45', '5987.36', '15', 'AREQUIPA', 'DIRECTO', 'SCORE A', '', 61, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(139, '975874896', '1', 'Cesar', '67985478.0', 'AMERICAN EXPRESS', '6689745898756981', '1687.35', '1168.95', '67', 'AYACUCHO', 'INDIRECTO', 'SCORE C', '', 61, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(140, '9432150483', '1', 'Juan', '88749235.0', 'PRESTAMO PERSONAL', '00026987469', '10369.48', '9168.74', '69', 'LIMA', 'NUEVO', 'SCORE B', '', 61, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(141, '967810348', '1', 'Carlos', '77495678.0', 'CREDITO VEHICULAR', '99647952658', '32697.48', '28367.14', '49', 'AYACUCHO', 'DIRECTO', 'SCORE C', '', 61, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(142, '991357001', '2', 'Ana', '77495678.0', 'CREDITO HIOPTECARIO', '99886974695', '105369.45', '94698.36', '102', 'AYACUCHO', 'INDIRECTO', 'SCORE C', '', 61, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(143, '996867686', '1', 'PITILLO BENAVIDES', '41909034.0', 'VISA CLASICA', '4457896457851660', '9671.35', '8634.75', '36', 'AREQUIPA', 'DIRECTO', 'SCORE A', '', 63, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(144, '979864789', '2', 'PITILLO BENAVIDES', '41909034.0', 'MASTERCARD ORO', '5598676334682245', '6789.45', '5987.36', '15', 'AREQUIPA', 'DIRECTO', 'SCORE A', '', 63, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(145, '975874897', '1', 'TOTO TERRY', '67985478.0', 'AMERICAN EXPRESS', '6689745898756981', '1687.35', '1168.95', '67', 'AYACUCHO', 'INDIRECTO', 'SCORE C', '', 63, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(146, '943215048', '1', 'ALBERTO BEINGOLEA', '88749235.0', 'PRESTAMO PERSONAL', '00026987469', '10369.48', '9168.74', '69', 'LIMA', 'NUEVO', 'SCORE B', '', 63, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(147, '967810348', '1', 'POLO CAMPO', '77495678.0', 'CREDITO VEHICULAR', '99647952658', '32697.48', '28367.14', '49', 'AYACUCHO', 'DIRECTO', 'SCORE C', '', 63, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(148, '991357001', '2', 'POLO CAMPO', '77495678.0', 'CREDITO HIOPTECARIO', '99886974695', '105369.45', '94698.36', '102', 'AYACUCHO', 'INDIRECTO', 'SCORE C', '', 63, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(149, '996867689', '1', 'PITILLO BENAVIDES', '41909034.0', 'VISA CLASICA', '4457896457851660', '9671.35', '8634.75', '36', 'AREQUIPA', 'DIRECTO', 'SCORE A', '', 63, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(150, '979864782', '2', 'PITILLO BENAVIDES', '41909034.0', 'MASTERCARD ORO', '5598676334682245', '6789.45', '5987.36', '15', 'AREQUIPA', 'DIRECTO', 'SCORE A', '', 63, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(151, '975874896', '1', 'Cesar', '67985478.0', 'AMERICAN EXPRESS', '6689745898756981', '1687.35', '1168.95', '67', 'AYACUCHO', 'INDIRECTO', 'SCORE C', '', 63, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(152, '9432150483', '1', 'Juan', '88749235.0', 'PRESTAMO PERSONAL', '00026987469', '10369.48', '9168.74', '69', 'LIMA', 'NUEVO', 'SCORE B', '', 63, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(153, '967810348', '1', 'Carlos', '77495678.0', 'CREDITO VEHICULAR', '99647952658', '32697.48', '28367.14', '49', 'AYACUCHO', 'DIRECTO', 'SCORE C', '', 63, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(154, '991357001', '2', 'Ana', '77495678.0', 'CREDITO HIOPTECARIO', '99886974695', '105369.45', '94698.36', '102', 'AYACUCHO', 'INDIRECTO', 'SCORE C', '', 63, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(155, '996867686', '1', 'PITILLO BENAVIDES', '41909034.0', 'VISA CLASICA', '4457896457851660', '9671.35', '8634.75', '36', 'AREQUIPA', 'DIRECTO', 'SCORE A', '', 66, 2, NULL, NULL, '', '', NULL, NULL, NULL, NULL, NULL),
-(156, '979864789', '2', 'PITILLO BENAVIDES', '41909034.0', 'MASTERCARD ORO', '5598676334682245', '6789.45', '5987.36', '15', 'AREQUIPA', 'DIRECTO', 'SCORE A', '', 66, 2, NULL, NULL, '', '', NULL, NULL, NULL, NULL, NULL),
-(157, '975874897', '1', 'TOTO TERRY', '67985478.0', 'AMERICAN EXPRESS', '6689745898756981', '1687.35', '1168.95', '67', 'AYACUCHO', 'INDIRECTO', 'SCORE C', '', 66, 2, NULL, NULL, '', '', NULL, NULL, NULL, NULL, NULL),
-(158, '943215048', '1', 'ALBERTO BEINGOLEA', '88749235.0', 'PRESTAMO PERSONAL', '00026987469', '10369.48', '9168.74', '69', 'LIMA', 'NUEVO', 'SCORE B', '', 66, 2, NULL, NULL, '', '', NULL, NULL, NULL, NULL, NULL),
-(159, '967810348', '1', 'POLO CAMPO', '77495678.0', 'CREDITO VEHICULAR', '99647952658', '32697.48', '28367.14', '49', 'AYACUCHO', 'DIRECTO', 'SCORE C', '', 66, 2, NULL, NULL, '', '', NULL, NULL, NULL, NULL, NULL),
-(160, '991357001', '2', 'POLO CAMPO', '77495678.0', 'CREDITO HIOPTECARIO', '99886974695', '105369.45', '94698.36', '102', 'AYACUCHO', 'INDIRECTO', 'SCORE C', '', 66, 2, NULL, NULL, '', '', NULL, NULL, NULL, NULL, NULL),
-(161, '996867689', '1', 'PITILLO BENAVIDES', '41909034.0', 'VISA CLASICA', '4457896457851660', '9671.35', '8634.75', '36', 'AREQUIPA', 'DIRECTO', 'SCORE A', '', 66, 2, NULL, NULL, '', '', NULL, NULL, NULL, NULL, NULL),
-(162, '979864782', '2', 'PITILLO BENAVIDES', '41909034.0', 'MASTERCARD ORO', '5598676334682245', '6789.45', '5987.36', '15', 'AREQUIPA', 'DIRECTO', 'SCORE A', '', 66, 2, NULL, NULL, '', '', NULL, NULL, NULL, NULL, NULL),
-(163, '975874896', '1', 'Cesar', '67985478.0', 'AMERICAN EXPRESS', '6689745898756981', '1687.35', '1168.95', '67', 'AYACUCHO', 'INDIRECTO', 'SCORE C', '', 66, 2, NULL, NULL, '', '', NULL, NULL, NULL, NULL, NULL),
-(164, '9432150483', '1', 'Juan', '88749235.0', 'PRESTAMO PERSONAL', '00026987469', '10369.48', '9168.74', '69', 'LIMA', 'NUEVO', 'SCORE B', '', 66, 2, NULL, NULL, '', '', NULL, NULL, NULL, NULL, NULL),
-(165, '967810348', '1', 'Carlos', '77495678.0', 'CREDITO VEHICULAR', '99647952658', '32697.48', '28367.14', '49', 'AYACUCHO', 'DIRECTO', 'SCORE C', '', 66, 2, NULL, NULL, '', '', NULL, NULL, NULL, NULL, NULL),
-(166, '991357001', '2', 'Ana', '77495678.0', 'CREDITO HIOPTECARIO', '99886974695', '105369.45', '94698.36', '102', 'AYACUCHO', 'INDIRECTO', 'SCORE C', '', 66, 2, NULL, NULL, '', '', NULL, NULL, NULL, NULL, NULL);
-
--- --------------------------------------------------------
+LOCK TABLES `base` WRITE;
+/*!40000 ALTER TABLE `base` DISABLE KEYS */;
+INSERT INTO `base` VALUES (1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'AYACUCHO','DIRECTO','SCORE C','1',8,2,NULL,8,'',NULL,NULL,NULL,NULL,NULL,NULL),(2,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'LIMA','NUEVO','SCORE C','0',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(3,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'LIMA','INDIRECTO','SCORE C','0',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(4,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'AYACUCHO','DIRECTO','SCORE C','1',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(5,'996867686.0','1.0','u\'PITILLO BENAVIDES\'','41909034.0','u\'VISA CLASICA\'','u\'4457896457851660\'','9671.35','8634.75','36.0','u\'AREQUIPA\'','u\'DIRECTO\'','u\'SCORE A\'','0',8,2,14,9,'',NULL,NULL,NULL,NULL,NULL,NULL),(6,'979864789.0','2.0','u\'PITILLO BENAVIDES\'','41909034.0','u\'MASTERCARD ORO\'','u\'5598676334682245\'','6789.45','5987.36','15.0','u\'AREQUIPA\'','u\'DIRECTO\'','u\'SCORE A\'','1',8,2,14,888,'',NULL,NULL,'2015-11-27 17:50:50',NULL,NULL,NULL),(7,'975874897.0','1.0','u\'TOTO TERRY\'','67985478.0','u\'AMERICAN EXPRESS\'','u\'6689745898756981\'','1687.35','1168.95','67.0','u\'AYACUCHO\'','u\'INDIRECTO\'','u\'SCORE C\'','1',8,9,18,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(8,'943215048.0','1.0','u\'ALBERTO BEINGOLEA\'','88749235.0','u\'PRESTAMO PERSONAL\'','u\'00026987469\'','10369.48','9168.74','69.0','u\'LIMA\'','u\'NUEVO\'','u\'SCORE B\'','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(9,'967810348.0','1.0','u\'POLO CAMPO\'','77495678.0','u\'CREDITO VEHICULAR\'','u\'99647952658\'','32697.48','28367.14','49.0','u\'AYACUCHO\'','u\'DIRECTO\'','u\'SCORE C\'','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(10,'991357001.0','2.0','u\'POLO CAMPO\'','77495678.0','u\'CREDITO HIOPTECARIO\'','u\'99886974695\'','105369.45','94698.36','102.0','u\'AYACUCHO\'','u\'INDIRECTO\'','u\'SCORE C\'','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(11,'996867689.0','1.0','u\'PITILLO BENAVIDES\'','41909034.0','u\'VISA CLASICA\'','u\'4457896457851660\'','9671.35','8634.75','36.0','u\'AREQUIPA\'','u\'DIRECTO\'','u\'SCORE A\'','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(12,'979864782.0','2.0','u\'PITILLO BENAVIDES\'','41909034.0','u\'MASTERCARD ORO\'','u\'5598676334682245\'','6789.45','5987.36','15.0','u\'AREQUIPA\'','u\'DIRECTO\'','u\'SCORE A\'','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(13,'975874896.0','1.0','u\'Cesar\'','67985478.0','u\'AMERICAN EXPRESS\'','u\'6689745898756981\'','1687.35','1168.95','67.0','u\'AYACUCHO\'','u\'INDIRECTO\'','u\'SCORE C\'','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(14,'9432150483.0','1.0','u\'Juan\'','88749235.0','u\'PRESTAMO PERSONAL\'','u\'00026987469\'','10369.48','9168.74','69.0','u\'LIMA\'','u\'NUEVO\'','u\'SCORE B\'','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(15,'967810348.0','1.0','u\'Carlos\'','77495678.0','u\'CREDITO VEHICULAR\'','u\'99647952658\'','32697.48','28367.14','49.0','u\'AYACUCHO\'','u\'DIRECTO\'','u\'SCORE C\'','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(16,'991357001.0','2.0','u\'Ana\'','77495678.0','u\'CREDITO HIOPTECARIO\'','u\'99886974695\'','105369.45','94698.36','102.0','u\'AYACUCHO\'','u\'INDIRECTO\'','u\'SCORE C\'','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(17,'996867686.0','1.0','PITILLO BENAVIDES','41909034.0','VISA CLASICA','4457896457851660','9671.35','8634.75','36.0','AREQUIPA','DIRECTO','SCORE A','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(18,'979864789.0','2.0','PITILLO BENAVIDES','41909034.0','MASTERCARD ORO','5598676334682245','6789.45','5987.36','15.0','AREQUIPA','DIRECTO','SCORE A','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(19,'975874897.0','1.0','TOTO TERRY','67985478.0','AMERICAN EXPRESS','6689745898756981','1687.35','1168.95','67.0','AYACUCHO','INDIRECTO','SCORE C','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(20,'943215048.0','1.0','ALBERTO BEINGOLEA','88749235.0','PRESTAMO PERSONAL','00026987469','10369.48','9168.74','69.0','LIMA','NUEVO','SCORE B','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(21,'967810348.0','1.0','POLO CAMPO','77495678.0','CREDITO VEHICULAR','99647952658','32697.48','28367.14','49.0','AYACUCHO','DIRECTO','SCORE C','1',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(22,'991357001.0','2.0','POLO CAMPO','77495678.0','CREDITO HIOPTECARIO','99886974695','105369.45','94698.36','102.0','AYACUCHO','INDIRECTO','SCORE C','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(23,'996867689.0','1.0','PITILLO BENAVIDES','41909034.0','VISA CLASICA','4457896457851660','9671.35','8634.75','36.0','AREQUIPA','DIRECTO','SCORE A','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(24,'979864782.0','2.0','PITILLO BENAVIDES','41909034.0','MASTERCARD ORO','5598676334682245','6789.45','5987.36','15.0','AREQUIPA','DIRECTO','SCORE A','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(25,'975874896.0','1.0','Cesar','67985478.0','AMERICAN EXPRESS','6689745898756981','1687.35','1168.95','67.0','AYACUCHO','INDIRECTO','SCORE C','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(26,'9432150483.0','1.0','Juan','88749235.0','PRESTAMO PERSONAL','00026987469','10369.48','9168.74','69.0','LIMA','NUEVO','SCORE B','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(27,'967810348.0','1.0','Carlos','77495678.0','CREDITO VEHICULAR','99647952658','32697.48','28367.14','49.0','AYACUCHO','DIRECTO','SCORE C','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(28,'991357001.0','2.0','Ana','77495678.0','CREDITO HIOPTECARIO','99886974695','105369.45','94698.36','102.0','AYACUCHO','INDIRECTO','SCORE C','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(29,'996867686','1','PITILLO BENAVIDES','41909034.0','VISA CLASICA','4457896457851660','9671.35','8634.75','36','AREQUIPA','DIRECTO','SCORE A','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(30,'979864789','2','PITILLO BENAVIDES','41909034.0','MASTERCARD ORO','5598676334682245','6789.45','5987.36','15','AREQUIPA','DIRECTO','SCORE A','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(31,'975874897','1','TOTO TERRY','67985478.0','AMERICAN EXPRESS','6689745898756981','1687.35','1168.95','67','AYACUCHO','INDIRECTO','SCORE C','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(32,'943215048','1','ALBERTO BEINGOLEA','88749235.0','PRESTAMO PERSONAL','00026987469','10369.48','9168.74','69','LIMA','NUEVO','SCORE B','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(33,'967810348','1','POLO CAMPO','77495678.0','CREDITO VEHICULAR','99647952658','32697.48','28367.14','49','AYACUCHO','DIRECTO','SCORE C','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(34,'991357001','2','POLO CAMPO','77495678.0','CREDITO HIOPTECARIO','99886974695','105369.45','94698.36','102','AYACUCHO','INDIRECTO','SCORE C','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(35,'996867689','1','PITILLO BENAVIDES','41909034.0','VISA CLASICA','4457896457851660','9671.35','8634.75','36','AREQUIPA','DIRECTO','SCORE A','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(36,'979864782','2','PITILLO BENAVIDES','41909034.0','MASTERCARD ORO','5598676334682245','6789.45','5987.36','15','AREQUIPA','DIRECTO','SCORE A','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(37,'975874896','1','Cesar','67985478.0','AMERICAN EXPRESS','6689745898756981','1687.35','1168.95','67','AYACUCHO','INDIRECTO','SCORE C','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(38,'9432150483','1','Juan','88749235.0','PRESTAMO PERSONAL','00026987469','10369.48','9168.74','69','LIMA','NUEVO','SCORE B','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(39,'967810348','1','Carlos','77495678.0','CREDITO VEHICULAR','99647952658','32697.48','28367.14','49','AYACUCHO','DIRECTO','SCORE C','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(40,'991357001','2','Ana','77495678.0','CREDITO HIOPTECARIO','99886974695','105369.45','94698.36','102','AYACUCHO','INDIRECTO','SCORE C','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(41,'996867686','1','PITILLO BENAVIDES','41909034.0','VISA CLASICA','4457896457851660','9671.35','8634.75','36','AREQUIPA','DIRECTO','SCORE A','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(42,'979864789','2','PITILLO BENAVIDES','41909034.0','MASTERCARD ORO','5598676334682245','6789.45','5987.36','15','AREQUIPA','DIRECTO','SCORE A','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(43,'975874897','1','TOTO TERRY','67985478.0','AMERICAN EXPRESS','6689745898756981','1687.35','1168.95','67','AYACUCHO','INDIRECTO','SCORE C','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(44,'943215048','1','ALBERTO BEINGOLEA','88749235.0','PRESTAMO PERSONAL','00026987469','10369.48','9168.74','69','LIMA','NUEVO','SCORE B','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(45,'967810348','1','POLO CAMPO','77495678.0','CREDITO VEHICULAR','99647952658','32697.48','28367.14','49','AYACUCHO','DIRECTO','SCORE C','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(46,'991357001','2','POLO CAMPO','77495678.0','CREDITO HIOPTECARIO','99886974695','105369.45','94698.36','102','AYACUCHO','INDIRECTO','SCORE C','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(47,'996867689','1','PITILLO BENAVIDES','41909034.0','VISA CLASICA','4457896457851660','9671.35','8634.75','36','AREQUIPA','DIRECTO','SCORE A','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(48,'979864782','2','PITILLO BENAVIDES','41909034.0','MASTERCARD ORO','5598676334682245','6789.45','5987.36','15','AREQUIPA','DIRECTO','SCORE A','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(49,'975874896','1','Cesar','67985478.0','AMERICAN EXPRESS','6689745898756981','1687.35','1168.95','67','AYACUCHO','INDIRECTO','SCORE C','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(50,'9432150483','1','Juan','88749235.0','PRESTAMO PERSONAL','00026987469','10369.48','9168.74','69','LIMA','NUEVO','SCORE B','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(51,'967810348','1','Carlos','77495678.0','CREDITO VEHICULAR','99647952658','32697.48','28367.14','49','AYACUCHO','DIRECTO','SCORE C','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(52,'991357001','2','Ana','77495678.0','CREDITO HIOPTECARIO','99886974695','105369.45','94698.36','102','AYACUCHO','INDIRECTO','SCORE C','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(53,'996867686','1','PITILLO BENAVIDES','41909034.0','VISA CLASICA','4457896457851660','9671.35','8634.75','36','AREQUIPA','DIRECTO','SCORE A','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(54,'979864789','2','PITILLO BENAVIDES','41909034.0','MASTERCARD ORO','5598676334682245','6789.45','5987.36','15','AREQUIPA','DIRECTO','SCORE A','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(55,'975874897','1','TOTO TERRY','67985478.0','AMERICAN EXPRESS','6689745898756981','1687.35','1168.95','67','AYACUCHO','INDIRECTO','SCORE C','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(56,'943215048','1','ALBERTO BEINGOLEA','88749235.0','PRESTAMO PERSONAL','00026987469','10369.48','9168.74','69','LIMA','NUEVO','SCORE B','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(57,'967810348','1','POLO CAMPO','77495678.0','CREDITO VEHICULAR','99647952658','32697.48','28367.14','49','AYACUCHO','DIRECTO','SCORE C','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(58,'991357001','2','POLO CAMPO','77495678.0','CREDITO HIOPTECARIO','99886974695','105369.45','94698.36','102','AYACUCHO','INDIRECTO','SCORE C','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(59,'996867689','1','PITILLO BENAVIDES','41909034.0','VISA CLASICA','4457896457851660','9671.35','8634.75','36','AREQUIPA','DIRECTO','SCORE A','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(60,'979864782','2','PITILLO BENAVIDES','41909034.0','MASTERCARD ORO','5598676334682245','6789.45','5987.36','15','AREQUIPA','DIRECTO','SCORE A','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(61,'975874896','1','Cesar','67985478.0','AMERICAN EXPRESS','6689745898756981','1687.35','1168.95','67','AYACUCHO','INDIRECTO','SCORE C','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(62,'9432150483','1','Juan','88749235.0','PRESTAMO PERSONAL','00026987469','10369.48','9168.74','69','LIMA','NUEVO','SCORE B','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(63,'967810348','1','Carlos','77495678.0','CREDITO VEHICULAR','99647952658','32697.48','28367.14','49','AYACUCHO','DIRECTO','SCORE C','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(64,'991357001','2','Ana','77495678.0','CREDITO HIOPTECARIO','99886974695','105369.45','94698.36','102','AYACUCHO','INDIRECTO','SCORE C','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(65,'996867686','1','PITILLO BENAVIDES','41909034.0','VISA CLASICA','4457896457851660','9671.35','8634.75','36','AREQUIPA','DIRECTO','SCORE A','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(66,'979864789','2','PITILLO BENAVIDES','41909034.0','MASTERCARD ORO','5598676334682245','6789.45','5987.36','15','AREQUIPA','DIRECTO','SCORE A','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(67,'975874897','1','TOTO TERRY','67985478.0','AMERICAN EXPRESS','6689745898756981','1687.35','1168.95','67','AYACUCHO','INDIRECTO','SCORE C','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(68,'943215048','1','ALBERTO BEINGOLEA','88749235.0','PRESTAMO PERSONAL','00026987469','10369.48','9168.74','69','LIMA','NUEVO','SCORE B','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(69,'967810348','1','POLO CAMPO','77495678.0','CREDITO VEHICULAR','99647952658','32697.48','28367.14','49','AYACUCHO','DIRECTO','SCORE C','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(70,'991357001','2','POLO CAMPO','77495678.0','CREDITO HIOPTECARIO','99886974695','105369.45','94698.36','102','AYACUCHO','INDIRECTO','SCORE C','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(71,'996867689','1','PITILLO BENAVIDES','41909034.0','VISA CLASICA','4457896457851660','9671.35','8634.75','36','AREQUIPA','DIRECTO','SCORE A','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(72,'979864782','2','PITILLO BENAVIDES','41909034.0','MASTERCARD ORO','5598676334682245','6789.45','5987.36','15','AREQUIPA','DIRECTO','SCORE A','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(73,'975874896','1','Cesar','67985478.0','AMERICAN EXPRESS','6689745898756981','1687.35','1168.95','67','AYACUCHO','INDIRECTO','SCORE C','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(74,'9432150483','1','Juan','88749235.0','PRESTAMO PERSONAL','00026987469','10369.48','9168.74','69','LIMA','NUEVO','SCORE B','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(75,'967810348','1','Carlos','77495678.0','CREDITO VEHICULAR','99647952658','32697.48','28367.14','49','AYACUCHO','DIRECTO','SCORE C','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(76,'991357001','2','Ana','77495678.0','CREDITO HIOPTECARIO','99886974695','105369.45','94698.36','102','AYACUCHO','INDIRECTO','SCORE C','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(77,'996867686','1','PITILLO BENAVIDES','41909034.0','VISA CLASICA','4457896457851660','9671.35','8634.75','36','AREQUIPA','DIRECTO','SCORE A','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(78,'979864789','2','PITILLO BENAVIDES','41909034.0','MASTERCARD ORO','5598676334682245','6789.45','5987.36','15','AREQUIPA','DIRECTO','SCORE A','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(79,'975874897','1','TOTO TERRY','67985478.0','AMERICAN EXPRESS','6689745898756981','1687.35','1168.95','67','AYACUCHO','INDIRECTO','SCORE C','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(80,'943215048','1','ALBERTO BEINGOLEA','88749235.0','PRESTAMO PERSONAL','00026987469','10369.48','9168.74','69','LIMA','NUEVO','SCORE B','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(81,'967810348','1','POLO CAMPO','77495678.0','CREDITO VEHICULAR','99647952658','32697.48','28367.14','49','AYACUCHO','DIRECTO','SCORE C','',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(82,'991357001','2','POLO CAMPO','77495678.0','CREDITO HIOPTECARIO','99886974695','105369.45','94698.36','102','AYACUCHO','DIRECTO','SCORE C','1',8,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(83,'996867686','1','PITILLO BENAVIDES','41909034.0','VISA CLASICA','4457896457851660','9671.35','8634.75','36','AREQUIPA','DIRECTO','SCORE A','',NULL,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(84,'979864789','2','PITILLO BENAVIDES','41909034.0','MASTERCARD ORO','5598676334682245','6789.45','5987.36','15','AREQUIPA','DIRECTO','SCORE A','',NULL,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(85,'975874897','1','TOTO TERRY','67985478.0','AMERICAN EXPRESS','6689745898756981','1687.35','1168.95','67','AYACUCHO','INDIRECTO','SCORE C','',NULL,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(86,'943215048','1','ALBERTO BEINGOLEA','88749235.0','PRESTAMO PERSONAL','00026987469','10369.48','9168.74','69','LIMA','NUEVO','SCORE B','',NULL,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(87,'967810348','1','POLO CAMPO','77495678.0','CREDITO VEHICULAR','99647952658','32697.48','28367.14','49','AYACUCHO','DIRECTO','SCORE C','',NULL,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(88,'991357001','2','POLO CAMPO','77495678.0','CREDITO HIOPTECARIO','99886974695','105369.45','94698.36','102','AYACUCHO','INDIRECTO','SCORE C','',NULL,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(89,'996867689','1','PITILLO BENAVIDES','41909034.0','VISA CLASICA','4457896457851660','9671.35','8634.75','36','AREQUIPA','DIRECTO','SCORE A','',NULL,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(90,'979864782','2','PITILLO BENAVIDES','41909034.0','MASTERCARD ORO','5598676334682245','6789.45','5987.36','15','AREQUIPA','DIRECTO','SCORE A','',NULL,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(91,'975874896','1','Cesar','67985478.0','AMERICAN EXPRESS','6689745898756981','1687.35','1168.95','67','AYACUCHO','INDIRECTO','SCORE C','',NULL,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(92,'9432150483','1','Juan','88749235.0','PRESTAMO PERSONAL','00026987469','10369.48','9168.74','69','LIMA','NUEVO','SCORE B','',NULL,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(93,'967810348','1','Carlos','77495678.0','CREDITO VEHICULAR','99647952658','32697.48','28367.14','49','AYACUCHO','DIRECTO','SCORE C','',NULL,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(94,'991357001','2','Ana','77495678.0','CREDITO HIOPTECARIO','99886974695','105369.45','94698.36','102','AYACUCHO','INDIRECTO','SCORE C','',NULL,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(95,'996867686','1','PITILLO BENAVIDES','41909034.0','VISA CLASICA','4457896457851660','9671.35','8634.75','36','AREQUIPA','DIRECTO','SCORE A','',NULL,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(96,'979864789','2','PITILLO BENAVIDES','41909034.0','MASTERCARD ORO','5598676334682245','6789.45','5987.36','15','AREQUIPA','DIRECTO','SCORE A','',NULL,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(97,'975874897','1','TOTO TERRY','67985478.0','AMERICAN EXPRESS','6689745898756981','1687.35','1168.95','67','AYACUCHO','INDIRECTO','SCORE C','',NULL,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(98,'943215048','1','ALBERTO BEINGOLEA','88749235.0','PRESTAMO PERSONAL','00026987469','10369.48','9168.74','69','LIMA','NUEVO','SCORE B','',NULL,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(99,'967810348','1','POLO CAMPO','77495678.0','CREDITO VEHICULAR','99647952658','32697.48','28367.14','49','AYACUCHO','DIRECTO','SCORE C','',NULL,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(100,'991357001','2','POLO CAMPO','77495678.0','CREDITO HIOPTECARIO','99886974695','105369.45','94698.36','102','AYACUCHO','INDIRECTO','SCORE C','',NULL,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(101,'996867689','1','PITILLO BENAVIDES','41909034.0','VISA CLASICA','4457896457851660','9671.35','8634.75','36','AREQUIPA','DIRECTO','SCORE A','',NULL,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(102,'979864782','2','PITILLO BENAVIDES','41909034.0','MASTERCARD ORO','5598676334682245','6789.45','5987.36','15','AREQUIPA','DIRECTO','SCORE A','',NULL,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(103,'975874896','1','Cesar','67985478.0','AMERICAN EXPRESS','6689745898756981','1687.35','1168.95','67','AYACUCHO','INDIRECTO','SCORE C','',NULL,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(104,'9432150483','1','Juan','88749235.0','PRESTAMO PERSONAL','00026987469','10369.48','9168.74','69','LIMA','NUEVO','SCORE B','',NULL,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(105,'967810348','1','Carlos','77495678.0','CREDITO VEHICULAR','99647952658','32697.48','28367.14','49','AYACUCHO','DIRECTO','SCORE C','',NULL,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(106,'991357001','2','Ana','77495678.0','CREDITO HIOPTECARIO','99886974695','105369.45','94698.36','102','AYACUCHO','INDIRECTO','SCORE C','',NULL,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(107,'996867686','1','PITILLO BENAVIDES','41909034.0','VISA CLASICA','4457896457851660','9671.35','8634.75','36','AREQUIPA','DIRECTO','SCORE A','',NULL,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(108,'979864789','2','PITILLO BENAVIDES','41909034.0','MASTERCARD ORO','5598676334682245','6789.45','5987.36','15','AREQUIPA','DIRECTO','SCORE A','',NULL,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(109,'975874897','1','TOTO TERRY','67985478.0','AMERICAN EXPRESS','6689745898756981','1687.35','1168.95','67','AYACUCHO','INDIRECTO','SCORE C','',NULL,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(110,'943215048','1','ALBERTO BEINGOLEA','88749235.0','PRESTAMO PERSONAL','00026987469','10369.48','9168.74','69','LIMA','NUEVO','SCORE B','',NULL,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(111,'967810348','1','POLO CAMPO','77495678.0','CREDITO VEHICULAR','99647952658','32697.48','28367.14','49','AYACUCHO','DIRECTO','SCORE C','',NULL,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(112,'991357001','2','POLO CAMPO','77495678.0','CREDITO HIOPTECARIO','99886974695','105369.45','94698.36','102','AYACUCHO','INDIRECTO','SCORE C','',NULL,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(113,'996867689','1','PITILLO BENAVIDES','41909034.0','VISA CLASICA','4457896457851660','9671.35','8634.75','36','AREQUIPA','DIRECTO','SCORE A','',NULL,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(114,'979864782','2','PITILLO BENAVIDES','41909034.0','MASTERCARD ORO','5598676334682245','6789.45','5987.36','15','AREQUIPA','DIRECTO','SCORE A','',NULL,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(115,'975874896','1','Cesar','67985478.0','AMERICAN EXPRESS','6689745898756981','1687.35','1168.95','67','AYACUCHO','INDIRECTO','SCORE C','',NULL,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(116,'9432150483','1','Juan','88749235.0','PRESTAMO PERSONAL','00026987469','10369.48','9168.74','69','LIMA','NUEVO','SCORE B','',NULL,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(117,'967810348','1','Carlos','77495678.0','CREDITO VEHICULAR','99647952658','32697.48','28367.14','49','AYACUCHO','DIRECTO','SCORE C','',NULL,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(118,'991357001','2','Ana','77495678.0','CREDITO HIOPTECARIO','99886974695','105369.45','94698.36','102','AYACUCHO','INDIRECTO','SCORE C','',NULL,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(119,'996867686','1','PITILLO BENAVIDES','41909034.0','VISA CLASICA','4457896457851660','9671.35','8634.75','36','AREQUIPA','DIRECTO','SCORE A','',60,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(120,'979864789','2','PITILLO BENAVIDES','41909034.0','MASTERCARD ORO','5598676334682245','6789.45','5987.36','15','AREQUIPA','DIRECTO','SCORE A','',60,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(121,'975874897','1','TOTO TERRY','67985478.0','AMERICAN EXPRESS','6689745898756981','1687.35','1168.95','67','AYACUCHO','INDIRECTO','SCORE C','',60,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(122,'943215048','1','ALBERTO BEINGOLEA','88749235.0','PRESTAMO PERSONAL','00026987469','10369.48','9168.74','69','LIMA','NUEVO','SCORE B','',60,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(123,'967810348','1','POLO CAMPO','77495678.0','CREDITO VEHICULAR','99647952658','32697.48','28367.14','49','AYACUCHO','DIRECTO','SCORE C','',60,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(124,'991357001','2','POLO CAMPO','77495678.0','CREDITO HIOPTECARIO','99886974695','105369.45','94698.36','102','AYACUCHO','INDIRECTO','SCORE C','',60,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(125,'996867689','1','PITILLO BENAVIDES','41909034.0','VISA CLASICA','4457896457851660','9671.35','8634.75','36','AREQUIPA','DIRECTO','SCORE A','',60,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(126,'979864782','2','PITILLO BENAVIDES','41909034.0','MASTERCARD ORO','5598676334682245','6789.45','5987.36','15','AREQUIPA','DIRECTO','SCORE A','',60,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(127,'975874896','1','Cesar','67985478.0','AMERICAN EXPRESS','6689745898756981','1687.35','1168.95','67','AYACUCHO','INDIRECTO','SCORE C','',60,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(128,'9432150483','1','Juan','88749235.0','PRESTAMO PERSONAL','00026987469','10369.48','9168.74','69','LIMA','NUEVO','SCORE B','',60,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(129,'967810348','1','Carlos','77495678.0','CREDITO VEHICULAR','99647952658','32697.48','28367.14','49','AYACUCHO','DIRECTO','SCORE C','',60,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(130,'991357001','2','Ana','77495678.0','CREDITO HIOPTECARIO','99886974695','105369.45','94698.36','102','AYACUCHO','INDIRECTO','SCORE C','',60,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(131,'996867686','1','PITILLO BENAVIDES','41909034.0','VISA CLASICA','4457896457851660','9671.35','8634.75','36','AREQUIPA','DIRECTO','SCORE A','',61,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(132,'979864789','2','PITILLO BENAVIDES','41909034.0','MASTERCARD ORO','5598676334682245','6789.45','5987.36','15','AREQUIPA','DIRECTO','SCORE A','',61,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(133,'975874897','1','TOTO TERRY','67985478.0','AMERICAN EXPRESS','6689745898756981','1687.35','1168.95','67','AYACUCHO','INDIRECTO','SCORE C','',61,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(134,'943215048','1','ALBERTO BEINGOLEA','88749235.0','PRESTAMO PERSONAL','00026987469','10369.48','9168.74','69','LIMA','NUEVO','SCORE B','',61,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(135,'967810348','1','POLO CAMPO','77495678.0','CREDITO VEHICULAR','99647952658','32697.48','28367.14','49','AYACUCHO','DIRECTO','SCORE C','',61,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(136,'991357001','2','POLO CAMPO','77495678.0','CREDITO HIOPTECARIO','99886974695','105369.45','94698.36','102','AYACUCHO','INDIRECTO','SCORE C','',61,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(137,'996867689','1','PITILLO BENAVIDES','41909034.0','VISA CLASICA','4457896457851660','9671.35','8634.75','36','AREQUIPA','DIRECTO','SCORE A','',61,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(138,'979864782','2','PITILLO BENAVIDES','41909034.0','MASTERCARD ORO','5598676334682245','6789.45','5987.36','15','AREQUIPA','DIRECTO','SCORE A','',61,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(139,'975874896','1','Cesar','67985478.0','AMERICAN EXPRESS','6689745898756981','1687.35','1168.95','67','AYACUCHO','INDIRECTO','SCORE C','',61,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(140,'9432150483','1','Juan','88749235.0','PRESTAMO PERSONAL','00026987469','10369.48','9168.74','69','LIMA','NUEVO','SCORE B','',61,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(141,'967810348','1','Carlos','77495678.0','CREDITO VEHICULAR','99647952658','32697.48','28367.14','49','AYACUCHO','DIRECTO','SCORE C','',61,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(142,'991357001','2','Ana','77495678.0','CREDITO HIOPTECARIO','99886974695','105369.45','94698.36','102','AYACUCHO','INDIRECTO','SCORE C','',61,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(143,'996867686','1','PITILLO BENAVIDES','41909034.0','VISA CLASICA','4457896457851660','9671.35','8634.75','36','AREQUIPA','DIRECTO','SCORE A','',63,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(144,'979864789','2','PITILLO BENAVIDES','41909034.0','MASTERCARD ORO','5598676334682245','6789.45','5987.36','15','AREQUIPA','DIRECTO','SCORE A','',63,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(145,'975874897','1','TOTO TERRY','67985478.0','AMERICAN EXPRESS','6689745898756981','1687.35','1168.95','67','AYACUCHO','INDIRECTO','SCORE C','',63,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(146,'943215048','1','ALBERTO BEINGOLEA','88749235.0','PRESTAMO PERSONAL','00026987469','10369.48','9168.74','69','LIMA','NUEVO','SCORE B','',63,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(147,'967810348','1','POLO CAMPO','77495678.0','CREDITO VEHICULAR','99647952658','32697.48','28367.14','49','AYACUCHO','DIRECTO','SCORE C','',63,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(148,'991357001','2','POLO CAMPO','77495678.0','CREDITO HIOPTECARIO','99886974695','105369.45','94698.36','102','AYACUCHO','INDIRECTO','SCORE C','',63,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(149,'996867689','1','PITILLO BENAVIDES','41909034.0','VISA CLASICA','4457896457851660','9671.35','8634.75','36','AREQUIPA','DIRECTO','SCORE A','',63,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(150,'979864782','2','PITILLO BENAVIDES','41909034.0','MASTERCARD ORO','5598676334682245','6789.45','5987.36','15','AREQUIPA','DIRECTO','SCORE A','',63,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(151,'975874896','1','Cesar','67985478.0','AMERICAN EXPRESS','6689745898756981','1687.35','1168.95','67','AYACUCHO','INDIRECTO','SCORE C','',63,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(152,'9432150483','1','Juan','88749235.0','PRESTAMO PERSONAL','00026987469','10369.48','9168.74','69','LIMA','NUEVO','SCORE B','',63,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(153,'967810348','1','Carlos','77495678.0','CREDITO VEHICULAR','99647952658','32697.48','28367.14','49','AYACUCHO','DIRECTO','SCORE C','',63,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(154,'991357001','2','Ana','77495678.0','CREDITO HIOPTECARIO','99886974695','105369.45','94698.36','102','AYACUCHO','INDIRECTO','SCORE C','',63,2,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL),(155,'996867686','1','PITILLO BENAVIDES','41909034.0','VISA CLASICA','4457896457851660','9671.35','8634.75','36','AREQUIPA','DIRECTO','SCORE A','',66,2,NULL,NULL,'','',NULL,NULL,NULL,NULL,NULL),(156,'979864789','2','PITILLO BENAVIDES','41909034.0','MASTERCARD ORO','5598676334682245','6789.45','5987.36','15','AREQUIPA','DIRECTO','SCORE A','',66,2,NULL,NULL,'','',NULL,NULL,NULL,NULL,NULL),(157,'975874897','1','TOTO TERRY','67985478.0','AMERICAN EXPRESS','6689745898756981','1687.35','1168.95','67','AYACUCHO','INDIRECTO','SCORE C','',66,2,NULL,NULL,'','',NULL,NULL,NULL,NULL,NULL),(158,'943215048','1','ALBERTO BEINGOLEA','88749235.0','PRESTAMO PERSONAL','00026987469','10369.48','9168.74','69','LIMA','NUEVO','SCORE B','',66,2,NULL,NULL,'','',NULL,NULL,NULL,NULL,NULL),(159,'967810348','1','POLO CAMPO','77495678.0','CREDITO VEHICULAR','99647952658','32697.48','28367.14','49','AYACUCHO','DIRECTO','SCORE C','',66,2,NULL,NULL,'','',NULL,NULL,NULL,NULL,NULL),(160,'991357001','2','POLO CAMPO','77495678.0','CREDITO HIOPTECARIO','99886974695','105369.45','94698.36','102','AYACUCHO','INDIRECTO','SCORE C','',66,2,NULL,NULL,'','',NULL,NULL,NULL,NULL,NULL),(161,'996867689','1','PITILLO BENAVIDES','41909034.0','VISA CLASICA','4457896457851660','9671.35','8634.75','36','AREQUIPA','DIRECTO','SCORE A','',66,2,NULL,NULL,'','',NULL,NULL,NULL,NULL,NULL),(162,'979864782','2','PITILLO BENAVIDES','41909034.0','MASTERCARD ORO','5598676334682245','6789.45','5987.36','15','AREQUIPA','DIRECTO','SCORE A','',66,2,NULL,NULL,'','',NULL,NULL,NULL,NULL,NULL),(163,'975874896','1','Cesar','67985478.0','AMERICAN EXPRESS','6689745898756981','1687.35','1168.95','67','AYACUCHO','INDIRECTO','SCORE C','',66,2,NULL,NULL,'','',NULL,NULL,NULL,NULL,NULL),(164,'9432150483','1','Juan','88749235.0','PRESTAMO PERSONAL','00026987469','10369.48','9168.74','69','LIMA','NUEVO','SCORE B','',66,2,NULL,NULL,'','',NULL,NULL,NULL,NULL,NULL),(165,'967810348','1','Carlos','77495678.0','CREDITO VEHICULAR','99647952658','32697.48','28367.14','49','AYACUCHO','DIRECTO','SCORE C','',66,2,NULL,NULL,'','',NULL,NULL,NULL,NULL,NULL),(166,'991357001','2','Ana','77495678.0','CREDITO HIOPTECARIO','99886974695','105369.45','94698.36','102','AYACUCHO','INDIRECTO','SCORE C','',66,2,NULL,NULL,'','',NULL,NULL,NULL,NULL,NULL),(168,'996867686.0','1.0','PITILLO BENAVIDES','41909034.0','VISA CLASICA','4457896457851660','9671.35','8634.75','36','AREQUIPA','DIRECTO','SCORE A','',70,NULL,NULL,NULL,'','',NULL,NULL,NULL,NULL,NULL),(169,'979864789.0','2.0','PITILLO BENAVIDES','41909034.0','MASTERCARD ORO','5598676334682245','6789.45','5987.36','15','AREQUIPA','DIRECTO','SCORE A','',70,NULL,NULL,NULL,'','',NULL,NULL,NULL,NULL,NULL),(170,'975874897.0','1.0','TOTO TERRY','67985478.0','AMERICAN EXPRESS','6689745898756981','1687.35','1168.95','67','AYACUCHO','INDIRECTO','SCORE C','',70,NULL,NULL,NULL,'','',NULL,NULL,NULL,NULL,NULL),(171,'943215048.0','1.0','ALBERTO BEINGOLEA','88749235.0','PRESTAMO PERSONAL','00026987469','10369.48','9168.74','69','LIMA','NUEVO','SCORE B','',70,NULL,NULL,NULL,'','',NULL,NULL,NULL,NULL,NULL),(172,'967810348.0','1.0','POLO CAMPO','77495678.0','CREDITO VEHICULAR','99647952658','32697.48','28367.14','49','AYACUCHO','DIRECTO','SCORE C','',70,NULL,NULL,NULL,'','',NULL,NULL,NULL,NULL,NULL),(173,'991357001.0','2.0','POLO CAMPO','77495678.0','CREDITO HIOPTECARIO','99886974695','105369.45','94698.36','102','AYACUCHO','INDIRECTO','SCORE C','',70,NULL,NULL,NULL,'','',NULL,NULL,NULL,NULL,NULL),(174,'996867689.0','1.0','PITILLO BENAVIDES','41909034.0','VISA CLASICA','4457896457851660','9671.35','8634.75','36','AREQUIPA','DIRECTO','SCORE A','',70,NULL,NULL,NULL,'','',NULL,NULL,NULL,NULL,NULL),(175,'979864782.0','2.0','PITILLO BENAVIDES','41909034.0','MASTERCARD ORO','5598676334682245','6789.45','5987.36','15','AREQUIPA','DIRECTO','SCORE A','',70,NULL,NULL,NULL,'','',NULL,NULL,NULL,NULL,NULL),(176,'975874896.0','1.0','Cesar','67985478.0','AMERICAN EXPRESS','6689745898756981','1687.35','1168.95','67','AYACUCHO','INDIRECTO','SCORE C','',70,NULL,NULL,NULL,'','',NULL,NULL,NULL,NULL,NULL),(177,'9432150483.0','1.0','Juan','88749235.0','PRESTAMO PERSONAL','00026987469','10369.48','9168.74','69','LIMA','NUEVO','SCORE B','',70,NULL,NULL,NULL,'','',NULL,NULL,NULL,NULL,NULL),(178,'967810348.0','1.0','Carlos','77495678.0','CREDITO VEHICULAR','99647952658','32697.48','28367.14','49','AYACUCHO','DIRECTO','SCORE C','',70,NULL,NULL,NULL,'','',NULL,NULL,NULL,NULL,NULL),(179,'991357001.0','2.0','Ana','77495678.0','CREDITO HIOPTECARIO','99886974695','105369.45','94698.36','102','AYACUCHO','INDIRECTO','SCORE C','',70,NULL,NULL,NULL,'','',NULL,NULL,NULL,NULL,NULL),(180,'TELEFONO','ORDEN','CLIENTE','IDCLIENTE','PRODUCTO','TARJETA','DEUDA TOTAL','DESCUENTO','DIAS MORA','CIUDAD','SEGMENTO','GRUPO','',71,NULL,NULL,NULL,'','',NULL,NULL,NULL,NULL,NULL),(181,'996867686.0','1.0','PITILLO BENAVIDES','41909034.0','VISA CLASICA','4457896457851660','9671.35','8634.75','36','AREQUIPA','DIRECTO','SCORE A','',71,NULL,NULL,NULL,'','',NULL,NULL,NULL,NULL,NULL),(182,'979864789.0','2.0','PITILLO BENAVIDES','41909034.0','MASTERCARD ORO','5598676334682245','6789.45','5987.36','15','AREQUIPA','DIRECTO','SCORE A','',71,NULL,NULL,NULL,'','',NULL,NULL,NULL,NULL,NULL),(183,'975874897.0','1.0','TOTO TERRY','67985478.0','AMERICAN EXPRESS','6689745898756981','1687.35','1168.95','67','AYACUCHO','INDIRECTO','SCORE C','',71,NULL,NULL,NULL,'','',NULL,NULL,NULL,NULL,NULL),(184,'943215048.0','1.0','ALBERTO BEINGOLEA','88749235.0','PRESTAMO PERSONAL','00026987469','10369.48','9168.74','69','LIMA','NUEVO','SCORE B','',71,NULL,NULL,NULL,'','',NULL,NULL,NULL,NULL,NULL),(185,'967810348.0','1.0','POLO CAMPO','77495678.0','CREDITO VEHICULAR','99647952658','32697.48','28367.14','49','AYACUCHO','DIRECTO','SCORE C','',71,NULL,NULL,NULL,'','',NULL,NULL,NULL,NULL,NULL),(186,'991357001.0','2.0','POLO CAMPO','77495678.0','CREDITO HIOPTECARIO','99886974695','105369.45','94698.36','102','AYACUCHO','INDIRECTO','SCORE C','',71,NULL,NULL,NULL,'','',NULL,NULL,NULL,NULL,NULL),(187,'996867689.0','1.0','PITILLO BENAVIDES','41909034.0','VISA CLASICA','4457896457851660','9671.35','8634.75','36','AREQUIPA','DIRECTO','SCORE A','',71,NULL,NULL,NULL,'','',NULL,NULL,NULL,NULL,NULL),(188,'979864782.0','2.0','PITILLO BENAVIDES','41909034.0','MASTERCARD ORO','5598676334682245','6789.45','5987.36','15','AREQUIPA','DIRECTO','SCORE A','',71,NULL,NULL,NULL,'','',NULL,NULL,NULL,NULL,NULL),(189,'975874896.0','1.0','Cesar','67985478.0','AMERICAN EXPRESS','6689745898756981','1687.35','1168.95','67','AYACUCHO','INDIRECTO','SCORE C','',71,NULL,NULL,NULL,'','',NULL,NULL,NULL,NULL,NULL),(190,'9432150483.0','1.0','Juan','88749235.0','PRESTAMO PERSONAL','00026987469','10369.48','9168.74','69','LIMA','NUEVO','SCORE B','',71,NULL,NULL,NULL,'','',NULL,NULL,NULL,NULL,NULL),(191,'967810348.0','1.0','Carlos','77495678.0','CREDITO VEHICULAR','99647952658','32697.48','28367.14','49','AYACUCHO','DIRECTO','SCORE C','',71,NULL,NULL,NULL,'','',NULL,NULL,NULL,NULL,NULL),(192,'991357001.0','2.0','Ana','77495678.0','CREDITO HIOPTECARIO','99886974695','105369.45','94698.36','102','AYACUCHO','INDIRECTO','SCORE C','',71,NULL,NULL,NULL,'','',NULL,NULL,NULL,NULL,NULL),(193,'996867686.0','1.0','PITILLO BENAVIDES','41909034.0','VISA CLASICA','4457896457851660','9671.35','8634.75','36','AREQUIPA','DIRECTO','SCORE A','',76,NULL,NULL,NULL,'','',NULL,NULL,NULL,NULL,NULL),(194,'979864789.0','2.0','PITILLO BENAVIDES','41909034.0','MASTERCARD ORO','5598676334682245','6789.45','5987.36','15','AREQUIPA','DIRECTO','SCORE A','',76,NULL,NULL,NULL,'','',NULL,NULL,NULL,NULL,NULL),(195,'975874897.0','1.0','TOTO TERRY','67985478.0','AMERICAN EXPRESS','6689745898756981','1687.35','1168.95','67','AYACUCHO','INDIRECTO','SCORE C','',76,NULL,NULL,NULL,'','',NULL,NULL,NULL,NULL,NULL),(196,'943215048.0','1.0','ALBERTO BEINGOLEA','88749235.0','PRESTAMO PERSONAL','00026987469','10369.48','9168.74','69','LIMA','NUEVO','SCORE B','',76,NULL,NULL,NULL,'','',NULL,NULL,NULL,NULL,NULL),(197,'967810348.0','1.0','POLO CAMPO','77495678.0','CREDITO VEHICULAR','99647952658','32697.48','28367.14','49','AYACUCHO','DIRECTO','SCORE C','',76,NULL,NULL,NULL,'','',NULL,NULL,NULL,NULL,NULL),(198,'991357001.0','2.0','POLO CAMPO','77495678.0','CREDITO HIOPTECARIO','99886974695','105369.45','94698.36','102','AYACUCHO','INDIRECTO','SCORE C','',76,NULL,NULL,NULL,'','',NULL,NULL,NULL,NULL,NULL),(199,'996867689.0','1.0','PITILLO BENAVIDES','41909034.0','VISA CLASICA','4457896457851660','9671.35','8634.75','36','AREQUIPA','DIRECTO','SCORE A','',76,NULL,NULL,NULL,'','',NULL,NULL,NULL,NULL,NULL),(200,'979864782.0','2.0','PITILLO BENAVIDES','41909034.0','MASTERCARD ORO','5598676334682245','6789.45','5987.36','15','AREQUIPA','DIRECTO','SCORE A','',76,NULL,NULL,NULL,'','',NULL,NULL,NULL,NULL,NULL),(201,'975874896.0','1.0','Cesar','67985478.0','AMERICAN EXPRESS','6689745898756981','1687.35','1168.95','67','AYACUCHO','INDIRECTO','SCORE C','',76,NULL,NULL,NULL,'','',NULL,NULL,NULL,NULL,NULL),(202,'9432150483.0','1.0','Juan','88749235.0','PRESTAMO PERSONAL','00026987469','10369.48','9168.74','69','LIMA','NUEVO','SCORE B','',76,NULL,NULL,NULL,'','',NULL,NULL,NULL,NULL,NULL),(203,'967810348.0','1.0','Carlos','77495678.0','CREDITO VEHICULAR','99647952658','32697.48','28367.14','49','AYACUCHO','DIRECTO','SCORE C','',76,NULL,NULL,NULL,'','',NULL,NULL,NULL,NULL,NULL),(204,'991357001.0','2.0','Ana','77495678.0','CREDITO HIOPTECARIO','99886974695','105369.45','94698.36','102','AYACUCHO','INDIRECTO','SCORE C','',76,NULL,NULL,NULL,'','',NULL,NULL,NULL,NULL,NULL);
+/*!40000 ALTER TABLE `base` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `calificacion`
+-- Table structure for table `calificacion`
 --
 
-CREATE TABLE IF NOT EXISTS `calificacion` (
+DROP TABLE IF EXISTS `calificacion`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `calificacion` (
   `id` int(100) NOT NULL AUTO_INCREMENT,
   `tipo` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
   `descripcion` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `calificacion`
+-- Dumping data for table `calificacion`
 --
 
-INSERT INTO `calificacion` (`id`, `tipo`, `descripcion`) VALUES
-(1, 'DI', 'Consulta en tramite'),
-(2, 'DI', 'Contacto sin promesa');
-
--- --------------------------------------------------------
+LOCK TABLES `calificacion` WRITE;
+/*!40000 ALTER TABLE `calificacion` DISABLE KEYS */;
+INSERT INTO `calificacion` VALUES (1,'DI','Consulta en tramite'),(2,'DI','Contacto sin promesa');
+/*!40000 ALTER TABLE `calificacion` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `campania`
+-- Table structure for table `campania`
 --
 
-CREATE TABLE IF NOT EXISTS `campania` (
+DROP TABLE IF EXISTS `campania`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `campania` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `fecha cargada` datetime DEFAULT NULL,
   `usuario` int(11) DEFAULT NULL,
@@ -544,127 +411,109 @@ CREATE TABLE IF NOT EXISTS `campania` (
   PRIMARY KEY (`id`),
   KEY `usuario` (`usuario`),
   KEY `supervisor` (`supervisor`),
-  KEY `cartera` (`cartera`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=67 ;
+  KEY `cartera` (`cartera`),
+  CONSTRAINT `campania_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `auth_user` (`id`),
+  CONSTRAINT `campania_ibfk_2` FOREIGN KEY (`supervisor`) REFERENCES `supervisor` (`id`),
+  CONSTRAINT `campania_ibfk_3` FOREIGN KEY (`cartera`) REFERENCES `cartera` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `campania`
+-- Dumping data for table `campania`
 --
 
-INSERT INTO `campania` (`id`, `fecha cargada`, `usuario`, `estado`, `nombre`, `troncal`, `canales`, `timbrados`, `htinicio`, `htfin`, `mxllamada`, `llamadaxhora`, `hombreobjetivo`, `archivo`, `supervisor`, `cartera`) VALUES
-(8, '2015-11-04 22:37:59', 8, '', 'Pastillas LSD', 1, 12, 12, '01:00:00', '01:00:00', 12, 12, 212, 'files/settings_yi1cy1I.jsonp', NULL, NULL),
-(9, '2015-11-04 22:42:44', 8, '', 'Viagra', 12, 212, 21, '01:00:00', '01:00:00', 2, 21, 213, 'files/C6AILKT_UqlkwvU.json', NULL, NULL),
-(54, '2015-11-22 03:46:17', 87, '', 'Los indecentes', NULL, 1, 4, '01:00:00', '01:00:00', 2, 4, 80, 'files/Libro1_mWRao84.xlsx', 27, NULL),
-(55, '2015-11-24 19:12:56', 87, '', 'Sapos', NULL, 12, 4, '08:00:00', '19:00:00', 2, 4, 80, 'joel_OsFnxNZ_1.xlsx', 27, 20),
-(56, '2015-11-24 19:14:32', 87, '', 'Manitos', NULL, 22, 4, '08:00:00', '19:00:00', 2, 4, 80, 'files/joel_OsFnxNZ_1_11fF7Dh.xlsx', 27, 20),
-(57, '2015-11-24 19:19:56', 87, '', 'Robots', NULL, 1, 4, '08:00:00', '19:00:00', 2, 4, 80, 'files/joel_OsFnxNZ_1_Shm6OuX.xlsx', 27, 20),
-(58, '2015-11-24 19:53:13', 87, '', 'Borrachitos', NULL, 22, 4, '08:00:00', '19:00:00', 2, 4, 80, 'files/joel_OsFnxNZ_1_HJHYlEc.xlsx', 27, 20),
-(59, '2015-11-24 19:53:53', 87, '', 'Pata', NULL, 1, 4, '08:00:00', '19:00:00', 2, 4, 80, 'files/joel_OsFnxNZ_1_oJXItpe.xlsx', 30, 20),
-(60, '2015-11-24 19:56:06', 87, '', 'Ratoncitos', NULL, 12, 4, '08:00:00', '19:00:00', 2, 4, 80, 'files/joel_OsFnxNZ_1_UUCyiBH.xlsx', 27, 20),
-(61, '2015-11-24 20:19:31', 87, '', 'Gatitos', NULL, 5, 4, '08:00:00', '19:00:00', 2, 4, 80, 'files/joel_OsFnxNZ_1_YslbsaK.xlsx', 27, 20),
-(62, '2015-11-24 20:34:17', 87, '', 'Monitos', NULL, 3, 4, '08:00:00', '19:00:00', 2, 4, 80, 'files/joel_OsFnxNZ_1_2OEslxC.xlsx', 30, 20),
-(63, '2015-11-24 20:34:46', 87, '', 'Chanchitos', NULL, 3, 4, '08:00:00', '19:00:00', 2, 4, 80, 'files/joel_OsFnxNZ_1_cNVElvq.xlsx', 27, 20),
-(64, '2015-11-26 15:55:36', 87, '', 'Pinturas', NULL, 2, 4, '08:00:00', '19:00:00', 2, 4, 80, 'joel_OsFnxNZ_1.xlsx', 27, 20),
-(65, '2015-11-26 17:17:04', 87, '', 'Teclado', NULL, 4, 4, '08:00:00', '19:00:00', 2, 4, 80, 'joel_OsFnxNZ_1.xlsx', 27, 20),
-(66, '2015-11-26 17:19:51', 87, '', 'Peru', NULL, 2, 4, '08:00:00', '19:00:00', 2, 4, 80, 'files/joel_OsFnxNZ_1_4NqoHCk.xlsx', 27, 20);
-
--- --------------------------------------------------------
+LOCK TABLES `campania` WRITE;
+/*!40000 ALTER TABLE `campania` DISABLE KEYS */;
+INSERT INTO `campania` VALUES (8,'2015-11-04 22:37:59',8,'','Pastillas LSD',1,12,12,'01:00:00','01:00:00',12,12,212,'files/settings_yi1cy1I.jsonp',NULL,NULL),(9,'2015-11-04 22:42:44',8,'','Viagra',12,212,21,'01:00:00','01:00:00',2,21,213,'files/C6AILKT_UqlkwvU.json',NULL,NULL),(54,'2015-11-22 03:46:17',87,'','Los indecentes',NULL,1,4,'01:00:00','01:00:00',2,4,80,'files/Libro1_mWRao84.xlsx',27,NULL),(55,'2015-11-24 19:12:56',87,'','Sapos',NULL,12,4,'08:00:00','19:00:00',2,4,80,'joel_OsFnxNZ_1.xlsx',27,20),(56,'2015-11-24 19:14:32',87,'','Manitos',NULL,22,4,'08:00:00','19:00:00',2,4,80,'files/joel_OsFnxNZ_1_11fF7Dh.xlsx',27,20),(57,'2015-11-24 19:19:56',87,'','Robots',NULL,1,4,'08:00:00','19:00:00',2,4,80,'files/joel_OsFnxNZ_1_Shm6OuX.xlsx',27,20),(58,'2015-11-24 19:53:13',87,'','Borrachitos',NULL,22,4,'08:00:00','19:00:00',2,4,80,'files/joel_OsFnxNZ_1_HJHYlEc.xlsx',27,20),(59,'2015-11-24 19:53:53',87,'','Pata',NULL,1,4,'08:00:00','19:00:00',2,4,80,'files/joel_OsFnxNZ_1_oJXItpe.xlsx',30,20),(60,'2015-11-24 19:56:06',87,'','Ratoncitos',NULL,12,4,'08:00:00','19:00:00',2,4,80,'files/joel_OsFnxNZ_1_UUCyiBH.xlsx',27,20),(61,'2015-11-24 20:19:31',87,'','Gatitos',NULL,5,4,'08:00:00','19:00:00',2,4,80,'files/joel_OsFnxNZ_1_YslbsaK.xlsx',27,20),(62,'2015-11-24 20:34:17',87,'','Monitos',NULL,3,4,'08:00:00','19:00:00',2,4,80,'files/joel_OsFnxNZ_1_2OEslxC.xlsx',30,20),(63,'2015-11-24 20:34:46',87,'','Chanchitos',NULL,3,4,'08:00:00','19:00:00',2,4,80,'files/joel_OsFnxNZ_1_cNVElvq.xlsx',27,20),(64,'2015-11-26 15:55:36',87,'','Pinturas',NULL,2,4,'08:00:00','19:00:00',2,4,80,'joel_OsFnxNZ_1.xlsx',27,20),(65,'2015-11-26 17:17:04',87,'','Teclado',NULL,4,4,'08:00:00','19:00:00',2,4,80,'joel_OsFnxNZ_1.xlsx',27,20),(66,'2015-11-26 17:19:51',87,'','Peru',NULL,2,4,'08:00:00','19:00:00',2,4,80,'files/joel_OsFnxNZ_1_4NqoHCk.xlsx',27,20),(67,'2015-11-30 16:37:41',87,'','Mouse',NULL,2,4,'08:00:00','19:00:00',2,4,80,'files/joel_OsFnxNZ_1_1.xlsx',27,20),(68,'2015-11-30 16:39:15',87,'','Pool',NULL,2,4,'08:00:00','19:00:00',2,4,80,'files/joel_OsFnxNZ_1_1_XmnITdv.xlsx',27,20),(69,'2015-11-30 16:40:36',87,'','Huevos',NULL,12,4,'08:00:00','19:00:00',2,4,80,'files/joel_OsFnxNZ_1_6pDIwjd.xlsx',27,20),(70,'2015-11-30 16:42:18',87,'','PerulANDIA',NULL,3,4,'08:00:00','19:00:00',2,4,80,'files/joel_OsFnxNZ_1_ec2QQIy.xlsx',27,20),(71,'2015-11-30 16:49:00',87,'','Ola',NULL,2,4,'08:00:00','19:00:00',2,4,80,'files/plantilla.xlsx',27,20),(72,'2015-11-30 16:58:27',87,'','Prueba',NULL,34,4,'08:00:00','19:00:00',2,4,80,'plantilla.xlsx',27,20),(73,'2015-11-30 17:01:57',87,'','Chocolates',NULL,3,4,'08:00:00','19:00:00',2,4,80,'files/joel_OsFnxNZ_1_NxfCeEw.xlsx',27,20),(74,'2015-11-30 17:02:46',87,'','Zzzz',NULL,5,4,'08:00:00','19:00:00',2,4,80,'files/joel_OsFnxNZ_1_W9WNLL9.xlsx',27,20),(75,'2015-11-30 17:07:27',87,'','Lol',NULL,8,4,'08:00:00','19:00:00',2,4,80,'files/plantilla_okzjbkN.xlsx',27,20),(76,'2015-11-30 17:07:58',87,'','Peuroococ',NULL,5,4,'08:00:00','19:00:00',2,4,80,'files/plantilla_CJDlaTw.xlsx',27,20);
+/*!40000 ALTER TABLE `campania` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `cartera`
+-- Table structure for table `cartera`
 --
 
-CREATE TABLE IF NOT EXISTS `cartera` (
+DROP TABLE IF EXISTS `cartera`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `cartera` (
   `id` int(100) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=23 ;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `cartera`
+-- Dumping data for table `cartera`
 --
 
-INSERT INTO `cartera` (`id`, `nombre`) VALUES
-(1, 'Unique'),
-(2, 'Saga'),
-(3, 'Chifa Chaolin'),
-(4, 'Restorant Don Gato'),
-(5, 'Pilsen'),
-(6, 'Nestle'),
-(7, 'PeruVeloz'),
-(8, 'Cartera'),
-(9, 'ZzZ'),
-(11, 'CcccCC'),
-(12, 'Holaaa'),
-(13, 'Sui'),
-(14, 'Shaga'),
-(15, 'Meitru'),
-(16, 'Nestle'),
-(17, 'Gloria'),
-(18, 'Ford'),
-(19, 'Nestle'),
-(20, 'Backus'),
-(21, 'Frecuencia Latina'),
-(22, 'Totus');
-
--- --------------------------------------------------------
+LOCK TABLES `cartera` WRITE;
+/*!40000 ALTER TABLE `cartera` DISABLE KEYS */;
+INSERT INTO `cartera` VALUES (1,'Unique'),(2,'Saga'),(3,'Chifa Chaolin'),(4,'Restorant Don Gato'),(5,'Pilsen'),(6,'Nestle'),(7,'PeruVeloz'),(8,'Cartera'),(9,'ZzZ'),(11,'CcccCC'),(12,'Holaaa'),(13,'Sui'),(14,'Shaga'),(15,'Meitru'),(16,'Nestle'),(17,'Gloria'),(18,'Ford'),(19,'Nestle'),(20,'Backus'),(21,'Frecuencia Latina'),(22,'Totus');
+/*!40000 ALTER TABLE `cartera` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `carteraempresa`
+-- Table structure for table `carteraempresa`
 --
 
-CREATE TABLE IF NOT EXISTS `carteraempresa` (
+DROP TABLE IF EXISTS `carteraempresa`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `carteraempresa` (
   `id` int(100) NOT NULL AUTO_INCREMENT,
   `cartera` int(100) NOT NULL,
   `empresa` int(100) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `cartera` (`cartera`),
-  KEY `empresa` (`empresa`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=21 ;
+  KEY `empresa` (`empresa`),
+  CONSTRAINT `carteraempresa_ibfk_1` FOREIGN KEY (`cartera`) REFERENCES `cartera` (`id`),
+  CONSTRAINT `carteraempresa_ibfk_2` FOREIGN KEY (`empresa`) REFERENCES `empresa` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `carteraempresa`
+-- Dumping data for table `carteraempresa`
 --
 
-INSERT INTO `carteraempresa` (`id`, `cartera`, `empresa`) VALUES
-(12, 14, 2),
-(13, 15, 2),
-(14, 16, 54),
-(15, 17, 54),
-(16, 18, 54),
-(17, 19, 53),
-(18, 20, 53),
-(19, 21, 53),
-(20, 22, 53);
-
--- --------------------------------------------------------
+LOCK TABLES `carteraempresa` WRITE;
+/*!40000 ALTER TABLE `carteraempresa` DISABLE KEYS */;
+INSERT INTO `carteraempresa` VALUES (12,14,2),(13,15,2),(14,16,54),(15,17,54),(16,18,54),(17,19,53),(18,20,53),(19,21,53),(20,22,53);
+/*!40000 ALTER TABLE `carteraempresa` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `data`
+-- Table structure for table `data`
 --
 
-CREATE TABLE IF NOT EXISTS `data` (
+DROP TABLE IF EXISTS `data`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `data` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `author` varchar(11) COLLATE utf8_spanish_ci NOT NULL,
   `text` varchar(11) COLLATE utf8_spanish_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `data`
+-- Dumping data for table `data`
 --
 
-INSERT INTO `data` (`id`, `author`, `text`) VALUES
-(1, 'Joelccc', 'OK'),
-(2, 'Andres', 'Person');
-
--- --------------------------------------------------------
+LOCK TABLES `data` WRITE;
+/*!40000 ALTER TABLE `data` DISABLE KEYS */;
+INSERT INTO `data` VALUES (1,'Joelccc','OK'),(2,'Andres','Person');
+/*!40000 ALTER TABLE `data` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `django_admin_log`
+-- Table structure for table `django_admin_log`
 --
 
-CREATE TABLE IF NOT EXISTS `django_admin_log` (
+DROP TABLE IF EXISTS `django_admin_log`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `django_admin_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `action_time` datetime NOT NULL,
   `object_id` longtext COLLATE utf8_spanish_ci,
@@ -675,200 +524,108 @@ CREATE TABLE IF NOT EXISTS `django_admin_log` (
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `django_admin_log_417f1b1c` (`content_type_id`),
-  KEY `django_admin_log_e8701ad4` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
+  KEY `django_admin_log_e8701ad4` (`user_id`),
+  CONSTRAINT `django_admin_log_user_id_52fdd58701c5f563_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`),
+  CONSTRAINT `djang_content_type_id_697914295151027a_fk_django_content_type_id` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Estructura de tabla para la tabla `django_content_type`
+-- Dumping data for table `django_admin_log`
 --
 
-CREATE TABLE IF NOT EXISTS `django_content_type` (
+LOCK TABLES `django_admin_log` WRITE;
+/*!40000 ALTER TABLE `django_admin_log` DISABLE KEYS */;
+/*!40000 ALTER TABLE `django_admin_log` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `django_content_type`
+--
+
+DROP TABLE IF EXISTS `django_content_type`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `django_content_type` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
   `app_label` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
   `model` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `django_content_type_app_label_45f3b1d93ec8c61c_uniq` (`app_label`,`model`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `django_content_type`
+-- Dumping data for table `django_content_type`
 --
 
-INSERT INTO `django_content_type` (`id`, `name`, `app_label`, `model`) VALUES
-(1, 'log entry', 'admin', 'logentry'),
-(2, 'permission', 'auth', 'permission'),
-(3, 'group', 'auth', 'group'),
-(4, 'user', 'auth', 'user'),
-(5, 'content type', 'contenttypes', 'contenttype'),
-(6, 'session', 'sessions', 'session');
-
--- --------------------------------------------------------
+LOCK TABLES `django_content_type` WRITE;
+/*!40000 ALTER TABLE `django_content_type` DISABLE KEYS */;
+INSERT INTO `django_content_type` VALUES (1,'log entry','admin','logentry'),(2,'permission','auth','permission'),(3,'group','auth','group'),(4,'user','auth','user'),(5,'content type','contenttypes','contenttype'),(6,'session','sessions','session');
+/*!40000 ALTER TABLE `django_content_type` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `django_migrations`
+-- Table structure for table `django_migrations`
 --
 
-CREATE TABLE IF NOT EXISTS `django_migrations` (
+DROP TABLE IF EXISTS `django_migrations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `django_migrations` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `app` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
   `name` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
   `applied` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `django_migrations`
+-- Dumping data for table `django_migrations`
 --
 
-INSERT INTO `django_migrations` (`id`, `app`, `name`, `applied`) VALUES
-(1, 'contenttypes', '0001_initial', '2015-10-06 22:26:11'),
-(2, 'auth', '0001_initial', '2015-10-06 22:26:14'),
-(3, 'admin', '0001_initial', '2015-10-06 22:26:15'),
-(4, 'sessions', '0001_initial', '2015-10-06 22:26:16'),
-(5, 'PeruCall', '0001_initial', '2015-11-23 21:28:41'),
-(6, 'PeruCall', '0002_auto_20151105_1501', '2015-11-23 21:28:41');
-
--- --------------------------------------------------------
+LOCK TABLES `django_migrations` WRITE;
+/*!40000 ALTER TABLE `django_migrations` DISABLE KEYS */;
+INSERT INTO `django_migrations` VALUES (1,'contenttypes','0001_initial','2015-10-06 22:26:11'),(2,'auth','0001_initial','2015-10-06 22:26:14'),(3,'admin','0001_initial','2015-10-06 22:26:15'),(4,'sessions','0001_initial','2015-10-06 22:26:16'),(5,'PeruCall','0001_initial','2015-11-23 21:28:41'),(6,'PeruCall','0002_auto_20151105_1501','2015-11-23 21:28:41');
+/*!40000 ALTER TABLE `django_migrations` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `django_session`
+-- Table structure for table `django_session`
 --
 
-CREATE TABLE IF NOT EXISTS `django_session` (
+DROP TABLE IF EXISTS `django_session`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `django_session` (
   `session_key` varchar(40) COLLATE utf8_spanish_ci NOT NULL,
   `session_data` longtext COLLATE utf8_spanish_ci NOT NULL,
   `expire_date` datetime NOT NULL,
   PRIMARY KEY (`session_key`),
   KEY `django_session_de54fa62` (`expire_date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `django_session`
+-- Dumping data for table `django_session`
 --
 
-INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALUES
-('0mpstfaueiuecsg34s8kp5o6iksod3h6', 'Zjg3YzUwZTk4NTgyM2JjNTc5YmVhMzA4Y2U5MDRhOGJiYjU1NWZiZTp7Il9hdXRoX3VzZXJfaGFzaCI6IjFkYmYxYmIwNmI1ZTc0ZmNiYmNkMzQxMzc2ZmM2MmViMWEzZDg0OWQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjd9', '2015-11-25 19:02:55'),
-('29j8yl4md6ft0etgq91ovcv88zfyout8', 'YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==', '2015-10-21 19:18:30'),
-('2g2g46h1jzmxqcx5hikpleo6vwbdyz59', 'ZWQzNTY4Zjk4ODk0ZTA1MWI5NTY5OGUzNzgwYTlhYWU0YzI1ZGUwMjp7Il9hdXRoX3VzZXJfaGFzaCI6ImQwNWM3ZDRiMGU3ZGE5ZTk2MzgxOWY1ODFmNjFiMTYzOGIxZDQwNjEiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjl9', '2015-11-21 21:53:42'),
-('35626e0fcxe99irl9j353572hxmgatrg', 'YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==', '2015-12-13 06:16:04'),
-('4vghq88lobgyz5v9ycyide41l4b61yu9', 'OWYyOGVmYWM4MTYyYzQ3YTM1NDRlMGI4ZjQ1NmIyOTE3NTczZDBjNTp7Il9hdXRoX3VzZXJfaGFzaCI6IjI0NTkxZjU1NDI4NWJmNTNlMzMxMGNhN2ExMTk1YWZlNTMwMzRjMTYiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjEwMX0=', '2015-12-13 15:45:31'),
-('5qol3f4na76wva2bpsocpfc8gk5d75y8', 'YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==', '2015-12-10 14:55:03'),
-('610gfxxb6siwf1al8mepb8trvj78lh6k', 'YjFhMTZjYjRiOTc5NWI1MWNjYTA0NmNjNmMzZGFjZGUzMDNkOTk3ODp7Il9hdXRoX3VzZXJfaGFzaCI6ImY3MzAzN2I3NWI3NjdjZGRiY2FkNmY1NDIyZjZmMTA0ZGNiZDc0Y2YiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjg3fQ==', '2015-12-06 02:44:58'),
-('67ct0ugg1zawi1nux9sbeyin1yq4ysvq', 'NmFmZWJlZTgwNWJhNjc5ZTYxNWEzN2ZlNDliYWVmOTJiOWQ1ODMyMTp7Il9hdXRoX3VzZXJfaGFzaCI6IjZiZjEyN2YzOTQ4YThmMDY3YjE5ZjlmZGU3ODMzZjA5YTdmMDNhZjgiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjh9', '2015-12-02 23:24:58'),
-('6wufkjqmi0mwqxsyfirzielfuc9cs6xy', 'ZThkZjQ3ZmFjZDA3ZjU0YjAzOWU5YzI1YWVhYmYzZmZlODQzNDU1Yjp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6MTB9', '2015-11-20 23:25:11'),
-('7yxvdyutyeibwimhywt9fqxjqehmqrz0', 'NmFmZWJlZTgwNWJhNjc5ZTYxNWEzN2ZlNDliYWVmOTJiOWQ1ODMyMTp7Il9hdXRoX3VzZXJfaGFzaCI6IjZiZjEyN2YzOTQ4YThmMDY3YjE5ZjlmZGU3ODMzZjA5YTdmMDNhZjgiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjh9', '2015-11-25 19:19:03'),
-('7zcwkcrr4dw05qjwbeova31rfzijp8s8', 'NmFmZWJlZTgwNWJhNjc5ZTYxNWEzN2ZlNDliYWVmOTJiOWQ1ODMyMTp7Il9hdXRoX3VzZXJfaGFzaCI6IjZiZjEyN2YzOTQ4YThmMDY3YjE5ZjlmZGU3ODMzZjA5YTdmMDNhZjgiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjh9', '2015-11-18 23:24:06'),
-('866urwb5ffkhuikqk94hxm4lmh1jdh2a', 'NTJhMTE5YjNlMGJjZDhlZDM2MzRmNDg1ZDU3NmM0NTc0MDc5MDMyYTp7Il9hdXRoX3VzZXJfaGFzaCI6ImNhZWVjNWUxMTA2M2YwMWMzYjlkMmM5NzEyNWMzNWFiZDhmOWY3OTQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjd9', '2015-11-17 21:52:01'),
-('8kv11mw5azdgrhohuefcpd77ah2g6xwh', 'YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==', '2015-11-13 23:52:52'),
-('8l9dvflerje4xpz7xutugza5m3qjbd0i', 'Zjg3YzUwZTk4NTgyM2JjNTc5YmVhMzA4Y2U5MDRhOGJiYjU1NWZiZTp7Il9hdXRoX3VzZXJfaGFzaCI6IjFkYmYxYmIwNmI1ZTc0ZmNiYmNkMzQxMzc2ZmM2MmViMWEzZDg0OWQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjd9', '2015-11-26 01:50:03'),
-('8n8hpwtf6ct8wuiznrgd0szvhvcpiuwe', 'MjU2NjdhMmFiM2ZhM2Q2ZDkzMTRhMmQzMDRhMmE3MDIzNzJkM2M4MDp7Il9hdXRoX3VzZXJfaGFzaCI6ImM0OGI5MTQxZDY3YmJiOWVlOGNlNzEzZDhjM2JjMDM0YTFkMzY3M2MiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjEwfQ==', '2015-11-19 00:29:32'),
-('8z8nn1n3jl2vvq6oaumykgs8ip11s6y6', 'YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==', '2015-12-10 14:55:03'),
-('921lcob7h4kez4w2gi7yimvb9ub7w7ux', 'NmFmZWJlZTgwNWJhNjc5ZTYxNWEzN2ZlNDliYWVmOTJiOWQ1ODMyMTp7Il9hdXRoX3VzZXJfaGFzaCI6IjZiZjEyN2YzOTQ4YThmMDY3YjE5ZjlmZGU3ODMzZjA5YTdmMDNhZjgiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjh9', '2015-11-16 14:29:34'),
-('9f9km568gfl295wio2su96y9vzipghxe', 'NmFmZWJlZTgwNWJhNjc5ZTYxNWEzN2ZlNDliYWVmOTJiOWQ1ODMyMTp7Il9hdXRoX3VzZXJfaGFzaCI6IjZiZjEyN2YzOTQ4YThmMDY3YjE5ZjlmZGU3ODMzZjA5YTdmMDNhZjgiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjh9', '2015-11-18 21:26:18'),
-('9s9fk1xv4bgxnp7lyd5ffqjtfz9stmut', 'OWNiMjczZWNkNDRhOGUxM2Y2NDIxYzhhMjVkNzk4NzQwOGNlYjRiMzp7Il9hdXRoX3VzZXJfaGFzaCI6IjE2NGMwMmEzOWQ3ZjY3ZTNhMGVkNjYxYWM1Y2VjNDYyNGUwMzFiZjIiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjg2fQ==', '2015-12-11 15:04:59'),
-('9vykkqqmb82ahsebtz5nq5ts2u4vs2j6', 'YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==', '2015-12-13 14:19:15'),
-('a04im99fvwywnbrgz16bu1d43e9bfk18', 'Zjg3YzUwZTk4NTgyM2JjNTc5YmVhMzA4Y2U5MDRhOGJiYjU1NWZiZTp7Il9hdXRoX3VzZXJfaGFzaCI6IjFkYmYxYmIwNmI1ZTc0ZmNiYmNkMzQxMzc2ZmM2MmViMWEzZDg0OWQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjd9', '2015-11-26 14:29:13'),
-('agcwy5gi32urc6k5g0eqq6cfhxgfoyce', 'YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==', '2015-12-13 06:20:01'),
-('aq80pqdtc0ntp99v5vme1ydci1u7rmc6', 'YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==', '2015-12-10 14:55:03'),
-('ar4nuhbqhnd607ay9wpmcjgcbd7vy2n0', 'NmFmZWJlZTgwNWJhNjc5ZTYxNWEzN2ZlNDliYWVmOTJiOWQ1ODMyMTp7Il9hdXRoX3VzZXJfaGFzaCI6IjZiZjEyN2YzOTQ4YThmMDY3YjE5ZjlmZGU3ODMzZjA5YTdmMDNhZjgiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjh9', '2015-11-18 23:57:09'),
-('b4m1t50g4zbm5lr42wkt6c3c2dk6e3ra', 'Zjg3YzUwZTk4NTgyM2JjNTc5YmVhMzA4Y2U5MDRhOGJiYjU1NWZiZTp7Il9hdXRoX3VzZXJfaGFzaCI6IjFkYmYxYmIwNmI1ZTc0ZmNiYmNkMzQxMzc2ZmM2MmViMWEzZDg0OWQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjd9', '2015-11-30 16:43:31'),
-('b5v1c5p6yziylkyi4m408xvvjvj24qld', 'OWYyOGVmYWM4MTYyYzQ3YTM1NDRlMGI4ZjQ1NmIyOTE3NTczZDBjNTp7Il9hdXRoX3VzZXJfaGFzaCI6IjI0NTkxZjU1NDI4NWJmNTNlMzMxMGNhN2ExMTk1YWZlNTMwMzRjMTYiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjEwMX0=', '2015-12-13 17:18:55'),
-('b9e0x6ignp8sscxp7562oi3f448hqbpg', 'YjNiOWE5ODA0OTIwZDA0YmI5NGE5MWY5OTUxZTUzZTczNmEzN2VjNTp7Il9hdXRoX3VzZXJfaGFzaCI6IjczYTM3MDIxMmMxZjZmNTZhMjI2ZmIzMzEwMDg2OTI0MWEyNzBhNzciLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjEwfQ==', '2015-11-26 19:44:06'),
-('bvni428qke6en6tn9dstx6j9alzv5l1q', 'ZWQzNTY4Zjk4ODk0ZTA1MWI5NTY5OGUzNzgwYTlhYWU0YzI1ZGUwMjp7Il9hdXRoX3VzZXJfaGFzaCI6ImQwNWM3ZDRiMGU3ZGE5ZTk2MzgxOWY1ODFmNjFiMTYzOGIxZDQwNjEiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjl9', '2015-12-02 20:19:57'),
-('c29ohwm310ikwsjjr4wqt2gs55o6lsem', 'YjFhMTZjYjRiOTc5NWI1MWNjYTA0NmNjNmMzZGFjZGUzMDNkOTk3ODp7Il9hdXRoX3VzZXJfaGFzaCI6ImY3MzAzN2I3NWI3NjdjZGRiY2FkNmY1NDIyZjZmMTA0ZGNiZDc0Y2YiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjg3fQ==', '2015-12-13 14:03:42'),
-('chc6m6r64vo4ip9ck02zvlux41pxwp4q', 'YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==', '2015-11-27 18:04:59'),
-('cldpxp0cw9150hdgt71wl97evrte9gta', 'YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==', '2015-12-13 15:45:18'),
-('d0xgwjwdm26fx3ib1r4zyaidpsu1e3ad', 'YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==', '2015-12-13 15:45:17'),
-('d1alhesy57y8clnss7smc47yoni6rqvg', 'NTJhMTE5YjNlMGJjZDhlZDM2MzRmNDg1ZDU3NmM0NTc0MDc5MDMyYTp7Il9hdXRoX3VzZXJfaGFzaCI6ImNhZWVjNWUxMTA2M2YwMWMzYjlkMmM5NzEyNWMzNWFiZDhmOWY3OTQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjd9', '2015-11-14 17:47:20'),
-('d1yi2cyzs47ruu1em9g23zh2z54yylyy', 'YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==', '2015-12-13 06:13:39'),
-('d8s5co329ylugpkfja237g5je054577v', 'YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==', '2015-11-22 16:31:20'),
-('dz5wjdgwceizbgl923v2ymfqd5byi3yb', 'YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==', '2015-12-13 15:45:18'),
-('f6ad8xoo5ctu5q42bmj2weovo8vpi9e3', 'Zjg3YzUwZTk4NTgyM2JjNTc5YmVhMzA4Y2U5MDRhOGJiYjU1NWZiZTp7Il9hdXRoX3VzZXJfaGFzaCI6IjFkYmYxYmIwNmI1ZTc0ZmNiYmNkMzQxMzc2ZmM2MmViMWEzZDg0OWQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjd9', '2015-11-27 19:01:15'),
-('flkfkduskoxykx4l579ysmsu4afbymdu', 'YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==', '2015-12-10 15:16:29'),
-('fmfq6h5vxdbjnuctrvpnpv516krw4qqo', 'NmFmZWJlZTgwNWJhNjc5ZTYxNWEzN2ZlNDliYWVmOTJiOWQ1ODMyMTp7Il9hdXRoX3VzZXJfaGFzaCI6IjZiZjEyN2YzOTQ4YThmMDY3YjE5ZjlmZGU3ODMzZjA5YTdmMDNhZjgiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjh9', '2015-11-19 01:44:40'),
-('fnq6rzq1jcgtoqteahug71eis7mj82js', 'NmFmZWJlZTgwNWJhNjc5ZTYxNWEzN2ZlNDliYWVmOTJiOWQ1ODMyMTp7Il9hdXRoX3VzZXJfaGFzaCI6IjZiZjEyN2YzOTQ4YThmMDY3YjE5ZjlmZGU3ODMzZjA5YTdmMDNhZjgiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjh9', '2015-12-02 23:14:17'),
-('ftyiqyare2p6g6yrewk4dz7e21c7prxt', 'MjlmYzc4Y2Q5N2E5Njk0YjU4NzkzMjI5ZmFkYjkzNTEyMWRlNGU3NDp7Il9hdXRoX3VzZXJfaGFzaCI6ImNjMTk5MzFmZDRlNDQ1YzNiNDAyMGFlOWY2YjFjMTlmZjViNzI0YmQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjF9', '2015-10-26 15:20:38'),
-('fuxm8u2rhvo4a7ciwqnumdl6c5sb2znq', 'OWNiMjczZWNkNDRhOGUxM2Y2NDIxYzhhMjVkNzk4NzQwOGNlYjRiMzp7Il9hdXRoX3VzZXJfaGFzaCI6IjE2NGMwMmEzOWQ3ZjY3ZTNhMGVkNjYxYWM1Y2VjNDYyNGUwMzFiZjIiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjg2fQ==', '2015-12-06 01:48:35'),
-('g0bufkain49swbl9ds8re5vdh9ss1xi1', 'YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==', '2015-12-13 06:19:34'),
-('g7bo2aywt6ju4xb5bn0bsyyawxr7o1yd', 'ZWQzNTY4Zjk4ODk0ZTA1MWI5NTY5OGUzNzgwYTlhYWU0YzI1ZGUwMjp7Il9hdXRoX3VzZXJfaGFzaCI6ImQwNWM3ZDRiMGU3ZGE5ZTk2MzgxOWY1ODFmNjFiMTYzOGIxZDQwNjEiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjl9', '2015-11-17 17:36:50'),
-('ghb3omhqvzez5blcqlcto24jefpxmjhe', 'YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==', '2015-10-20 23:07:19'),
-('gsw61vccdvezhbvg396zx9rljwlhlw7j', 'YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==', '2015-12-13 14:02:47'),
-('h56cb3pvbjgj2teofqlo126x9mktkihj', 'YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==', '2015-12-04 17:55:16'),
-('ha34u7391f8pulgt7f102z3j06d5lgne', 'YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==', '2015-11-20 21:57:48'),
-('hxh96ipc82us9hw17fnm6gsnkhk5i8xs', 'ZWQzNTY4Zjk4ODk0ZTA1MWI5NTY5OGUzNzgwYTlhYWU0YzI1ZGUwMjp7Il9hdXRoX3VzZXJfaGFzaCI6ImQwNWM3ZDRiMGU3ZGE5ZTk2MzgxOWY1ODFmNjFiMTYzOGIxZDQwNjEiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjl9', '2015-12-02 20:35:55'),
-('i47wc2ky7y95j9b0em6bzwatz76c3fhf', 'YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==', '2015-12-10 14:55:03'),
-('i4kx5ksiozmhlqd2cf2stdf75bngew5t', 'YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==', '2015-12-02 22:39:27'),
-('ibl2lyke0pa9m3m4nh52nx3h8wgfyyvv', 'MTI0OWMyOTAzMTlhNTcxY2M5OWM2YjVjMWFlOThjYjc5ZTZhMDA5NTp7Il9hdXRoX3VzZXJfaGFzaCI6ImNiMjk3MzQxNDMzNjhiYWFlZDNiMDE1NjI5MzI5NGZhNDNiMTUxNTQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjg5fQ==', '2015-12-09 16:47:17'),
-('icwj9fl5q4s112kmbujecum2i9em66nx', 'YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==', '2015-12-13 14:19:15'),
-('io6f0gw2h3cr8s73ylptln8xl2uvls4d', 'YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==', '2015-11-20 21:40:57'),
-('iw51oo0og7php6oywp5gbcbk7u4j3iqg', 'Zjg3YzUwZTk4NTgyM2JjNTc5YmVhMzA4Y2U5MDRhOGJiYjU1NWZiZTp7Il9hdXRoX3VzZXJfaGFzaCI6IjFkYmYxYmIwNmI1ZTc0ZmNiYmNkMzQxMzc2ZmM2MmViMWEzZDg0OWQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjd9', '2015-11-26 17:02:07'),
-('iwuxs1kjolxvhj0ytpbgvhkc0be0mo8x', 'YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==', '2015-12-10 15:16:29'),
-('j47y3sofe2o6izl0kbddyjk55zruy816', 'YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==', '2015-12-10 15:16:29'),
-('jdyq31ss0hdtggeqloua1j0ifhrd9cz2', 'NmFmZWJlZTgwNWJhNjc5ZTYxNWEzN2ZlNDliYWVmOTJiOWQ1ODMyMTp7Il9hdXRoX3VzZXJfaGFzaCI6IjZiZjEyN2YzOTQ4YThmMDY3YjE5ZjlmZGU3ODMzZjA5YTdmMDNhZjgiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjh9', '2015-11-25 19:32:25'),
-('jpamjnqbvqk77fsy04pfmfb19hjfguxg', 'YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==', '2015-11-13 23:52:53'),
-('kbgbn8es4peuess9xeosl9d4taydhpxm', 'YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==', '2015-12-10 14:55:03'),
-('ldvtpi6c0qrvojdouh9jnnyi0eaypoyp', 'YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==', '2015-12-13 14:19:15'),
-('lznqy9l0eosbophh6vwz6o008gmhva7w', 'YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==', '2015-12-10 15:16:29'),
-('mmwp4u0x9cgqc7c1psjz6v79uwbr1rex', 'OWYyOGVmYWM4MTYyYzQ3YTM1NDRlMGI4ZjQ1NmIyOTE3NTczZDBjNTp7Il9hdXRoX3VzZXJfaGFzaCI6IjI0NTkxZjU1NDI4NWJmNTNlMzMxMGNhN2ExMTk1YWZlNTMwMzRjMTYiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjEwMX0=', '2015-12-13 16:13:50'),
-('n90flxfib781e8hzq9mqu0mo2i57rbwn', 'NmFmZWJlZTgwNWJhNjc5ZTYxNWEzN2ZlNDliYWVmOTJiOWQ1ODMyMTp7Il9hdXRoX3VzZXJfaGFzaCI6IjZiZjEyN2YzOTQ4YThmMDY3YjE5ZjlmZGU3ODMzZjA5YTdmMDNhZjgiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjh9', '2015-12-03 05:09:44'),
-('nj2v08gxjfqiwuw6gxg0ffn5gqjbcnlq', 'YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==', '2015-12-10 15:16:29'),
-('o69andh43skvc1dmyycw8qirwj4uqpyu', 'YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==', '2015-11-13 23:52:44'),
-('o6udc4og3fgqyv3ivkfrksz2kz724j5s', 'YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==', '2015-12-10 14:55:03'),
-('oplik0kaxp5bc714xq870dv86i6langb', 'NmFmZWJlZTgwNWJhNjc5ZTYxNWEzN2ZlNDliYWVmOTJiOWQ1ODMyMTp7Il9hdXRoX3VzZXJfaGFzaCI6IjZiZjEyN2YzOTQ4YThmMDY3YjE5ZjlmZGU3ODMzZjA5YTdmMDNhZjgiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjh9', '2015-12-02 16:26:44'),
-('or8hee7bu4vvjodvp26wsrahzhxfz2gn', 'Zjg3YzUwZTk4NTgyM2JjNTc5YmVhMzA4Y2U5MDRhOGJiYjU1NWZiZTp7Il9hdXRoX3VzZXJfaGFzaCI6IjFkYmYxYmIwNmI1ZTc0ZmNiYmNkMzQxMzc2ZmM2MmViMWEzZDg0OWQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjd9', '2015-12-03 16:10:52'),
-('p0vyzdnq7zd6tg3nw21ilyimsr28c49m', 'NmFmZWJlZTgwNWJhNjc5ZTYxNWEzN2ZlNDliYWVmOTJiOWQ1ODMyMTp7Il9hdXRoX3VzZXJfaGFzaCI6IjZiZjEyN2YzOTQ4YThmMDY3YjE5ZjlmZGU3ODMzZjA5YTdmMDNhZjgiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjh9', '2015-11-14 00:43:11'),
-('paiq90d4eataknkudduyx0qmf6rjdbuh', 'Zjg3YzUwZTk4NTgyM2JjNTc5YmVhMzA4Y2U5MDRhOGJiYjU1NWZiZTp7Il9hdXRoX3VzZXJfaGFzaCI6IjFkYmYxYmIwNmI1ZTc0ZmNiYmNkMzQxMzc2ZmM2MmViMWEzZDg0OWQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjd9', '2015-12-02 22:28:24'),
-('phmqbr6gstsveyzl7ki2gbwz7d13rcq3', 'NTljMzVkOTBlNjc3NTEwZTljOTkyODdlMzM5NmMxZTcxZmU4ZDYxZjp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6MX0=', '2015-11-10 20:54:01'),
-('ponbr70p8hposos6utkjp2n7eihndab9', 'NmFmZWJlZTgwNWJhNjc5ZTYxNWEzN2ZlNDliYWVmOTJiOWQ1ODMyMTp7Il9hdXRoX3VzZXJfaGFzaCI6IjZiZjEyN2YzOTQ4YThmMDY3YjE5ZjlmZGU3ODMzZjA5YTdmMDNhZjgiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjh9', '2015-12-03 18:27:56'),
-('pq74gxddamen867fqd620wfo36euqn59', 'YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==', '2015-12-03 14:53:03'),
-('ptn3axpvneb3y5n9j08gumwim5woz11q', 'ODU0NmU4NjA3ZjdmZDkxMGNhNTU3YTc2OWNhYjYyNGRjMjRjNDg1Yjp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6N30=', '2015-11-20 23:28:48'),
-('q2pwhpqm8yfiykyyutwvje17wiv67e0u', 'YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==', '2015-12-13 15:45:18'),
-('ru7a3d5ks2qktmtsnr0fsn8ij485jsov', 'YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==', '2015-12-13 14:19:15'),
-('s64p635q7z2gzidegc8h2eduee2hhfg4', 'NmFmZWJlZTgwNWJhNjc5ZTYxNWEzN2ZlNDliYWVmOTJiOWQ1ODMyMTp7Il9hdXRoX3VzZXJfaGFzaCI6IjZiZjEyN2YzOTQ4YThmMDY3YjE5ZjlmZGU3ODMzZjA5YTdmMDNhZjgiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjh9', '2015-11-19 01:38:30'),
-('s6jkh3rv1rll0pjikl29jz889cfkh5an', 'NmFmZWJlZTgwNWJhNjc5ZTYxNWEzN2ZlNDliYWVmOTJiOWQ1ODMyMTp7Il9hdXRoX3VzZXJfaGFzaCI6IjZiZjEyN2YzOTQ4YThmMDY3YjE5ZjlmZGU3ODMzZjA5YTdmMDNhZjgiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjh9', '2015-12-02 18:34:42'),
-('s7wrdzvfs080czi4bjsw5ezbruymjwyj', 'NmFmZWJlZTgwNWJhNjc5ZTYxNWEzN2ZlNDliYWVmOTJiOWQ1ODMyMTp7Il9hdXRoX3VzZXJfaGFzaCI6IjZiZjEyN2YzOTQ4YThmMDY3YjE5ZjlmZGU3ODMzZjA5YTdmMDNhZjgiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjh9', '2015-11-14 00:06:24'),
-('su04hyo0w34aqdntjfz2nougi3by0qpm', 'YjFhMTZjYjRiOTc5NWI1MWNjYTA0NmNjNmMzZGFjZGUzMDNkOTk3ODp7Il9hdXRoX3VzZXJfaGFzaCI6ImY3MzAzN2I3NWI3NjdjZGRiY2FkNmY1NDIyZjZmMTA0ZGNiZDc0Y2YiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjg3fQ==', '2015-12-11 22:26:24'),
-('t6kr739l45uoh4dxtc6459vjkdcydhpv', 'YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==', '2015-12-05 20:43:43'),
-('tgu2qjv8y99iyyylo1mnp18hlri2nfo8', 'YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==', '2015-11-21 19:21:47'),
-('thkitz875pc9sxfppgiyrs5vn6u399s3', 'Zjg3YzUwZTk4NTgyM2JjNTc5YmVhMzA4Y2U5MDRhOGJiYjU1NWZiZTp7Il9hdXRoX3VzZXJfaGFzaCI6IjFkYmYxYmIwNmI1ZTc0ZmNiYmNkMzQxMzc2ZmM2MmViMWEzZDg0OWQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjd9', '2015-11-27 02:27:44'),
-('trelgsy5mfm2439furc0awvn0mpfeibh', 'YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==', '2015-11-25 04:31:02'),
-('tu49ah3nzg7hxftt5wjnbs4lx8xalvy6', 'NmFmZWJlZTgwNWJhNjc5ZTYxNWEzN2ZlNDliYWVmOTJiOWQ1ODMyMTp7Il9hdXRoX3VzZXJfaGFzaCI6IjZiZjEyN2YzOTQ4YThmMDY3YjE5ZjlmZGU3ODMzZjA5YTdmMDNhZjgiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjh9', '2015-11-18 00:11:27'),
-('u58nkm4l9gwoghrd4aorlw2eb6o8q2hp', 'Zjg3YzUwZTk4NTgyM2JjNTc5YmVhMzA4Y2U5MDRhOGJiYjU1NWZiZTp7Il9hdXRoX3VzZXJfaGFzaCI6IjFkYmYxYmIwNmI1ZTc0ZmNiYmNkMzQxMzc2ZmM2MmViMWEzZDg0OWQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjd9', '2015-12-02 20:23:56'),
-('uz1o4qao9u7ce06wa6c1ez86sp2mmsj3', 'YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==', '2015-12-13 15:45:18'),
-('vgommx2wf9igvpt53ms11d12nir0o9km', 'YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==', '2015-10-26 16:45:45'),
-('vi0n0cdkucww8ibjgwlp3xgqrtxbe3hw', 'YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==', '2015-11-20 21:50:18'),
-('vx7a2324fhafhulg5o1mj0dfylel3q9y', 'YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==', '2015-12-10 14:55:03'),
-('w3saec9y3q14rypygcxk3dew5m2vposy', 'YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==', '2015-12-10 14:55:03'),
-('w5npffosc39o7gvng0p67bqzrntxmgrv', 'Zjg3YzUwZTk4NTgyM2JjNTc5YmVhMzA4Y2U5MDRhOGJiYjU1NWZiZTp7Il9hdXRoX3VzZXJfaGFzaCI6IjFkYmYxYmIwNmI1ZTc0ZmNiYmNkMzQxMzc2ZmM2MmViMWEzZDg0OWQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjd9', '2015-11-27 01:24:15'),
-('w9pp8ra4dsjnu4yoc7bgp8y4ktbemqhn', 'YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==', '2015-12-13 15:45:17'),
-('wb55katxsmqxc11igh2p9u7neax8mtlp', 'YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==', '2015-11-24 16:56:41'),
-('wcez316ia1pnkcmujeitf36r0snprfn0', 'YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==', '2015-12-13 15:45:17'),
-('wh8l3cip9fmrk406ih1ctnwk4asr8o74', 'NzE5ZWNmODBmNmFhNzJkYWYwNWUzMzgxMzEyOWZkODhhMDhmMzZlNTp7Il9hdXRoX3VzZXJfaGFzaCI6IjdiMWIyODMyMjBiMWU1MjllNWM0M2Y5MTNhOWU0OGRlZjJmNmRkOTkiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjk4fQ==', '2015-12-13 20:51:41'),
-('wmrnfsbgrkbj4v527wc0ok8cnodpgx4r', 'YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==', '2015-12-13 14:19:15'),
-('wuej0egr7lcbal884aazivnwtxyz9xft', 'YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==', '2015-11-25 19:36:37'),
-('x8ebvg2o80h6r7vjm7x89hxc6vp3z544', 'ZWQzNTY4Zjk4ODk0ZTA1MWI5NTY5OGUzNzgwYTlhYWU0YzI1ZGUwMjp7Il9hdXRoX3VzZXJfaGFzaCI6ImQwNWM3ZDRiMGU3ZGE5ZTk2MzgxOWY1ODFmNjFiMTYzOGIxZDQwNjEiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjl9', '2015-11-20 18:57:08'),
-('xd1r9oolfqgxdqc0c56hpx2tuv9vnpvw', 'NzE5ZWNmODBmNmFhNzJkYWYwNWUzMzgxMzEyOWZkODhhMDhmMzZlNTp7Il9hdXRoX3VzZXJfaGFzaCI6IjdiMWIyODMyMjBiMWU1MjllNWM0M2Y5MTNhOWU0OGRlZjJmNmRkOTkiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjk4fQ==', '2015-12-14 02:28:13'),
-('xrgf3fx9udlu9xp3z0se7bmlqq049tro', 'YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==', '2015-11-20 21:51:40'),
-('y1tx1w7l04yzmjznvjn1lps7phbkjwob', 'YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==', '2015-12-10 19:15:08'),
-('y5wyesbjluto9cngi94hkb6xmacmpdm3', 'Zjg3YzUwZTk4NTgyM2JjNTc5YmVhMzA4Y2U5MDRhOGJiYjU1NWZiZTp7Il9hdXRoX3VzZXJfaGFzaCI6IjFkYmYxYmIwNmI1ZTc0ZmNiYmNkMzQxMzc2ZmM2MmViMWEzZDg0OWQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjd9', '2015-12-03 17:48:17'),
-('yf7m55hhk3rqrupj5yl3jpco3f526abi', 'NmFmZWJlZTgwNWJhNjc5ZTYxNWEzN2ZlNDliYWVmOTJiOWQ1ODMyMTp7Il9hdXRoX3VzZXJfaGFzaCI6IjZiZjEyN2YzOTQ4YThmMDY3YjE5ZjlmZGU3ODMzZjA5YTdmMDNhZjgiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjh9', '2015-12-03 04:16:23'),
-('yftxx5lhg2uu5anokjoe7fxddbd99k23', 'Zjg3YzUwZTk4NTgyM2JjNTc5YmVhMzA4Y2U5MDRhOGJiYjU1NWZiZTp7Il9hdXRoX3VzZXJfaGFzaCI6IjFkYmYxYmIwNmI1ZTc0ZmNiYmNkMzQxMzc2ZmM2MmViMWEzZDg0OWQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjd9', '2015-11-27 14:35:28'),
-('z4e99tulhwq0xxi5den9m9ibekdz0qud', 'MzFjNzUwZmI2M2QzY2NjZTM4NmMzNDVkNDNmNTMwMDUwNDM5MWI2Njp7Il9hdXRoX3VzZXJfaGFzaCI6IjJlY2YyMmZiZWFlZTIzZTMyMGU3YjJmMzUxMjljMGQ2ZGU4ZjJkOTQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjJ9', '2015-10-26 16:42:03'),
-('z8b4wmu357frb92m3qkn2pb9ogbxswtu', 'YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==', '2015-12-13 14:19:15'),
-('zgkv7pf5w9sl3m7fcf1vonw18h4cwnxb', 'YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==', '2015-12-13 15:45:18'),
-('zoaaja4bffs7cukfpnl52siyxp19g60i', 'YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==', '2015-12-10 14:55:03'),
-('zyu818pkxynd68s0orgi4kfbajsk544j', 'YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==', '2015-11-19 15:35:00');
-
--- --------------------------------------------------------
+LOCK TABLES `django_session` WRITE;
+/*!40000 ALTER TABLE `django_session` DISABLE KEYS */;
+INSERT INTO `django_session` VALUES ('02xdpebne8808qeqbnj1c38s2kd86lmj','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:05:02'),('06cfpjdsrrnnt4nx6r2cnu8dls4htqv3','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:05:01'),('0bk4lvt0co46umvdfm17nvn39lbp6ujz','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:05:02'),('0kz8umjt0l3myjel8vuxxkkk8yyr2q3u','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:05:01'),('0mpstfaueiuecsg34s8kp5o6iksod3h6','Zjg3YzUwZTk4NTgyM2JjNTc5YmVhMzA4Y2U5MDRhOGJiYjU1NWZiZTp7Il9hdXRoX3VzZXJfaGFzaCI6IjFkYmYxYmIwNmI1ZTc0ZmNiYmNkMzQxMzc2ZmM2MmViMWEzZDg0OWQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjd9','2015-11-25 19:02:55'),('1ltxrhcg2gzmo6ne3624fn9anfzgjwns','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:05:01'),('1o8an023snnjvhau9jcu4ijwhtuts3ue','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:05:00'),('281w5olp4q1uehm4qsvm6625jpgs1r63','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:04:59'),('29j8yl4md6ft0etgq91ovcv88zfyout8','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-10-21 19:18:30'),('2dm7rpd6zeccg8ev0xmeawes0rk12abg','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:05:02'),('2g2g46h1jzmxqcx5hikpleo6vwbdyz59','ZWQzNTY4Zjk4ODk0ZTA1MWI5NTY5OGUzNzgwYTlhYWU0YzI1ZGUwMjp7Il9hdXRoX3VzZXJfaGFzaCI6ImQwNWM3ZDRiMGU3ZGE5ZTk2MzgxOWY1ODFmNjFiMTYzOGIxZDQwNjEiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjl9','2015-11-21 21:53:42'),('2h61thv6pj9hq4hyg4pyw4r2y39oo9ig','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:05:00'),('35626e0fcxe99irl9j353572hxmgatrg','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-13 06:16:04'),('3xdiemqd1xfustrdzew2u5s7wf4nvntd','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:05:01'),('3zvkp8otkdakuziqnjvsxixa37pkrd1o','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:05:01'),('423h8qd3j7rudhymf7jlybkkb9dtwhht','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:05:01'),('4jh970jv60sbmfsje08kgqanbjhdlsao','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:05:01'),('4luz9i2899ekr3qlhms73q99qnwcjyyy','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:05:00'),('4p1vf5iqjplw7peybfxkf7dzcsp8mr9t','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:05:01'),('4vghq88lobgyz5v9ycyide41l4b61yu9','OWYyOGVmYWM4MTYyYzQ3YTM1NDRlMGI4ZjQ1NmIyOTE3NTczZDBjNTp7Il9hdXRoX3VzZXJfaGFzaCI6IjI0NTkxZjU1NDI4NWJmNTNlMzMxMGNhN2ExMTk1YWZlNTMwMzRjMTYiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjEwMX0=','2015-12-13 15:45:31'),('526efowdvc3q377j3yt2h2ljrkt66fz4','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:05:03'),('5qol3f4na76wva2bpsocpfc8gk5d75y8','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-10 14:55:03'),('610gfxxb6siwf1al8mepb8trvj78lh6k','YjFhMTZjYjRiOTc5NWI1MWNjYTA0NmNjNmMzZGFjZGUzMDNkOTk3ODp7Il9hdXRoX3VzZXJfaGFzaCI6ImY3MzAzN2I3NWI3NjdjZGRiY2FkNmY1NDIyZjZmMTA0ZGNiZDc0Y2YiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjg3fQ==','2015-12-06 02:44:58'),('64prnvp6kylbqusw0z82b8ba6xchfth5','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:05:02'),('67ct0ugg1zawi1nux9sbeyin1yq4ysvq','NmFmZWJlZTgwNWJhNjc5ZTYxNWEzN2ZlNDliYWVmOTJiOWQ1ODMyMTp7Il9hdXRoX3VzZXJfaGFzaCI6IjZiZjEyN2YzOTQ4YThmMDY3YjE5ZjlmZGU3ODMzZjA5YTdmMDNhZjgiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjh9','2015-12-02 23:24:58'),('6t3sb3ehvnr1e4vkdxtqujh7delus3nc','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:05:00'),('6wufkjqmi0mwqxsyfirzielfuc9cs6xy','ZThkZjQ3ZmFjZDA3ZjU0YjAzOWU5YzI1YWVhYmYzZmZlODQzNDU1Yjp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6MTB9','2015-11-20 23:25:11'),('7d56y1is3q5s6jd6aiyup9baiaid5fi8','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:04:59'),('7u2zqgk9ydi2k7u19g3i9122vxzuxwg0','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:05:00'),('7yxvdyutyeibwimhywt9fqxjqehmqrz0','NmFmZWJlZTgwNWJhNjc5ZTYxNWEzN2ZlNDliYWVmOTJiOWQ1ODMyMTp7Il9hdXRoX3VzZXJfaGFzaCI6IjZiZjEyN2YzOTQ4YThmMDY3YjE5ZjlmZGU3ODMzZjA5YTdmMDNhZjgiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjh9','2015-11-25 19:19:03'),('7zcwkcrr4dw05qjwbeova31rfzijp8s8','NmFmZWJlZTgwNWJhNjc5ZTYxNWEzN2ZlNDliYWVmOTJiOWQ1ODMyMTp7Il9hdXRoX3VzZXJfaGFzaCI6IjZiZjEyN2YzOTQ4YThmMDY3YjE5ZjlmZGU3ODMzZjA5YTdmMDNhZjgiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjh9','2015-11-18 23:24:06'),('866urwb5ffkhuikqk94hxm4lmh1jdh2a','NTJhMTE5YjNlMGJjZDhlZDM2MzRmNDg1ZDU3NmM0NTc0MDc5MDMyYTp7Il9hdXRoX3VzZXJfaGFzaCI6ImNhZWVjNWUxMTA2M2YwMWMzYjlkMmM5NzEyNWMzNWFiZDhmOWY3OTQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjd9','2015-11-17 21:52:01'),('8kv11mw5azdgrhohuefcpd77ah2g6xwh','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-11-13 23:52:52'),('8l9dvflerje4xpz7xutugza5m3qjbd0i','Zjg3YzUwZTk4NTgyM2JjNTc5YmVhMzA4Y2U5MDRhOGJiYjU1NWZiZTp7Il9hdXRoX3VzZXJfaGFzaCI6IjFkYmYxYmIwNmI1ZTc0ZmNiYmNkMzQxMzc2ZmM2MmViMWEzZDg0OWQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjd9','2015-11-26 01:50:03'),('8n8hpwtf6ct8wuiznrgd0szvhvcpiuwe','MjU2NjdhMmFiM2ZhM2Q2ZDkzMTRhMmQzMDRhMmE3MDIzNzJkM2M4MDp7Il9hdXRoX3VzZXJfaGFzaCI6ImM0OGI5MTQxZDY3YmJiOWVlOGNlNzEzZDhjM2JjMDM0YTFkMzY3M2MiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjEwfQ==','2015-11-19 00:29:32'),('8nundvuom24vt22yddi3yjczdr6ucvbn','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:04:59'),('8xzjpbj9y8y6y7pwdtdnpmn1bgkhp95g','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:05:00'),('8z8nn1n3jl2vvq6oaumykgs8ip11s6y6','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-10 14:55:03'),('921lcob7h4kez4w2gi7yimvb9ub7w7ux','NmFmZWJlZTgwNWJhNjc5ZTYxNWEzN2ZlNDliYWVmOTJiOWQ1ODMyMTp7Il9hdXRoX3VzZXJfaGFzaCI6IjZiZjEyN2YzOTQ4YThmMDY3YjE5ZjlmZGU3ODMzZjA5YTdmMDNhZjgiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjh9','2015-11-16 14:29:34'),('9f9km568gfl295wio2su96y9vzipghxe','NmFmZWJlZTgwNWJhNjc5ZTYxNWEzN2ZlNDliYWVmOTJiOWQ1ODMyMTp7Il9hdXRoX3VzZXJfaGFzaCI6IjZiZjEyN2YzOTQ4YThmMDY3YjE5ZjlmZGU3ODMzZjA5YTdmMDNhZjgiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjh9','2015-11-18 21:26:18'),('9fhs5inh8orx62zasmw9x6rp4zb2qgft','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:05:00'),('9fzrl1y792cj0nunhoen2oipna2nghum','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:05:02'),('9nuueboryl9pc3gnrr0hlbhr4ai2j1xi','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:04:59'),('9s9fk1xv4bgxnp7lyd5ffqjtfz9stmut','OWNiMjczZWNkNDRhOGUxM2Y2NDIxYzhhMjVkNzk4NzQwOGNlYjRiMzp7Il9hdXRoX3VzZXJfaGFzaCI6IjE2NGMwMmEzOWQ3ZjY3ZTNhMGVkNjYxYWM1Y2VjNDYyNGUwMzFiZjIiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjg2fQ==','2015-12-11 15:04:59'),('9vykkqqmb82ahsebtz5nq5ts2u4vs2j6','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-13 14:19:15'),('a04im99fvwywnbrgz16bu1d43e9bfk18','Zjg3YzUwZTk4NTgyM2JjNTc5YmVhMzA4Y2U5MDRhOGJiYjU1NWZiZTp7Il9hdXRoX3VzZXJfaGFzaCI6IjFkYmYxYmIwNmI1ZTc0ZmNiYmNkMzQxMzc2ZmM2MmViMWEzZDg0OWQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjd9','2015-11-26 14:29:13'),('agcwy5gi32urc6k5g0eqq6cfhxgfoyce','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-13 06:20:01'),('aq80pqdtc0ntp99v5vme1ydci1u7rmc6','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-10 14:55:03'),('ar4nuhbqhnd607ay9wpmcjgcbd7vy2n0','NmFmZWJlZTgwNWJhNjc5ZTYxNWEzN2ZlNDliYWVmOTJiOWQ1ODMyMTp7Il9hdXRoX3VzZXJfaGFzaCI6IjZiZjEyN2YzOTQ4YThmMDY3YjE5ZjlmZGU3ODMzZjA5YTdmMDNhZjgiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjh9','2015-11-18 23:57:09'),('avm42r87o5ofgesmst9nnvsw3xyd257x','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:05:00'),('aw6hyg7gke8dmzx7dix62kd7b6wpqfe0','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:05:02'),('b254dsjgo288wj746l7fzr134ij8eek5','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:05:01'),('b4m1t50g4zbm5lr42wkt6c3c2dk6e3ra','Zjg3YzUwZTk4NTgyM2JjNTc5YmVhMzA4Y2U5MDRhOGJiYjU1NWZiZTp7Il9hdXRoX3VzZXJfaGFzaCI6IjFkYmYxYmIwNmI1ZTc0ZmNiYmNkMzQxMzc2ZmM2MmViMWEzZDg0OWQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjd9','2015-11-30 16:43:31'),('b5v1c5p6yziylkyi4m408xvvjvj24qld','OWYyOGVmYWM4MTYyYzQ3YTM1NDRlMGI4ZjQ1NmIyOTE3NTczZDBjNTp7Il9hdXRoX3VzZXJfaGFzaCI6IjI0NTkxZjU1NDI4NWJmNTNlMzMxMGNhN2ExMTk1YWZlNTMwMzRjMTYiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjEwMX0=','2015-12-13 17:18:55'),('b9e0x6ignp8sscxp7562oi3f448hqbpg','YjNiOWE5ODA0OTIwZDA0YmI5NGE5MWY5OTUxZTUzZTczNmEzN2VjNTp7Il9hdXRoX3VzZXJfaGFzaCI6IjczYTM3MDIxMmMxZjZmNTZhMjI2ZmIzMzEwMDg2OTI0MWEyNzBhNzciLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjEwfQ==','2015-11-26 19:44:06'),('bvni428qke6en6tn9dstx6j9alzv5l1q','ZWQzNTY4Zjk4ODk0ZTA1MWI5NTY5OGUzNzgwYTlhYWU0YzI1ZGUwMjp7Il9hdXRoX3VzZXJfaGFzaCI6ImQwNWM3ZDRiMGU3ZGE5ZTk2MzgxOWY1ODFmNjFiMTYzOGIxZDQwNjEiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjl9','2015-12-02 20:19:57'),('c29ohwm310ikwsjjr4wqt2gs55o6lsem','YjFhMTZjYjRiOTc5NWI1MWNjYTA0NmNjNmMzZGFjZGUzMDNkOTk3ODp7Il9hdXRoX3VzZXJfaGFzaCI6ImY3MzAzN2I3NWI3NjdjZGRiY2FkNmY1NDIyZjZmMTA0ZGNiZDc0Y2YiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjg3fQ==','2015-12-13 14:03:42'),('c6mmx3ce8tvioi18t20jsbib9zel5ti7','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:05:02'),('c82des4a2vrqe31jdo3sr3s0afedr3c9','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:05:03'),('chc6m6r64vo4ip9ck02zvlux41pxwp4q','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-11-27 18:04:59'),('cldpxp0cw9150hdgt71wl97evrte9gta','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-13 15:45:18'),('d0xgwjwdm26fx3ib1r4zyaidpsu1e3ad','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-13 15:45:17'),('d1alhesy57y8clnss7smc47yoni6rqvg','NTJhMTE5YjNlMGJjZDhlZDM2MzRmNDg1ZDU3NmM0NTc0MDc5MDMyYTp7Il9hdXRoX3VzZXJfaGFzaCI6ImNhZWVjNWUxMTA2M2YwMWMzYjlkMmM5NzEyNWMzNWFiZDhmOWY3OTQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjd9','2015-11-14 17:47:20'),('d1yi2cyzs47ruu1em9g23zh2z54yylyy','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-13 06:13:39'),('d6fyplo61blhv8imoe2yl50119ynk6hw','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:04:58'),('d8s5co329ylugpkfja237g5je054577v','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-11-22 16:31:20'),('dxj37qhrpdh5ylcl4kdduyyw1kjszfvf','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:04:59'),('dz5wjdgwceizbgl923v2ymfqd5byi3yb','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-13 15:45:18'),('e01nefuj7vmqidj3p40ahivtv8zmkpk2','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:05:00'),('e1znsdf4rdkamywmn2afws23mk6zvndl','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:04:59'),('em6ateyn8xxa7uk9pwh60smoejgngvdm','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:05:02'),('enffzmiz5s3ggfndxrcs6u7q9ch25d4v','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:04:59'),('eped0kajmu5b7ev9c3r3rvvse0udv7us','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:05:00'),('f6ad8xoo5ctu5q42bmj2weovo8vpi9e3','Zjg3YzUwZTk4NTgyM2JjNTc5YmVhMzA4Y2U5MDRhOGJiYjU1NWZiZTp7Il9hdXRoX3VzZXJfaGFzaCI6IjFkYmYxYmIwNmI1ZTc0ZmNiYmNkMzQxMzc2ZmM2MmViMWEzZDg0OWQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjd9','2015-11-27 19:01:15'),('f8l10hkjfm14bhfb3jtu8q9paujy8g5j','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:05:02'),('flkfkduskoxykx4l579ysmsu4afbymdu','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-10 15:16:29'),('fmfq6h5vxdbjnuctrvpnpv516krw4qqo','NmFmZWJlZTgwNWJhNjc5ZTYxNWEzN2ZlNDliYWVmOTJiOWQ1ODMyMTp7Il9hdXRoX3VzZXJfaGFzaCI6IjZiZjEyN2YzOTQ4YThmMDY3YjE5ZjlmZGU3ODMzZjA5YTdmMDNhZjgiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjh9','2015-11-19 01:44:40'),('fnq6rzq1jcgtoqteahug71eis7mj82js','NmFmZWJlZTgwNWJhNjc5ZTYxNWEzN2ZlNDliYWVmOTJiOWQ1ODMyMTp7Il9hdXRoX3VzZXJfaGFzaCI6IjZiZjEyN2YzOTQ4YThmMDY3YjE5ZjlmZGU3ODMzZjA5YTdmMDNhZjgiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjh9','2015-12-02 23:14:17'),('ftyiqyare2p6g6yrewk4dz7e21c7prxt','MjlmYzc4Y2Q5N2E5Njk0YjU4NzkzMjI5ZmFkYjkzNTEyMWRlNGU3NDp7Il9hdXRoX3VzZXJfaGFzaCI6ImNjMTk5MzFmZDRlNDQ1YzNiNDAyMGFlOWY2YjFjMTlmZjViNzI0YmQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjF9','2015-10-26 15:20:38'),('fuxm8u2rhvo4a7ciwqnumdl6c5sb2znq','OWNiMjczZWNkNDRhOGUxM2Y2NDIxYzhhMjVkNzk4NzQwOGNlYjRiMzp7Il9hdXRoX3VzZXJfaGFzaCI6IjE2NGMwMmEzOWQ3ZjY3ZTNhMGVkNjYxYWM1Y2VjNDYyNGUwMzFiZjIiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjg2fQ==','2015-12-06 01:48:35'),('fy204wjlx1tkf32r9ikpl6jnummnnu6g','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:04:59'),('g0bufkain49swbl9ds8re5vdh9ss1xi1','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-13 06:19:34'),('g7bo2aywt6ju4xb5bn0bsyyawxr7o1yd','ZWQzNTY4Zjk4ODk0ZTA1MWI5NTY5OGUzNzgwYTlhYWU0YzI1ZGUwMjp7Il9hdXRoX3VzZXJfaGFzaCI6ImQwNWM3ZDRiMGU3ZGE5ZTk2MzgxOWY1ODFmNjFiMTYzOGIxZDQwNjEiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjl9','2015-11-17 17:36:50'),('ghb3omhqvzez5blcqlcto24jefpxmjhe','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-10-20 23:07:19'),('gsw61vccdvezhbvg396zx9rljwlhlw7j','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-13 14:02:47'),('gyrwzlz3uxxghpdnbz2wmr85t5tp34hw','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:05:01'),('gzpvm2gdk1atbc8w8fem5e7wl4oaxbrk','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:04:59'),('gzuq06v5rrq8c587ybd0kqkyhcqyowyi','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:04:59'),('h56cb3pvbjgj2teofqlo126x9mktkihj','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-04 17:55:16'),('ha34u7391f8pulgt7f102z3j06d5lgne','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-11-20 21:57:48'),('hejjhmfd6xom1lw81zdfbzue2xy9nb4y','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:05:00'),('hoemtokrev4y2dtyj5bpq9rbmnqe4hwe','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:05:02'),('hszdla47r6989etjz5nmnpy1akilwjtd','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:05:02'),('hxh96ipc82us9hw17fnm6gsnkhk5i8xs','ZWQzNTY4Zjk4ODk0ZTA1MWI5NTY5OGUzNzgwYTlhYWU0YzI1ZGUwMjp7Il9hdXRoX3VzZXJfaGFzaCI6ImQwNWM3ZDRiMGU3ZGE5ZTk2MzgxOWY1ODFmNjFiMTYzOGIxZDQwNjEiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjl9','2015-12-02 20:35:55'),('i47wc2ky7y95j9b0em6bzwatz76c3fhf','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-10 14:55:03'),('i4kx5ksiozmhlqd2cf2stdf75bngew5t','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-02 22:39:27'),('ibl2lyke0pa9m3m4nh52nx3h8wgfyyvv','MTI0OWMyOTAzMTlhNTcxY2M5OWM2YjVjMWFlOThjYjc5ZTZhMDA5NTp7Il9hdXRoX3VzZXJfaGFzaCI6ImNiMjk3MzQxNDMzNjhiYWFlZDNiMDE1NjI5MzI5NGZhNDNiMTUxNTQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjg5fQ==','2015-12-09 16:47:17'),('icwj9fl5q4s112kmbujecum2i9em66nx','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-13 14:19:15'),('igdf6phmtv5leidkthwp2yuich2pdxzw','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:05:01'),('io6f0gw2h3cr8s73ylptln8xl2uvls4d','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-11-20 21:40:57'),('iw51oo0og7php6oywp5gbcbk7u4j3iqg','Zjg3YzUwZTk4NTgyM2JjNTc5YmVhMzA4Y2U5MDRhOGJiYjU1NWZiZTp7Il9hdXRoX3VzZXJfaGFzaCI6IjFkYmYxYmIwNmI1ZTc0ZmNiYmNkMzQxMzc2ZmM2MmViMWEzZDg0OWQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjd9','2015-11-26 17:02:07'),('iwuxs1kjolxvhj0ytpbgvhkc0be0mo8x','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-10 15:16:29'),('j0m02f3ep5e1nwbhb64x6ly825fbtrod','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:05:03'),('j47y3sofe2o6izl0kbddyjk55zruy816','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-10 15:16:29'),('jdyq31ss0hdtggeqloua1j0ifhrd9cz2','NmFmZWJlZTgwNWJhNjc5ZTYxNWEzN2ZlNDliYWVmOTJiOWQ1ODMyMTp7Il9hdXRoX3VzZXJfaGFzaCI6IjZiZjEyN2YzOTQ4YThmMDY3YjE5ZjlmZGU3ODMzZjA5YTdmMDNhZjgiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjh9','2015-11-25 19:32:25'),('jpamjnqbvqk77fsy04pfmfb19hjfguxg','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-11-13 23:52:53'),('jsm1lkh51lxkatyuz205t0h0ryxx62ep','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:05:01'),('kbgbn8es4peuess9xeosl9d4taydhpxm','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-10 14:55:03'),('kl7qx4rvxqbu66cs2l33u3bvnydp0m9g','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:05:00'),('kzf1rjkk7blrtwe1rt2qdzwct2q68spv','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:04:58'),('kzxsnokdh15mtk6zwb4mr94fpl835f29','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:05:00'),('l5gc0kg44uii913enfviqydk943lhu0a','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:05:01'),('ldvtpi6c0qrvojdouh9jnnyi0eaypoyp','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-13 14:19:15'),('lznqy9l0eosbophh6vwz6o008gmhva7w','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-10 15:16:29'),('mhr71p29j9cxzryt5h20vxk6b8aiv8rc','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:05:02'),('mmwp4u0x9cgqc7c1psjz6v79uwbr1rex','OWYyOGVmYWM4MTYyYzQ3YTM1NDRlMGI4ZjQ1NmIyOTE3NTczZDBjNTp7Il9hdXRoX3VzZXJfaGFzaCI6IjI0NTkxZjU1NDI4NWJmNTNlMzMxMGNhN2ExMTk1YWZlNTMwMzRjMTYiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjEwMX0=','2015-12-13 16:13:50'),('mrtie5914ndxzj5qd9e311v1rxty33qx','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:05:02'),('n3vgzuxjralrwod3be3le3vtq89g5etq','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:05:02'),('n6py4e909oo2fbytrrp5ptl5710uc7u6','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:04:58'),('n90flxfib781e8hzq9mqu0mo2i57rbwn','NmFmZWJlZTgwNWJhNjc5ZTYxNWEzN2ZlNDliYWVmOTJiOWQ1ODMyMTp7Il9hdXRoX3VzZXJfaGFzaCI6IjZiZjEyN2YzOTQ4YThmMDY3YjE5ZjlmZGU3ODMzZjA5YTdmMDNhZjgiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjh9','2015-12-03 05:09:44'),('nh267kuuizprm1vyzom0xebphaf0opm4','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:04:58'),('nj2v08gxjfqiwuw6gxg0ffn5gqjbcnlq','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-10 15:16:29'),('nltj2wcewx1ue2cgwqe8tduc07n8obzb','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:05:01'),('ntgd0g2vhrmu1h0la1qswoy4peksuxnh','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:05:01'),('o69andh43skvc1dmyycw8qirwj4uqpyu','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-11-13 23:52:44'),('o6udc4og3fgqyv3ivkfrksz2kz724j5s','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-10 14:55:03'),('oplik0kaxp5bc714xq870dv86i6langb','NmFmZWJlZTgwNWJhNjc5ZTYxNWEzN2ZlNDliYWVmOTJiOWQ1ODMyMTp7Il9hdXRoX3VzZXJfaGFzaCI6IjZiZjEyN2YzOTQ4YThmMDY3YjE5ZjlmZGU3ODMzZjA5YTdmMDNhZjgiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjh9','2015-12-02 16:26:44'),('or8hee7bu4vvjodvp26wsrahzhxfz2gn','Zjg3YzUwZTk4NTgyM2JjNTc5YmVhMzA4Y2U5MDRhOGJiYjU1NWZiZTp7Il9hdXRoX3VzZXJfaGFzaCI6IjFkYmYxYmIwNmI1ZTc0ZmNiYmNkMzQxMzc2ZmM2MmViMWEzZDg0OWQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjd9','2015-12-03 16:10:52'),('p0vyzdnq7zd6tg3nw21ilyimsr28c49m','NmFmZWJlZTgwNWJhNjc5ZTYxNWEzN2ZlNDliYWVmOTJiOWQ1ODMyMTp7Il9hdXRoX3VzZXJfaGFzaCI6IjZiZjEyN2YzOTQ4YThmMDY3YjE5ZjlmZGU3ODMzZjA5YTdmMDNhZjgiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjh9','2015-11-14 00:43:11'),('p3kjwm7j8r47o81iw0kwanjzahirpcnm','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:04:58'),('paiq90d4eataknkudduyx0qmf6rjdbuh','Zjg3YzUwZTk4NTgyM2JjNTc5YmVhMzA4Y2U5MDRhOGJiYjU1NWZiZTp7Il9hdXRoX3VzZXJfaGFzaCI6IjFkYmYxYmIwNmI1ZTc0ZmNiYmNkMzQxMzc2ZmM2MmViMWEzZDg0OWQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjd9','2015-12-02 22:28:24'),('pbwsfx1ra29xnehl7d7031pltmwq7by3','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:05:01'),('phmqbr6gstsveyzl7ki2gbwz7d13rcq3','NTljMzVkOTBlNjc3NTEwZTljOTkyODdlMzM5NmMxZTcxZmU4ZDYxZjp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6MX0=','2015-11-10 20:54:01'),('pjfnrdb9ce3htf9eqmqigx0dnvoo8ua8','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:05:00'),('ponbr70p8hposos6utkjp2n7eihndab9','NmFmZWJlZTgwNWJhNjc5ZTYxNWEzN2ZlNDliYWVmOTJiOWQ1ODMyMTp7Il9hdXRoX3VzZXJfaGFzaCI6IjZiZjEyN2YzOTQ4YThmMDY3YjE5ZjlmZGU3ODMzZjA5YTdmMDNhZjgiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjh9','2015-12-03 18:27:56'),('pq74gxddamen867fqd620wfo36euqn59','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-03 14:53:03'),('ptn3axpvneb3y5n9j08gumwim5woz11q','ODU0NmU4NjA3ZjdmZDkxMGNhNTU3YTc2OWNhYjYyNGRjMjRjNDg1Yjp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6N30=','2015-11-20 23:28:48'),('pul3b3p55dnk2d7firo7yzvju0bma1i0','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:04:59'),('pyyibhto3cf4t931d4bspl0ecqniuc07','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:04:59'),('q2pwhpqm8yfiykyyutwvje17wiv67e0u','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-13 15:45:18'),('qbgq6smf9u05xhdmnsy9qjyea40js9ar','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:05:00'),('r1e5vfdcrqfrzxccjmh08fz2kae7c938','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:05:00'),('rptig3snmsfn1vyoauqawb1ox79i96zx','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:05:02'),('ru7a3d5ks2qktmtsnr0fsn8ij485jsov','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-13 14:19:15'),('s1zgqmpgz1vedr5muuqdt3cfs2qd4c2h','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:04:59'),('s5gzaet8hd91ib1lht44etk8o1pg7s48','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:04:57'),('s64p635q7z2gzidegc8h2eduee2hhfg4','NmFmZWJlZTgwNWJhNjc5ZTYxNWEzN2ZlNDliYWVmOTJiOWQ1ODMyMTp7Il9hdXRoX3VzZXJfaGFzaCI6IjZiZjEyN2YzOTQ4YThmMDY3YjE5ZjlmZGU3ODMzZjA5YTdmMDNhZjgiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjh9','2015-11-19 01:38:30'),('s6jkh3rv1rll0pjikl29jz889cfkh5an','NmFmZWJlZTgwNWJhNjc5ZTYxNWEzN2ZlNDliYWVmOTJiOWQ1ODMyMTp7Il9hdXRoX3VzZXJfaGFzaCI6IjZiZjEyN2YzOTQ4YThmMDY3YjE5ZjlmZGU3ODMzZjA5YTdmMDNhZjgiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjh9','2015-12-02 18:34:42'),('s7wrdzvfs080czi4bjsw5ezbruymjwyj','NmFmZWJlZTgwNWJhNjc5ZTYxNWEzN2ZlNDliYWVmOTJiOWQ1ODMyMTp7Il9hdXRoX3VzZXJfaGFzaCI6IjZiZjEyN2YzOTQ4YThmMDY3YjE5ZjlmZGU3ODMzZjA5YTdmMDNhZjgiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjh9','2015-11-14 00:06:24'),('su04hyo0w34aqdntjfz2nougi3by0qpm','YjFhMTZjYjRiOTc5NWI1MWNjYTA0NmNjNmMzZGFjZGUzMDNkOTk3ODp7Il9hdXRoX3VzZXJfaGFzaCI6ImY3MzAzN2I3NWI3NjdjZGRiY2FkNmY1NDIyZjZmMTA0ZGNiZDc0Y2YiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjg3fQ==','2015-12-11 22:26:24'),('t6kr739l45uoh4dxtc6459vjkdcydhpv','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-05 20:43:43'),('tgu2qjv8y99iyyylo1mnp18hlri2nfo8','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-11-21 19:21:47'),('thkitz875pc9sxfppgiyrs5vn6u399s3','Zjg3YzUwZTk4NTgyM2JjNTc5YmVhMzA4Y2U5MDRhOGJiYjU1NWZiZTp7Il9hdXRoX3VzZXJfaGFzaCI6IjFkYmYxYmIwNmI1ZTc0ZmNiYmNkMzQxMzc2ZmM2MmViMWEzZDg0OWQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjd9','2015-11-27 02:27:44'),('trelgsy5mfm2439furc0awvn0mpfeibh','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-11-25 04:31:02'),('tu49ah3nzg7hxftt5wjnbs4lx8xalvy6','NmFmZWJlZTgwNWJhNjc5ZTYxNWEzN2ZlNDliYWVmOTJiOWQ1ODMyMTp7Il9hdXRoX3VzZXJfaGFzaCI6IjZiZjEyN2YzOTQ4YThmMDY3YjE5ZjlmZGU3ODMzZjA5YTdmMDNhZjgiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjh9','2015-11-18 00:11:27'),('u3jh2d0wyg2tnsd0weio94nu7jrk9ke9','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:05:01'),('u58nkm4l9gwoghrd4aorlw2eb6o8q2hp','Zjg3YzUwZTk4NTgyM2JjNTc5YmVhMzA4Y2U5MDRhOGJiYjU1NWZiZTp7Il9hdXRoX3VzZXJfaGFzaCI6IjFkYmYxYmIwNmI1ZTc0ZmNiYmNkMzQxMzc2ZmM2MmViMWEzZDg0OWQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjd9','2015-12-02 20:23:56'),('u8l68n5eyb2qt3kzdhxez9orrf37fy33','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:05:00'),('uz1o4qao9u7ce06wa6c1ez86sp2mmsj3','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-13 15:45:18'),('vgommx2wf9igvpt53ms11d12nir0o9km','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-10-26 16:45:45'),('vi0n0cdkucww8ibjgwlp3xgqrtxbe3hw','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-11-20 21:50:18'),('vsdcpgidhcjoywhawotg0fyp6ust1swi','YjFhMTZjYjRiOTc5NWI1MWNjYTA0NmNjNmMzZGFjZGUzMDNkOTk3ODp7Il9hdXRoX3VzZXJfaGFzaCI6ImY3MzAzN2I3NWI3NjdjZGRiY2FkNmY1NDIyZjZmMTA0ZGNiZDc0Y2YiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjg3fQ==','2015-12-14 16:36:47'),('vx7a2324fhafhulg5o1mj0dfylel3q9y','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-10 14:55:03'),('w3saec9y3q14rypygcxk3dew5m2vposy','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-10 14:55:03'),('w5npffosc39o7gvng0p67bqzrntxmgrv','Zjg3YzUwZTk4NTgyM2JjNTc5YmVhMzA4Y2U5MDRhOGJiYjU1NWZiZTp7Il9hdXRoX3VzZXJfaGFzaCI6IjFkYmYxYmIwNmI1ZTc0ZmNiYmNkMzQxMzc2ZmM2MmViMWEzZDg0OWQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjd9','2015-11-27 01:24:15'),('w9pp8ra4dsjnu4yoc7bgp8y4ktbemqhn','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-13 15:45:17'),('wb55katxsmqxc11igh2p9u7neax8mtlp','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-11-24 16:56:41'),('wcez316ia1pnkcmujeitf36r0snprfn0','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-13 15:45:17'),('wh8l3cip9fmrk406ih1ctnwk4asr8o74','NzE5ZWNmODBmNmFhNzJkYWYwNWUzMzgxMzEyOWZkODhhMDhmMzZlNTp7Il9hdXRoX3VzZXJfaGFzaCI6IjdiMWIyODMyMjBiMWU1MjllNWM0M2Y5MTNhOWU0OGRlZjJmNmRkOTkiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjk4fQ==','2015-12-13 20:51:41'),('wmrnfsbgrkbj4v527wc0ok8cnodpgx4r','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-13 14:19:15'),('wuej0egr7lcbal884aazivnwtxyz9xft','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-11-25 19:36:37'),('wwr0yn8r7tx97ylkc78s8h1fuzodwtwj','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:04:59'),('wyzynxvoqocpsxxd98s7qc2ifmjlk322','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:05:01'),('x8ebvg2o80h6r7vjm7x89hxc6vp3z544','ZWQzNTY4Zjk4ODk0ZTA1MWI5NTY5OGUzNzgwYTlhYWU0YzI1ZGUwMjp7Il9hdXRoX3VzZXJfaGFzaCI6ImQwNWM3ZDRiMGU3ZGE5ZTk2MzgxOWY1ODFmNjFiMTYzOGIxZDQwNjEiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjl9','2015-11-20 18:57:08'),('xc2g0eetutmihkkdb38dx654qcvgb8h6','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:05:02'),('xd1r9oolfqgxdqc0c56hpx2tuv9vnpvw','NzE5ZWNmODBmNmFhNzJkYWYwNWUzMzgxMzEyOWZkODhhMDhmMzZlNTp7Il9hdXRoX3VzZXJfaGFzaCI6IjdiMWIyODMyMjBiMWU1MjllNWM0M2Y5MTNhOWU0OGRlZjJmNmRkOTkiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjk4fQ==','2015-12-14 02:28:13'),('xrgf3fx9udlu9xp3z0se7bmlqq049tro','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-11-20 21:51:40'),('y1tx1w7l04yzmjznvjn1lps7phbkjwob','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-10 19:15:08'),('y5wyesbjluto9cngi94hkb6xmacmpdm3','Zjg3YzUwZTk4NTgyM2JjNTc5YmVhMzA4Y2U5MDRhOGJiYjU1NWZiZTp7Il9hdXRoX3VzZXJfaGFzaCI6IjFkYmYxYmIwNmI1ZTc0ZmNiYmNkMzQxMzc2ZmM2MmViMWEzZDg0OWQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjd9','2015-12-03 17:48:17'),('yf7m55hhk3rqrupj5yl3jpco3f526abi','NmFmZWJlZTgwNWJhNjc5ZTYxNWEzN2ZlNDliYWVmOTJiOWQ1ODMyMTp7Il9hdXRoX3VzZXJfaGFzaCI6IjZiZjEyN2YzOTQ4YThmMDY3YjE5ZjlmZGU3ODMzZjA5YTdmMDNhZjgiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjh9','2015-12-03 04:16:23'),('yftxx5lhg2uu5anokjoe7fxddbd99k23','Zjg3YzUwZTk4NTgyM2JjNTc5YmVhMzA4Y2U5MDRhOGJiYjU1NWZiZTp7Il9hdXRoX3VzZXJfaGFzaCI6IjFkYmYxYmIwNmI1ZTc0ZmNiYmNkMzQxMzc2ZmM2MmViMWEzZDg0OWQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjd9','2015-11-27 14:35:28'),('yqcai39kdnw3w2o7fox64dv0lta83l34','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:04:59'),('z4e99tulhwq0xxi5den9m9ibekdz0qud','MzFjNzUwZmI2M2QzY2NjZTM4NmMzNDVkNDNmNTMwMDUwNDM5MWI2Njp7Il9hdXRoX3VzZXJfaGFzaCI6IjJlY2YyMmZiZWFlZTIzZTMyMGU3YjJmMzUxMjljMGQ2ZGU4ZjJkOTQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjJ9','2015-10-26 16:42:03'),('z4ei0cs5itrg35m992ch2ajnfgl7kofz','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:04:59'),('z8b4wmu357frb92m3qkn2pb9ogbxswtu','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-13 14:19:15'),('zgkv7pf5w9sl3m7fcf1vonw18h4cwnxb','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-13 15:45:18'),('zkukknhp0ln9uvflrctr0cj59ttvaazm','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:04:59'),('zoaaja4bffs7cukfpnl52siyxp19g60i','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-10 14:55:03'),('zrdgbwhj1lm4vlffgi112y3jwmc8tuh0','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-12-14 16:05:01'),('zyu818pkxynd68s0orgi4kfbajsk544j','YWZlNjBiNGEwMjZmMzA4ZjBkM2MzYWE3MjJjNThlZDEwMjRmYTgxMTp7fQ==','2015-11-19 15:35:00');
+/*!40000 ALTER TABLE `django_session` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `empresa`
+-- Table structure for table `empresa`
 --
 
-CREATE TABLE IF NOT EXISTS `empresa` (
+DROP TABLE IF EXISTS `empresa`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `empresa` (
   `id` int(100) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
   `contacto` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
@@ -877,54 +634,51 @@ CREATE TABLE IF NOT EXISTS `empresa` (
   `mascaras` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
   `telefono` int(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=55 ;
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `empresa`
+-- Dumping data for table `empresa`
 --
 
-INSERT INTO `empresa` (`id`, `nombre`, `contacto`, `mail`, `licencias`, `mascaras`, `telefono`) VALUES
-(1, 'PeruCall', '', '', '', '', 0),
-(2, 'Mego', '3232', '3232', '434', '323', 12121),
-(3, 'PeruCall', '2121', 'joelr@neho.com', '121', '212121', 121),
-(46, 'Mego1', '232', 'joel222@gmail', '1', '1222', 333),
-(47, 'Unilab', '123', 'joel@gmail.com', '1', '1', 123),
-(48, 'pcall', 'jnapuri', 'jnapuri@pcall.com', '30', 'Interna', 999988887),
-(50, 'Princo', '13', 'joel@gmail.com', '1', '123', 1234),
-(53, 'Brujitas S.A', '121', 'brujitas@gmail.com', '1', '12121', 45698697),
-(54, 'Xiencias EIRL', '235235', 'admin@mail.xiencias.com', '100', '234234', 6409521);
-
--- --------------------------------------------------------
+LOCK TABLES `empresa` WRITE;
+/*!40000 ALTER TABLE `empresa` DISABLE KEYS */;
+INSERT INTO `empresa` VALUES (1,'PeruCall','','','','',0),(2,'Mego','3232','3232','434','323',12121),(3,'PeruCall','2121','joelr@neho.com','121','212121',121),(46,'Mego1','232','joel222@gmail','1','1222',333),(47,'Unilab','123','joel@gmail.com','1','1',123),(48,'pcall','jnapuri','jnapuri@pcall.com','30','Interna',999988887),(50,'Princo','13','joel@gmail.com','1','123',1234),(53,'Brujitas S.A','121','brujitas@gmail.com','1','12121',45698697),(54,'Xiencias EIRL','235235','admin@mail.xiencias.com','100','234234',6409521);
+/*!40000 ALTER TABLE `empresa` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `estado`
+-- Table structure for table `estado`
 --
 
-CREATE TABLE IF NOT EXISTS `estado` (
+DROP TABLE IF EXISTS `estado`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `estado` (
   `id` int(100) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `estado`
+-- Dumping data for table `estado`
 --
 
-INSERT INTO `estado` (`id`, `nombre`) VALUES
-(1, 'No Login'),
-(2, 'En Espera'),
-(3, 'En Llamada'),
-(4, 'Descolgado'),
-(5, 'En Pausa'),
-(6, 'En gestion');
-
--- --------------------------------------------------------
+LOCK TABLES `estado` WRITE;
+/*!40000 ALTER TABLE `estado` DISABLE KEYS */;
+INSERT INTO `estado` VALUES (1,'No Login'),(2,'En Espera'),(3,'En Llamada'),(4,'Descolgado'),(5,'En Pausa'),(6,'En gestion');
+/*!40000 ALTER TABLE `estado` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `filtro`
+-- Table structure for table `filtro`
 --
 
-CREATE TABLE IF NOT EXISTS `filtro` (
+DROP TABLE IF EXISTS `filtro`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `filtro` (
   `id` int(100) NOT NULL AUTO_INCREMENT,
   `campania` int(100) DEFAULT NULL,
   `ciudad` varchar(1000) COLLATE utf8_spanish_ci DEFAULT NULL,
@@ -932,302 +686,219 @@ CREATE TABLE IF NOT EXISTS `filtro` (
   `grupo` varchar(1000) COLLATE utf8_spanish_ci DEFAULT NULL,
   `resultado` varchar(1000) COLLATE utf8_spanish_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `campania` (`campania`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=55 ;
+  KEY `campania` (`campania`),
+  CONSTRAINT `filtro_ibfk_1` FOREIGN KEY (`campania`) REFERENCES `campania` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `filtro`
+-- Dumping data for table `filtro`
 --
 
-INSERT INTO `filtro` (`id`, `campania`, `ciudad`, `segmento`, `grupo`, `resultado`) VALUES
-(31, 9, 'Arequipa/Ayacucho/', 'Indirecto/', 'Score B/', 'Contacto sin promesa/Dificultad de pago/'),
-(32, 8, 'AYACUCHO/LIMA/', 'u''SCORE A''/u''SCORE C''/', 'NUEVO/INDIRECTO/', 'Contacto sin promesa/Dificultad de pago/'),
-(33, 8, 'AYACUCHO/LIMA/u''AREQUIPA''/', 'SCORE C/u''SCORE A''/', 'DIRECTO/NUEVO/INDIRECTO/u''DIRECTO''/', 'Contacto sin promesa/Dificultad de pago/'),
-(34, 8, 'LIMA/u''AREQUIPA''/u''AYACUCHO''/', 'u''SCORE A''/', 'NUEVO/', 'Contacto sin promesa/Dificultad de pago/'),
-(35, 8, 'AYACUCHO/LIMA/', 'u''SCORE A''/', 'DIRECTO/', 'Contacto sin promesa/Dificultad de pago/'),
-(36, 8, 'AYACUCHO/', 'u''SCORE A''/', 'DIRECTO/', 'Contacto sin promesa/Dificultad de pago/'),
-(37, 8, 'LIMA/', 'SCORE C/', 'NUEVO/', 'Contacto sin promesa/Dificultad de pago/'),
-(38, 8, 'LIMA/', 'SCORE C/', 'DIRECTO/', 'Contacto sin promesa/Dificultad de pago/'),
-(41, 8, 'u''AREQUIPA''/', 'u''SCORE A''/', 'NUEVO/', 'Contacto sin promesa/Dificultad de pago/'),
-(43, 8, 'LIMA/', 'u''SCORE A''/', 'INDIRECTO/', 'Contacto sin promesa/Dificultad de pago/'),
-(45, 8, 'AYACUCHO/', 'u''SCORE A''/', 'NUEVO/INDIRECTO/u''DIRECTO''/', 'Fallecido/'),
-(46, 60, 'AYACUCHO/LIMA/', 'SCORE C/', 'DIRECTO/', 'Fallecido/'),
-(47, 61, 'AYACUCHO/', 'SCORE C/', 'INDIRECTO/', 'Fallecido/Consulta en tramite/Contacto sin promesa/Dificultad de pago/Acuerdo con fecha de pago/Reclamo Institucion/'),
-(48, 61, 'AYACUCHO/', 'SCORE A/', 'INDIRECTO/', 'Fallecido/Consulta en tramite/Contacto sin promesa/'),
-(49, 61, 'AREQUIPA/AYACUCHO/LIMA/', 'SCORE A/SCORE C/SCORE B/', 'DIRECTO/INDIRECTO/NUEVO/', 'Fallecido/Consulta en tramite/Contacto sin promesa/Dificultad de pago/Acuerdo con fecha de pago/Reclamo Institucion/'),
-(50, 61, 'AREQUIPA/AYACUCHO/LIMA/', 'SCORE A/SCORE C/SCORE B/', 'DIRECTO/INDIRECTO/NUEVO/', 'Nuevo/'),
-(51, 63, 'AREQUIPA/AYACUCHO/LIMA/', 'SCORE A/SCORE C/SCORE B/', 'DIRECTO/INDIRECTO/NUEVO/', 'Nuevo/'),
-(52, 63, 'AYACUCHO/', 'SCORE A/', 'DIRECTO/INDIRECTO/', 'Nuevo/'),
-(53, 63, 'AREQUIPA/AYACUCHO/LIMA/', 'SCORE A/SCORE C/SCORE B/', 'DIRECTO/INDIRECTO/NUEVO/', 'Nuevo/'),
-(54, 8, 'u''AREQUIPA''/', 'SCORE C/', 'DIRECTO/', 'Nuevo/Reclamo Institucion/Acuerdo con fecha de pago/');
-
--- --------------------------------------------------------
+LOCK TABLES `filtro` WRITE;
+/*!40000 ALTER TABLE `filtro` DISABLE KEYS */;
+INSERT INTO `filtro` VALUES (31,9,'Arequipa/Ayacucho/','Indirecto/','Score B/','Contacto sin promesa/Dificultad de pago/'),(32,8,'AYACUCHO/LIMA/','u\'SCORE A\'/u\'SCORE C\'/','NUEVO/INDIRECTO/','Contacto sin promesa/Dificultad de pago/'),(33,8,'AYACUCHO/LIMA/u\'AREQUIPA\'/','SCORE C/u\'SCORE A\'/','DIRECTO/NUEVO/INDIRECTO/u\'DIRECTO\'/','Contacto sin promesa/Dificultad de pago/'),(34,8,'LIMA/u\'AREQUIPA\'/u\'AYACUCHO\'/','u\'SCORE A\'/','NUEVO/','Contacto sin promesa/Dificultad de pago/'),(35,8,'AYACUCHO/LIMA/','u\'SCORE A\'/','DIRECTO/','Contacto sin promesa/Dificultad de pago/'),(36,8,'AYACUCHO/','u\'SCORE A\'/','DIRECTO/','Contacto sin promesa/Dificultad de pago/'),(37,8,'LIMA/','SCORE C/','NUEVO/','Contacto sin promesa/Dificultad de pago/'),(38,8,'LIMA/','SCORE C/','DIRECTO/','Contacto sin promesa/Dificultad de pago/'),(41,8,'u\'AREQUIPA\'/','u\'SCORE A\'/','NUEVO/','Contacto sin promesa/Dificultad de pago/'),(43,8,'LIMA/','u\'SCORE A\'/','INDIRECTO/','Contacto sin promesa/Dificultad de pago/'),(45,8,'AYACUCHO/','u\'SCORE A\'/','NUEVO/INDIRECTO/u\'DIRECTO\'/','Fallecido/'),(46,60,'AYACUCHO/LIMA/','SCORE C/','DIRECTO/','Fallecido/'),(47,61,'AYACUCHO/','SCORE C/','INDIRECTO/','Fallecido/Consulta en tramite/Contacto sin promesa/Dificultad de pago/Acuerdo con fecha de pago/Reclamo Institucion/'),(48,61,'AYACUCHO/','SCORE A/','INDIRECTO/','Fallecido/Consulta en tramite/Contacto sin promesa/'),(49,61,'AREQUIPA/AYACUCHO/LIMA/','SCORE A/SCORE C/SCORE B/','DIRECTO/INDIRECTO/NUEVO/','Fallecido/Consulta en tramite/Contacto sin promesa/Dificultad de pago/Acuerdo con fecha de pago/Reclamo Institucion/'),(50,61,'AREQUIPA/AYACUCHO/LIMA/','SCORE A/SCORE C/SCORE B/','DIRECTO/INDIRECTO/NUEVO/','Nuevo/'),(51,63,'AREQUIPA/AYACUCHO/LIMA/','SCORE A/SCORE C/SCORE B/','DIRECTO/INDIRECTO/NUEVO/','Nuevo/'),(52,63,'AYACUCHO/','SCORE A/','DIRECTO/INDIRECTO/','Nuevo/'),(53,63,'AREQUIPA/AYACUCHO/LIMA/','SCORE A/SCORE C/SCORE B/','DIRECTO/INDIRECTO/NUEVO/','Nuevo/'),(54,8,'u\'AREQUIPA\'/','SCORE C/','DIRECTO/','Nuevo/Reclamo Institucion/Acuerdo con fecha de pago/'),(55,76,'AREQUIPA/','SCORE C/','INDIRECTO/NUEVO/','Ya pago con boucher/'),(56,76,'LIMA/','SCORE C/','NUEVO/','Msj Tercero(Si vive/labora)/Msj Tercero(No vive/labora)/Tit.desconocido/ Mudado/'),(57,76,'AYACUCHO/','SCORE A/SCORE C/SCORE B/','INDIRECTO/','Msj Tercero(No vive/labora)/Tit.desconocido/ Mudado/'),(58,76,'AREQUIPA/AYACUCHO/LIMA/','SCORE A/SCORE C/SCORE B/','DIRECTO/INDIRECTO/NUEVO/','Tit.desconocido/ Mudado/');
+/*!40000 ALTER TABLE `filtro` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `nivel`
+-- Table structure for table `header`
 --
 
-CREATE TABLE IF NOT EXISTS `nivel` (
+DROP TABLE IF EXISTS `header`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `header` (
+  `id` int(100) NOT NULL AUTO_INCREMENT,
+  `campania` int(100) DEFAULT NULL,
+  `statusa` varchar(100) DEFAULT NULL,
+  `statusb` varchar(100) DEFAULT NULL,
+  `statusc` varchar(100) DEFAULT NULL,
+  `statusd` varchar(100) DEFAULT NULL,
+  `statuse` varchar(100) DEFAULT NULL,
+  `statusf` varchar(100) DEFAULT NULL,
+  `statusg` varchar(100) DEFAULT NULL,
+  `statush` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `campania` (`campania`),
+  CONSTRAINT `header_ibfk_1` FOREIGN KEY (`campania`) REFERENCES `campania` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `header`
+--
+
+LOCK TABLES `header` WRITE;
+/*!40000 ALTER TABLE `header` DISABLE KEYS */;
+INSERT INTO `header` VALUES (1,76,'PRODUCTO','TARJETA','DEUDA TOTAL','DESCUENTO','DIAS MORA','CIUDAD','SEGMENTO','GRUPO');
+/*!40000 ALTER TABLE `header` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `nivel`
+--
+
+DROP TABLE IF EXISTS `nivel`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `nivel` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `nivel`
+-- Dumping data for table `nivel`
 --
 
-INSERT INTO `nivel` (`id`, `nombre`) VALUES
-(1, 'Administrador'),
-(2, 'Supervisor'),
-(3, 'Agente'),
-(4, 'Manager');
-
--- --------------------------------------------------------
+LOCK TABLES `nivel` WRITE;
+/*!40000 ALTER TABLE `nivel` DISABLE KEYS */;
+INSERT INTO `nivel` VALUES (1,'Administrador'),(2,'Supervisor'),(3,'Agente'),(4,'Manager');
+/*!40000 ALTER TABLE `nivel` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `resultado`
+-- Table structure for table `resultado`
 --
 
-CREATE TABLE IF NOT EXISTS `resultado` (
+DROP TABLE IF EXISTS `resultado`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `resultado` (
   `id` int(100) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) DEFAULT NULL,
   `codigo` varchar(100) DEFAULT NULL,
   `tipo` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14 ;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `resultado`
+-- Dumping data for table `resultado`
 --
 
-INSERT INTO `resultado` (`id`, `name`, `codigo`, `tipo`) VALUES
-(1, 'Fallecido', 'BA', 'GNU'),
-(2, 'Consulta en tramite', NULL, NULL),
-(3, 'Contacto sin promesa', NULL, NULL),
-(4, 'Dificultad de pago', NULL, NULL),
-(5, 'Acuerdo con fecha de pago', NULL, NULL),
-(6, 'Reclamo Institucion', NULL, NULL),
-(8, 'Refinancia/Convenio', 'DI', NULL),
-(9, 'Renuente/Rehuye', 'DI', NULL),
-(10, 'Ya pago con boucher', 'DI', NULL),
-(11, 'Tit.desconocido/ Mudado', 'IL', NULL),
-(12, 'Msj Tercero(No vive/labora)', 'IN', NULL),
-(13, 'Msj Tercero(Si vive/labora)', 'IN', NULL);
-
--- --------------------------------------------------------
+LOCK TABLES `resultado` WRITE;
+/*!40000 ALTER TABLE `resultado` DISABLE KEYS */;
+INSERT INTO `resultado` VALUES (1,'Fallecido','BA','GNU'),(2,'Consulta en tramite',NULL,NULL),(3,'Contacto sin promesa',NULL,NULL),(4,'Dificultad de pago',NULL,NULL),(5,'Acuerdo con fecha de pago',NULL,NULL),(6,'Reclamo Institucion',NULL,NULL),(8,'Refinancia/Convenio','DI',NULL),(9,'Renuente/Rehuye','DI',NULL),(10,'Ya pago con boucher','DI',NULL),(11,'Tit.desconocido/ Mudado','IL',NULL),(12,'Msj Tercero(No vive/labora)','IN',NULL),(13,'Msj Tercero(Si vive/labora)','IN',NULL);
+/*!40000 ALTER TABLE `resultado` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `supervisor`
+-- Table structure for table `supervisor`
 --
 
-CREATE TABLE IF NOT EXISTS `supervisor` (
+DROP TABLE IF EXISTS `supervisor`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `supervisor` (
   `id` int(100) NOT NULL AUTO_INCREMENT,
   `user` int(100) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `user` (`user`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=35 ;
+  KEY `user` (`user`),
+  CONSTRAINT `supervisor_ibfk_1` FOREIGN KEY (`user`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `supervisor`
+-- Dumping data for table `supervisor`
 --
 
-INSERT INTO `supervisor` (`id`, `user`) VALUES
-(27, 87),
-(28, 91),
-(29, 92),
-(30, 93),
-(31, 94),
-(32, 95),
-(33, 102),
-(34, 103);
-
--- --------------------------------------------------------
+LOCK TABLES `supervisor` WRITE;
+/*!40000 ALTER TABLE `supervisor` DISABLE KEYS */;
+INSERT INTO `supervisor` VALUES (27,87),(28,91),(29,92),(30,93),(31,94),(32,95),(33,102),(34,103);
+/*!40000 ALTER TABLE `supervisor` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `supervisorcartera`
+-- Table structure for table `supervisorcartera`
 --
 
-CREATE TABLE IF NOT EXISTS `supervisorcartera` (
+DROP TABLE IF EXISTS `supervisorcartera`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `supervisorcartera` (
   `id` int(100) NOT NULL AUTO_INCREMENT,
   `cartera` int(100) NOT NULL,
   `supervisor` int(100) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `cartera` (`cartera`),
-  KEY `supervisor` (`supervisor`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=93 ;
+  KEY `supervisor` (`supervisor`),
+  CONSTRAINT `supervisorcartera_ibfk_1` FOREIGN KEY (`cartera`) REFERENCES `cartera` (`id`),
+  CONSTRAINT `supervisorcartera_ibfk_2` FOREIGN KEY (`supervisor`) REFERENCES `supervisor` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=93 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `supervisorcartera`
+-- Dumping data for table `supervisorcartera`
 --
 
-INSERT INTO `supervisorcartera` (`id`, `cartera`, `supervisor`) VALUES
-(81, 20, 27),
-(82, 19, 27),
-(83, 20, 28),
-(84, 22, 32),
-(85, 21, 32),
-(86, 20, 32),
-(87, 19, 32),
-(88, 22, 30),
-(89, 21, 30),
-(90, 22, 33),
-(91, 21, 33),
-(92, 20, 34);
-
--- --------------------------------------------------------
+LOCK TABLES `supervisorcartera` WRITE;
+/*!40000 ALTER TABLE `supervisorcartera` DISABLE KEYS */;
+INSERT INTO `supervisorcartera` VALUES (81,20,27),(82,19,27),(83,20,28),(84,22,32),(85,21,32),(86,20,32),(87,19,32),(88,22,30),(89,21,30),(90,22,33),(91,21,33),(92,20,34);
+/*!40000 ALTER TABLE `supervisorcartera` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `troncales`
+-- Table structure for table `troncales`
 --
 
-CREATE TABLE IF NOT EXISTS `troncales` (
+DROP TABLE IF EXISTS `troncales`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `troncales` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(200) COLLATE utf8_spanish_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `troncales`
+-- Dumping data for table `troncales`
 --
 
-INSERT INTO `troncales` (`id`, `nombre`) VALUES
-(1, 'People'),
-(2, 'ThinIP');
-
--- --------------------------------------------------------
+LOCK TABLES `troncales` WRITE;
+/*!40000 ALTER TABLE `troncales` DISABLE KEYS */;
+INSERT INTO `troncales` VALUES (1,'People'),(2,'ThinIP');
+/*!40000 ALTER TABLE `troncales` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `troncalesagentes`
+-- Table structure for table `troncalesagentes`
 --
 
-CREATE TABLE IF NOT EXISTS `troncalesagentes` (
+DROP TABLE IF EXISTS `troncalesagentes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `troncalesagentes` (
   `id` int(100) NOT NULL,
   `empresa` int(100) NOT NULL,
   `troncal` int(100) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `empresa` (`empresa`),
-  KEY `troncal` (`troncal`)
+  KEY `troncal` (`troncal`),
+  CONSTRAINT `troncalesagentes_ibfk_1` FOREIGN KEY (`empresa`) REFERENCES `empresa` (`id`),
+  CONSTRAINT `troncalesagentes_ibfk_2` FOREIGN KEY (`troncal`) REFERENCES `troncales` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Restricciones para tablas volcadas
+-- Dumping data for table `troncalesagentes`
 --
 
---
--- Filtros para la tabla `agentebase`
---
-ALTER TABLE `agentebase`
-  ADD CONSTRAINT `agentebase_ibfk_1` FOREIGN KEY (`agente`) REFERENCES `agentes` (`id`),
-  ADD CONSTRAINT `agentebase_ibfk_2` FOREIGN KEY (`base`) REFERENCES `base` (`id`),
-  ADD CONSTRAINT `agentebase_ibfk_3` FOREIGN KEY (`status`) REFERENCES `estado` (`id`);
+LOCK TABLES `troncalesagentes` WRITE;
+/*!40000 ALTER TABLE `troncalesagentes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `troncalesagentes` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
---
--- Filtros para la tabla `agentes`
---
-ALTER TABLE `agentes`
-  ADD CONSTRAINT `agentes_ibfk_1` FOREIGN KEY (`user`) REFERENCES `auth_user` (`id`),
-  ADD CONSTRAINT `agentes_ibfk_3` FOREIGN KEY (`estado`) REFERENCES `estado` (`id`),
-  ADD CONSTRAINT `agentes_ibfk_4` FOREIGN KEY (`supervisor`) REFERENCES `supervisor` (`id`),
-  ADD CONSTRAINT `agentes_ibfk_5` FOREIGN KEY (`calificacion`) REFERENCES `base` (`id`);
-
---
--- Filtros para la tabla `agentescampanias`
---
-ALTER TABLE `agentescampanias`
-  ADD CONSTRAINT `agentescampanias_ibfk_1` FOREIGN KEY (`agente`) REFERENCES `agentes` (`id`),
-  ADD CONSTRAINT `agentescampanias_ibfk_2` FOREIGN KEY (`campania`) REFERENCES `campania` (`id`);
-
---
--- Filtros para la tabla `auth_group_permissions`
---
-ALTER TABLE `auth_group_permissions`
-  ADD CONSTRAINT `auth_group_permission_group_id_689710a9a73b7457_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`),
-  ADD CONSTRAINT `auth_group__permission_id_1f49ccbbdc69d2fc_fk_auth_permission_id` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`);
-
---
--- Filtros para la tabla `auth_permission`
---
-ALTER TABLE `auth_permission`
-  ADD CONSTRAINT `auth__content_type_id_508cf46651277a81_fk_django_content_type_id` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`);
-
---
--- Filtros para la tabla `auth_user`
---
-ALTER TABLE `auth_user`
-  ADD CONSTRAINT `auth_user_ibfk_1` FOREIGN KEY (`empresa`) REFERENCES `empresa` (`id`),
-  ADD CONSTRAINT `auth_user_ibfk_2` FOREIGN KEY (`nivel`) REFERENCES `nivel` (`id`);
-
---
--- Filtros para la tabla `auth_user_groups`
---
-ALTER TABLE `auth_user_groups`
-  ADD CONSTRAINT `auth_user_groups_group_id_33ac548dcf5f8e37_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`),
-  ADD CONSTRAINT `auth_user_groups_user_id_4b5ed4ffdb8fd9b0_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`);
-
---
--- Filtros para la tabla `auth_user_user_permissions`
---
-ALTER TABLE `auth_user_user_permissions`
-  ADD CONSTRAINT `auth_user_user_permissi_user_id_7f0938558328534a_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`),
-  ADD CONSTRAINT `auth_user_u_permission_id_384b62483d7071f0_fk_auth_permission_id` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`);
-
---
--- Filtros para la tabla `base`
---
-ALTER TABLE `base`
-  ADD CONSTRAINT `base_ibfk_1` FOREIGN KEY (`campania`) REFERENCES `campania` (`id`),
-  ADD CONSTRAINT `base_ibfk_2` FOREIGN KEY (`resultado`) REFERENCES `resultado` (`id`),
-  ADD CONSTRAINT `base_ibfk_3` FOREIGN KEY (`agente`) REFERENCES `agentes` (`id`);
-
---
--- Filtros para la tabla `campania`
---
-ALTER TABLE `campania`
-  ADD CONSTRAINT `campania_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `auth_user` (`id`),
-  ADD CONSTRAINT `campania_ibfk_2` FOREIGN KEY (`supervisor`) REFERENCES `supervisor` (`id`),
-  ADD CONSTRAINT `campania_ibfk_3` FOREIGN KEY (`cartera`) REFERENCES `cartera` (`id`);
-
---
--- Filtros para la tabla `carteraempresa`
---
-ALTER TABLE `carteraempresa`
-  ADD CONSTRAINT `carteraempresa_ibfk_1` FOREIGN KEY (`cartera`) REFERENCES `cartera` (`id`),
-  ADD CONSTRAINT `carteraempresa_ibfk_2` FOREIGN KEY (`empresa`) REFERENCES `empresa` (`id`);
-
---
--- Filtros para la tabla `django_admin_log`
---
-ALTER TABLE `django_admin_log`
-  ADD CONSTRAINT `django_admin_log_user_id_52fdd58701c5f563_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`),
-  ADD CONSTRAINT `djang_content_type_id_697914295151027a_fk_django_content_type_id` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`);
-
---
--- Filtros para la tabla `filtro`
---
-ALTER TABLE `filtro`
-  ADD CONSTRAINT `filtro_ibfk_1` FOREIGN KEY (`campania`) REFERENCES `campania` (`id`);
-
---
--- Filtros para la tabla `supervisor`
---
-ALTER TABLE `supervisor`
-  ADD CONSTRAINT `supervisor_ibfk_1` FOREIGN KEY (`user`) REFERENCES `auth_user` (`id`);
-
---
--- Filtros para la tabla `supervisorcartera`
---
-ALTER TABLE `supervisorcartera`
-  ADD CONSTRAINT `supervisorcartera_ibfk_1` FOREIGN KEY (`cartera`) REFERENCES `cartera` (`id`),
-  ADD CONSTRAINT `supervisorcartera_ibfk_2` FOREIGN KEY (`supervisor`) REFERENCES `supervisor` (`id`);
-
---
--- Filtros para la tabla `troncalesagentes`
---
-ALTER TABLE `troncalesagentes`
-  ADD CONSTRAINT `troncalesagentes_ibfk_1` FOREIGN KEY (`empresa`) REFERENCES `empresa` (`id`),
-  ADD CONSTRAINT `troncalesagentes_ibfk_2` FOREIGN KEY (`troncal`) REFERENCES `troncales` (`id`);
-
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2015-11-30 18:04:55

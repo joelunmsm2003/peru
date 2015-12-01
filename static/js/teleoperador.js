@@ -246,9 +246,10 @@ function Controller($scope,$http,$cookies,$filter) {
             fechagestion: fechagestion,
             cliente : $scope.cliente,
             agente:agente,
-            agente: agente,
             done:false
             }
+
+            console.log('todo',todo)
 
             $http({
             url: "/gestion/",
