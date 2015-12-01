@@ -44,7 +44,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
     });
 
-    }, 100000);
+    }, 1000);
 
     
 

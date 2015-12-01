@@ -35,6 +35,19 @@ import os
 
 from datetime import datetime,date
 from django.contrib.auth import authenticate
+from django.db.models.signals import pre_save
+from django.contrib.auth.signals import user_logged_in
+
+from django.dispatch import receiver
+
+
+
+@receiver(user_logged_in)
+def my_handler(sender,**kwargs):
+	x = kwargs['request'].POST
+	print 'name',AuthUser.objects.get(id=2).username
+	print 'xxxxxx',x
+
 
 def ingresar(request):
 
@@ -45,8 +58,6 @@ def ingresar(request):
 	else:
 
 		if request.method == 'POST':
-
-			print request.POST
 
 			user = request.POST['user']
 			
@@ -61,6 +72,7 @@ def ingresar(request):
 
 					login(request, user)
 
+					
 					nivel = AuthUser.objects.get(username=user).nivel.id
 
 					
@@ -77,11 +89,18 @@ def ingresar(request):
 
 					if nivel == 3:
 
-						id_agente= Agentes.objects.get(user_id=user).id
+						agente= Agentes.objects.get(user_id=user)
+						id_agente = agente.id
+						agente.estado_id='2'
+						agente.save()
+
+
 
 						return HttpResponseRedirect("/teleoperador/"+str(id_agente))
 
 					if nivel == 4:
+
+
 
 						return HttpResponseRedirect("/empresa")
 
@@ -104,8 +123,26 @@ def menu(request):
 	return render(request, 'menu.html',{})
 
 @login_required(login_url="/ingresar")
-def teleoperador(request,id):
-	return render(request, 'teleoperador.html',{})
+def teleoperador(request,id_agente):
+
+	id=request.user.id
+
+	print 'id',id
+
+	id_user = Agentes.objects.get(id=id_agente).user.id
+
+	if id==id_user:
+
+		return render(request, 'screenagent.html',{})
+	else:
+
+		
+		return HttpResponseRedirect("/")
+
+@login_required(login_url="/ingresar")
+def game(request):
+	return render(request, 'game.html',{})
+	
 
 @login_required(login_url="/ingresar")
 def empresa(request):
@@ -213,14 +250,29 @@ def agentes(request,id_campania):
 			sec = str(tf-ti).split(':')
 			print 'sec',sec[2]
 
-			user[i]['secgestion'] = sec[2]
 
-			if sec[2] > 0 and sec[2]< 30:
+
+			
+
+			print 'sec1',sec[1]
+			user[i]['secgestion'] = int(sec[2])*2
+
+			if int(sec[1]) > 0:
+
+				sec[2] = 165
+				user[i]['secgestion'] = 180
+
+			
+
+
+			if int(sec[2]) > 0 and int(sec[2])< 30:
 				user[i]['color'] = '#81C784'
-			if sec[2] > 30 and sec[2]< 55:
+			if int(sec[2]) > 30 and int(sec[2])< 55:
 				user[i]['color'] = '#2196F3'
-			if sec[2] > 55 :
+			if int(sec[2]) > 55 :
 				user[i]['color'] = '#EF5350'
+
+			print user[i]['color'] 
 
 
 
@@ -276,12 +328,19 @@ def gestion(request):
 		fecha= json.loads(request.body)['fechagestion']
 		id_agente =json.loads(request.body)['agente']
 
-		id_cliente = cliente['id']
-		base = Agentebase.objects.get(base_id=id_cliente,agente_id=id_agente)
-		base.tiniciogestion = fecha
-		base.save()
+		print 'fecha',fecha
 
-		return HttpResponse('data', content_type="application/json")
+
+
+		id_cliente = cliente['id']
+		base = Agentebase.objects.filter(base_id=id_cliente,agente_id=id_agente).order_by('-id')[:1]
+		
+		for base in base:
+			base.estado_id = 6
+			base.tiniciogestion = fecha
+			base.save()
+
+	return HttpResponse('data', content_type="application/json")
 
 @login_required(login_url="/ingresar")
 def gestionupdate(request):
@@ -319,6 +378,9 @@ def gestionupdate(request):
 		base.comentario = comentario
 		base.save()
 
+		agente = Agentes.objects.get(id=agente)
+		agente.estado_id = 2
+		agente.save() 
 		
 
 		return HttpResponse('data', content_type="application/json")
@@ -330,9 +392,13 @@ def gestionupdate(request):
 def tgestion(request,id_base,id_agente):
 
 
-	agentebase = Agentebase.objects.get(base_id=id_base,agente_id=id_agente)
+	agentebase = Agentebase.objects.filter(base_id=id_base,agente_id=id_agente)
 
-	fecha = agentebase.tiniciogestion
+	for agente in agentebase:
+
+		fecha = agente.tiniciogestion
+
+	
 
 	ti= str(fecha)[0:19]
 	tf= str(datetime.now())[0:19]
@@ -343,6 +409,28 @@ def tgestion(request,id_base,id_agente):
 	tf = datetime.strptime(tf,fmt)
 
 	return HttpResponse(tf-ti, content_type="application/json")
+
+@login_required(login_url="/ingresar")
+def tllamada(request,id_base,id_agente):
+
+
+	agentebase = Agentebase.objects.filter(base_id=id_base,agente_id=id_agente)
+
+	for agente in agentebase:
+
+		fecha = agente.tiniciollamada
+	
+
+	ti= str(fecha)[0:19]
+	tf= str(datetime.now())[0:19]
+
+	fmt = '%Y-%m-%d %H:%M:%S'
+
+	ti = datetime.strptime(ti,fmt)
+	tf = datetime.strptime(tf,fmt)
+
+	return HttpResponse(tf-ti, content_type="application/json")
+
 
 	
 @login_required(login_url="/ingresar")
@@ -459,7 +547,7 @@ def cliente(request,id_agente):
 @login_required(login_url="/ingresar")
 def atendida(request,id_agente):
 		
-		cantidad = Base.objects.filter(agente_id=id_agente).values('agente').annotate(total=Sum('duracion'))
+		cantidad = Agentebase.objects.filter(agente_id=id_agente).values('agente').annotate(total=Sum('duracion'))
 		num=int(cantidad[0]['total'])  
 		hor=(int(num/3600))  
 		minu=int((num-(hor*3600))/60)  
@@ -512,7 +600,7 @@ def desfase(request,id_agente):
 		conectado = user[0]['conectado']
 
 		
-		cantidad = Base.objects.filter(agente_id=id_agente).values('agente').annotate(total=Sum('duracion'))
+		cantidad = Agentebase.objects.filter(agente_id=id_agente).values('agente').annotate(total=Sum('duracion'))
 		num=int(cantidad[0]['total'])  
 		hor=(int(num/3600))  
 		minu=int((num-(hor*3600))/60)  
@@ -540,7 +628,31 @@ def desfase(request,id_agente):
 
 		return HttpResponse(data, content_type="application/json")
 
+@login_required(login_url="/ingresar")
+def pausa(request,id_agente):
 
+
+		agente = Agentes.objects.get(id=id_agente)
+		agente.estado_id = 5
+		agente.save()
+
+
+
+
+		return HttpResponseRedirect("/teleoperador/"+id_agente)
+
+@login_required(login_url="/ingresar")
+def play(request,id_agente):
+
+
+		agente = Agentes.objects.get(id=id_agente)
+		agente.estado_id = 2
+		agente.save()
+
+
+
+
+		return HttpResponseRedirect("/teleoperador/"+id_agente)
 
 @login_required(login_url="/ingresar")
 def resultadofiltro(request,id_filtro):
@@ -699,6 +811,91 @@ def listafiltros(request,id_campania):
 
 	return HttpResponse(data, content_type="application/json")
 
+
+@login_required(login_url="/ingresar")
+def activafiltro(request,id_filtro):
+
+
+	data = Filtro.objects.filter(id=id_filtro).values('id','ciudad','segmento','grupo','resultado').order_by('-id')
+
+	for i in range(len(data)):
+
+		print data[i]['id']
+
+		filtro = Filtro.objects.get(id=data[i]['id'])
+
+		resultado = filtro.resultado
+
+		resultado =  resultado.split('/')
+
+		status_f = filtro.ciudad
+
+		status_f =  status_f.split('/')
+
+		status_h = filtro.segmento
+
+		status_h =  status_h.split('/')
+
+		status_g = filtro.grupo
+
+		status_g =  status_g.split('/')
+
+		base = Base.objects.filter(campania_id=id_campania,resultado__name__in=resultado,status_f__in=status_f,status_g__in=status_g,status_h__in=status_h)
+
+		for base in base:
+
+			base.status = 1
+			base.save()
+
+
+	data_dict = ValuesQuerySetToDict(data)
+
+	data = simplejson.dumps(data_dict)
+
+	return HttpResponse(data, content_type="application/json")
+
+@login_required(login_url="/ingresar")
+def desactivafiltro(request,id_campania):
+
+
+	data = Filtro.objects.filter(campania_id=id_campania).values('id','ciudad','segmento','grupo','resultado').order_by('-id')
+
+	for i in range(len(data)):
+
+		print data[i]['id']
+
+		filtro = Filtro.objects.get(id=data[i]['id'])
+
+		resultado = filtro.resultado
+
+		resultado =  resultado.split('/')
+
+		status_f = filtro.ciudad
+
+		status_f =  status_f.split('/')
+
+		status_h = filtro.segmento
+
+		status_h =  status_h.split('/')
+
+		status_g = filtro.grupo
+
+		status_g =  status_g.split('/')
+
+		base = Base.objects.filter(campania_id=id_campania,resultado__name__in=resultado,status_f__in=status_f,status_g__in=status_g,status_h__in=status_h)
+
+		for base in base:
+
+			base.status = 0
+			base.save()
+			
+
+	data_dict = ValuesQuerySetToDict(data)
+
+	data = simplejson.dumps(data_dict)
+
+	return HttpResponse(data, content_type="application/json")
+
 @login_required(login_url="/ingresar")
 def carterasupervisor(request,id_user):
 
@@ -710,6 +907,20 @@ def carterasupervisor(request,id_user):
 	data = simplejson.dumps(data_dict)
 
 	return HttpResponse(data, content_type="application/json")
+
+@login_required(login_url="/ingresar")
+def header(request,id_campania):
+
+
+	data = Header.objects.filter(campania_id=id_campania).values('id','campania__nombre','statusa','statusb','statusc','statusd','statuse','statusf','statusg','statush').order_by('-id')
+
+	data_dict = ValuesQuerySetToDict(data)
+
+	data = simplejson.dumps(data_dict)
+
+	return HttpResponse(data, content_type="application/json")
+
+
 
 @login_required(login_url="/ingresar")
 def carteranosupervisor(request,id_user):
@@ -863,19 +1074,15 @@ def uploadCampania(request):
 		now = datetime.now()
 		archivo =  request.FILES['process_file']
 
+
 		Campania(cartera_id=cartera,supervisor_id=supervisor,usuario_id=id,fecha_cargada= now,archivo = archivo,canales=canales,htinicio=inicio,htfin=fin,nombre=nombre,timbrados=timbrados,llamadaxhora=llamadaxhora,hombreobjetivo=hombreobjetivo,mxllamada=mxllamada).save()
 
 		id_campania = Campania.objects.all().values('id').order_by('-id')[0]['id']
 
 		archivo  = Campania.objects.get(id=id_campania).archivo
 
-
 		xls_name = '/var/www/html/'+str(archivo)
 
-		print xls_name
-
-		
-		
 		a ={}
 
 		book = xlrd.open_workbook(xls_name)
@@ -886,32 +1093,65 @@ def uploadCampania(request):
 
 		for rx in range(sh.nrows):
 
-			for col in range(sh.ncols):
+			print 'rx',rx
 
-				a[col] = str(sh.row(rx)[col])
+			if rx == 0:
 
-				a[col] = a[col].split(':')
+				for col in range(sh.ncols):
 
-				a[col]= a[col][1][0:150]
+					a[col] = str(sh.row(rx)[col])
 
-				a[col] = a[col].replace("u'","")
+					a[col] = a[col].split(':')
 
-				a[col] = a[col].replace("'","")
+					a[col]= a[col][1][0:150]
 
-			telefono = a[0].replace(".0","")
-			orden = a[1].replace(".0","")
-			cliente = a[2]
-			id_cliente = a[3]
-			status_a = a[4]
-			status_b = a[5]
-			status_c = a[6]
-			status_d =a[7]
-			status_e= a[8].replace(".0","")
-			status_f=a[9]
-			status_g= a[10]
-			status_h = a[11]
+					a[col] = a[col].replace("u'","")
 
-			Base(resultado_id=7,campania_id=id_campania,telefono=telefono,orden=orden,cliente=cliente,id_cliente=id_cliente,status_a=status_a,status_b=status_b,status_c=status_c,status_d=status_d,status_e=status_e,status_f=status_f,status_g=status_g,status_h=status_h).save()
+					a[col] = a[col].replace("'","")
+
+				telefono = a[0]
+				orden = a[1]
+				cliente = a[2]
+				id_cliente = a[3]
+				status_a = a[4]
+				status_b = a[5]
+				status_c = a[6]
+				status_d =a[7]
+				status_e= a[8]
+				status_f=a[9]
+				status_g= a[10]
+				status_h = a[11]
+
+				Header(campania_id=id_campania,statusa=status_a,statusb=status_b,statusc=status_c,statusd=status_d,statuse=status_e,statusf=status_f,statusg=status_g,statush=status_h).save()
+
+			else:
+
+				for col in range(sh.ncols):
+
+					a[col] = str(sh.row(rx)[col])
+
+					a[col] = a[col].split(':')
+
+					a[col]= a[col][1][0:150]
+
+					a[col] = a[col].replace("u'","")
+
+					a[col] = a[col].replace("'","")
+
+				telefono = a[0]
+				orden = a[1]
+				cliente = a[2]
+				id_cliente = a[3]
+				status_a = a[4]
+				status_b = a[5]
+				status_c = a[6]
+				status_d =a[7]
+				status_e= a[8].replace(".0","")
+				status_f=a[9]
+				status_g= a[10]
+				status_h = a[11]
+
+				Base(campania_id=id_campania,telefono=telefono,orden=orden,cliente=cliente,id_cliente=id_cliente,status_a=status_a,status_b=status_b,status_c=status_c,status_d=status_d,status_e=status_e,status_f=status_f,status_g=status_g,status_h=status_h).save()
 
 	return HttpResponseRedirect("/adminCampania/"+str(id_campania))
 
@@ -1386,6 +1626,14 @@ def empresas(request):
 @login_required(login_url="/ingresar")
 def salir(request):
 
+	
+	id =request.user.id
+	nivel = AuthUser.objects.get(id=id).nivel.id
+	if nivel == 3:
+		agente = Agentes.objects.get(user=id)
+		agente.estado_id=1
+		agente.save()
+
 	logout(request)
 	
 	return HttpResponseRedirect("/ingresar")
@@ -1397,9 +1645,6 @@ def ValuesQuerySetToDict(vqs):
 
 
 
-def teleoperador(request,id):
-
-	return render(request, 'screenagent.html',{})
 
 
 

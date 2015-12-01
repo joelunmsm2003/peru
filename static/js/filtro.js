@@ -26,6 +26,14 @@ function Controller($scope,$http,$cookies,$filter) {
        
     });
 
+     $http.get("/header/"+campania).success(function(response) {$scope.header = response[0];
+
+        console.log('header',$scope.header)
+
+
+       
+    });
+
 
  
 

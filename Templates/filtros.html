@@ -126,7 +126,7 @@
                   <div class="col-sm-3">
 
 
-                     <select class="form-control" id="myselection" multiple="true" ng-model="filtro.resultado" ng-options="c.name for c in resultado"></select>
+                     <select required="" class="form-control" id="myselection" multiple="true" ng-model="filtro.resultado" ng-options="c.name for c in resultado"></select>
                       <div class="form-group">
          
                        <label>Estado</label>
@@ -140,10 +140,10 @@
                 <div class="col-sm-3">
 
 
-                     <select class="form-control" id="myselection" multiple="true" ng-model="filtro.ciudad" ng-options="c.status_f for c in ciudad"></select>
+                     <select required="" class="form-control" id="myselection" multiple="true" ng-model="filtro.ciudad" ng-options="c.status_f for c in ciudad"></select>
                       <div class="form-group">
          
-                       <label>Status F</label>
+                       <label>{[{header.statusf}]}</label>
                       <ul  ng-repeat="contact in filtro.ciudad">
                           <li>{[{contact.status_f}]}</li>
                       </ul>
@@ -153,10 +153,10 @@
 
                   <div class="col-sm-3">
 
-                         <select class="form-control" id="myselection" multiple="true" ng-model="filtro.grupo" ng-options="c.status_g for c in grupo"></select>
+                         <select required="" class="form-control" id="myselection" multiple="true" ng-model="filtro.grupo" ng-options="c.status_g for c in grupo"></select>
                         <div class="form-group">
            
-                        <label>Status G</label>
+                        <label>{[{header.statusg}]}</label>
                         <ul  ng-repeat="contact in filtro.grupo">
                             <li>{[{contact.status_g}]}</li>
                         </ul>
@@ -168,10 +168,10 @@
 
                   <div class="col-sm-3">
 
-                        <select class="form-control" id="myselection" multiple="true" ng-model="filtro.segmento" ng-options="c.status_h for c in segmento"></select>
+                        <select required="" class="form-control" id="myselection" multiple="true" ng-model="filtro.segmento" ng-options="c.status_h for c in segmento"></select>
                         <div class="form-group">
            
-                        <label>Status H</label>
+                        <label>{[{header.statush}]}</label>
                         <ul  ng-repeat="contact in filtro.segmento">
                             <li>{[{contact.status_h}]}</li>
                         </ul>
@@ -205,9 +205,10 @@
                           <tr>
                           
                           <th >Estado </th>
-                          <th >Status F  </th>
-                          <th >Status G  </th>   
-                          <th >Status H  </th> 
+                          <th >Botonera </th>
+                          <th >{[{header.statusf}]} </th>
+                          <th >{[{header.statusg}]}  </th>   
+                          <th >{[{header.statush}]} </th> 
                           <th >Fono por barrer</th>
                           <th >Fono sin exito </th> 
                           <th></th>
@@ -216,7 +217,7 @@
                        
                       <tr  ng-repeat="resultado in listafiltros " class='active' ts-repeat>
                           
-                     
+                      <td>{[{resultado.estado}]}</td> 
                       <td>{[{resultado.resultado}]}</td> 
                       <td>{[{resultado.ciudad}]}</td>
                       <td>{[{resultado.segmento}]}</td>
