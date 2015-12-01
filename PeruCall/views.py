@@ -891,13 +891,8 @@ def activafiltro(request,id_filtro,id_campania):
 
 		status_g =  status_g.split('/')
 
-<<<<<<< HEAD
-@login_required(login_url="/ingresar")
-def empresa(request):
-	return render(request, 'empresa.html',{})
-=======
+
 		base = Base.objects.filter(campania_id=id_campania,resultado__name__in=resultado,status_f__in=status_f,status_g__in=status_g,status_h__in=status_h)
->>>>>>> 88bc32eb37dd0da15496583b0f1133b12ea57744
 
 		for base in base:
 
@@ -1483,13 +1478,6 @@ def usuarios(request):
 
 		usuarios = AuthUser.objects.filter(empresa=empresa).exclude(nivel=4).values('id','telefono','username','email','empresa__nombre','nivel__nombre','first_name').order_by('-id')
 
-<<<<<<< HEAD
-			print usuarios[i]['id']
-
-			usuarios[i]['supervisor'] = Agentes.objects.get(user=usuarios[i]['id']).supervisor.user.first_name
-	
-=======
->>>>>>> 88bc32eb37dd0da15496583b0f1133b12ea57744
 
 	data = json.dumps(ValuesQuerySetToDict(usuarios))
 
