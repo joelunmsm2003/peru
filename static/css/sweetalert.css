@@ -1,5 +1,6 @@
 body.stop-scrolling {
   height: 100%;
+  font-family: "Hind", sans-serif;
   overflow: hidden; }
 
 .sweet-overlay {
@@ -18,7 +19,7 @@ body.stop-scrolling {
 
 .sweet-alert {
   background-color: white;
-  font-family: "Open Sans", sans-serif;
+  font-family: "Hind", sans-serif;
   width: 478px;
   padding: 17px;
   border-radius: 5px;
@@ -49,7 +50,7 @@ body.stop-scrolling {
     padding: 0;
     line-height: 40px;
     display: block; 
-    font-family: "Open Sans", sans-serif;
+    font-family: "Hind", sans-serif;
 
   }
   .sweet-alert p {

@@ -6,14 +6,14 @@
 
 <script src="/static/js/filtro.js"></script>
 
-<body ng-app="App">
+<body ng-app="App" ng-controller="Controller">
 
 <div class='vertical' style="position: absolute;">
   <div class='vertical'> {% include "vertical.html" %} </div>
  
 </div>
 
-<div class="container" ng-controller="Controller">
+<div class="container" >
 
 <div id="eliminar" class="modal fade" role="dialog">
   <div class="modal-dialog">
@@ -243,7 +243,7 @@
                       <td>{[{resultado.ciudad}]}</td>
                       <td>{[{resultado.segmento}]}</td>
                       <td>{[{resultado.grupo}]}</td>
-                      <td style='background:{[{resultado.color}]}'>{[{resultado.fonosporbarrer}]} / {[{resultado.total}]}</td>
+                      <td style='background:{[{resultado.color}]}; color:{[{resultado.colort}]}'>{[{resultado.fonosporbarrer}]} / {[{resultado.total}]}</td>
                       <td>{[{resultado.fonosinexito}]} </td>
                       
                       <td><a ng-click="eliminar(resultado,$index)" class="btn btn-primary" data-toggle="modal" data-target="#eliminar"><i class="icon-trash"></i> </a></td>

@@ -186,7 +186,7 @@ class Campania(models.Model):
     mxllamada = models.IntegerField(blank=True, null=True)
     llamadaxhora = models.IntegerField(blank=True, null=True)
     hombreobjetivo = models.IntegerField(blank=True, null=True)
-    archivo = models.FileField(upload_to='files')
+    archivo = models.CharField(max_length=100, blank=True)
     supervisor = models.ForeignKey('Supervisor', db_column='supervisor', blank=True, null=True)
     cartera = models.ForeignKey('Cartera', db_column='cartera', blank=True, null=True)
 
@@ -277,8 +277,9 @@ class Empresa(models.Model):
     contacto = models.CharField(max_length=100)
     mail = models.CharField(max_length=100)
     licencias = models.CharField(max_length=100)
-    mascaras = models.CharField(max_length=100)
-    telefono = models.IntegerField()
+    mascaras = models.ForeignKey('Mascara', db_column='mascaras', blank=True, null=True)
+    telefono = models.IntegerField(blank=True, null=True)
+    url = models.CharField(max_length=100, blank=True)
 
     class Meta:
         managed = False
@@ -323,6 +324,15 @@ class Header(models.Model):
     class Meta:
         managed = False
         db_table = 'header'
+
+
+class Mascara(models.Model):
+    id = models.IntegerField(primary_key=True)  # AutoField?
+    tipo = models.CharField(max_length=100, blank=True)
+
+    class Meta:
+        managed = False
+        db_table = 'mascara'
 
 
 class Nivel(models.Model):

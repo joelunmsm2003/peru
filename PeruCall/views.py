@@ -68,6 +68,8 @@ def ingresar(request):
 			return HttpResponseRedirect("/teleoperador/"+str(id_agente))
 		if nivel == 4:
 			return HttpResponseRedirect("/usuario")
+		if nivel == 5:
+			return HttpResponseRedirect("/campania")
 			
 		
 		
@@ -123,6 +125,9 @@ def ingresar(request):
 
 
 						return HttpResponseRedirect("/empresa")
+
+					if nivel == 5:
+						return HttpResponseRedirect("/campania")
 
 
 
@@ -198,6 +203,11 @@ def campania(request):
 
 		supervisor = Supervisor.objects.all()
 		cartera = Cartera.objects.all()
+
+	if nivel == 5:
+
+		supervisor = Supervisor.objects.all()
+		cartera = Carteraempresa.objects.filter(empresa_id=empresa)
 	
 	return render(request, 'campania.html',{'supervisor':supervisor,'troncales':troncales,'cartera':cartera})
 
@@ -208,12 +218,17 @@ def base(request):
 
 	nivel = AuthUser.objects.get(id=id).nivel.id
 	empresa = AuthUser.objects.get(id=id).empresa.id
+	'''
+	campania = 
 	con = 1
+	'''
 	objects_list = []
 
-	if 1 == 1:
+	if nivel == 4:
 
-		for row in Base.objects.raw("SELECT id,telefono,orden,cliente,id_cliente,status_a,status_b,status_c,status_d,status_e,status_f,status_g,status_h,status,campania,resultado,agente,duracion,detalle,monto,fecha,tiniciogestion,tfingestion,tiniciollamada,tfinllamada FROM base ORDER BY id DESC"):
+
+		for row in Base.objects.raw("SELECT id,telefono,orden,cliente,id_cliente,status_a,status_b,status_c,status_d,status_e,status_f,status_g,status_h,status,campania,resultado,agente,duracion,detalle,monto,fecha,tiniciogestion,tfingestion,tiniciollamada,tfinllamada FROM base WHERE ORDER BY id DESC"):
+		
 
 				fmt = '%Y-%m-%d %H:%M:%S %Z'
 
@@ -586,6 +601,18 @@ def eliminarfiltro(request):
 
 
 @login_required(login_url="/ingresar")
+def mascaras(request):
+
+		data = Mascara.objects.all().values('id','tipo').order_by('-id')
+
+		data_dict = ValuesQuerySetToDict(data)
+
+		data = simplejson.dumps(data_dict)
+
+		return HttpResponse(data, content_type="application/json")
+
+
+@login_required(login_url="/ingresar")
 def resultado(request):
 
 		data = Resultado.objects.all().values('id','name','tipo','codigo').order_by('-id')
@@ -805,6 +832,11 @@ def carteras(request):
 
 			data = Carteraempresa.objects.all().values('id','cartera__nombre','empresa__nombre').order_by('-id')
 
+		if nivel == 5:
+
+			data = Carteraempresa.objects.filter(empresa_id=empresa).values('id','cartera__nombre','empresa__nombre').order_by('-id')
+
+
 
 
 		data_dict = ValuesQuerySetToDict(data)
@@ -874,7 +906,8 @@ def listafiltros(request,id_campania):
 
 		if data[i]['status']==1:
 
-			data[i]['color'] = '#91BE95'
+			data[i]['color'] = '#B71C1C'
+			data[i]['colort'] = '#fff'
 
 		
 		else:
@@ -1296,6 +1329,12 @@ def campanias(request):
 
 		data = Campania.objects.filter(usuario__empresa=empresa).values('id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name').order_by('-id')
 
+	
+
+	if nivel == 5: #Admin
+
+		data = Campania.objects.filter(usuario__empresa=empresa).values('id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name').order_by('-id')
+
 
 	fmt = '%H:%M:%S %Z'
 	fmt1 = '%Y-%m-%d %H:%M:%S %Z'
@@ -1305,6 +1344,13 @@ def campanias(request):
 		data[i]['htinicio'] = Campania.objects.get(id=data[i]['id']).htinicio.strftime(fmt)
 		data[i]['hfin'] = Campania.objects.get(id=data[i]['id']).htfin.strftime(fmt)
 		data[i]['fecha_cargada'] = Campania.objects.get(id=data[i]['id']).fecha_cargada.strftime(fmt1)
+		data[i]['totalagentes'] = Agentescampanias.objects.filter(campania_id=data[i]['id']).count()
+		data[i]['conectados'] = Agentescampanias.objects.filter(campania_id=data[i]['id']).exclude(agente__estado=1).count()
+		data[i]['cargados'] = Base.objects.filter(campania_id=data[i]['id']).count()
+		data[i]['barridos'] = Base.objects.filter(campania_id=data[i]['id'],status=1).count()
+		data[i]['errados'] = Base.objects.filter(campania_id=data[i]['id'],status=2).count()
+
+
 
 	data_dict = ValuesQuerySetToDict(data)
 
@@ -1331,7 +1377,12 @@ def nivel(request):
 
 	if nivel == 1: #Admin
 
-		nivel =  Nivel.objects.all().values('id','nombre')[1:3]
+		nivel =  Nivel.objects.all().exclude(id=4).values('id','nombre')[1:5]
+
+
+	if nivel == 5: #Admin
+
+		nivel =  Nivel.objects.all().exclude(id=4).values('id','nombre')[1:5]
 
 
 
@@ -1508,6 +1559,10 @@ def supervisores(request):
 
 		supervisores = Supervisor.objects.all().values('id','user__first_name')
 
+	if nivel == 5:
+
+		supervisores = Supervisor.objects.filter(user__empresa__id=empresa).values('id','user__first_name')
+
 
 	data = json.dumps(ValuesQuerySetToDict(supervisores))
 
@@ -1539,6 +1594,10 @@ def usuarios(request):
 		usuarios = AuthUser.objects.filter(empresa_id=empresa).values('id','telefono','username','email','empresa__nombre','nivel__nombre','first_name').order_by('-id')
 
 	if nivel == 1: #Admin
+
+		usuarios = AuthUser.objects.filter(empresa=empresa).exclude(nivel=4).values('id','telefono','username','email','empresa__nombre','nivel__nombre','first_name').order_by('-id')
+
+	if nivel == 5: #Admin
 
 		usuarios = AuthUser.objects.filter(empresa=empresa).exclude(nivel=4).values('id','telefono','username','email','empresa__nombre','nivel__nombre','first_name').order_by('-id')
 
@@ -1680,13 +1739,13 @@ def empresas(request):
 
 	if nivel == 4:
 
-		empresas = Empresa.objects.all().values('id','nombre','licencias','mascaras','telefono','contacto','mail').order_by('-id')
+		empresas = Empresa.objects.all().values('id','nombre','licencias','mascaras__tipo','telefono','contacto','mail').order_by('-id')
 
 	else:
 
 		empresa = AuthUser.objects.get(id=id).empresa.id
 
-		empresas = Empresa.objects.filter(id=empresa).values('id','nombre','licencias','mascaras','telefono','contacto','mail').order_by('-id')
+		empresas = Empresa.objects.filter(id=empresa).values('id','nombre','licencias','mascaras__tipo','telefono','contacto','mail').order_by('-id')
 
 	data = json.dumps(ValuesQuerySetToDict(empresas))
 
@@ -1704,10 +1763,15 @@ def empresas(request):
 			contacto = data['contacto']
 			mail = data['mail']
 			licencias = data['licencias']
-			mascaras = data['mascaras']
+			if data['mascaras']==2:
+				empresa.url =data['url']
+			
 			telefono = data['telefono']
+			mascara = data['mascara']
 
-			Empresa(nombre=nombre,contacto=contacto,mail=mail,licencias=licencias,mascaras=mascaras,telefono=telefono).save()
+			print mascara
+
+			Empresa(mascaras_id=mascara,nombre=nombre,contacto=contacto,mail=mail,licencias=licencias,telefono=telefono).save()
 
 			return HttpResponse(nombre, content_type="application/json")
 
@@ -1723,7 +1787,12 @@ def empresas(request):
 			empresa.contacto =data['contacto']
 			empresa.mail =data['mail']
 			empresa.licencias =data['licencias']
-			empresa.mascaras =data['mascaras']
+			empresa.mascaras_id =data['mascara']
+			if data['mascara']==2:
+				empresa.url =data['url']
+
+			
+
 			empresa.telefono =data['telefono']
 			empresa.save()
 

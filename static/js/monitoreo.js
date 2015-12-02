@@ -55,7 +55,9 @@ function Controller($scope,$http,$cookies,$filter) {
 
     });
 
-     $http.get("/empresas").success(function(response) {$scope.empresas = response;
+ 
+
+    $http.get("/empresas").success(function(response) {$scope.empresas = response[0];
 
 
        

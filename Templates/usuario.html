@@ -240,9 +240,9 @@
 
                     
 
-                        <button type="button" class="btn btn-primary" ng-click="editContact(contact,$index,currentPage)" data-toggle="modal" data-target="#edit">Editar</button>
+                        <button ng-if="user.nivel == 1" type="button" class="btn btn-primary" ng-click="editContact(contact,$index,currentPage)" data-toggle="modal" data-target="#edit">Editar</button>
 
-                        <button type="button" class="btn btn-primary" ng-click="editContact(contact,$index,currentPage)"  data-toggle="modal" data-target="#eliminar">Eliminar</button>
+                        <button ng-if="user.nivel == 1" type="button" class="btn btn-primary" ng-click="editContact(contact,$index,currentPage)"  data-toggle="modal" data-target="#eliminar">Eliminar</button>
 
                         <a type="button" class="btn btn-primary" ng-href="/supervisorcartera/{[{contact.id}]}">Carteras</a>
 

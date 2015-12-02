@@ -54,7 +54,21 @@ function Controller($scope,$http,$cookies,$filter) {
     {
 
     console.log(contact.id)
-    window.location="/adminCampania/"+contact.id
+    nivel = $scope.user['nivel']
+    if (nivel==5){
+
+        window.location="/monitoreo/"+contact.id
+    }
+    else{
+
+        window.location="/adminCampania/"+contact.id
+
+    }
+
+
+
+
+    
     
     };
 

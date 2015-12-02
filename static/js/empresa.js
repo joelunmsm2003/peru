@@ -34,6 +34,12 @@ function Controller($scope,$http,$cookies,$filter) {
 
     });
 
+     $http.get("/mascaras").success(function(response) {$scope.mascaras = response;
+
+
+    });
+
+
 
 
 
@@ -45,6 +51,15 @@ function Controller($scope,$http,$cookies,$filter) {
     return Math.ceil($scope.clientes.length / $scope.pageSize);
     
     };
+
+    $scope.mascara = function(data) 
+    {
+
+    console.log(data['mascara'])
+    $scope.mascarap = data['mascara']
+
+    };
+
 
 
 
@@ -112,7 +127,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-            swal({title: $scope.empresas.nombre, text: "Empresa "+data +" editado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Editado",   }, function(){  });
+            swal({title: $scope.empresas.nombre, text: "Empresa "+data +" editado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Editado",   }, function(){ window.location.href = "/empresa" });
 
 
         })
@@ -150,7 +165,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-        swal({title: $scope.empresas.nombre , text: "Empresa "+data +" eliminado",   type: "success",   confirmButtonColor: "#337ab7",   confirmButtonText: "Eliminado",   }, function(){   });
+        swal({title: $scope.empresas.nombre , text: "Empresa "+data +" eliminado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Eliminado",   }, function(){   });
 
         $scope.contador =$scope.contador-1
 

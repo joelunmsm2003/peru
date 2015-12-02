@@ -54,7 +54,7 @@
           <div class="col-md-6">
           <div class="form-group">
           <label>Licencias</label>
-          <input type="text" ng-model="agregar.licencias" class="form-control" placeholder="Licencias" required ="" >
+          <input type="number" ng-model="agregar.licencias" class="form-control" placeholder="Licencias" required ="" >
           </div>
           </div>
 
@@ -72,33 +72,44 @@
           </div>
           </div>
 
-          <div class="col-md-6">
+          <div class="col-md-6" ng-if="user.nivel == 4">
           <div class="form-group">
           <label>Mascara</label>
-          <input type="text" ng-model="agregar.mascaras" class="form-control" placeholder="Mascara " required ="" >
-          </div>
-          </div>
-          <br></br>
+          <select ng-model="agregar.mascara" ng-change="mascara(agregar)" class="form-control" ng-options="cliente.id as cliente.tipo for cliente in mascaras" required =""></select>
 
-          <div class="col-md-6">
+          </div>
+          </div>
+
+          <div class="col-md-12" ng-if="mascarap == 2">
           <div class="form-group">
-          
+          <label>URL</label>
+          <input type="text" ng-model="agregar.url" class="form-control" placeholder="URL" required =""  >
           </div>
           </div>
 
-                
+
+
+          <div class="col-md-6" ng-if="user.nivel == 4">
+          <div class="form-group">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button class="btn btn-primary" type="submit">Agregar</button>
+          </div>
+          </div>
+
+   
+          </form>
+        
+          
+
+         
+
+     
 
                  
 
-                        
-
           </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-         <button class="btn btn-primary" type="submit">Agregar</button>
-          </form>
-        </div>
+        
       </div>
     </div>
   </div>
@@ -110,7 +121,7 @@
 
 <div id="edit" class="modal fade" role="dialog">
 
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
 
     <div class="modal-content">
 
@@ -149,10 +160,20 @@
         <input type="text" class="form-control" ng-model="model.mail" required ="" >
         </div>
 
-        <div class="col-md-6">
+         <div class="col-md-6" ng-if="user.nivel == 4">
+        <div class="form-group">
         <label>Mascara</label>
-        <input type="text" class="form-control" ng-model="model.mascaras" required ="" >
+        <select ng-model="model.mascara"  ng-change="mascara(model)" class="form-control" ng-options="cliente.id as cliente.tipo for cliente in mascaras" required =""></select>
+
         </div>
+        </div>
+
+         <div class="col-md-12" ng-if="mascarap == 2" >
+          <div class="form-group">
+          <label>URL</label>
+          <input type="text" ng-model="model.url" class="form-control" placeholder="URL" required =""  >
+          </div>
+          </div>
 
 
 </div>
@@ -261,7 +282,7 @@
                 <td data-th="Calldate">{[{contact.contacto}]}</td>
                 <td data-th="Disposition">{[{contact.mail}]}</td>
                 <td data-th="Duration">{[{contact.licencias}]}</td>
-                <td data-th="Billsec">{[{contact.mascaras}]}</td>
+                <td data-th="Billsec">{[{contact.mascaras__tipo}]}</td>
 
                 <td ng-if=" user.nivel == 1 || user.nivel == 4">
 
@@ -293,7 +314,15 @@
 
 
 
+<style type="text/css">
+  
+.btn-primary{
 
+background-color: #b71c1c;
+
+}
+
+</style>
 
 
 
