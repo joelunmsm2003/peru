@@ -13,6 +13,43 @@
 
 <div  id ='cliente' class='container-fluid animated bounceInRight'>
 
+<script type="text/javascript">
+
+    var ws4redis = WS4Redis({
+      uri: '{{ WEBSOCKET_URI }}foobar?subscribe-user',
+      receive_message: receiveMessage,
+      heartbeat_msg: {{ WS4REDIS_HEARTBEAT }}
+    });
+
+
+
+  function receiveMessage(msg) {
+
+        noti = msg.slice(0,3)
+
+        if(noti = 'Noti'){
+
+            msg = msg.slice(4,100000)
+
+            swal({   title: "Notificación",   text: msg ,   timer: 5000,   showConfirmButton: false });
+    
+        }
+        else{
+
+           swal({   title: "Calificacion",   text: msg ,   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "OK",   }, function(){   });
+  
+
+        }
+
+        
+    }
+
+  
+
+</script>
+
+
+
 
 
 

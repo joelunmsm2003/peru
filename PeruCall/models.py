@@ -31,6 +31,18 @@ class Agentebase(models.Model):
         db_table = 'agentebase'
 
 
+class Agentecalificacion(models.Model):
+    id = models.IntegerField(primary_key=True)  # AutoField?
+    pregunta = models.ForeignKey('Preguntas', db_column='pregunta', blank=True, null=True)
+    nota = models.ForeignKey('Nota', db_column='nota', blank=True, null=True)
+    agente = models.ForeignKey('Agentes', db_column='agente', blank=True, null=True)
+    descripcion = models.CharField(max_length=100, blank=True)
+
+    class Meta:
+        managed = False
+        db_table = 'agentecalificacion'
+
+
 class Agentes(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
     anexo = models.IntegerField(blank=True, null=True)
@@ -342,6 +354,26 @@ class Nivel(models.Model):
     class Meta:
         managed = False
         db_table = 'nivel'
+
+
+class Nota(models.Model):
+    id = models.IntegerField(primary_key=True)  # AutoField?
+    tipo = models.CharField(max_length=100, blank=True)
+
+    class Meta:
+        managed = False
+        db_table = 'nota'
+
+
+class Preguntas(models.Model):
+    id = models.IntegerField(primary_key=True)  # AutoField?
+    pregunta = models.CharField(max_length=100, blank=True)
+    respuesta = models.CharField(max_length=100, blank=True)
+    empresa = models.ForeignKey(Empresa, db_column='empresa', blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'preguntas'
 
 
 class Resultado(models.Model):

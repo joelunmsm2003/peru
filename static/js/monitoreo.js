@@ -34,7 +34,18 @@ function Controller($scope,$http,$cookies,$filter) {
 
     });
 
-    setInterval(function(){ 
+    $http.get("/preguntas/").success(function(response) {$scope.preguntas = response;
+
+
+
+    });
+     $http.get("/nota/").success(function(response) {$scope.nota = response;
+
+
+
+    });
+
+    //setInterval(function(){ 
 
     $http.get("/agentes/"+campania).success(function(response) {$scope.agentes = response;
 
@@ -44,7 +55,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
     });
 
-    }, 1000);
+    //}, 1000);
 
     
 
@@ -157,6 +168,17 @@ function Controller($scope,$http,$cookies,$filter) {
     
     };
 
+    $scope.evaluar = function(nota,index) 
+
+    {
+
+    console.log('nota',nota.agente__user__username)
+
+    $scope.user = nota
+    
+    };
+
+
 
 
     $scope.addNew=function(agregar){
@@ -267,6 +289,81 @@ function Controller($scope,$http,$cookies,$filter) {
         console.log('edit',$scope.model);
 
     };
+
+    $scope.calificar = function (contact,user) {
+
+
+        $('#notificacion').modal('hide')
+        $('.modal-backdrop').remove();
+
+
+        msj = contact.respuesta +" " +contact.nota.tipo
+
+        username = user.agente__user__username
+
+
+        var todo={
+
+            msj: msj,
+            username: username,
+            done:false
+        }
+
+        $http({
+
+        url: "/enviar/",
+        data: todo,
+        method: 'POST',
+        headers: {
+        'X-CSRFToken': $cookies['csrftoken']
+        }
+        }).
+        success(function(data) {
+
+            swal({   title: "Perucall",   text: "Agente "+user.agente__user__first_name +" calificado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "OK",   }, function(){   });
+            $scope.pregunta=""
+        
+        })
+    };
+
+    $scope.notificar = function (contact,user) {
+
+
+        
+        $('#notificacion').modal('hide')
+        $('.modal-backdrop').remove();
+
+
+
+        msj = contact
+
+        username = user.agente__user__username
+
+
+        var todo={
+
+            msj: msj,
+            username: username,
+            done:false
+        }
+
+        $http({
+
+        url: "/notificar/",
+        data: todo,
+        method: 'POST',
+        headers: {
+        'X-CSRFToken': $cookies['csrftoken']
+        }
+        }).
+        success(function(data) {
+
+            swal({   title: "Perucall",   text: "Agente "+user.agente__user__first_name +" notificado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "OK",   }, function(){   });
+            $scope.notificacion=""
+    
+        })
+    };
+
 
 
     $scope.sort_by = function(newSortingOrder,currentPage) {

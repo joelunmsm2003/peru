@@ -58,9 +58,12 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'PeruCall',
+    'ws4redis',
 
 
 )
+
+WEBSOCKET_URL = '/ws/'
 
 
 REST_FRAMEWORK = {
@@ -81,8 +84,20 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'FirstD.urls'
 
-WSGI_APPLICATION = 'FirstD.wsgi.application'
+WSGI_APPLICATION = 'ws4redis.django_runserver.application'
 
+WEBSOCKET_URL = '/ws/'
+
+WS4REDIS_EXPIRE = 3600
+
+WS4REDIS_HEARTBEAT = '--heartbeat--'
+
+WS4REDIS_PREFIX = 'demo'
+
+
+SESSION_ENGINE = 'redis_sessions.session' # for djcelery
+
+SESSION_REDIS_PREFIX = 'session'
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
@@ -92,7 +107,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql', 
         'NAME': 'perucall',
         'USER': 'root',
-        'PASSWORD': 's3rv3r',
+        'PASSWORD': '123',
         'HOST': '127.0.0.1',   # Or an IP Address that your DB is hosted on
         'PORT': '3306',
     }
@@ -114,12 +129,15 @@ USE_TZ = True
 
 
 
-# Set the number of seconds each message shall persited
-WS4REDIS_EXPIRE = 3600
 
-WS4REDIS_HEARTBEAT = '--heartbeat--'
+TEMPLATE_CONTEXT_PROCESSORS = (
+    
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.static',
+    'django.core.context_processors.request',
+    'ws4redis.context_processors.default',
+)
 
-WS4REDIS_PREFIX = 'demo'
 
 
 # Static files (CSS, JavaScript, Images)

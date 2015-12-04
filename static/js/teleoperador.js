@@ -15,6 +15,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
 
 
+
     agente = window.location.href.split("teleoperador/")[1].split("/")[0]
 
 
@@ -48,6 +49,8 @@ function Controller($scope,$http,$cookies,$filter) {
 
 
     $http.get("/empresas").success(function(response) {$scope.empresas = response[0];
+
+        var coco = $scope.empresas
 
         
        
@@ -177,7 +180,7 @@ function Controller($scope,$http,$cookies,$filter) {
     });
 
 
-    }, 1000);
+    }, 100000);
 
 
     $scope.Admin = function(contact) 

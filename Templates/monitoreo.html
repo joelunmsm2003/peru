@@ -26,6 +26,29 @@
 
 {% include "header.html" %}
 
+<script type="text/javascript">
+  
+jQuery(document).ready(function($) {
+    var ws4redis = WS4Redis({
+        uri: '{{ WEBSOCKET_URI }}foobar?subscribe-broadcast&publish-broadcast&echo',
+        receive_message: receiveMessage,
+        heartbeat_msg: {{ WS4REDIS_HEARTBEAT }}
+    });
+
+
+
+
+
+    function receiveMessage(msg) {
+        console.log('Message from Websocket: ' + msg);
+    }
+});
+
+
+
+</script>
+
+
 
     <div class="row">
 
@@ -44,6 +67,105 @@
     </div>
 
     </div>
+
+<div id="eliminar" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Calificacion del agente {[{user.agente__user__first_name}]} </h4>
+      </div>
+        <div class="modal-body">
+
+
+                  <div class='row'>
+                    <ul ng-repeat=" pregunta in preguntas">
+                    <div class="col-sm-12">
+                        <div class='row'>
+                            <div class="col-sm-5">  
+
+
+
+                            
+                             <p> {[{pregunta.pregunta}]}</p>
+
+
+                            
+                            </div>
+                            
+
+                            <div class="col-sm-5">
+
+                            <select required="" class="form-control"  ng-model="pregunta.nota" ng-options="c.tipo for c in nota"></select>
+                            </div>
+
+                             <div class="col-sm-2">
+                             <button type="submit" ng-click="calificar(pregunta,user)" class="btn btn-primary"><i class="fa fa-arrow-right"></i></button>
+  
+                              </div>
+
+
+
+                               
+
+
+                    </div>
+                    <br>
+
+
+
+                    </ul>
+
+                  </div>  
+                 
+        </div>
+
+         <div class="modal-footer">
+           <button class="btn" data-dismiss="modal">Cerrar</button>
+      </div>
+    
+   
+
+
+
+    </div>
+
+  </div>
+</div>
+
+
+
+<div id="notificacion" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Notificacion al agente {[{user.agente__user__first_name}]} </h4>
+      </div>
+        <div class="modal-body">
+
+        <textarea class="form-control" rows="5" ng-model="notificacion"></textarea>
+
+                 
+        </div>
+
+         <div class="modal-footer">
+           <button class="btn" data-dismiss="modal">Cerrar</button>
+           <button type="submit" ng-click="notificar(notificacion,user)" class="btn btn-primary">Enviar <i class="fa fa-rocket"></i></a></button>
+      </div>
+    
+   
+
+
+
+    </div>
+
+  </div>
+</div>
+
+
 
     <br>
 
@@ -105,15 +227,25 @@
 
 
                           <div class="col-sm-6">
-                          <i class="flaticon-cloud148"></i> &nbsp {[{contact.agente__atendidas}]}
+                          <center><i class="fa fa-share"></i> &nbsp {[{contact.agente__atendidas}]}</center>
                           </div>
                           <div class="col-sm-6">
-                          <i class="flaticon-cloud126"></i> &nbsp {[{contact.agente__contactadas}]}
+                          <center><i class="fa fa-reply"></i> &nbsp {[{contact.agente__contactadas}]}</center>
+                          </div>
+
+                          <div class="col-sm-6"><center>
+                          <a ng-click="evaluar(contact,$index)" class="btn btn-primary" data-toggle="modal" data-target="#eliminar"><i class="fa fa-check"></i></a></center>
+                          </div>
+
+                          <div class="col-sm-6"><center>
+                          <a ng-click="evaluar(contact,$index)" class="btn btn-primary" data-toggle="modal" data-target="#notificacion"><i class="fa fa-rocket"></i></a></center>
                           </div>
 
                           <div class="col-sm-12" ng-if="contact.agente__estado == '6'">
                           T. Gestion: {[{contact.tgestion}]}
                           </div>
+
+                            
 
                          
                           <div class="col-sm-12" ng-if="contact.agente__estado == '6'">

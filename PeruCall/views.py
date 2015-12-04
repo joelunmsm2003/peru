@@ -40,6 +40,10 @@ from django.db.models.signals import pre_save
 from django.contrib.auth.signals import user_logged_in
 
 from django.dispatch import receiver
+from ws4redis.publisher import RedisPublisher
+from ws4redis.redis_store import RedisMessage
+
+
 
 
 
@@ -57,7 +61,7 @@ def ingresar(request):
 		
 		id =request.user.id
 		nivel = AuthUser.objects.get(id=id).nivel.id
-		id_agente = Agentes.objects.get(user_id=id).id
+		
 
 		
 		if nivel == 1:
@@ -65,6 +69,7 @@ def ingresar(request):
 		if nivel == 2:
 			return HttpResponseRedirect("/campania")
 		if nivel == 3:
+			id_agente = Agentes.objects.get(user_id=id).id
 			return HttpResponseRedirect("/teleoperador/"+str(id_agente))
 		if nivel == 4:
 			return HttpResponseRedirect("/usuario")
@@ -171,7 +176,59 @@ def game(request):
 
 @login_required(login_url="/ingresar")
 def empresa(request):
+
+
+
 	return render(request, 'empresa.html',{})
+
+@login_required(login_url="/ingresar")
+def enviar(request):
+
+
+	if request.method == 'POST':
+
+		msj= json.loads(request.body)['msj']
+
+		user=json.loads(request.body)['username']
+
+		print 'user',user
+
+		redis_publisher = RedisPublisher(facility='foobar', users=[user])
+
+		message = RedisMessage(msj)
+
+		redis_publisher.publish_message(message)
+
+
+	return HttpResponse('data', content_type="application/json")
+
+@login_required(login_url="/ingresar")
+def notificar(request):
+
+
+	if request.method == 'POST':
+
+		msj= json.loads(request.body)['msj']
+
+		user=json.loads(request.body)['username']
+
+		print 'user',user
+
+		redis_publisher = RedisPublisher(facility='foobar', users=[user])
+
+		msj = msj.encode('utf-8')
+
+		message = RedisMessage('Noti'+msj)
+
+		redis_publisher.publish_message(message)
+
+
+	return HttpResponse('data', content_type="application/json")
+
+
+
+
+
 
 @login_required(login_url="/ingresar")
 def usuario(request):
@@ -281,6 +338,11 @@ def filtros(request,id):
 	return render(request, 'filtros.html',{'campania':campania})
 
 @login_required(login_url="/ingresar")
+def pregunta(request):
+
+	return render(request, 'pregunta.html',{})
+
+@login_required(login_url="/ingresar")
 def cartera(request):
 	
 	return render(request, 'cartera.html',{})
@@ -321,7 +383,7 @@ def menu(request):
 def agentes(request,id_campania):
 	id = request.user.id
 
-	user = Agentescampanias.objects.filter(campania=id_campania).values('id','agente','agente__user__first_name','agente__fono','agente__anexo','agente__atendidas','agente__contactadas','agente__estado')
+	user = Agentescampanias.objects.filter(campania=id_campania).values('id','agente','agente__user__username','agente__user__first_name','agente__fono','agente__anexo','agente__atendidas','agente__contactadas','agente__estado')
 
 	fmt = '%Y-%m-%d %H:%M:%S %Z'
 	fmt1 = '%Y-%m-%d %H:%M:%S'
@@ -346,13 +408,7 @@ def agentes(request,id_campania):
 			user[i]['tgestion'] = str(tf-ti)
 
 			sec = str(tf-ti).split(':')
-			print 'sec',sec[2]
 
-
-
-			
-
-			print 'sec1',sec[1]
 			user[i]['secgestion'] = int(sec[2])*2
 
 			if int(sec[1]) > 0:
@@ -361,8 +417,6 @@ def agentes(request,id_campania):
 				user[i]['secgestion'] = 180
 
 			
-
-
 			if int(sec[2]) > 0 and int(sec[2])< 30:
 				user[i]['color'] = '#81C784'
 			if int(sec[2]) > 30 and int(sec[2])< 55:
@@ -393,6 +447,19 @@ def agentes(request,id_campania):
 
 	return HttpResponse(data, content_type="application/json")
 
+
+@login_required(login_url="/ingresar")
+def nota(request):
+
+		data = Nota.objects.all().values('id','tipo').order_by('-id')
+
+
+
+		data_dict = ValuesQuerySetToDict(data)
+
+		data = simplejson.dumps(data_dict)
+
+		return HttpResponse(data, content_type="application/json")
 
 
 @login_required(login_url="/ingresar")
@@ -597,6 +664,67 @@ def eliminarfiltro(request):
 		print dato
 
 		return HttpResponse(id_filtro, content_type="application/json")
+
+
+@login_required(login_url="/ingresar")
+def preguntas(request):
+
+		if request.method == 'GET':
+
+			data = Preguntas.objects.all().values('id','pregunta','respuesta','empresa').order_by('-id')
+
+			data_dict = ValuesQuerySetToDict(data)
+
+			data = simplejson.dumps(data_dict)
+
+			return HttpResponse(data, content_type="application/json")
+
+		if request.method == 'POST':
+
+			tipo = json.loads(request.body)['add']
+
+			data = json.loads(request.body)['dato']
+
+
+
+			pregunta = data['pregunta']
+
+			respuesta = data['respuesta']
+
+
+			if tipo == 'New':
+
+				Preguntas(pregunta=pregunta,respuesta=respuesta).save()
+
+				id_pregunta = Preguntas.objects.all().values('id').order_by('-id')[0]['id']
+
+				pregunta = Preguntas.objects.get(id=id_pregunta)
+
+				return HttpResponse(pregunta.pregunta, content_type="application/json")
+
+			if tipo == 'Edit':
+
+				id_pregunta = data['id']
+
+				datap = Preguntas.objects.get(id=id_pregunta)
+			
+				datap.pregunta = pregunta
+				datap.respuesta = respuesta
+
+				datap.save()
+
+				return HttpResponse(datap.pregunta, content_type="application/json")
+
+			if tipo == 'Eliminar':
+
+				print data
+
+				id_pregunta = data['id']
+				pregunta = Preguntas.objects.get(id=id_pregunta)
+				
+				pregunta.delete()
+
+				return HttpResponse(pregunta.pregunta, content_type="application/json")
 
 
 
@@ -1483,12 +1611,8 @@ def agentescampania(request,id_campania):
 
 	for i in range(len(agentes)):
 
-
-		print agentes[i]['id']
-
-
-
 		agentes[i]['name'] = Agentescampanias.objects.get(id=agentes[i]['id']).agente.user.first_name
+
 		agentes[i]['estado'] = Agentescampanias.objects.get(id=agentes[i]['id']).agente.estado.nombre
 
 	data_dict = ValuesQuerySetToDict(agentes)
