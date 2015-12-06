@@ -186,7 +186,7 @@ def enviar(request):
 
 		redis_publisher = RedisPublisher(facility='foobar', users=[user])
 
-		message = RedisMessage(msj)
+		message = RedisMessage('Cali'+msj)
 
 		redis_publisher.publish_message(message)
 
@@ -336,6 +336,11 @@ def reporteg(request):
 	
 	return render(request, 'reporteg.html',{})
 
+@login_required(login_url="/ingresar")
+def licencia(request):
+	
+	return render(request, 'licencia.html',{})
+
 
 @login_required(login_url="/ingresar")
 def supervisorcartera(request,id_supervisor):
@@ -377,7 +382,11 @@ def agentes(request,id_campania):
 
 	for i in range(len(user)):
 
-		agentebase = Agentebase.objects.filter(agente_id=user[i]['agente'],status_id=6)
+		agentebase = Agentes.objects.filter(id=user[i]['agente'],estado_id=6)
+
+		if Base.objects.filter(status=1,agente_id=user[i]['agente']):
+
+			user[i]['fono'] = Base.objects.get(status=1,agente_id=user[i]['agente']).telefono
 
 		for agente in agentebase:
 
@@ -410,11 +419,14 @@ def agentes(request,id_campania):
 
 			print user[i]['color'] 
 
+		'''
 
+		if Agentescampanias.objects.filter(id=user[i]['id']).agente.tiempo:
 
-
-		user[i]['agente__tiempo'] = Agentescampanias.objects.get(id=user[i]['id']).agente.tiempo.strftime(fmt)
+			user[i]['agente__tiempo'] = Agentescampanias.objects.get(id=user[i]['id']).agente.tiempo.strftime(fmt)
 		
+		'''
+
 		if user[i]['agente__atendidas'] > 0:
 
 			user[i]['performance'] =  (user[i]['agente__contactadas']*100/user[i]['agente__atendidas'])
@@ -445,8 +457,65 @@ def nota(request):
 
 		return HttpResponse(data, content_type="application/json")
 
+@login_required(login_url="/ingresar")
+def licencias(request):
+
+		id = request.user.id
+
+		id_empresa = AuthUser.objects.get(id=id).empresa.id
+
+		numlic = Empresa.objects.get(id=id_empresa).licencias
+
+		if request.method == 'POST':
+
+			licencias = json.loads(request.body)['dato']
+
+			lic_tmp = licencias['lictemporal']
+			finicio = licencias['finicio']
+			ffin = licencias['ffin']
+
+			LicenciasTmp(lic_tmp=lic_tmp,finicio=finicio,ffin=ffin,empresa_id=id_empresa).save()
+
+
+		return HttpResponse(numlic, content_type="application/json")
+
 
 @login_required(login_url="/ingresar")
+def lictmp(request):
+
+		id = request.user.id
+
+		id_nivel=AuthUser.objects.get(id=id).nivel.id
+		id_empresa =AuthUser.objects.get(id=id).empresa.id
+
+		if id_nivel == 4:
+
+			licencias = LicenciasTmp.objects.all().values('id','lic_tmp','finicio','ffin','empresa__nombre')
+
+		else:
+
+			licencias = LicenciasTmp.objects.filter(empresa_id=id_empresa).values('id','lic_tmp','finicio','ffin','empresa__nombre')
+
+
+
+
+		fmt = '%Y-%m-%d %H:%M:%S %Z'
+
+		for i in range(len(licencias)):
+
+			licencias[i]['finicio'] = LicenciasTmp.objects.get(id=licencias[i]['id']).finicio.strftime(fmt)
+			licencias[i]['ffin'] = LicenciasTmp.objects.get(id=licencias[i]['id']).ffin.strftime(fmt)
+
+
+		data_dict = ValuesQuerySetToDict(licencias)
+
+		data = simplejson.dumps(data_dict)
+
+		return HttpResponse(data, content_type="application/json")
+
+
+@login_required(login_url="/ingresar")
+
 def agregarcartera(request):
 
 	if request.method == 'POST':

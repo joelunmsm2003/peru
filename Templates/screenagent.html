@@ -27,10 +27,10 @@
 
         console.log(msg)
 
-        noti = msg.slice(0,3)
+        resp = msg.slice(0,4)
        
 
-        
+        console.log('respuesta',resp)
 
         if(msg=='llamada'){
 
@@ -38,18 +38,16 @@
         }
 
 
-        console.log('msg',msg) 
 
-        //
 
-        if(noti == 'Noti'){
+        if(resp == 'Noti'){
 
             msg = msg.slice(4,100000)
 
             swal({   title: "Notificación",   text: msg ,   timer: 1000,   showConfirmButton: false });
     
         }
-        if(msg=='Musarañ'){
+        if(resp=='Cali'){
 
            swal({   title: "Calificacion",   text: msg ,   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "OK",   }, function(){   });
   

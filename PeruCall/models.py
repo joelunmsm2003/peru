@@ -327,6 +327,7 @@ class Empresa(models.Model):
     mascaras = models.ForeignKey('Mascara', db_column='mascaras', blank=True, null=True)
     telefono = models.IntegerField(blank=True, null=True)
     url = models.CharField(max_length=100, blank=True)
+    licencias_adi = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -371,6 +372,18 @@ class Header(models.Model):
     class Meta:
         managed = False
         db_table = 'header'
+
+
+class LicenciasTmp(models.Model):
+    id = models.IntegerField(primary_key=True)  # AutoField?
+    lic_tmp = models.IntegerField(blank=True, null=True)
+    finicio = models.DateTimeField(blank=True, null=True)
+    ffin = models.DateTimeField(blank=True, null=True)
+    empresa = models.ForeignKey(Empresa, db_column='empresa', blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'licencias_tmp'
 
 
 class Mascara(models.Model):

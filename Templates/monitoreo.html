@@ -247,19 +247,15 @@ jQuery(document).ready(function($) {
                 <div class="row">
 
                     
-
-                      
-
-                          <div class="col-sm-12" ng-if="contact.agente__estado == '3'">
-                          <center><i class="flaticon-phone64"></i> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp   {[{contact.agente__fono}]}</center>
+                          <div class="col-sm-12" ng-if="contact.agente__estado == '3'|| contact.agente__estado == '6' ">
+                          <center><i class="flaticon-phone64"></i>  {[{contact.fono}]}</center>
                           </div>
 
-
                           <div class="col-sm-6">
-                          <center><i class="fa fa-share"></i> &nbsp {[{contact.agente__atendidas}]}</center>
+                          <center><i class="fa fa-share"></i> {[{contact.agente__atendidas}]}</center>
                           </div>
                           <div class="col-sm-6">
-                          <center><i class="fa fa-reply"></i> &nbsp {[{contact.agente__contactadas}]}</center>
+                          <center><i class="fa fa-reply"></i> {[{contact.agente__contactadas}]}</center>
                           </div>
 
                           <div class="col-sm-6"><center>
@@ -273,9 +269,6 @@ jQuery(document).ready(function($) {
                           <div class="col-sm-12" ng-if="contact.agente__estado == '6'">
                           T. Gestion: {[{contact.tgestion}]}
                           </div>
-
-                            
-
                          
                           <div class="col-sm-12" ng-if="contact.agente__estado == '6'">
                           <div class="progre">
@@ -285,8 +278,6 @@ jQuery(document).ready(function($) {
                           </div>
                           </div>
 
-
-                   
                            <!-- <canvas id="doughnut" class="chart chart-doughnut"
                             chart-data="[contact.agente__atendidas,contact.agente__contactadas]" chart-labels="labels">
                             </canvas>

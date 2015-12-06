@@ -1,22 +1,14 @@
 
-var App=angular.module('App', ['ngCookies','chart.js']);
+var App=angular.module('App', ['ngCookies']);
 
 App.config(function($interpolateProvider){
 $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
 });
 
-
-
 function Controller($scope,$http,$cookies,$filter) {
 
 
 
-
-
-
-    console.log(window.location.href.split("monitoreo/"))
-
-    campania = window.location.href.split("monitoreo/")[1].split("/")[0]
     var sortingOrder ='-id';
     $scope.sortingOrder = sortingOrder;
     $scope.reverse = false;
@@ -26,58 +18,15 @@ function Controller($scope,$http,$cookies,$filter) {
     $scope.pagedItems = [];
     $scope.currentPage = 0;
 
-    $http.get("/agentes/"+campania).success(function(response) {$scope.agentes = response;
-
-
-    console.log('agentes',$scope.agentes)
-
-
-    });
-
-    $http.get("/preguntas/").success(function(response) {$scope.preguntas = response;
-
-
-
-    });
-     $http.get("/nota/").success(function(response) {$scope.nota = response;
-
-
-
-    });
-
-    setInterval(function(){ 
-
-    $http.get("/agentes/"+campania).success(function(response) {$scope.agentes = response;
-
-
-    console.log('agentes',$scope.agentes)
-
-
-    });
-
-    }, 1000);
 
     
+    $http.get("/empresas").success(function(response) {$scope.clientes = response;
 
+        $scope.search();
 
-     $http.get("/agentescampania/"+campania).success(function(response) {$scope.usuarioscampania = response;
-
-        
-
-    });
-
- 
-
-    $http.get("/empresas").success(function(response) {$scope.empresas = response[0];
-
-
+        $scope.empresas=response[0]
        
     });
-
-
-
-
-
 
     $http.get("/user").success(function(response) {$scope.user = response;
 
@@ -85,32 +34,53 @@ function Controller($scope,$http,$cookies,$filter) {
 
     });
 
+     $http.get("/licencias").success(function(response) {$scope.licencias = parseInt(response);
 
-    $http.get("/nivel").success(function(response) {$scope.nivel = response;
+        console.log('lic',$scope.licencias)
+        $scope.licact = response
 
-        console.log('$scope.nivel',$scope.nivel)
+
 
     });
 
 
-    $scope.agregar = function(index,contact) 
 
+     $http.get("/lictmp").success(function(response) {$scope.lictmp = response;
+
+       
+
+
+
+    });
+
+
+
+
+
+
+
+    $scope.totall = function(data) 
     {
 
+    $scope.total = parseInt(data.lictemporal) + parseInt($scope.licact)
+    };
 
-    $scope.usuarioscampania.push(contact);
-    $scope.usuarios.splice(index,1);
+
+
+    $scope.addlicencia = function(data) 
+    {
+
+    console.log(data)
+
 
         var todo={
 
-            campania: campania,
-            dato: contact,
+            dato: data,
             done:false
         }
 
         $http({
-
-        url: "/agregaragente/",
+        url: "/licencias/",
         data: todo,
         method: 'POST',
         headers: {
@@ -119,72 +89,26 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-            swal({   title: "Asignacion de agentes",   text: data +' agregado',   timer: 2000,   showConfirmButton: false });
-    
-    
-    
+       swal({   title: $scope.empresas.nombre,   text: "Licencias Temporal "+data +" agregado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Agregado",   }, function(){   window.location.href = "/licencia" });
+
+
+
         })
 
-    
     };
 
-    $scope.quitar = function(index,contact) 
 
-    {
 
-    $scope.usuarios.push(contact);
-    $scope.usuarioscampania.splice(index,1);
 
-            var todo={
-
-            campania: campania,
-            dato: contact,
-            done:false
-        }
-
-        $http({
-
-        url: "/quitaragente/",
-        data: todo,
-        method: 'POST',
-        headers: {
-        'X-CSRFToken': $cookies['csrftoken']
-        }
-        }).
-        success(function(data) {
-
-            swal({   title: "Asignacion de agentes",   text: data +' quitado',   timer: 2000,   showConfirmButton: false });
-    
-    
-        })
-    
-    };
-
-    $scope.numberOfPages = function() 
-
-    {
-
-    return Math.ceil($scope.clientes.length / $scope.pageSize);
-    
-    };
-
-    $scope.evaluar = function(nota,index) 
-
-    {
-
-    console.log('nota',nota.agente__user__username)
-
-    $scope.user = nota
-    
-    };
 
 
 
 
     $scope.addNew=function(agregar){
 
+      
 
-        console.log('agregar',agregar)
+
 
         var todo={
 
@@ -194,7 +118,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }
 
         $http({
-        url: "/usuarios/",
+        url: "/empresas/",
         data: todo,
         method: 'POST',
         headers: {
@@ -203,9 +127,11 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-        swal({   title: "Perucall",   text: "Usuario "+data +" agregado",   type: "success",   confirmButtonColor: "#337ab7",   confirmButtonText: "OK",   }, function(){   window.location.href = "/usuario" });
+       swal({   title: $scope.empresas.nombre,   text: "Empresa "+data +" agregado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Agregado",   }, function(){   window.location.href = "/empresa" });
+
  
-        $scope.agregar=""
+         $scope.agregar=""
+
 
         })
 
@@ -214,7 +140,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
     $scope.saveContact = function (idx,currentPage) {
 
-
+     
         $scope.pagedItems[currentPage][idx] = angular.copy($scope.model);
         $('#edit').modal('hide')
         $('.modal-backdrop').remove();
@@ -229,7 +155,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
 
         $http({
-        url: "/usuarios/",
+        url: "/empresas/",
         data: todo,
         method: 'POST',
         headers: {
@@ -238,21 +164,23 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-        swal({   title: "Perucall",   text: "Usuario "+data +" editado",   type: "success",   confirmButtonColor: "#337ab7",   confirmButtonText: "OK",   }, function(){   });
- 
+            swal({title: $scope.empresas.nombre, text: "Empresa "+data +" editado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Editado",   }, function(){ window.location.href = "/empresa" });
+
+
         })
 
 
-        $('#Edit').modal('hide')
-        $('.modal-backdrop').remove();
     };
 
 
 
     $scope.eliminarContact = function (idx,currentPage) {
 
+
         $('#eliminar').modal('hide')
         $('.modal-backdrop').remove();
+
+        
 
         $scope.pagedItems[currentPage].splice(idx,1);
 
@@ -265,7 +193,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
 
         $http({
-        url: "/usuarios/",
+        url: "/empresas/",
         data: todo,
         method: 'POST',
         headers: {
@@ -274,10 +202,12 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
+        swal({title: $scope.empresas.nombre , text: "Empresa "+data +" eliminado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Eliminado",   }, function(){   });
+
         $scope.contador =$scope.contador-1
 
-        })
 
+        })
     };
 
 
@@ -290,85 +220,11 @@ function Controller($scope,$http,$cookies,$filter) {
 
     };
 
-    $scope.calificar = function (contact,user) {
-
-
-        $('#notificacion').modal('hide')
-        $('.modal-backdrop').remove();
-
-
-        msj = contact.respuesta +" " +contact.nota.tipo
-
-        username = user.agente__user__username
-
-
-        var todo={
-
-            msj: msj,
-            username: username,
-            done:false
-        }
-
-        $http({
-
-        url: "/enviar/",
-        data: todo,
-        method: 'POST',
-        headers: {
-        'X-CSRFToken': $cookies['csrftoken']
-        }
-        }).
-        success(function(data) {
-
-            swal({   title: "Perucall",   text: "Agente "+user.agente__user__first_name +" calificado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "OK",   }, function(){   });
-            $scope.pregunta=""
-        
-        })
-    };
-
-    $scope.notificar = function (contact,user) {
-
-
-        
-        $('#notificacion').modal('hide')
-        $('.modal-backdrop').remove();
-
-
-
-        msj = contact
-
-        username = user.agente__user__username
-
-
-        var todo={
-
-            msj: msj,
-            username: username,
-            done:false
-        }
-
-        $http({
-
-        url: "/notificar/",
-        data: todo,
-        method: 'POST',
-        headers: {
-        'X-CSRFToken': $cookies['csrftoken']
-        }
-        }).
-        success(function(data) {
-
-            swal({   title: "Perucall",   text: "Agente "+user.agente__user__first_name +" notificado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "OK",   }, function(){   });
-            $scope.notificacion=""
-    
-        })
-    };
-
-
 
     $scope.sort_by = function(newSortingOrder,currentPage) {
 
 
+        
         function sortByKey(array, key) {
             return array.sort(function(a, b) {
             var x = a[key]; var y = b[key];
@@ -407,6 +263,9 @@ function Controller($scope,$http,$cookies,$filter) {
         $scope.search()
 
 
+
+
+
         // icon setup
         $('th i').each(function(){
             // icon reset
@@ -430,6 +289,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
         }
 
+ 
         var output = {};
 
         obj = $filter('filter')($scope.clientes,$scope.tipo)

@@ -29,7 +29,10 @@
         <li id="formulario" ng-if="user.nivel == 1"><a href="/pregunta"> Formulario   <i class="fa fa-check"></i></a></li>
         
         <li id='reporteg'><a href="/reporteg">Reportes <i class="fa fa-area-chart"></i></a></li>
-         <li><a href="#">Grabaciones <i class="fa fa-volume-down"></i> </a></li>
+        <!-- <li><a href="#">Grabaciones <i class="fa fa-volume-down"></i> </a></li>-->
+
+          <li id='licencia'><a ng-if="user.nivel == 1" href="/licencia">Licencias <i class="fa fa-area-chart"></i></a></li>
+        
 
       </ul>
 
@@ -82,6 +85,15 @@
     $( "#formulario" ).addClass( "active" )
   }
 
+  if (($(location).attr('href').split('/')[3]) =='reporteg'){
+
+    $( "#reporteg" ).addClass( "active" )
+  }
+
+    if (($(location).attr('href').split('/')[3]) =='licencia'){
+
+    $( "#licencia" ).addClass( "active" )
+  }
 
 </script>
 
@@ -134,7 +146,15 @@
     animation-duration: 1s;
   }
 
-  #reporte:hover{
+  #reporteg:hover{
+
+    background-color: #345;
+       background-color: white;
+    animation-name: example;
+    animation-duration: 1s;
+  }
+
+    #licencia:hover{
 
     background-color: #345;
        background-color: white;
@@ -199,7 +219,7 @@ border: 0;
 height: 50px;
 margin-left: -14px;
 margin-top: -15px;
-opacity: .95;
+
 }
 
 .navbar-nav {
