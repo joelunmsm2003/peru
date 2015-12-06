@@ -11,7 +11,7 @@
 
 
 
-<div  id ='cliente' class='container-fluid animated bounceInRight'>
+<div  id ='cliente' class='container-fluid'>
 
 <script type="text/javascript">
 
@@ -25,16 +25,31 @@
 
   function receiveMessage(msg) {
 
-        noti = msg.slice(0,3)
+        console.log(msg)
 
-        if(noti = 'Noti'){
+        noti = msg.slice(0,3)
+       
+
+        
+
+        if(msg=='llamada'){
+
+          window.location.href = "/teleoperador/"+agente
+        }
+
+
+        console.log('msg',msg) 
+
+        //
+
+        if(noti == 'Noti'){
 
             msg = msg.slice(4,100000)
 
-            swal({   title: "Notificación",   text: msg ,   timer: 5000,   showConfirmButton: false });
+            swal({   title: "Notificación",   text: msg ,   timer: 1000,   showConfirmButton: false });
     
         }
-        else{
+        if(msg=='Musarañ'){
 
            swal({   title: "Calificacion",   text: msg ,   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "OK",   }, function(){   });
   
@@ -110,7 +125,7 @@
                       </div>
 
 
-                    <div class="col-md-3 panel panel-default" ng-if="datoagente.estado__nombre == 'En gestion'">
+                    <div class="col-md-3 panel panel-default" ng-if="datoagente.estado__nombre == 'En gestion'" >
 
 
                           <div class='row panel-body c4'>
@@ -132,27 +147,14 @@
                                
                               </div>
 
-                              <div class="col-md-12">
+          
+                             
 
+
+                              <div class="col-md-12" >
                                   <div class='row'>
                                     <div class="col-md-6" >
-                                    <i class="fa fa-phone-square"></i> Tiempo
-                                    </div>
-                                    <div class="col-md-6" >{[{tllamada}]}
-                      
-                                    </div>
-
-                                    </div>
-
-                       
-
-                               
-                              </div>
-
-                              <div class="col-md-12">
-                                  <div class='row'>
-                                    <div class="col-md-6" >
-                                    <i class="fa fa-tasks"></i> {[{tgestion}]}
+                                    <i class="fa fa-tasks"></i> {[{conteo}]} seg
                                     </div>
                                     <div class="col-md-6" >
                                     <div class="progre">
@@ -236,9 +238,9 @@
                           <div class='row panel-body c2'>
                               <div class="col-md-12">
                                   <div class='row'>
-                                  <div class="col-md-8"><i class="fa fa-wifi"></i> Horas Conectadas
+                                  <div class="col-md-8"><i class="fa fa-wifi"></i> Conectado
                                   </div>
-                                  <div class="col-md-4">{[{user.conectado}]}
+                                  <div class="col-md-4">{[{conectado}]} seg
                                   </div>
 
                                   </div>
@@ -248,7 +250,7 @@
                               <div class="col-md-12">
 
                                   <div class='row'>
-                                  <div class="col-md-8"><i class="fa fa-paper-plane"></i> Horas Atendidas
+                                  <div class="col-md-8"><i class="fa fa-paper-plane"></i> Atendido
                                   </div>
                                   <div class="col-md-4">{[{atendida}]}
                                   </div>
@@ -343,7 +345,7 @@
 
 <div class='row' ng-if="datoagente.estado__nombre == 'En Espera'">
 
-<center><iframe src="http://107.170.116.11:2000/game" width="1000" height="500" frameborder="NO"></iframe></center>
+<center><iframe src="http://localhost:8000/game" width="1000" height="500" frameborder="NO"></iframe></center>
 
 </div>
 
@@ -422,6 +424,11 @@
               <tbody>
 
 
+              <tr><td>Id</td>
+              <td>{[{cliente.id}]}</td>
+              </tr>
+
+
               <tr><td>Campaña</td>
               <td>{[{cliente.campania__nombre}]}</td>
               <td>Status A</td>
@@ -493,7 +500,7 @@
               <div class="form-group">
               <label for="">Comentario</label>
               
-              <textarea ng-change='tipeo()' ng-model='gestion.comentario' class="form-control" ></textarea>
+              <textarea ng-change='tipeo()' required = "" ng-model='gestion.comentario' class="form-control" ></textarea>
               </div>
 
               <button type="submit" class="btn btn-primary">Guardar</button>
@@ -502,6 +509,9 @@
               </div>
 
               <div class="col-md-6 gestion">
+
+
+
 
             
 
@@ -630,7 +640,7 @@ font-weight: bold;
 
 
 
-/* f
+
 
 
 </style>

@@ -1621,7 +1621,7 @@ th {
 .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
     padding: 8px;
     line-height: 1.42857143;
-    vertical-align: top;
+    vertical-align: middle;
     border-top: 1px solid #ddd;
 }
 .table>thead>tr>th {
@@ -3121,7 +3121,7 @@ select[multiple].input-group-sm>.form-control, select[multiple].input-group-sm>.
 }
 }.navbar-fixed-top {
     top: 0;
-    border-width: 0 0 1px;
+    border-width: 0 0 0px;
 }
 .navbar-fixed-bottom {
     bottom: 0;
@@ -3333,6 +3333,7 @@ select[multiple].input-group-sm>.form-control, select[multiple].input-group-sm>.
 }.navbar-default {
     background-color: #b71c1c ;
     border-color: #b71c1c ;
+    opacity: .94;
 }
 .navbar-default .navbar-brand {
     color: #FFE1E1;

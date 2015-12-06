@@ -17,7 +17,7 @@
 </div>
 
 
-<div  class ='container' >
+<div  class ='container'  >
 
 {% include "header.html" %}
 
@@ -25,42 +25,45 @@
 
 
 
-	<div class="jumbotron">
-		<div class="row">
-		
-			<div class="col-md-6">
-			<p>Asignacion de Agentes </p>
-			</div>
-
-			
-
-
-				
-		</div>
-	</div>
-
-
-
+	<div class="panel panel-default">
   <div class="panel-body">
+   Asignacion de Agentes 
+  </div>
+</div>
+
+
+
+  <div class="panel-body" onmouseover="container()">
 
     	<div class='row'>
   	 	<div class="col-sm-6">
   	 		<div class='row'>
-				<div class="col-sm-10">
+
+  	 			<h4>Usuarios Disponibles</h4>
+  	 			<div class="col-sm-2">
+				<a ng-click="agregaruser()" class="btn btn-primary" >Agregar</a>
+				</div>
+  	 			
+
+				<div class="col-sm-8">
 				<form class="navbar-search pull-left" action="">
 				<input placeholder="Buscar" ng-change="search()"  type="text" ng-model="tipo" class="form-control" >
 				</form>
 				</div>
+
+
 				<div class="col-sm-2">
 				{[{contador1}]}
 				</div>
+
+				
 			</div>
 
-  	 		<h4>Usuarios Disponibles</h4>
+  	 		
 
-			<a ng-click="agregaruser()" class="btn btn-primary" >Agregar</a>
+			
 
-			<br></br>
+			<br>
 			<table class="table table-striped table-condensed table-hover ">
 				<tbody>
 				<thead>
@@ -85,8 +88,14 @@
 		<div class="col-sm-6">
 
 			<div class='row'>
+			<h4>Usuarios que pertenecen a esta Campaña</h4>
 
-				<div class="col-sm-10">
+				<div class="col-sm-2">
+				<a ng-click="quitaruser()" class="btn btn-primary" >Quitar</a>	
+
+				</div>
+
+				<div class="col-sm-8">
 				<form class="navbar-search pull-left" action="">
 				<input placeholder="Buscar" ng-change="search1()"  type="text" ng-model="tipo1x" class="form-control" >
 				</form>
@@ -98,10 +107,10 @@
 
 				</div>
 			</div>
-	
-			<h4>Usuarios que pertenecen a esta Campaña</h4>
+	<br>
+			
 		
-			<a ng-click="quitaruser()" class="btn btn-primary" >Quitar</a>	<br></br>
+			
 			<table class="table table-striped table-condensed table-hover ">
 				<tbody>
 

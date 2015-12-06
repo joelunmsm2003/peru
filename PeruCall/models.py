@@ -37,6 +37,12 @@ class Agentecalificacion(models.Model):
     nota = models.ForeignKey('Nota', db_column='nota', blank=True, null=True)
     agente = models.ForeignKey('Agentes', db_column='agente', blank=True, null=True)
     descripcion = models.CharField(max_length=100, blank=True)
+    calificacion = models.IntegerField(blank=True, null=True)
+    item = models.IntegerField(blank=True, null=True)
+    atributo = models.ForeignKey('Atributo', db_column='atributo', blank=True, null=True)
+    criterio = models.ForeignKey('Criterios', db_column='criterio', blank=True, null=True)
+    categoria = models.ForeignKey('Categoria', db_column='categoria', blank=True, null=True)
+    campania = models.ForeignKey('Campania', db_column='campania', blank=True, null=True)
 
     class Meta:
         managed = False
@@ -47,7 +53,7 @@ class Agentes(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
     anexo = models.IntegerField(blank=True, null=True)
     fono = models.IntegerField(blank=True, null=True)
-    tiempo = models.TimeField(blank=True, null=True)
+    tiempo = models.DateTimeField(blank=True, null=True)
     atendidas = models.IntegerField(blank=True, null=True)
     contactadas = models.IntegerField(blank=True, null=True)
     estado = models.ForeignKey('Estado', db_column='estado', blank=True, null=True)
@@ -55,6 +61,8 @@ class Agentes(models.Model):
     supervisor = models.ForeignKey('Supervisor', db_column='supervisor', blank=True, null=True)
     disponible = models.IntegerField(blank=True, null=True)
     calificacion = models.ForeignKey('Base', db_column='calificacion', blank=True, null=True)
+    tiniciogestion = models.DateTimeField(blank=True, null=True)
+    tfingestion = models.DateTimeField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -69,6 +77,15 @@ class Agentescampanias(models.Model):
     class Meta:
         managed = False
         db_table = 'agentescampanias'
+
+
+class Atributo(models.Model):
+    id = models.IntegerField(primary_key=True)  # AutoField?
+    name = models.CharField(max_length=100, blank=True)
+
+    class Meta:
+        managed = False
+        db_table = 'atributo'
 
 
 class AuthGroup(models.Model):
@@ -224,6 +241,24 @@ class Carteraempresa(models.Model):
     class Meta:
         managed = False
         db_table = 'carteraempresa'
+
+
+class Categoria(models.Model):
+    id = models.IntegerField(primary_key=True)  # AutoField?
+    name = models.CharField(max_length=100, blank=True)
+
+    class Meta:
+        managed = False
+        db_table = 'categoria'
+
+
+class Criterios(models.Model):
+    id = models.IntegerField(primary_key=True)  # AutoField?
+    name = models.CharField(max_length=100, blank=True)
+
+    class Meta:
+        managed = False
+        db_table = 'criterios'
 
 
 class Data(models.Model):

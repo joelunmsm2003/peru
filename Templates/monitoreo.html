@@ -49,8 +49,9 @@ jQuery(document).ready(function($) {
 </script>
 
 
-
-    <div class="row">
+<div class="panel panel-default">
+  <div class="panel-body">
+     <div class="row" onmouseover="container()">
 
     <div class="col-sm-3">
     Monitoreo de Agentes
@@ -68,8 +69,13 @@ jQuery(document).ready(function($) {
 
     </div>
 
+  </div>
+</div>
+
+
+
 <div id="eliminar" class="modal fade" role="dialog">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
 
     <div class="modal-content">
       <div class="modal-header">
@@ -78,12 +84,30 @@ jQuery(document).ready(function($) {
       </div>
         <div class="modal-body">
 
+                  <div class='row'>
+
+                     <div class="col-sm-3"><center><h5>Criterio</h5></<center>
+                     </div>
+
+                     <div class="col-sm-3"><center><h5>Calificación</h5></<center>
+                     </div>
+
+                     <div class="col-sm-3"><center><h5>Mensaje</h5></<center>
+                     </div>
+
+                     <div class="col-sm-3"><center><h5>Enviar</h5></<center>
+                     </div>
+
+                  </div><br>
+
+
+
 
                   <div class='row'>
                     <ul ng-repeat=" pregunta in preguntas">
                     <div class="col-sm-12">
                         <div class='row'>
-                            <div class="col-sm-5">  
+                            <div class="col-sm-3">  
 
 
 
@@ -93,15 +117,22 @@ jQuery(document).ready(function($) {
 
                             
                             </div>
+
+
                             
 
-                            <div class="col-sm-5">
+                            <div class="col-sm-3">
+
+                            <input type="number" ng-model="pregunta.calificacion" id="input" class="form-control" title="">
+                            </div>
+
+                            <div class="col-sm-3">
 
                             <select required="" class="form-control"  ng-model="pregunta.nota" ng-options="c.tipo for c in nota"></select>
                             </div>
 
-                             <div class="col-sm-2">
-                             <button type="submit" ng-click="calificar(pregunta,user)" class="btn btn-primary"><i class="fa fa-arrow-right"></i></button>
+                             <div class="col-sm-3">
+                             <center><button type="submit" ng-click="calificar(pregunta,user)" class="btn btn-primary"><i class="fa fa-arrow-right"></i></button></center>
   
                               </div>
 
@@ -167,14 +198,12 @@ jQuery(document).ready(function($) {
 
 
 
-    <br>
-
 
     
 
 
 
-             <div class="panel panel-default">
+             <div class="panel panel-default" onmouseover="container()">
               
                   <div class="panel-body c1">
 
@@ -191,7 +220,7 @@ jQuery(document).ready(function($) {
 
         
 
-          <div class='row'>
+          <div class='row' onmouseover="container()">
             <div  ng-repeat="contact in agentes " class='active' ts-repeat>
 
             <div class="col-sm-2">

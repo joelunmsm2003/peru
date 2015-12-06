@@ -17,15 +17,12 @@
 
 
 
-<h4>Datos de Cartera</h4>
-
-<div ng-if="user.nivel == 1 || user.nivel == 4 ">
-
- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Agregar Cartera</button>
+<h4>Carteras</h4>
 
 
 
-</div>
+
+
 
 
 <div id="edit" class="modal fade" role="dialog">
@@ -116,15 +113,21 @@
 
 
 
-<h4>Carteras registradas</h4>
+
 
 
       <div class='row'>
-      <div class="col-md-4"><input placeholder="Buscar" ng-change="search()"  type="text" ng-model="tipo" class="form-control" ></div>
+      <div class="col-md-2"> <button ng-if="user.nivel == 1 || user.nivel == 4 "type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Agregar Cartera</button>
+</div>
+      <div class="col-md-8"><input placeholder="Buscar" ng-change="search()"  type="text" ng-model="tipo" class="form-control" ></div>
+
+      <div class="col-md-2"> Cantidad de Registros {[{contador}]}</div>
     </div>
     <br></br>
 
-    Cantidad de Registros {[{contador}]}
+
+
+   
 
 
 

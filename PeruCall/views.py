@@ -42,7 +42,7 @@ from django.contrib.auth.signals import user_logged_in
 from django.dispatch import receiver
 from ws4redis.publisher import RedisPublisher
 from ws4redis.redis_store import RedisMessage
-
+from datetime import datetime,timedelta
 
 
 
@@ -61,9 +61,7 @@ def ingresar(request):
 		
 		id =request.user.id
 		nivel = AuthUser.objects.get(id=id).nivel.id
-		
-
-		
+			
 		if nivel == 1:
 			return HttpResponseRedirect("/campania")
 		if nivel == 2:
@@ -76,9 +74,6 @@ def ingresar(request):
 		if nivel == 5:
 			return HttpResponseRedirect("/campania")
 			
-		
-		
-
 
 		return HttpResponseRedirect("/empresa")
 
@@ -121,22 +116,18 @@ def ingresar(request):
 						agente.estado_id='2'
 						agente.save()
 
-
-
 						return HttpResponseRedirect("/teleoperador/"+str(id_agente))
 
 					if nivel == 4:
 
-
-
 						return HttpResponseRedirect("/empresa")
 
 					if nivel == 5:
+
 						return HttpResponseRedirect("/campania")
 
-
-
 			else:
+
 				return HttpResponseRedirect("/ingresar")
 		
 		else:
@@ -226,10 +217,6 @@ def notificar(request):
 	return HttpResponse('data', content_type="application/json")
 
 
-
-
-
-
 @login_required(login_url="/ingresar")
 def usuario(request):
 	return render(request, 'usuario.html',{})
@@ -275,10 +262,7 @@ def base(request):
 
 	nivel = AuthUser.objects.get(id=id).nivel.id
 	empresa = AuthUser.objects.get(id=id).empresa.id
-	'''
-	campania = 
-	con = 1
-	'''
+
 	objects_list = []
 
 	if nivel == 4:
@@ -493,17 +477,22 @@ def gestion(request):
 		fecha= json.loads(request.body)['fechagestion']
 		id_agente =json.loads(request.body)['agente']
 
-		
-
+		print type(fecha),fecha
+		fmt = '%Y-%m-%dT%H:%M:%S.%fZ'
+	
+		fecha = datetime.strptime(str(fecha),fmt)
 
 		id_cliente = cliente['id']
 
-		print id_cliente,id_agente
+		fecha= fecha-timedelta(hours=10)
+
+		print fecha
 
 		agente = Agentes.objects.filter(id=id_agente)
 		
 		for agente in agente:
 			agente.estado_id = 6
+			agente.tiniciogestion = fecha
 			agente.save()
 
 
@@ -527,7 +516,7 @@ def gestionupdate(request):
 		agente = json.loads(request.body)['agente']
 		cliente = json.loads(request.body)['cliente']['id']
 
-		print cliente
+		print 'agente',agente
 
 		comentario = gestion['comentario']
 
@@ -551,21 +540,30 @@ def gestionupdate(request):
 				base.save()
 
 
+		user = Agentes.objects.get(id=agente).user.username
+		
+		
+
+		redis_publisher = RedisPublisher(facility='foobar', users=[user])
+		message = RedisMessage('llamada')
+		redis_publisher.publish_message(message)
+
+		
+
 		agente = Agentes.objects.get(id=agente)
 		agente.estado_id = 2
 		agente.save() 
 		
-
 		return HttpResponse('data', content_type="application/json")
 
 
 
 
 @login_required(login_url="/ingresar")
-def tgestion(request,id_base,id_agente):
+def tgestion(request,id_agente):
 
 
-	agentebase = Agentebase.objects.filter(base_id=id_base,agente_id=id_agente)
+	agentebase = Agentes.objects.filter(id=id_agente)
 
 	for agente in agentebase:
 
@@ -581,7 +579,7 @@ def tgestion(request,id_base,id_agente):
 	ti = datetime.strptime(ti,fmt)
 	tf = datetime.strptime(tf,fmt)
 
-	return HttpResponse(tf-ti, content_type="application/json")
+	return HttpResponse(ti, content_type="application/json")
 
 @login_required(login_url="/ingresar")
 def tllamada(request,id_base,id_agente):
@@ -778,11 +776,99 @@ def agente(request,id_agente):
 
 
 @login_required(login_url="/ingresar")
+def lanzallamada(request,id_agente,id_base):
+
+		agente = Agentes.objects.get(id=id_agente)
+
+		print agente.id
+
+		user = agente.user.username
+		agente.estado_id = 3
+		agente.save()
+
+
+
+		baseagente = Base.objects.filter(agente_id=id_agente)
+
+		for base in baseagente:
+
+			base.status = 0
+			base.save()
+
+
+		redis_publisher = RedisPublisher(facility='foobar', users=[user])
+
+		message = RedisMessage('llamada')
+
+		redis_publisher.publish_message(message)
+
+		base = Base.objects.get(id=id_base)
+		base.agente_id = id_agente
+		base.status = 1
+		base.tiniciollamada = datetime.now()
+
+		base.save()
+
+
+		return HttpResponse(base.cliente, content_type="application/json")
+
+
+@login_required(login_url="/ingresar")
+def finllamada(request,id_agente,id_base):
+
+		agente = Agentes.objects.get(id=id_agente)
+
+		print agente.id
+
+		print 'finllamada',datetime.now()
+
+		user = agente.user.username
+		agente.estado_id = 6
+		agente.tiniciogestion = datetime.now()-timedelta(hours=5)
+		agente.save()
+
+
+
+		baseagente = Base.objects.filter(agente_id=id_agente)
+
+
+
+		redis_publisher = RedisPublisher(facility='foobar', users=[user])
+
+		message = RedisMessage('llamada')
+
+		redis_publisher.publish_message(message)
+
+		base = Base.objects.get(id=id_base)
+		base.tfinllamada = datetime.now()
+		
+		base.save()
+
+
+		return HttpResponse(base.cliente, content_type="application/json")
+
+
+@login_required(login_url="/ingresar")
 def cliente(request,id_agente):
+
+		user = Agentes.objects.get(id=id_agente).user.username
+
+
+		redis_publisher = RedisPublisher(facility='foobar', users=[user])
+
+		message = RedisMessage('Consulta')
+
+		redis_publisher.publish_message(message)
 
 		
 
-		base = Base.objects.filter(agente_id=id_agente,status=1).values('id','telefono','orden','cliente','id_cliente','status_a','status_b','status_c','status_d','status_e','status_f','status_g','status_h','status','campania__nombre','resultado__name')
+		base = Base.objects.filter(agente_id=id_agente,status=1).order_by('-id').values('id','telefono','orden','cliente','id_cliente','status_a','status_b','status_c','status_d','status_e','status_f','status_g','status_h','status','campania__nombre','resultado__name')
+
+		fmt = '%Y-%m-%d %H:%M:%S %Z'
+
+		for i in range(len(base)):
+
+			base[i]['tiniciollamada'] = Base.objects.get(id=base[i]['id']).tiniciollamada.strftime(fmt)
 
 		data_dict = ValuesQuerySetToDict(base)
 
@@ -794,33 +880,10 @@ def cliente(request,id_agente):
 @login_required(login_url="/ingresar")
 def atendida(request,id_agente):
 		
-		cantidad = Agentebase.objects.filter(agente_id=id_agente).values('agente').annotate(total=Sum('duracion'))
-		num=int(cantidad[0]['total'])  
-		hor=(int(num/3600))  
-		minu=int((num-(hor*3600))/60)  
-		seg=num-((hor*3600)+(minu*60))  
-		
-		print minu
-
-		atendida = str(hor)+":"+str(minu)+":"+str(seg)
-
-		if minu < 10:
-
-			atendida = str(hor)+":0"+str(minu)+":"+str(seg)
-
-		if seg < 10:
-
-			atendida = str(hor)+":"+str(minu)+"0:"+str(seg)
-
-		if seg < 10 or minu < 10 :
-
-			atendida = str(hor)+":0"+str(minu)+":0"+str(seg)
-
+		tiempo = Agentes.objects.get(id=id_agente).tiempo
 
 		
-
-
-		return HttpResponse(atendida, content_type="application/json")
+		return HttpResponse(tiempo, content_type="application/json")
 
 
 @login_required(login_url="/ingresar")
@@ -1194,6 +1257,18 @@ def header(request,id_campania):
 
 	data = Header.objects.filter(campania_id=id_campania).values('id','campania__nombre','statusa','statusb','statusc','statusd','statuse','statusf','statusg','statush').order_by('-id')
 
+	for i in range(len(data)):
+
+		data[i]['statusa'] = data[i]['statusa'].title()
+		data[i]['statusb'] = data[i]['statusb'].title()
+		data[i]['statusc'] = data[i]['statusc'].title()
+		data[i]['statusd'] = data[i]['statusd'].title()
+		data[i]['statuse'] = data[i]['statuse'].title()
+		data[i]['statusf'] = data[i]['statusf'].title()
+		data[i]['statusg'] = data[i]['statusg'].title()
+		data[i]['statush'] = data[i]['statush'].title()
+
+
 	data_dict = ValuesQuerySetToDict(data)
 
 	data = simplejson.dumps(data_dict)
@@ -1242,14 +1317,6 @@ def user(request):
 	for i in range(len(user)):
 
 		user[i]['last_login'] = AuthUser.objects.get(id=user[i]['id']).last_login.strftime(fmt)
-
-		datex = AuthUser.objects.get(id=user[i]['id']).last_login
-	
-		a = datetime(datex.year,datex.month,datex.day,datex.hour,datex.minute,datex.second)
-
-		b = datetime.now()
-		
-		user[i]['conectado'] = str(b - a)[0:7]
 
 
 	data_dict = ValuesQuerySetToDict(user)

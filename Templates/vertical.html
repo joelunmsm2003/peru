@@ -38,7 +38,7 @@
   position: absolute;
   left: -20em;
   top: 24px;
-  width: 10em;
+  width: 165px;
   height: 10em;
   z-index:100px;
   border-radius: 0px;
@@ -78,7 +78,7 @@
       padding-top: 12px;
     padding-bottom: 12px;
     padding: 16px;
-        margin-left: 14px;
+        margin-left: 38px;
 
   }
 
@@ -119,6 +119,9 @@
   }
 
   i=0
+
+  $('.vertical').css( "display","block");
+  
   function ocultarmenu(){
 
     console.log('holaalal')
@@ -126,12 +129,12 @@
 
     if (i%2 == 0){
 
-        $('.vertical').css( "display","block");
+        //$('.vertical').css( "display","block");
 
     }
     else{
 
-      $('.vertical').css( "display","none");
+     // $('.vertical').css( "display","none");
 
     
 
@@ -146,7 +149,22 @@
 
     
   }
-      
+  
+   function vertical(){
+
+   $('.vertical').css( "display","block");
+
+
+    
+  }
+
+  function container(){
+
+    $('.vertical').css( "display","none");
+
+
+    
+  }
 
 </script>
 
