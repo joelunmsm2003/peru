@@ -14,9 +14,12 @@ function Controller($scope,$http,$cookies,$filter) {
     $scope.reverse = false;
     $scope.filteredItems = [];
     $scope.groupedItems = [];
-    $scope.itemsPerPage = 20;
+    $scope.itemsPerPage = 30;
     $scope.pagedItems = [];
     $scope.currentPage = 0;
+
+
+
 
 
     
@@ -349,7 +352,14 @@ function Controller($scope,$http,$cookies,$filter) {
             }
         }
 
-        console.log('$scope.pagedItems',$scope.pagedItems[0])
+
+            console.log($scope.pagedItems.length)
+
+            var input =[]
+
+            for (var i = 1; i <= $scope.pagedItems.length; i++) input.push(i);
+
+            $scope.toto = input
 
     };
 
@@ -367,7 +377,8 @@ function Controller($scope,$http,$cookies,$filter) {
     };
     
     $scope.setPage = function () {
-        $scope.currentPage = this.n;
+        $scope.currentPage = this.n-1;
+        console.log($scope.currentPage)
     };
 
     

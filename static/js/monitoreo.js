@@ -477,6 +477,12 @@ function Controller($scope,$http,$cookies,$filter) {
 
         console.log('$scope.pagedItems',$scope.pagedItems[0])
 
+             var input =[]
+
+            for (var i = 1; i <= $scope.pagedItems.length; i++) input.push(i);
+
+            $scope.toto = input
+
     };
 
 
@@ -493,7 +499,7 @@ function Controller($scope,$http,$cookies,$filter) {
     };
     
     $scope.setPage = function () {
-        $scope.currentPage = this.n;
+        $scope.currentPage = this.n-1;
     };
 
     

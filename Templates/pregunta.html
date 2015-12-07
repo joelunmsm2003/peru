@@ -19,13 +19,7 @@
 
 <h4>Preguntas</h4>
 
-<div ng-if="user.nivel == 1 || user.nivel == 4 ">
 
- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Agregar pregunta</button>
-
-
-
-</div>
 
 
 <div id="edit" class="modal fade" role="dialog">
@@ -113,15 +107,23 @@
 
 
 
-<h4>Preguntas registradas</h4>
-
 
       <div class='row'>
-      <div class="col-md-4"><input placeholder="Buscar" ng-change="search()"  type="text" ng-model="tipo" class="form-control" ></div>
+
+       <div class="col-md-2">
+          <button ng-if="user.nivel == 1 || user.nivel == 4 "type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Agregar pregunta</button>
+
+
+
+
+       </div>
+      <div class="col-md-8"><input placeholder="Buscar" ng-change="search()"  type="text" ng-model="tipo" class="form-control" ></div>
+
+      <div class="col-md-2">Cantidad de Registros {[{contador}]}</div>
     </div>
     <br></br>
 
-    Cantidad de Registros {[{contador}]}
+    
 
 
 
@@ -149,22 +151,11 @@
 
 
               <tfoot>
-                    <td colspan="6">
-                        <div class="pagination pull-right">
-                            <ul>
-                                <li ng-class="{disabled: currentPage == 0}">
-                                    <a href ng-click="prevPage()">« Prev</a>
-                                </li>
-                                <li ng-repeat="n in range(pagedItems.length)"
-                                    ng-class="{active: n == currentPage}"
-                                ng-click="setPage()">
-                                    <a href ng-bind="n + 1">1</a>
-                                </li>
-                                <li ng-class="{disabled: currentPage == pagedItems.length - 1}">
-                                    <a href ng-click="nextPage()">Next »</a>
-                                </li>
-                            </ul>
-                        </div>
+                    <td colspan="12">
+                      <ul class="pagination" ng-repeat="n in toto">
+                      <li ng-class="{active: n-1 == currentPage}"><a href="#" ng-click="setPage()">{[{n}]}</a></li>
+                      </ul>
+      
                     </td>
                 </tfoot>
 
