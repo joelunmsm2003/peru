@@ -28,14 +28,20 @@
 
 
       <div class='row'>
-      <div class="col-md-4"><input placeholder="Buscar" ng-change="search()"  type="text" ng-model="tipo" class="form-control" ></div>
-       <div class="col-md-4">
+      <div class="col-md-8"><input placeholder="Buscar" ng-change="search()"  type="text" ng-model="tipo" class="form-control" ></div>
+       <div class="col-md-2">
        Cantidad de Registros {[{contador}]}
+       </div>
+
+       <div class="col-md-2">
+      <input type="text" name="" ng-change='regxpag()' id="input" placeholder="Registros por pagina" ng-model="itemsPerPage" class="form-control" value="" required="required" title="">
+
        </div>
        
 
-
     </div><br>
+
+
  
 
 
@@ -56,10 +62,9 @@
                    <th>Id <a ng-click="sort_by('id',currentPage)"><i class="icon-sort"></i></a></th>
                   
                   <th>Telefono <a ng-click="sort_by('telefono',currentPage)"><i class="icon-sort"></i></a></th>
-                  <th>Orden <a ng-click="sort_by('orden',currentPage)"><i class="icon-sort"></i></a></th>
-                  <th>Status <a ng-click="sort_by('status',currentPage)"><i class="icon-sort"></i></a></th>
-                  <th>Campania <a ng-click="sort_by('campania',currentPage)"><i class="icon-sort"></i></a></th>
-                  <th>Resultado <a ng-click="sort_by('resultado',currentPage)"><i class="icon-sort"></i></a></th>
+                 <th>Status <a ng-click="sort_by('status',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th>Campania <a ng-click="sort_by('campania__nombre',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th>Resultado <a ng-click="sort_by('resultado__name',currentPage)"><i class="icon-sort"></i></a></th>
                   <th>Agente <a ng-click="sort_by('agente__user__first_name',currentPage)"><i class="icon-sort"></i></a></th>
                   <th>Duracion <a ng-click="sort_by('duracion',currentPage)"><i class="icon-sort"></i></a></th>
 
@@ -87,12 +92,12 @@
 
                 <td>{[{contact.id}]} </td>
                 <td> {[{contact.telefono}]}</td>
-                <td>{[{contact.orden}]} </td>
+                
                
                 <td>{[{contact.status}]}</td>
           
-                <td>{[{contact.campania}]}</td>
-                <td>{[{contact.resultado}]}</td>
+                <td>{[{contact.campania__nombre}]}</td>
+                <td>{[{contact.resultado__name}]}</td>
                  <td>{[{contact.agente__user__first_name}]}</td>
                   <td>{[{contact.duracion}]}</td>
 

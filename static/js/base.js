@@ -53,11 +53,14 @@ function Controller($scope,$http,$cookies,$filter) {
     });
 
 
-    $scope.Admin = function(contact) 
+    $scope.regxpag = function() 
     {
 
-    console.log(contact.id)
-    window.location="/adminCampania/"+contact.id
+     $http.get("/base").success(function(response) {$scope.clientes = response;
+
+        $scope.search();
+       
+    });
     
     };
 

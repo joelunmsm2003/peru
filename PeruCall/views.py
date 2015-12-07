@@ -265,7 +265,7 @@ def base(request):
 
 	if nivel == 1:
 
-		base = Base.objects.filter(agente__user__empresa_id=empresa).values('id','telefono','orden','status','campania','resultado','agente__user__first_name','duracion')
+		base = Base.objects.filter(agente__user__empresa_id=empresa).values('id','telefono','orden','status','campania__nombre','resultado__name','agente__user__first_name','duracion')
 		
 	if nivel == 2:
 
@@ -278,7 +278,7 @@ def base(request):
 			ca.append(s.id)
 
 
-		base = Base.objects.filter(pk__in=ca).values('id','telefono','orden','status','campania','resultado','agente__user__first_name','duracion')
+		base = Base.objects.filter(pk__in=ca).values('id','telefono','orden','status','campania__nombre','resultado__name','agente__user__first_name','duracion')
 		
 	if nivel == 3:
 
@@ -286,7 +286,7 @@ def base(request):
 
 	if nivel == 4:
 
-		base = Base.objects.all().values('id','telefono','orden','status','campania','resultado','agente__user__first_name','duracion')
+		base = Base.objects.all().values('id','telefono','orden','status','campania__nombre','resultado__name','agente__user__first_name','duracion')
 		
 	
 	data_dict = ValuesQuerySetToDict(base)
