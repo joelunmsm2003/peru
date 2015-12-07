@@ -263,55 +263,37 @@ def base(request):
 	nivel = AuthUser.objects.get(id=id).nivel.id
 	empresa = AuthUser.objects.get(id=id).empresa.id
 
-	objects_list = []
+	if nivel == 1:
+
+		base = Base.objects.filter(agente__user__empresa_id=empresa).values('id','telefono','orden','status','campania','resultado','agente__user__first_name','duracion')
+		
+	if nivel == 2:
+
+		supervisor = Campania.objects.filter(supervisor__user__id=id)
+
+		ca =[]
+
+		for s in supervisor:
+
+			ca.append(s.id)
+
+
+		base = Base.objects.filter(pk__in=ca).values('id','telefono','orden','status','campania','resultado','agente__user__first_name','duracion')
+		
+	if nivel == 3:
+
+		pass
 
 	if nivel == 4:
 
-
-		for row in Base.objects.raw("SELECT id,telefono,orden,cliente,id_cliente,status_a,status_b,status_c,status_d,status_e,status_f,status_g,status_h,status,campania,resultado,agente,duracion,detalle,monto,fecha,tiniciogestion,tfingestion,tiniciollamada,tfinllamada FROM base WHERE ORDER BY id DESC"):
+		base = Base.objects.all().values('id','telefono','orden','status','campania','resultado','agente__user__first_name','duracion')
 		
-
-				fmt = '%Y-%m-%d %H:%M:%S %Z'
-
-				d = collections.OrderedDict()
-				d['id'] = row.id
-				d['telefono'] = row.telefono
-				d['orden'] = row.orden
-				d['cliente'] = row.cliente
-				d['id_cliente'] = row.id_cliente
-				d['status_a'] = row.status_a
-				d['status_b'] = row.status_b
-				d['status_c'] = row.status_c
-				d['status_d'] = row.status_d
-				d['status_e'] = row.status_e
-				d['status_f'] = row.status_f
-				d['status_g'] = row.status_g
-				d['status_h'] = row.status_h
-				d['status'] = row.status
-				if row.campania:
-					d['campania'] = row.campania.id
-				if row.resultado:
-					d['resultado'] = row.resultado.id
-				if row.agente:
-					d['agente'] = row.agente.id
-				d['duracion'] = row.duracion
-				d['detalle'] = row.detalle
-				d['monto'] = row.monto
-				d['fecha'] = row.fecha.strftime(fmt)
-				d['tiniciogestion'] = row.tiniciogestion.strftime(fmt)
-				d['tfingestion'] = row.tfingestion.strftime(fmt)
-				d['tiniciollamada'] = row.tiniciollamada.strftime(fmt)
-				if row.tfinllamada:
-					d['tfinllamada'] = row.tfinllamada.strftime(fmt)
-
-				con =con+1
-				objects_list.append(d)
-
-		j= json.dumps(objects_list)
-
 	
-		 
-		return HttpResponse(j, content_type="application/json")
+	data_dict = ValuesQuerySetToDict(base)
+
+	data = simplejson.dumps(data_dict)
+
+	return HttpResponse(data, content_type="application/json")
 
 
 

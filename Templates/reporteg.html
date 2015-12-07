@@ -24,7 +24,7 @@
 
 
 
-<h4>Base</h4>
+<h4>Reporte</h4>
 
 
       <div class='row'>
@@ -40,33 +40,23 @@
     
         <tbody>
 
-            <thead>
+        <thead>
 
             <tr>
 
                    <th>Id <a ng-click="sort_by('id',currentPage)"><i class="icon-sort"></i></a></th>
                   
-                  <th>Fono <a ng-click="sort_by('telefono',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th>Telefono <a ng-click="sort_by('telefono',currentPage)"><i class="icon-sort"></i></a></th>
                   <th>Orden <a ng-click="sort_by('orden',currentPage)"><i class="icon-sort"></i></a></th>
-                  <th>Cliente <a ng-click="sort_by('orden',currentPage)"><i class="icon-sort"></i></a></th>
-
-                  
-                  <th>Status A <a ng-click="sort_by('status_a',currentPage)"><i class="icon-sort"></i></a></th>
-                  <th>Status B <a ng-click="sort_by('status_b',currentPage)"><i class="icon-sort"></i></a></th>
-                   <th>Status C <a ng-click="sort_by('status_c',currentPage)"><i class="icon-sort"></i></a></th>
-                   <th>Status D <a ng-click="sort_by('status_d',currentPage)"><i class="icon-sort"></i></a></th>
-                   <th>Status E <a ng-click="sort_by('status_e',currentPage)"><i class="icon-sort"></i></a></th>
-                   <th>Status F <a ng-click="sort_by('status_f',currentPage)"><i class="icon-sort"></i></a></th>
-                   <th>Status G <a ng-click="sort_by('status_g',currentPage)"><i class="icon-sort"></i></a></th>
-                   <th>Status H <a ng-click="sort_by('status_h',currentPage)"><i class="icon-sort"></i></a></th>
-         
-                        
+                  <th>Status <a ng-click="sort_by('status',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th>Campania <a ng-click="sort_by('campania',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th>Resultado <a ng-click="sort_by('resultado',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th>Agente <a ng-click="sort_by('agente__user__first_name',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th>Duracion <a ng-click="sort_by('duracion',currentPage)"><i class="icon-sort"></i></a></th>
 
             </tr>
 
             </thead>
-
-
 
               <tfoot>
                     <td colspan="6">
@@ -88,23 +78,20 @@
                     </td>
                 </tfoot>
 
-
+id','telefono','orden','status','campania','resultado','agente__user__first_name','duracion')
+    
               <tr  ng-repeat="contact in pagedItems[currentPage]  " ts-repeat>
 
                 <td>{[{contact.id}]} </td>
                 <td> {[{contact.telefono}]}</td>
                 <td>{[{contact.orden}]} </td>
                
-                <td>{[{contact.cliente}]}</td>
+                <td>{[{contact.status}]}</td>
           
-                <td>{[{contact.status_a}]}</td>
-                <td>{[{contact.status_b}]}</td>
-                 <td>{[{contact.status_c}]}</td>
-                  <td>{[{contact.status_d}]}</td>
-                   <td>{[{contact.status_e}]}</td>
-                    <td>{[{contact.status_f}]}</td>
-                    <td>{[{contact.status_g}]}</td>
-                    <td>{[{contact.status_h}]}</td>
+                <td>{[{contact.campania}]}</td>
+                <td>{[{contact.resultado}]}</td>
+                 <td>{[{contact.agente__user__first_name}]}</td>
+                  <td>{[{contact.duracion}]}</td>
 
 
                 <td>
