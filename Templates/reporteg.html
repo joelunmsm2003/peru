@@ -1,26 +1,16 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en"  ng-app="App" ng-controller="Controller">
 
 {% include "head.html" %}
 
 <script src="/static/js/base.js"></script>
 
-<body ng-app="App">
+<body >
 
-<div class="container" ng-controller="Controller">
+<div class="container">
 
 {% include "header.html" %}
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -88,7 +78,7 @@
 
 
 
-              <tr  ng-repeat="contact in pagedItems[currentPage]  " ts-repeat>
+              <tr class='animate' ng-repeat="contact in pagedItems[currentPage]  " ts-repeat>
 
                 <td>{[{contact.id}]} </td>
                 <td> {[{contact.telefono}]}</td>
