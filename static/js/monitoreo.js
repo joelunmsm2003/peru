@@ -6,6 +6,380 @@ $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
 });
 
 
+campania = window.location.href.split("monitoreo/")[1].split("/")[0]
+
+$(function () {
+    $('#pie').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie',
+            events: {
+                    load: function () {
+
+                        // set up the updating of the chart each second
+                        var series = this.series[0];
+
+
+        var updateChart = function() {
+            
+        $.getJSON("/estllamada/"+campania, function (result) {
+
+
+            console.log('grafica',result)
+
+            
+            
+            series.data[0].update(result['porbarrer']);
+            series.data[1].update(result['barridos']);
+          
+
+            
+
+        });   
+
+
+        }      
+              
+        setInterval(function(){updateChart()},1000);
+
+
+
+                    }
+                }
+
+
+
+        },
+        title: {
+            text: 'Tráfico'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                showInLegend: true,
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    }
+                }
+            }
+        },
+
+         
+        series: [{
+
+            name: "Total",
+            colorByPoint: true,
+            data: [
+            {
+                name: "Por Barrer",
+                y: 0,
+
+            }, {
+                name: "Barridos",
+                y: 0,
+            }
+            ]
+        }]
+
+    });
+});
+
+
+$(function () {
+    $('#pie1').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie',
+            events: {
+                    load: function () {
+
+                        // set up the updating of the chart each second
+                        var series = this.series[0];
+
+
+        var updateChart = function() {
+            
+        $.getJSON("/estllamada/"+campania, function (result) {
+
+
+            console.log('grafica',result)
+
+            
+            
+            series.data[0].update(result['errados']);
+            series.data[1].update(result['correctos']);
+          
+
+            
+
+        });   
+
+
+        }      
+              
+        setInterval(function(){updateChart()},1000);
+
+
+
+                    }
+                }
+
+
+
+        },
+        title: {
+            text: 'Estado '
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                showInLegend: true,
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    }
+                }
+            }
+        },
+
+         
+        series: [{
+
+            name: "Estado ",
+            colorByPoint: true,
+            data: [
+            {
+                name: "Errados",
+                y: 0,
+
+            }, {
+                name: "Correctos",
+                y: 0,
+            }
+            ]
+        }]
+
+    });
+});
+
+
+
+$(function () {
+    $('#xy').highcharts({
+        chart: {
+            type: 'areaspline',
+
+        },
+        title: {
+            text: 'Cantidad'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'left',
+            verticalAlign: 'top',
+            x: 150,
+            y: 100,
+            floating: true,
+            borderWidth: 1,
+            backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+        },
+        xAxis: {
+            categories: [
+                'Lu',
+                'Ma',
+                'Mi',
+                'Ju',
+                'Vi',
+                'Sa',
+                'Do'
+            ],
+            plotBands: [{ // visualize the weekend
+                from: 4.5,
+                to: 6.5,
+                color: 'rgba(68, 170, 213, .2)'
+            }]
+        },
+        yAxis: {
+            title: {
+                text: 'Nro Llamadas'
+            }
+        },
+        tooltip: {
+            shared: true,
+            valueSuffix: ' units'
+        },
+        credits: {
+            enabled: false
+        },
+        plotOptions: {
+            areaspline: {
+                fillOpacity: 0.5
+            }
+        },
+        series: [{
+            name: 'Atendidas',
+            data: [3, 4, 3, 5, 4, 10, 12]
+        }, {
+            name: 'Fallidas',
+            data: [1, 3, 4, 3, 3, 5, 4]
+        }]
+    });
+});
+
+
+$(function () {
+
+    $('#ga').highcharts({
+
+        chart: {
+            type: 'gauge',
+            plotBackgroundColor: null,
+            plotBackgroundImage: null,
+            plotBorderWidth: 0,
+            plotShadow: false,
+            events: {
+                        load: function () {
+
+                                // set up the updating of the chart each second
+                                var series = this.series[0].points[0];
+                                var updateChart = function() {
+
+                                $.getJSON("/estllamada/"+campania, function (result) {
+
+                                console.log('grafica',result)
+                                
+                                  series.update(0);
+
+                                });   
+
+                                }      
+                                setInterval(function(){updateChart()},1000);
+
+                            }
+                        }
+        },
+
+        title: {
+            text: 'Llamadas'
+        },
+
+        pane: {
+            startAngle: -150,
+            endAngle: 150,
+            background: [{
+                backgroundColor: {
+                    linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                    stops: [
+                        [0, '#FFF'],
+                        [1, '#333']
+                    ]
+                },
+                borderWidth: 0,
+                outerRadius: '109%'
+            }, {
+                backgroundColor: {
+                    linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                    stops: [
+                        [0, '#333'],
+                        [1, '#FFF']
+                    ]
+                },
+                borderWidth: 1,
+                outerRadius: '107%'
+            }, {
+                // default background
+            }, {
+                backgroundColor: '#DDD',
+                borderWidth: 0,
+                outerRadius: '105%',
+                innerRadius: '103%'
+            }]
+        },
+
+        // the value axis
+        yAxis: {
+            min: 0,
+            max: 30,
+
+            minorTickInterval: 'auto',
+            minorTickWidth: 1,
+            minorTickLength: 10,
+            minorTickPosition: 'inside',
+            minorTickColor: '#666',
+
+            tickPixelInterval: 30,
+            tickWidth: 2,
+            tickPosition: 'inside',
+            tickLength: 10,
+            tickColor: '#666',
+            labels: {
+                step: 2,
+                rotation: 'auto'
+            },
+            title: {
+                text: ''
+            },
+            plotBands: [{
+                from: 0,
+                to: 10,
+                color: '#55BF3B' // green
+            }, {
+                from: 10,
+                to: 20,
+                color: '#DDDF0D' // yellow
+            }, {
+                from: 20,
+                to: 30,
+                color: '#DF5353' // red
+            }]
+        },
+
+        series: [{
+            name: 'Speed',
+            data: [80],
+            tooltip: {
+                valueSuffix: ' km/h'
+            }
+        }]
+
+    },
+    // Add some life
+    function (chart) {
+        if (!chart.renderer.forExport) {
+           
+                var point = chart.series[0].points[0],
+                    newVal,
+                    inc = Math.round((Math.random() - 0.5) * 20);
+
+                newVal = point.y + inc;
+                if (newVal < 0 || newVal > 200) {
+                    newVal = point.y - inc;
+                }
+
+                point.update(4);
+
+           
+        }
+    });
+});
+
 
 function Controller($scope,$http,$cookies,$filter) {
 

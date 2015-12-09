@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Teleoperador</title>
+  <title>Agente</title>
   {% include "head.html" %}
   <script src="/static/js/teleoperador.js"></script>
 
@@ -76,9 +76,9 @@
 
 
 
-                      <div class="col-md-3 panel panel-default">
+                      <div class="col-md-3 col-sm-3 panel panel-default">
 
-                          <div class='row panel-body c1'>
+                          <div class='row panel-body'>
                               <div class="col-md-12">
                                  <div class='row'>
                                   <div class="col-md-6"><i class="fa fa-wifi"></i> Teleoperador :
@@ -123,7 +123,7 @@
                       </div>
 
 
-                    <div class="col-md-3 panel panel-default" ng-if="datoagente.estado__nombre == 'En gestion'" >
+                    <div class="col-md-3  col-sm-3 panel panel-default" ng-if="datoagente.estado__nombre == 'En gestion'" >
 
 
                           <div class='row panel-body c4'>
@@ -181,7 +181,7 @@
                           
                       </div>
 
-                         <div class="col-md-3 panel panel-default" ng-if="datoagente.estado__nombre == 'En Llamada'">
+                         <div class="col-md-3  col-sm-3 panel panel-default" ng-if="datoagente.estado__nombre == 'En Llamada'">
 
 
                           <div class='row panel-body c4'>
@@ -231,7 +231,7 @@
                           
                       </div>
 
-                      <div class="col-md-3 panel panel-default">
+                      <div class="col-md-3 col-sm-3 panel panel-default">
 
                           <div class='row panel-body c2'>
                               <div class="col-md-12">
@@ -276,7 +276,7 @@
                      
                       </div>
 
-                      <div class="col-md-3 panel panel-default">
+                      <div class="col-md-3 col-sm-3 panel panel-default">
 
 
                                 <div class='row panel-body c3'>
@@ -322,6 +322,19 @@
                           
                       </div>
 
+                      <!--
+
+                  <div class="col-md-12">
+
+                            <a class="btn btn-primary" ng-if="datoagente.estado__nombre == 'En Llamada'" href="/pausa/{[{datoagente.id}]}"><i class="fa fa-pause"></i> Pausa</a>
+
+                            <a class="btn btn-primary" ng-if="datoagente.estado__nombre == 'En Pausa' || datoagente.estado__nombre == 'En Espera' " href="/play/{[{datoagente.id}]}"><i class="fa fa-play"></i> Play </a>
+                            
+                </div>   -->
+
+                      
+
+
              
 
 
@@ -337,7 +350,10 @@
 
 
 
-</div>
+</div> <br></br>  
+
+
+<!--Cuerpo!-->
 
 
 
@@ -350,32 +366,43 @@
 
 <div class='row' ng-if="datoagente.estado__nombre == 'En Llamada' || datoagente.estado__nombre == 'En gestion' ">
 
-    <div class="col-md-4">
 
-    <h3>Acuerdo</h3>
 
+
+    <div class="col-md-4 col-sm-4">
+
+
+  
 
           <div class='row'>
+
+              <div class="panel panel-default">
+
+              <div class='panel-heading'>Acuerdo</div>
+          <div class="panel-body">
 
             <div ng-repeat="contact in resultado  ">
 
              <div class="col-md-6 botonera">
 
-                <div class='row boton'>
+                <div class='row'>
 
                    
 
-                  
-                          <div class="col-md-8">
+                          <span ng-if="contact.name == cliente.resultado__name">
+                          <div class='select' ng-click='botonera(contact)' class="col-md-8">
                           {[{contact.name}]}
                           </div>
+                          </span>
 
-                          <div class="col-md-4">
-                              <span ng-if="contact.name == cliente.resultado__name">
-                              <button type="button" ng-click='botonera(contact)' class="btn btn-primary"><i class="fa fa-thumbs-up"></i></button></span>
-                              <span ng-if="contact.name != cliente.resultado__name">
-                              <button type="button" ng-click='botonera(contact)' class="btn btn-second"><i class="fa fa-thumbs-up"></i></button></span>
+                          <span ng-if="contact.name != cliente.resultado__name">
+                          <div class='noselect' ng-click='botonera(contact)' class="col-md-8">
+                          {[{contact.name}]}
                           </div>
+                          </span>
+
+
+
 
                  
 
@@ -389,20 +416,14 @@
 
             </div>
 
-          </div><br>
+          </div>
 
-          <div class="panel panel-default">
+          </div>
+
+          </div>
 
 
-          <div class='panel-body'>
-
-
-           <a class="btn btn-primary" ng-if="datoagente.estado__nombre == 'En Llamada'" href="/pausa/{[{datoagente.id}]}"><i class="fa fa-pause"></i> Pausa</a>
-
-          <a class="btn btn-primary" ng-if="datoagente.estado__nombre == 'En Pausa'" href="/play/{[{datoagente.id}]}"><i class="fa fa-play"></i> Play </a>
-
-          </div></div>
-
+  
 
 
           
@@ -411,83 +432,131 @@
 
     </div>
 
+   
 
-    <div class="col-md-8">
 
-          <h3> Gestion</h3>
+    <div class="col-md-8 col-sm-8">
+
+     <div class="panel panel-default">
+
+<div class='panel-heading'>Campaña {[{cliente.campania__nombre}]}</div>
+      <div class="panel-body">
 
     
-           <table class="table">
-            
+
+          <div class='row'>
+            <div class='col-md-2'>
+            <h4><i class="fa fa-user"></i> Cliente </h4>
+            </div>
+
+            <div class='col-md-10'>
+
+              <table class='table table-striped table-condensed table-hover '>
+              <thead>
+              <th>Id</th>
+              <th>Nombre</th>
+              <th>Telefono</th>
+              <th>Orden</th>
+              </thead>
               <tbody>
-
-
-              <tr><td>Id</td>
-              <td>{[{cliente.id}]}</td>
-              </tr>
-
-
-              <tr><td>Campaña</td>
-              <td>{[{cliente.campania__nombre}]}</td>
-              <td>Status A</td>
-              <td>{[{cliente.status_a}]}</td>
-
-
-              </tr>
-
-              <tr><td>Telefono</td>
+              <tr><td>{[{cliente.id}]}</td>
+              <td>{[{cliente.cliente}]}</td>
               <td>{[{cliente.telefono}]}</td>
-              <td>Status B</td>
-              <td>{[{cliente.status_b}]}</td>
-
-
-              </tr>
-
-              <tr><td>Orden</td>
-              <td>{[{cliente.orden}]}</td>
-              <td>Status C</td>
-              <td>{[{cliente.status_c}]}</td>
-
-
-              </tr>
-              <tr><td>Id Cliente</td>
-              <td>{[{cliente.orden}]}</td>
-              <td>Status D</td>
-              <td>{[{cliente.status_d}]}</td>
-              </tr>
-
-              
-              <tr><td>Acuerdo</td>
-              <td>{[{cliente.resultado__name}]}</td>
-              <td>Status E</td>
-              <td>{[{cliente.status_e}]}</td>
-              </tr>
-
-              <tr><td></td>
-              <td></td>
-              <td>Status F</td>
-              <td>{[{cliente.status_f}]}</td>
-              </tr>
-
-              <tr><td></td>
-              <td></td>
-              <td>Status G</td>
-              <td>{[{cliente.status_g}]}</td>
-              </tr>
-
-              <tr><td></td>
-              <td></td>
-              <td>Status H</td>
-              <td>{[{cliente.status_h}]}</td>
-              </tr>
-
-     
-
-              
-
-
+              <td>{[{cliente.orden}]}</td></tr>
               </tbody>
-            </table>
+              </table>
+            </div>
+          </div>
+
+
+
+          <div class='row'>
+            <div class='col-md-2'>
+            <h4><i class="fa fa-cube"></i> Producto </h4>
+            </div>
+
+            <div class='col-md-10'>
+
+          <table class='table table-striped table-condensed table-hover '>
+          <thead>
+          <th>{[{header.statusa}]}</th>
+          <th>{[{header.statusb}]}</th>
+          <th>{[{header.statusc}]}</th>
+          <th>{[{header.statusd}]}</th>
+          <th>{[{header.statuse}]}</th>
+          
+          </thead>
+          <tbody>
+          <tr><td>{[{cliente.status_a}]}</td>
+          <td>{[{cliente.status_b}]}</td>
+          <td>{[{cliente.status_c}]}</td>
+          <td>{[{cliente.status_d}]}</td>
+          <td>{[{cliente.status_e}]}</td>
+          </tr>
+          </tbody>
+          </table>
+
+           </div>
+          </div>
+
+           <div class='row'>
+            <div class='col-md-2'>
+            <h4><i class="fa fa-bullseye"></i> Detalle </h4>
+            </div>
+
+            <div class='col-md-10'>
+          <table class='table table-striped table-condensed table-hover '>
+          <thead>
+          <th>{[{header.statusf}]}</th>
+          <th>{[{header.statusg}]}</th>
+          <th>{[{header.statush}]}</th>
+         
+          
+          </thead>
+          <tbody>
+          <tr><td>{[{cliente.status_f}]}</td>
+          <td>{[{cliente.status_g}]}</td>
+          <td>{[{cliente.status_h}]}</td>
+
+          </tr>
+          </tbody>
+          </table>
+
+          </div>
+          </div>
+
+          <div class='row'>
+            <div class='col-md-2'>
+            <h4><i class="fa fa-filter"></i> Filtro </h4>
+            </div>
+
+            <div class='col-md-10'>
+
+          <table class='table table-striped table-condensed table-hover '>
+          <thead>
+          <th>{[{header.statusf}]}</th>
+          <th>{[{header.statusg}]}</th>
+          <th>{[{header.statush}]}</th>
+         
+          
+          </thead>
+          <tbody>
+          <tr><td>{[{filtros.ciudad}]}</td>
+          <td>{[{filtros.grupo}]}</td>
+          <td>{[{filtros.segmento}]}</td>
+
+          </tr>
+          </tbody>
+          </table>
+
+          </div>
+          </div>
+
+          </div>
+    </div>
+
+
+
 
 
               <div class="col-md-6">
@@ -535,6 +604,8 @@
 
     </div>
 
+
+
      
  
 
@@ -574,16 +645,36 @@ body{
 
 }
   
-.btn-primary {
+.select {
   color: #F7F7F7;
   background-color: #b71c1c;
   border-color: #b71c1c;
+  padding:6px;
+  border-radius:4px;
+  text-align: center;
+}
+.panel-heading{
+
+  color:#454E58;
 }
 
-.btn-second {
-color: #DD1010;
-background-color: #E2E2E2;
-border-color: #C6ADAD;
+
+.noselect:hover {
+color: #F7F7F7;
+background-color: #b71c1c;
+}
+
+
+.noselect {
+color: #4E4949;
+/* background-color: #E2E2E2; */
+border-color: #CECECE;
+padding: 6px;
+border-radius: 4px;
+border-style: solid;
+border-width: 1px;
+text-align: center;
+/* width: 198px; */
 }
 
 .boton {
@@ -601,6 +692,11 @@ border-color: #C6ADAD;
   padding-right: 18px;
 }
 
+.noselect:hover{
+   color: #F7F7F7;
+  background-color: #b71c1c;
+}
+
 
 .container {
 
@@ -611,7 +707,7 @@ margin-top: 1em;
 padding: 15px;
 background-color: #C198B2;
 color: #284058;
-font-weight: bold;
+/*font-weight: bold;*/
 /* font-size: 14px; */
 }
 
@@ -620,20 +716,20 @@ font-weight: bold;
 padding: 15px;
 /*background-color: #B4B7D2;*/
 color: #284058;
-font-weight: bold;
+/*font-weight: bold;*/
 }
 .c3 {
 padding: 15px;
 /*background-color: #9EB9A6;*/
 color: #284058;
-font-weight: bold;
+/*font-weight: bold;*/
 }
 
 .c4 {
 padding: 15px;
 /*background-color: #D4D8F2;*/
 color: #284058;
-font-weight: bold;
+/*font-weight: bold;*/
 }
 
 

@@ -172,6 +172,26 @@ def empresa(request):
 
 	return render(request, 'empresa.html',{})
 
+
+@login_required(login_url="/ingresar")
+def estllamada(request,id_campania):
+
+
+	total = Base.objects.filter(campania_id=id_campania).count()
+	barridos = Base.objects.filter(campania_id=id_campania,status=1).count()
+	errados = Base.objects.filter(campania_id=id_campania,status=2).count()
+	correctos = barridos - errados
+	porbarrer = total-barridos
+
+	data = {'total':total,'barridos':barridos,'porbarrer':porbarrer,'errados':errados,'correctos':correctos}
+
+	data = simplejson.dumps(data)
+
+
+
+	return HttpResponse(data, content_type="application/json")
+
+
 @login_required(login_url="/ingresar")
 def enviar(request):
 

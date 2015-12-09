@@ -74,7 +74,7 @@
 					</tr>
 
 	            </thead>
-	            <tr  ng-repeat="contact in usuarios " class='active' ts-repeat>
+	            <tr  class='animate' ng-repeat="contact in usuarios " class='active' ts-repeat>
 
 	                <td><input type="checkbox" ng-model='contact.seleccionar' ng-change="add($index,contact)"></td>
 	                <td>{[{contact.estado}]}</td>
@@ -121,7 +121,7 @@
 	                <th >Nombre</th><th></th></tr>
 	            </thead>
 
-	            <tr  ng-repeat="contact in usuarioscampania " class='active' ts-repeat>
+	            <tr class='animate' ng-repeat="contact in usuarioscampania " class='active' ts-repeat>
 	             	<td><input type="checkbox" ng-model='contact.seleccionar' ng-change="add($index,contact)"></td>
 	                <td>{[{contact.estado}]}</td>
 	                <td>{[{contact.name}]}</td>

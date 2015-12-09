@@ -20,6 +20,8 @@ function Controller($scope,$http,$cookies,$filter,$interval) {
     });
 
 
+
+
     $http.get("/empresas").success(function(response) {$scope.empresas = response[0];
    
        
@@ -30,9 +32,32 @@ function Controller($scope,$http,$cookies,$filter,$interval) {
 
         $scope.cliente = response[0];
 
+        console.log('-------',$scope.cliente.id)
+
+        $scope.id_campania = $scope.cliente.id
+
+        $http.get("/header/"+$scope.id_campania).success(function(response) {$scope.header = response[0];
+
+    
+              
+        });
+
+
+        $http.get("/listafiltros/"+$scope.id_campania).success(function(response) {$scope.filtros = response[0];
+
+       
+              
+        });
+
         $scope.iniciollamada = new Date($scope.cliente.tiniciollamada)
              
     });
+
+    
+
+    
+
+
 
     $http.get("/user").success(function(response) {$scope.user = response;
 
@@ -249,6 +274,16 @@ function Controller($scope,$http,$cookies,$filter,$interval) {
         }
         }).
         success(function(data) {
+
+            $http.get("/cliente/"+agente).success(function(response) {
+
+        $scope.cliente = response[0];
+
+ 
+             
+    });
+
+
 
    
 

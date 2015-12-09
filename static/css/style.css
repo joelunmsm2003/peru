@@ -123,6 +123,19 @@ transition: width 0.6s ease;
 }
 
 
+.graficos{
+
+  
+    position: absolute;
+    z-index: 100;
+    top: 356px;
+    border-radius: 0px;
+
+}
+
+
+
+
 
 .col-sm-6, .col-sm-12{
 
@@ -132,32 +145,27 @@ color: #202127;
 
 
 
-.animate.ng-enter, 
-.animate.ng-leave
-{ 
-  -webkit-transition: 500ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
-  -moz-transition: 500ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
-  -ms-transition: 500ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
-  -o-transition: 500ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
-  transition: 500ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;;
-  
-
-  overflow: hidden;
-  text-overflow: clip;
-  white-space:nowrap;
-} 
-
-.animate.ng-leave.animate.ng-leave-active,
 .animate.ng-enter {
-  opacity: 0;
-  width: 0px;
-  height: 0px;
+  transition: opacity 1s;
+  opacity:0;
+  overflow: hidden;
 }
 
-.animate.ng-enter.ng-enter-active, 
+.animate.ng-enter-active {
+  opacity:1;
+  overflow: hidden;
+
+}
+
 .animate.ng-leave {
-  opacity: 1;
-
-  height: 30px;
+  transition: opacity 1s;
+  height: 0px;
+  opacity:0;
+  overflow: hidden;
 }
-  
+
+.animate.ng-leave-active {
+  opacity:1;
+  overflow: hidden;
+
+}
