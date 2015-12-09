@@ -169,3 +169,28 @@ color: #202127;
   overflow: hidden;
 
 }
+
+.animate1.ng-enter {
+  transition: opacity 1s;
+  opacity:0;
+  overflow: hidden;
+}
+
+.animate1.ng-enter-active {
+  opacity:1;
+  overflow: hidden;
+
+}
+
+.animate1.ng-leave {
+  transition: opacity 1s;
+  height: 0px;
+  opacity:0;
+  overflow: hidden;
+}
+
+.animate1.ng-leave-active {
+  opacity:1;
+  overflow: hidden;
+
+}

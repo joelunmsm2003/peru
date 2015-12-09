@@ -114,11 +114,16 @@ def ingresar(request):
 						agente= Agentes.objects.get(user_id=user)
 						id_agente = agente.id
 						agente.estado_id='2'
+						agente.tinicioespera = datetime.now()-timedelta(hours=5)
 						agente.save()
+
+		
 
 						return HttpResponseRedirect("/teleoperador/"+str(id_agente))
 
 					if nivel == 4:
+
+
 
 						return HttpResponseRedirect("/empresa")
 
@@ -372,7 +377,10 @@ def menu(request):
 
 @login_required(login_url="/ingresar")
 def agentes(request,id_campania):
+
 	id = request.user.id
+
+	ti =0
 
 	user = Agentescampanias.objects.filter(campania=id_campania).values('id','agente','agente__user__username','agente__user__first_name','agente__fono','agente__anexo','agente__atendidas','agente__contactadas','agente__estado')
 
@@ -380,46 +388,65 @@ def agentes(request,id_campania):
 	fmt1 = '%Y-%m-%d %H:%M:%S'
 	fmt2='%H:%M:%S'
 
-	print 'estado',AuthUser.objects.get(id=2).is_superuser
+
+	print 'user',user
 
 	for i in range(len(user)):
 
-		agentebase = Agentes.objects.filter(id=user[i]['agente'],estado_id=6)
+		agentebase = Agentes.objects.filter(id=user[i]['agente'])
 
 		if Base.objects.filter(status=1,agente_id=user[i]['agente']):
 
-			user[i]['fono'] = Base.objects.get(status=1,agente_id=user[i]['agente']).telefono
+			user[i]['fono'] =  Base.objects.get(status=1,agente_id=user[i]['agente']).telefono
 
+		
+			
 		for agente in agentebase:
 
-			tiniciogestion = agente.tiniciogestion
+			print 'estado del agente', agente.estado.id
 
-			ti= str(tiniciogestion)[0:19]
-			tf= str(datetime.now())[0:19]
 
-			ti = datetime.strptime(ti,fmt1)
-			tf = datetime.strptime(tf,fmt1)
+			if agente.estado.id == 2:
 
-			user[i]['tgestion'] = str(tf-ti)
+				ti = agente.tinicioespera
 
-			sec = str(tf-ti).split(':')
+			if agente.estado.id == 3:
 
-			user[i]['secgestion'] = int(sec[2])*2
+				ti = agente.tiniciollamada
 
-			if int(sec[1]) > 0:
+			if agente.estado.id == 6:
 
-				sec[2] = 165
-				user[i]['secgestion'] = 180
+				ti = agente.tiniciogestion
 
-			
-			if int(sec[2]) > 0 and int(sec[2])< 30:
-				user[i]['color'] = '#81C784'
-			if int(sec[2]) > 30 and int(sec[2])< 55:
-				user[i]['color'] = '#2196F3'
-			if int(sec[2]) > 55 :
-				user[i]['color'] = '#EF5350'
+			if ti:
 
-			print user[i]['color'] 
+				ti= str(ti)[0:19]
+				ti = datetime.strptime(ti,fmt1)
+
+				tf= str(datetime.now())[0:19]
+				tf = datetime.strptime(tf,fmt1)
+
+
+				user[i]['tgestion'] = str(tf-ti)
+		
+				sec = str(tf-ti).split(':')
+				
+				user[i]['secgestion'] = int(sec[2])*2
+
+				if int(sec[1]) > 0  :
+
+					sec[2] = 165
+					user[i]['secgestion'] = 180
+
+				
+				if int(sec[2]) > 0 and int(sec[2])< 30:
+					user[i]['color'] = '#81C784'
+				if int(sec[2]) > 30 and int(sec[2])< 55:
+					user[i]['color'] = '#2196F3'
+				if int(sec[2]) > 55 :
+					user[i]['color'] = '#EF5350'
+
+		
 
 		'''
 
@@ -438,6 +465,8 @@ def agentes(request,id_campania):
 		else:
 
 			user[i]['performance'] = 0
+
+	print 'final',user
 
 	data_dict = ValuesQuerySetToDict(user)
 
@@ -623,6 +652,7 @@ def gestionupdate(request):
 
 		agente = Agentes.objects.get(id=agente)
 		agente.estado_id = 2
+		agente.tinicioespera = datetime.now()-timedelta(hours=5)
 		agente.save() 
 		
 		return HttpResponse('data', content_type="application/json")
@@ -855,6 +885,8 @@ def lanzallamada(request,id_agente,id_base):
 
 		user = agente.user.username
 		agente.estado_id = 3
+
+		agente.tiniciollamada = datetime.now()-timedelta(hours=5)
 		agente.save()
 
 

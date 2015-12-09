@@ -1,5 +1,5 @@
 
-var App=angular.module('App', ['ngCookies']);
+var App=angular.module('App', ['ngCookies','ngAnimate']);
 
 App.config(function($interpolateProvider){
 $interpolateProvider.startSymbol('{[{').endSymbol('}]}');

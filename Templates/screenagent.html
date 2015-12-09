@@ -63,9 +63,9 @@
 
 
 
+<!--Header Superior-->
 
-
-
+<!--Primer  Panel-->
 
 <div class='row '>
 
@@ -122,66 +122,9 @@
                      
                       </div>
 
+<!--Segundo Panel-->
 
-                    <div class="col-md-3  col-sm-3 panel panel-default" ng-if="datoagente.estado__nombre == 'En gestion'" >
-
-
-                          <div class='row panel-body c4'>
-
-                              <div class="col-md-12">
-
-                                  <div class='row'>
-                                    <div class="col-md-6" >
-                                    <i class="fa fa-phone"></i> Telefono
-                                    </div>
-                                    <div class="col-md-6" >{[{cliente.telefono}]}
-                      
-                                    </div>
-
-                                    </div>
-
-                       
-
-                               
-                              </div>
-
-          
-                             
-
-
-                              <div class="col-md-12" >
-                                  <div class='row'>
-                                    <div class="col-md-6" >
-                                    <i class="fa fa-tasks"></i> {[{conteo}]} seg
-                                    </div>
-                                    <div class="col-md-6" >
-                                    <div class="progre">
-                                    <div class="progressi">
-
-
-                                    <div class="barr" style="width:{[{secgestion}]}px; background-color: {[{color}]};"></div>
-
-                                    </div>
-                                    </div>
-
-                                    </div>
-
-                                 </div>
-
-
-                            </div>
-
-                          
-
-                       
-
-
-                          </div>
-
-                          
-                      </div>
-
-                         <div class="col-md-3  col-sm-3 panel panel-default" ng-if="datoagente.estado__nombre == 'En Llamada'">
+                         <div class="col-md-3  col-sm-3 panel panel-default" >
 
 
                           <div class='row panel-body c4'>
@@ -231,6 +174,9 @@
                           
                       </div>
 
+
+<!--Tercer Panel-->
+
                       <div class="col-md-3 col-sm-3 panel panel-default">
 
                           <div class='row panel-body c2'>
@@ -276,6 +222,8 @@
                      
                       </div>
 
+
+<!--Cuarto Panel-->
                       <div class="col-md-3 col-sm-3 panel panel-default">
 
 
@@ -366,7 +314,7 @@
 
 <div class='row' ng-if="datoagente.estado__nombre == 'En Llamada' || datoagente.estado__nombre == 'En gestion' ">
 
-
+<!--Acuerdos Botonera-->
 
 
     <div class="col-md-4 col-sm-4">
@@ -433,7 +381,7 @@
     </div>
 
    
-
+<!--Info General-->
 
     <div class="col-md-8 col-sm-8">
 
@@ -557,6 +505,7 @@
 
 
 
+<!--Lanzar Gestion-->
 
 
               <div class="col-md-6">

@@ -63,6 +63,10 @@ class Agentes(models.Model):
     calificacion = models.ForeignKey('Base', db_column='calificacion', blank=True, null=True)
     tiniciogestion = models.DateTimeField(blank=True, null=True)
     tfingestion = models.DateTimeField(blank=True, null=True)
+    tiniciollamada = models.DateTimeField(blank=True, null=True)
+    tfinllamada = models.DateTimeField(blank=True, null=True)
+    tinicioespera = models.DateTimeField(blank=True, null=True)
+    tfinespera = models.DateTimeField(blank=True, null=True)
 
     class Meta:
         managed = False

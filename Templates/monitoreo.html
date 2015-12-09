@@ -50,7 +50,7 @@ jQuery(document).ready(function($) {
 
 </script>
 
-
+<!--Cabecera-->
 <div class="panel panel-default">
   <div class="panel-body">
      <div class="row" onmouseover="container()">
@@ -74,6 +74,165 @@ jQuery(document).ready(function($) {
   </div>
 </div>
 
+<!--Legenda-->
+
+ <div class="panel panel-default" onmouseover="container()">
+  
+      <div class="panel-body c1">
+
+          <ul class="legend">
+          <li><span class="superawesome"></span> No Login</li>
+          <li><span class="awesome"></span> Espera</li>
+          <li><span class="kindaawesome"></span> En Llamada</li>
+          <li><span class="notawesome"></span> Descolgado</li>
+          <li><span class="enpause"></span> En Pause</li>
+           <li><span class="engestion"></span> En Gestion</li>
+          </ul>
+      </div>
+    </div>
+
+
+
+  <!--Agentes Cuadrados-->     
+
+          <div class='row' onmouseover="container()">
+            <div   ng-repeat="contact in agentes " class='active' ts-repeat>
+
+            <div class="col-sm-2">
+
+                
+                <div class="panel panel-default">
+                    
+                      <div class="panel-heading" ng-if="contact.agente__estado == '1'" style="background-color:#8FB0B3; color:#fff;">
+                      {% include "legend.html" %}
+                      </div>
+
+                      <div class="panel-heading" ng-if="contact.agente__estado == '2'" style="background-color:#82BF72; color:#fff;">{% include "legend.html" %}</div>
+
+                      <div class="panel-heading" ng-if="contact.agente__estado == '3'" style="background-color:#478BCE; color:#fff;">{% include "legend.html" %}</div>
+
+                      <div class="panel-heading" ng-if="contact.agente__estado == '4'" style="background-color:#D2447A; color:#fff;">{% include "legend.html" %}</div>
+
+                      <div class="panel-heading" ng-if="contact.agente__estado == '5'" style="background-color:#D0CA40; color:#fff;">{% include "legend.html" %}</div>
+
+                      <div class="panel-heading" ng-if="contact.agente__estado == '6'" style="background-color:#A36AA5; color:#fff;">{% include "legend.html" %}</div>
+
+
+                <div class="panel-body">
+                <div class="row">
+
+                    
+                          <div class="col-sm-12" ng-if="contact.agente__estado == '3'|| contact.agente__estado == '6' ">
+                          <center><i class="fa fa-phone"></i>  {[{contact.fono}]}</center>
+                          </div>
+
+                          <div class="col-sm-6">
+                          <center><i class="fa fa-share"></i> {[{contact.agente__atendidas}]}</center>
+                          </div>
+                          <div class="col-sm-6">
+                          <center><i class="fa fa-reply"></i> {[{contact.agente__contactadas}]}</center>
+                          </div>
+
+                          <div class="col-sm-6"><center>
+                          <a ng-click="evaluar(contact,$index)" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#eliminar"><i class="fa fa-check"></i></a></center>
+                          </div>
+
+                          <div class="col-sm-6"><center>
+                          <a  ng-click="evaluar(contact,$index)" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#notificacion"><i class="fa fa-rocket"></i></a></center>
+                          </div>
+
+                          <div class="col-sm-12">
+                          <i class="fa fa-clock-o"></i> {[{contact.tgestion}]}
+                          </div>
+                         
+                          <div class="col-sm-12">
+                          <div class="progre">
+                          <div class="progressi">
+
+                          <div class="barr" style="width:{[{contact.secgestion}]}px; background-color: {[{contact.color}]};"></div>
+                          </div>
+                          </div>
+
+                           <!-- <canvas id="doughnut" class="chart chart-doughnut"
+                            chart-data="[contact.agente__atendidas,contact.agente__contactadas]" chart-labels="labels">
+                            </canvas>
+                            <center><h6>Performance</h6></center>
+                            <center><h6>{[{contact.agente__contactadas}]} %</h6></center>-->
+                          </div>
+                      
+
+                  </div>
+                </div>
+                </div>
+                </div>
+            </div>
+
+
+
+  </div>
+
+
+<!--Graficas de Monitoreo-->
+
+  <div class="panel panel-default">
+
+
+  <div class="panel-body">
+    
+      <div class ='row'>
+
+    <div class="col-sm-3">
+
+  <div id="pie" style="width:80%; height:200px;"></div>
+
+    </div>
+
+    <div class="col-sm-3">
+
+  <div id="pie1" style="width:80%; height:200px;"></div>
+
+    </div>
+
+      <div class="col-sm-3">
+
+  <div id="xy" style="width:100%; height:200px;"></div>
+
+    </div>
+
+       <div class="col-sm-3">
+
+  <div id="ga" style="width:100%; height:200px;"></div>
+
+    </div>
+
+
+  </div>
+
+
+
+  </div>
+
+
+</div>
+
+
+
+
+
+   {% include "graficos.html" %} 
+ 
+
+
+</div>
+
+
+
+
+</div>
+
+
+
+<!--inicio modales-->
 
 <div id="eliminar" class="modal fade" role="dialog">
   <div class="modal-dialog modal-lg">
@@ -198,169 +357,13 @@ jQuery(document).ready(function($) {
 </div>
 
 
-
-
-    
-
-
-
-             <div class="panel panel-default" onmouseover="container()">
-              
-                  <div class="panel-body c1">
-
-                      <ul class="legend">
-                      <li><span class="superawesome"></span> No Login</li>
-                      <li><span class="awesome"></span> Espera</li>
-                      <li><span class="kindaawesome"></span> En Llamada</li>
-                      <li><span class="notawesome"></span> Descolgado</li>
-                      <li><span class="enpause"></span> En Pause</li>
-                       <li><span class="engestion"></span> En Gestion</li>
-                      </ul>
-                  </div>
-                </div>
-
-        
-
-          <div class='row' onmouseover="container()">
-            <div  ng-repeat="contact in agentes " class='active' ts-repeat>
-
-            <div class="col-sm-2">
-
-                
-                <div class="panel panel-default">
-                    
-                      <div class="panel-heading" ng-if="contact.agente__estado == '1'" style="background-color:#8FB0B3; color:#fff;">
-                      {% include "legend.html" %}
-                      </div>
-
-                      <div class="panel-heading" ng-if="contact.agente__estado == '2'" style="background-color:#82BF72; color:#fff;">{% include "legend.html" %}</div>
-
-                      <div class="panel-heading" ng-if="contact.agente__estado == '3'" style="background-color:#478BCE; color:#fff;">{% include "legend.html" %}</div>
-
-                      <div class="panel-heading" ng-if="contact.agente__estado == '4'" style="background-color:#D2447A; color:#fff;">{% include "legend.html" %}</div>
-
-                      <div class="panel-heading" ng-if="contact.agente__estado == '5'" style="background-color:#D0CA40; color:#fff;">{% include "legend.html" %}</div>
-
-                      <div class="panel-heading" ng-if="contact.agente__estado == '6'" style="background-color:#A36AA5; color:#fff;">{% include "legend.html" %}</div>
-
-
-                <div class="panel-body">
-                <div class="row">
-
-                    
-                          <div class="col-sm-12" ng-if="contact.agente__estado == '3'|| contact.agente__estado == '6' ">
-                          <center><i class="fa fa-phone"></i>  {[{contact.fono}]}</center>
-                          </div>
-
-                          <div class="col-sm-6">
-                          <center><i class="fa fa-share"></i> {[{contact.agente__atendidas}]}</center>
-                          </div>
-                          <div class="col-sm-6">
-                          <center><i class="fa fa-reply"></i> {[{contact.agente__contactadas}]}</center>
-                          </div>
-
-                          <div class="col-sm-6"><center>
-                          <a ng-click="evaluar(contact,$index)" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#eliminar"><i class="fa fa-check"></i></a></center>
-                          </div>
-
-                          <div class="col-sm-6"><center>
-                          <a  ng-click="evaluar(contact,$index)" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#notificacion"><i class="fa fa-rocket"></i></a></center>
-                          </div>
-
-                          <div class="col-sm-12" ng-if="contact.agente__estado == '6'">
-                          T. Gestion: {[{contact.tgestion}]}
-                          </div>
-                         
-                          <div class="col-sm-12" ng-if="contact.agente__estado == '6'">
-                          <div class="progre">
-                          <div class="progressi">
-
-                          <div class="barr" style="width:{[{contact.secgestion}]}px; background-color: {[{contact.color}]};"></div>
-                          </div>
-                          </div>
-
-                           <!-- <canvas id="doughnut" class="chart chart-doughnut"
-                            chart-data="[contact.agente__atendidas,contact.agente__contactadas]" chart-labels="labels">
-                            </canvas>
-                            <center><h6>Performance</h6></center>
-                            <center><h6>{[{contact.agente__contactadas}]} %</h6></center>-->
-                          </div>
-                      
-
-                  </div>
-                </div>
-                </div>
-                </div>
-            </div>
-
-
-
-  </div>
-
-
-  <div class="panel panel-default">
-
-
-  <div class="panel-body">
-    
-      <div class ='row'>
-
-    <div class="col-sm-3">
-
-  <div id="pie" style="width:80%; height:200px;"></div>
-
-    </div>
-
-    <div class="col-sm-3">
-
-  <div id="pie1" style="width:80%; height:200px;"></div>
-
-    </div>
-
-      <div class="col-sm-3">
-
-  <div id="xy" style="width:100%; height:200px;"></div>
-
-    </div>
-
-       <div class="col-sm-3">
-
-  <div id="ga" style="width:100%; height:200px;"></div>
-
-    </div>
-
-
-  </div>
-
-
-
-  </div>
-
-
-</div>
-
-
-
-
-
-   {% include "graficos.html" %} 
- 
-
-
-</div>
-
-
-
-
-</div>
-
-
-
-
+<!--Fin modales-->
 
 
 
 </body>
+
+</html>
 
 
 

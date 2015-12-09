@@ -1,5 +1,5 @@
 
-var App=angular.module('App', ['ngCookies','chart.js']);
+var App=angular.module('App', ['ngCookies','chart.js','ngAnimate']);
 
 App.config(function($interpolateProvider){
 $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
@@ -382,9 +382,6 @@ $(function () {
 
 
 function Controller($scope,$http,$cookies,$filter) {
-
-
-
 
 
 
