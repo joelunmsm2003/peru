@@ -1,5 +1,5 @@
 
-var App=angular.module('App', ['ngCookies']);
+var App=angular.module('App', ['ngCookies','ngAnimate']);
 
 App.config(function($interpolateProvider){
 $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
@@ -9,7 +9,7 @@ $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
 
 function Controller($scope,$http,$cookies,$filter,$interval) {
 
-    $('.gestion').hide()
+   
 
 
     agente = window.location.href.split("teleoperador/")[1].split("/")[0]
@@ -18,8 +18,6 @@ function Controller($scope,$http,$cookies,$filter,$interval) {
     $http.get("/resultado").success(function(response) {$scope.resultado = response;
               
     });
-
-
 
 
     $http.get("/empresas").success(function(response) {$scope.empresas = response[0];
@@ -32,19 +30,16 @@ function Controller($scope,$http,$cookies,$filter,$interval) {
 
         $scope.cliente = response[0];
 
-        console.log('-------',$scope.cliente.id)
 
         $scope.id_campania = $scope.cliente.id
 
         $http.get("/header/"+$scope.id_campania).success(function(response) {$scope.header = response[0];
-
     
               
         });
 
 
         $http.get("/listafiltros/"+$scope.id_campania).success(function(response) {$scope.filtros = response[0];
-
        
               
         });
@@ -72,14 +67,11 @@ function Controller($scope,$http,$cookies,$filter,$interval) {
        
         $scope.fechaa = new Date($scope.atendida)
         $scope.atendida = $scope.fechaa.getSeconds()
+        $scope.at =formatSeconds($scope.atendida)
 
-        console.log($scope.atendida)
+        
     });
 
-    //$http.get("/desfase/"+agente).success(function(response) {$scope.desfase = response;
-
-       
-    //});
 
     $http.get("/tgestion/"+agente).success(function(response) {
 
@@ -88,27 +80,37 @@ function Controller($scope,$http,$cookies,$filter,$interval) {
 
     });
 
+    function formatSeconds(seconds)
+        {
+            var date = new Date(1970,0,1);
+            date.setSeconds(seconds);
+            return date.toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1");
+        }
+
    
 
       var tick = function() {
 
-
-        last_login = $scope.last_login
-        login = new Date(last_login)
-       
+        
+        login = new Date($scope.last_login)
+        d1 = new Date(); 
+        d2 = new Date($scope.tgestion)  
 
         $scope.desfase = $scope.conectado-$scope.atendida
-        inicio = $scope.iniciollamada
+        $scope.des = formatSeconds($scope.desfase)
+        $scope.diff = Math.abs(d1-d2);  
 
-        d1 = new Date(); //"now"
-        d2 = new Date($scope.tgestion)  // some date
-
-        $scope.diff = Math.abs(d1-d2);  // difference in milliseconds
         $scope.conectado = parseInt(Math.abs(d1-login)/1000)
-        $scope.tllamada = parseInt(Math.abs(d1-inicio)/1000)
+        $scope.con = formatSeconds($scope.conectado)
+
+        $scope.tllamada = parseInt(Math.abs(d1-d2)/1000)
+
+        $scope.tllamada = formatSeconds($scope.tllamada)
+
+
         sec = $scope.diff/1000
 
-        $scope.secgestion = sec*2
+        $scope.secgestion = sec*4
 
         $scope.conteo = sec
 
@@ -180,6 +182,38 @@ function Controller($scope,$http,$cookies,$filter,$interval) {
 
 
 
+     $scope.Agendar = function(contact) 
+    
+    {
+
+            $('#agendar').modal('hide')
+        $('.modal-backdrop').remove();
+      
+
+          var todo={
+
+            base: $scope.cliente.id,
+            agente:agente,
+            fecha:contact,
+            done:false
+            }
+
+            $http({
+            url: "/agendar/",
+            data: todo,
+            method: 'POST',
+            headers: {
+            'X-CSRFToken': $cookies['csrftoken']
+            }
+            }).
+            success(function(data) {
+
+       
+            swal({   title: "Agenda",   text: 'Llamada agendada',   timer: 2000,   showConfirmButton: false });
+
+            })
+
+    }
 
 
 
@@ -191,49 +225,41 @@ function Controller($scope,$http,$cookies,$filter,$interval) {
     
     {
         var dateactual = new Date();
-
-        console.log('fecha_gestion',$scope.fechagestion)
-
-       
-
+  
         $scope.word=$scope.word+1
+   
+        $scope.fechagestion = new Date(); 
+         
+        var todo={
 
-        if($scope.word<2){
+        word:$scope.word,
+        fechagestion: $scope.fechagestion,
+        cliente : $scope.cliente,
+        agente:agente,
+        done:false
 
-
-            $scope.fechagestion = new Date(); 
-
-            
-            $scope.datoagente['estado__nombre'] = "En gestion"
-             
-            var todo={
-
-            fechagestion: $scope.fechagestion,
-            cliente : $scope.cliente,
-            agente:agente,
-            done:false
-            }
-
-            $http({
-            url: "/gestion/",
-            data: todo,
-            method: 'POST',
-            headers: {
-            'X-CSRFToken': $cookies['csrftoken']
-            }
-            }).
-            success(function(data) {
-
-                $http.get("/tgestion/"+agente).success(function(response) {
-
-                $scope.tgestion = response;
-
-
-                });
-       
-
-            })
         }
+
+        $http({
+        url: "/gestion/",
+        data: todo,
+        method: 'POST',
+        headers: {
+        'X-CSRFToken': $cookies['csrftoken']
+        }
+        }).
+        success(function(data) {
+
+            $http.get("/tgestion/"+agente).success(function(response) {
+
+            $scope.tgestion = response;
+
+
+            });
+   
+
+        })
+       
 
      
     };
@@ -248,12 +274,12 @@ function Controller($scope,$http,$cookies,$filter,$interval) {
 
         if(contact['id']==11){
 
-            $('.gestion').show()
+            $('.gestionfecha').show()
 
-            $('.gestion').addClass('animated bounce')
+            $('.gestionfecha').addClass('animated bounce')
         }
         else{
-            $('.gestion').hide()
+            $('.gestionfecha').hide()
 
         }
 
@@ -290,6 +316,8 @@ function Controller($scope,$http,$cookies,$filter,$interval) {
         })
  
     };
+
+
 
     
     Controller.$inject = ['$scope', '$filter'];

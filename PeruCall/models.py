@@ -12,6 +12,17 @@ from __future__ import unicode_literals
 from django.db import models
 
 
+class Agendados(models.Model):
+    id = models.IntegerField(primary_key=True)  # AutoField?
+    base = models.ForeignKey('Base', db_column='base', blank=True, null=True)
+    agente = models.ForeignKey('Agentes', db_column='agente', blank=True, null=True)
+    fecha = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'agendados'
+
+
 class Agentebase(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
     agente = models.ForeignKey('Agentes', db_column='agente', blank=True, null=True)
@@ -67,6 +78,8 @@ class Agentes(models.Model):
     tfinllamada = models.DateTimeField(blank=True, null=True)
     tinicioespera = models.DateTimeField(blank=True, null=True)
     tfinespera = models.DateTimeField(blank=True, null=True)
+    tiniciotipeo = models.DateTimeField(blank=True, null=True)
+    wordstipeo = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -222,6 +235,7 @@ class Campania(models.Model):
     archivo = models.CharField(max_length=100, blank=True)
     supervisor = models.ForeignKey('Supervisor', db_column='supervisor', blank=True, null=True)
     cartera = models.ForeignKey('Cartera', db_column='cartera', blank=True, null=True)
+    tgestion = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False

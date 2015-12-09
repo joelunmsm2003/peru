@@ -44,6 +44,11 @@ function Controller($scope,$http,$cookies,$filter) {
 
         $scope.usuarioscampania = response;
         $scope.agentesc =response
+        $scope.campana = response[0]['campania__nombre']
+        $scope.cartera = response[0]['campania__cartera__nombre']
+        
+
+        console.log('.........',$scope.campana)
 
         
 

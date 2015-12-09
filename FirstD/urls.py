@@ -40,6 +40,7 @@ urlpatterns = patterns('',
     url(r'^lanzallamada/(\w+)/(\w+)/$','PeruCall.views.lanzallamada'),
     url(r'^finllamada/(\w+)/(\w+)/$','PeruCall.views.finllamada'),
     url(r'^lictmp/$','PeruCall.views.lictmp'),
+    url(r'^agendar/$','PeruCall.views.agendar'),
 
     url(r'^monitoreo/(\w+)/$', 'PeruCall.views.monitoreo'),
     url(r'^agentes/(\w+)/$', 'PeruCall.views.agentes'),

@@ -114,6 +114,7 @@ def ingresar(request):
 						agente= Agentes.objects.get(user_id=user)
 						id_agente = agente.id
 						agente.estado_id='2'
+						agente.wordstipeo = 0
 						agente.tinicioespera = datetime.now()-timedelta(hours=5)
 						agente.save()
 
@@ -382,7 +383,9 @@ def agentes(request,id_campania):
 
 	ti =0
 
-	user = Agentescampanias.objects.filter(campania=id_campania).values('id','agente','agente__user__username','agente__user__first_name','agente__fono','agente__anexo','agente__atendidas','agente__contactadas','agente__estado')
+	tges = Campania.objects.get(id=id_campania).tgestion
+
+	user = Agentescampanias.objects.filter(campania=id_campania).values('id','agente__wordstipeo','agente','agente__user__username','agente__user__first_name','agente__fono','agente__anexo','agente__atendidas','agente__contactadas','agente__estado')
 
 	fmt = '%Y-%m-%d %H:%M:%S %Z'
 	fmt1 = '%Y-%m-%d %H:%M:%S'
@@ -413,15 +416,19 @@ def agentes(request,id_campania):
 			if agente.estado.id == 3:
 
 				ti = agente.tiniciollamada
+			
 
 			if agente.estado.id == 6:
 
 				ti = agente.tiniciogestion
+	
 
 			if ti:
 
 				ti= str(ti)[0:19]
 				ti = datetime.strptime(ti,fmt1)
+
+
 
 				tf= str(datetime.now())[0:19]
 				tf = datetime.strptime(tf,fmt1)
@@ -480,13 +487,42 @@ def nota(request):
 
 		data = Nota.objects.all().values('id','tipo').order_by('-id')
 
-
-
 		data_dict = ValuesQuerySetToDict(data)
 
 		data = simplejson.dumps(data_dict)
 
 		return HttpResponse(data, content_type="application/json")
+
+
+@login_required(login_url="/ingresar")
+def agendar(request):
+
+		fechaa= json.loads(request.body)['fecha']
+		agente =  json.loads(request.body)['agente']
+		base =  json.loads(request.body)['base']
+
+		if request.method == 'POST':
+
+			date = str(fechaa['date'])
+			time = str(fechaa['time'])
+
+			fechaag =  date + " " +time
+
+			fmt = '%Y-%m-%d %H:%M'
+	
+			fecha = datetime.strptime(str(fechaag),fmt)-timedelta(hours=5)
+
+			print fecha,type(fecha)
+
+			Agendados(base_id=base,fecha=fecha,agente_id=agente).save()
+
+			
+
+
+
+		return HttpResponse('data', content_type="application/json")
+
+
 
 @login_required(login_url="/ingresar")
 def licencias(request):
@@ -576,6 +612,7 @@ def gestion(request):
 		cliente = json.loads(request.body)['cliente']
 		fecha= json.loads(request.body)['fechagestion']
 		id_agente =json.loads(request.body)['agente']
+		word =json.loads(request.body)['word']
 
 		print type(fecha),fecha
 		fmt = '%Y-%m-%dT%H:%M:%S.%fZ'
@@ -591,17 +628,14 @@ def gestion(request):
 		agente = Agentes.objects.filter(id=id_agente)
 		
 		for agente in agente:
-			agente.estado_id = 6
-			agente.tiniciogestion = fecha
+			agente.wordstipeo = word
 			agente.save()
-
-
 
 		base = Agentebase.objects.filter(base_id=id_cliente,agente_id=id_agente).order_by('-id')[:1]
 		
 		for base in base:
 			base.estado_id = 6
-			base.tiniciogestion = fecha
+			base.tinicio = fecha
 			base.save()
 
 	return HttpResponse('data', content_type="application/json")
@@ -639,19 +673,15 @@ def gestionupdate(request):
 				base.macuerdo = monto
 				base.save()
 
-
 		user = Agentes.objects.get(id=agente).user.username
 		
-		
-
 		redis_publisher = RedisPublisher(facility='foobar', users=[user])
 		message = RedisMessage('llamada')
 		redis_publisher.publish_message(message)
 
-		
-
 		agente = Agentes.objects.get(id=agente)
 		agente.estado_id = 2
+		agente.wordstipeo = 0
 		agente.tinicioespera = datetime.now()-timedelta(hours=5)
 		agente.save() 
 		
@@ -668,7 +698,17 @@ def tgestion(request,id_agente):
 
 	for agente in agentebase:
 
-		fecha = agente.tiniciogestion
+		if agente.estado.id ==1:
+			pass
+
+		if agente.estado.id ==2:
+			fecha = agente.tinicioespera
+
+		if agente.estado.id ==3:
+			fecha = agente.tiniciollamada
+
+		if agente.estado.id ==6:
+			fecha = agente.tiniciogestion
 
 	
 
@@ -1521,11 +1561,12 @@ def uploadCampania(request):
 		hombreobjetivo = data['hombreobjetivo']
 		mxllamada = data['mxllamada']
 		supervisor = data['supervisor']
+		tgestion = data['tgestion']
 		now = datetime.now()
 		archivo =  request.FILES['process_file']
 
 
-		Campania(cartera_id=cartera,supervisor_id=supervisor,usuario_id=id,fecha_cargada= now,archivo = archivo,canales=canales,htinicio=inicio,htfin=fin,nombre=nombre,timbrados=timbrados,llamadaxhora=llamadaxhora,hombreobjetivo=hombreobjetivo,mxllamada=mxllamada).save()
+		Campania(tgestion=tgestion,cartera_id=cartera,supervisor_id=supervisor,usuario_id=id,fecha_cargada= now,archivo = archivo,canales=canales,htinicio=inicio,htfin=fin,nombre=nombre,timbrados=timbrados,llamadaxhora=llamadaxhora,hombreobjetivo=hombreobjetivo,mxllamada=mxllamada).save()
 
 		id_campania = Campania.objects.all().values('id').order_by('-id')[0]['id']
 
@@ -1777,7 +1818,7 @@ def agentescampania(request,id_campania):
 
 	nivel = AuthUser.objects.get(id=id).nivel.id
 
-	agentes = Agentescampanias.objects.filter(campania=id_campania).values('id','agente','campania__nombre')
+	agentes = Agentescampanias.objects.filter(campania=id_campania).values('id','agente','campania__nombre','campania__cartera__nombre')
 
 	for i in range(len(agentes)):
 

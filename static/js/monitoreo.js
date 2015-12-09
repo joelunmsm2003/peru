@@ -445,6 +445,14 @@ function Controller($scope,$http,$cookies,$filter) {
        
     });
 
+     $http.get("/agentescampania/"+campania).success(function(response) {
+
+        $scope.campana = response[0]['campania__nombre']
+        $scope.cartera = response[0]['campania__cartera__nombre']
+
+
+    });
+
 
 
 
