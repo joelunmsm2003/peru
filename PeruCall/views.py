@@ -396,64 +396,54 @@ def agentes(request,id_campania):
 
 	for i in range(len(user)):
 
-		agentebase = Agentes.objects.filter(id=user[i]['agente'])
+		agente = Agentes.objects.get(id=user[i]['agente'])
 
 		if Base.objects.filter(status=1,agente_id=user[i]['agente']):
 
 			user[i]['fono'] =  Base.objects.get(status=1,agente_id=user[i]['agente']).telefono
 
+
+		if agente.estado.id == 2:
+
+			ti = agente.tinicioespera
+
+		if agente.estado.id == 3:
+
+			ti = agente.tiniciollamada
 		
-			
-		for agente in agentebase:
 
-			print 'estado del agente', agente.estado.id
+		if agente.estado.id == 6:
+
+			ti = agente.tiniciogestion
 
 
-			if agente.estado.id == 2:
+		if agente.estado.id > 1:
 
-				ti = agente.tinicioespera
+			ti= str(ti)[0:19]
+			ti = datetime.strptime(ti,fmt1)
 
-			if agente.estado.id == 3:
+			tf= str(datetime.now())[0:19]
+			tf = datetime.strptime(tf,fmt1)
 
-				ti = agente.tiniciollamada
-			
 
-			if agente.estado.id == 6:
-
-				ti = agente.tiniciogestion
+			user[i]['tgestion'] = str(tf-ti)
 	
+			sec = str(tf-ti).split(':')
+			
+			user[i]['secgestion'] = int(sec[2])*2
 
-			if ti:
+			if int(sec[1]) > 0  :
 
-				ti= str(ti)[0:19]
-				ti = datetime.strptime(ti,fmt1)
+				sec[2] = 165
+				user[i]['secgestion'] = 180
 
-
-
-				tf= str(datetime.now())[0:19]
-				tf = datetime.strptime(tf,fmt1)
-
-
-				user[i]['tgestion'] = str(tf-ti)
-		
-				sec = str(tf-ti).split(':')
-				
-				user[i]['secgestion'] = int(sec[2])*2
-
-				if int(sec[1]) > 0  :
-
-					sec[2] = 165
-					user[i]['secgestion'] = 180
-
-				
-				if int(sec[2]) > 0 and int(sec[2])< 30:
-					user[i]['color'] = '#81C784'
-				if int(sec[2]) > 30 and int(sec[2])< 55:
-					user[i]['color'] = '#2196F3'
-				if int(sec[2]) > 55 :
-					user[i]['color'] = '#EF5350'
-
-		
+			
+			if int(sec[2]) > 0 and int(sec[2])< 30:
+				user[i]['color'] = '#81C784'
+			if int(sec[2]) > 30 and int(sec[2])< 55:
+				user[i]['color'] = '#2196F3'
+			if int(sec[2]) > 55 :
+				user[i]['color'] = '#EF5350'
 
 		'''
 
