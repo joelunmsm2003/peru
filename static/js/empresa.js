@@ -35,6 +35,9 @@ function Controller($scope,$http,$cookies,$filter) {
     });
 
      $http.get("/mascaras").success(function(response) {$scope.mascaras = response;
+         $scope.selected = $scope.mascaras[0]
+
+         console.log($scope.selected)
 
 
     });
@@ -59,6 +62,31 @@ function Controller($scope,$http,$cookies,$filter) {
     $scope.mascarap = data['mascara']
 
     };
+
+     $scope.editmascara = function(data) 
+    {
+
+    console.log('editando',data.tipo)
+
+    if(data.tipo == 'Externa'){
+
+        $scope.mascarap = 2
+        $scope.model.mascaras__tipo = 2
+    }
+    else{
+
+        $scope.mascarap = 1
+        $scope.model.mascaras__tipo = 1
+
+    }
+
+    
+
+    };
+
+
+    
+
 
 
 
@@ -90,7 +118,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-       swal({   title: $scope.empresas.nombre,   text: "Empresa "+data +" agregado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Agregado",   }, function(){   window.location.href = "/empresa" });
+       swal({   title: "PeruCall",   text: "Empresa "+data +" agregado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Agregado",   }, function(){   window.location.href = "/empresa" });
 
  
          $scope.agregar=""
@@ -107,6 +135,8 @@ function Controller($scope,$http,$cookies,$filter) {
         $scope.pagedItems[currentPage][idx] = angular.copy($scope.model);
         $('#edit').modal('hide')
         $('.modal-backdrop').remove();
+
+        console.log('guardanado',$scope.model)
 
 
         var todo={
@@ -127,7 +157,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-            swal({title: $scope.empresas.nombre, text: "Empresa "+data +" editado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Editado",   }, function(){ window.location.href = "/empresa" });
+            swal({title: 'Peru Call', text: "Empresa "+data +" editado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Editado",   }, function(){ window.location.href = "/empresa" });
 
 
         })
@@ -174,12 +204,35 @@ function Controller($scope,$http,$cookies,$filter) {
     };
 
 
+
+
     $scope.editContact = function (contact,index,currentPage) {
 
         $scope.index = index;
         $scope.numberPage =currentPage;
         $scope.model = angular.copy(contact);
-        console.log('edit',$scope.model);
+        console.log('edit',$scope.model.mascaras__tipo);
+
+        if($scope.model.mascaras__tipo=='Interna'){
+
+             $scope.model.selected = $scope.mascaras[1]
+             $scope.mascarap = 1
+             $scope.model.mascaras__tipo = 1
+        }
+           
+        else{
+            $scope.model.selected = $scope.mascaras[0]
+            $scope.mascarap = 2
+            $scope.model.mascaras__tipo = 2
+
+        }
+
+
+
+            
+
+
+
 
     };
 

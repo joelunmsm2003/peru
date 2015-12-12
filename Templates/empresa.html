@@ -161,8 +161,8 @@
          <div class="col-md-6" ng-if="user.nivel == 4">
         <div class="form-group">
         <label>Mascara</label>
-        <select ng-model="model.mascara"  ng-change="mascara(model)" class="form-control" ng-options="cliente.id as cliente.tipo for cliente in mascaras" required =""></select>
-
+        <select ng-model="model.selected"  ng-change="editmascara(model.selected)" class="form-control" ng-options="m as m.tipo for m in mascaras track by m.id" required =""></select>
+    
         </div>
         </div>
 
@@ -179,6 +179,7 @@
 
 
       <div class="modal-footer">
+           <button class="btn" data-dismiss="modal">Cerrar</button>
            <button type="submit" class="btn btn-primary">Editar</button>
       </div>
 
@@ -248,13 +249,13 @@
             <thead>
 
             <tr>
-                  <th>Id <a ng-click="sort_by('id',currentPage)"><i class="icon-sort"></i></a></th>
-                  <th>Nombre <a ng-click="sort_by('nombre',currentPage)"><i class="icon-sort"></i></a></th>
-                  <th>Telefono <a ng-click="sort_by('telefono',currentPage)"><i class="icon-sort"></i></a></th>
-                  <th>Contacto <a ng-click="sort_by('contacto',currentPage)"><i class="icon-sort"></i></a></th>
-                  <th>Mail <a ng-click="sort_by('mail',currentPage)"><i class="icon-sort"></i></a></th>
-                  <th>Licencias <a ng-click="sort_by('licencias',currentPage)"><i class="icon-sort"></i></a></th>
-                  <th>Mascaras <a ng-click="sort_by('mascaras',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th class='id'>Id <a ng-click="sort_by('id',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th class='nombre'>Nombre <a ng-click="sort_by('nombre',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th class='telefono'>Telefono <a ng-click="sort_by('telefono',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th class='contacto'>Contacto <a ng-click="sort_by('contacto',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th class='mail'>Mail <a ng-click="sort_by('mail',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th class='licencias'>Licencias <a ng-click="sort_by('licencias',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th class='mascaras'>Mascaras <a ng-click="sort_by('mascaras',currentPage)"><i class="icon-sort"></i></a></th>
                   <th></th>
                   <th></th>
                         

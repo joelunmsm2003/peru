@@ -2064,13 +2064,13 @@ def empresas(request):
 
 	if nivel == 4:
 
-		empresas = Empresa.objects.all().values('id','nombre','licencias','mascaras__tipo','telefono','contacto','mail').order_by('-id')
+		empresas = Empresa.objects.all().values('id','nombre','licencias','mascaras__tipo','telefono','contacto','mail','url').order_by('-id')
 
 	else:
 
 		empresa = AuthUser.objects.get(id=id).empresa.id
 
-		empresas = Empresa.objects.filter(id=empresa).values('id','nombre','licencias','mascaras__tipo','telefono','contacto','mail').order_by('-id')
+		empresas = Empresa.objects.filter(id=empresa).values('id','nombre','licencias','mascaras__tipo','telefono','contacto','mail','url').order_by('-id')
 
 	data = json.dumps(ValuesQuerySetToDict(empresas))
 
@@ -2089,14 +2089,16 @@ def empresas(request):
 			mail = data['mail']
 			licencias = data['licencias']
 			if data['mascara']==2:
-				empresa.url =data['url']
+				url =data['url']
+			else:
+				url=""
 			
 			telefono = data['telefono']
 			mascara = data['mascara']
 
 			print mascara
 
-			Empresa(mascaras_id=mascara,nombre=nombre,contacto=contacto,mail=mail,licencias=licencias,telefono=telefono).save()
+			Empresa(mascaras_id=mascara,nombre=nombre,contacto=contacto,mail=mail,licencias=licencias,telefono=telefono,url=url).save()
 
 			return HttpResponse(nombre, content_type="application/json")
 
@@ -2112,8 +2114,8 @@ def empresas(request):
 			empresa.contacto =data['contacto']
 			empresa.mail =data['mail']
 			empresa.licencias =data['licencias']
-			empresa.mascaras_id =data['mascara']
-			if data['mascara']==2:
+			empresa.mascaras_id =data['mascaras__tipo']
+			if data['mascaras__tipo']==2:
 				empresa.url =data['url']
 
 			
