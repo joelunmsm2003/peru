@@ -2088,7 +2088,7 @@ def empresas(request):
 			contacto = data['contacto']
 			mail = data['mail']
 			licencias = data['licencias']
-			if data['mascaras']==2:
+			if data['mascara']==2:
 				empresa.url =data['url']
 			
 			telefono = data['telefono']
