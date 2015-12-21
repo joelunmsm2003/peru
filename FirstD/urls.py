@@ -89,6 +89,10 @@ urlpatterns = patterns('',
     url(r'^status_g/(\w+)/$', 'PeruCall.views.status_g'),
     url(r'^status_h/(\w+)/$', 'PeruCall.views.status_h'),
     url(r'^resultado/$', 'PeruCall.views.resultado'),
+    url(r'^cpuestado/$', 'PeruCall.views.cpuestado'),
+    url(r'^monitorcpu/$', 'PeruCall.views.monitorcpu'),
+    url(r'^graphcpu/$', 'PeruCall.views.graphcpu'),
+
 
 
 )

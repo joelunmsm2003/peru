@@ -178,6 +178,11 @@ def empresa(request):
 
 	return render(request, 'empresa.html',{})
 
+@login_required(login_url="/ingresar")
+def monitorcpu(request):
+
+	return render(request, 'monitorcpu.html',{})
+
 
 @login_required(login_url="/ingresar")
 def estllamada(request,id_campania):
@@ -218,6 +223,37 @@ def enviar(request):
 
 
 	return HttpResponse('data', content_type="application/json")
+
+@csrf_exempt
+def cpuestado(request):
+
+
+	memoriausada= str(request.GET['memoriausada'])
+	d_usado= str(request.GET['d_usado']).replace("G", "")
+	d_disponible= str(request.GET['d_disponible']).replace("G", "")
+	memoriatotal= str(request.GET['memoriatotal'])
+	memoriausada= str(request.GET['memoriausada'])
+	swaptotal= str(request.GET['swaptotal'])
+	swapusada= str(request.GET['swapusada'])
+	cpu= str(request.GET['cpu'])
+
+
+	date =datetime.now()
+
+	Monitorserver(d_uso=d_usado,d_disponible=d_disponible,m_total=memoriatotal,m_usada=memoriausada,s_total=swaptotal,s_usada=swapusada,cpu=cpu,date=date).save()
+
+	data = {'memoriausada':memoriausada,'d_usado':d_usado,'d_disponible':d_disponible,'memoriatotal':memoriatotal,'memoriausada':memoriausada,'swaptotal':swaptotal,'swapusada':swapusada,'cpu':cpu}
+
+	data =json.dumps(data)
+
+	redis_publisher = RedisPublisher(facility='foobar', users=['manager'])
+
+	message = RedisMessage(data)
+
+	redis_publisher.publish_message(message)
+
+	return HttpResponse(data, content_type="application/json")
+
 
 @login_required(login_url="/ingresar")
 def notificar(request):
@@ -569,6 +605,26 @@ def lictmp(request):
 		data = simplejson.dumps(data_dict)
 
 		return HttpResponse(data, content_type="application/json")
+
+@login_required(login_url="/ingresar")
+def graphcpu(request):
+
+
+	cpu = Monitorserver.objects.all().values('id','d_uso','d_disponible','m_total','m_usada','s_usada','s_total','s_usada','cpu').order_by('-id')[0:30]
+
+	fmt = '%Y-%m-%d %H:%M:%S %Z'
+
+	for i in range(len(cpu)):
+
+		cpu[i]['date'] = Monitorserver.objects.get(id=cpu[i]['id']).date.strftime(fmt)
+		
+
+	data_dict = ValuesQuerySetToDict(cpu)
+
+	data = simplejson.dumps(data_dict)
+
+	return HttpResponse(data, content_type="application/json")
+
 
 
 @login_required(login_url="/ingresar")

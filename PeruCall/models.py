@@ -232,7 +232,7 @@ class Campania(models.Model):
     mxllamada = models.IntegerField(blank=True, null=True)
     llamadaxhora = models.IntegerField(blank=True, null=True)
     hombreobjetivo = models.IntegerField(blank=True, null=True)
-    archivo = models.FileField(upload_to='files')
+    archivo = models.CharField(max_length=100, blank=True)
     supervisor = models.ForeignKey('Supervisor', db_column='supervisor', blank=True, null=True)
     cartera = models.ForeignKey('Cartera', db_column='cartera', blank=True, null=True)
     tgestion = models.IntegerField(blank=True, null=True)
@@ -411,6 +411,22 @@ class Mascara(models.Model):
     class Meta:
         managed = False
         db_table = 'mascara'
+
+
+class Monitorserver(models.Model):
+    id = models.IntegerField(primary_key=True)  # AutoField?
+    d_uso = models.CharField(max_length=100, blank=True)
+    d_disponible = models.CharField(max_length=100, blank=True)
+    m_total = models.CharField(max_length=100, blank=True)
+    m_usada = models.CharField(max_length=100, blank=True)
+    s_total = models.CharField(max_length=100, blank=True)
+    s_usada = models.CharField(max_length=100, blank=True)
+    cpu = models.CharField(max_length=100, blank=True)
+    date = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'monitorserver'
 
 
 class Nivel(models.Model):

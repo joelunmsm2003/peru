@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+{% include "head.html" %}
+
+<script src="/static/js/monitorcpu.js"></script>
+
+
+<body ng-app="App" ng-controller="Controller">
+
+
+
+
+<div class="container" >
+
+{% include "header.html" %}
+
+
+<div class='row'>
+
+<div class="col-sm-4">
+
+<div id="pie" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+
+</div>
+
+
+
+<div class="col-sm-4">
+
+<div id="pie1" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+
+</div>
+
+<div class="col-sm-4">
+
+<div id="pie3" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+</div>
+
+<div class="col-sm-12">
+
+<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+</div>
+
+
+
+</div>
+
+<script type="text/javascript">
+
+
+$(function () {
+
+    $(document).ready(function () {
+
+        // Build the chart
+        $('#pie1').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: 'pie',
+                events: {
+                    load: function () {
+
+                        // set up the updating of the chart each second
+                        var series = this.series[0];
+
+                        var updateChart = function() {
+                            
+                        $.getJSON("/graphcpu/", function (result) {
+
+                            console.log('grafica',result[0])
+
+                            m_usada = parseInt(result[0]['m_usada'])
+                            m_disponible=parseInt(result[0]['m_total'])-m_usada
+
+                            
+
+                            
+
+                            series.data[0].update(m_usada);
+                            series.data[1].update(m_disponible);
+
+                            
+
+                        });   
+
+
+                        }      
+                              
+                        setInterval(function(){updateChart()},1000);
+
+
+
+                    }
+                }
+
+
+            },
+            title: {
+                text: 'Uso del Memoria'
+            },
+            tooltip: {
+                formatter: function () {
+                    return '<b>' + this.series.name + '</b><br/>' +
+                        
+                        Highcharts.numberFormat(this.y, 2);
+                }
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: false
+                    },
+                    showInLegend: true
+                }
+            },
+            series: [{
+                name: 'B',
+                colorByPoint: true,
+                data: [{
+                    name: 'Memoria Usada',
+                    y: 0
+                }, {
+                    name: 'Memoria Disponible',
+                    y: 0,
+                    sliced: true,
+                    selected: true
+                }]
+            }]
+        });
+    });
+});
+
+
+
+$(function () {
+
+    $(document).ready(function () {
+
+        // Build the chart
+        $('#pie').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: 'pie',
+
+                 events: {
+                    load: function () {
+
+                        // set up the updating of the chart each second
+                        var series = this.series[0];
+
+                        var updateChart = function() {
+                            
+                        $.getJSON("/graphcpu/", function (result) {
+
+                            console.log('grafica',result[0])
+
+                            d_uso=parseInt(result[0]['d_uso'])
+                            d_disponible = parseInt(result[0]['d_disponible'])
+
+                            
+
+                            series.data[0].update(d_uso);
+                            series.data[1].update(d_disponible);
+
+                            
+
+                        });   
+
+
+                        }      
+                              
+                        setInterval(function(){updateChart()},1000);
+
+
+
+                    }
+                }
+            },
+            title: {
+                text: 'Uso del Disco'
+            },
+            tooltip: {
+                formatter: function () {
+                    return '<b>' + this.series.name + '</b><br/>' +
+                        
+                        Highcharts.numberFormat(this.y, 2);
+                }
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: false
+                    },
+                    showInLegend: true
+                }
+            },
+            series: [{
+                name: 'GB',
+                colorByPoint: true,
+                data: [{
+                    name: 'Disco Usado',
+                    y: 0
+                }, {
+                    name: 'Disco Disponible',
+                    y: 0,
+                    sliced: true,
+                    selected: true
+                }]
+            }]
+        });
+    });
+});
+
+
+
+$(function () {
+    $(document).ready(function () {
+        Highcharts.setOptions({
+            global: {
+                useUTC: false
+            }
+        });
+
+        $('#container').highcharts({
+            chart: {
+                type: 'spline',
+                animation: Highcharts.svg, // don't animate in old IE
+                marginRight: 10,
+                events: {
+                    load: function () {
+
+                        // set up the updating of the chart each second
+                    var series = this.series[0];
+
+
+                    var updateChart = function() {
+
+                    $.getJSON("/graphcpu/", function (result) {
+
+                    cpu=parseInt(result[0]['cpu'])
+
+                    var x = (new Date()).getTime(),
+                    y=cpu
+                    console.log(result)
+
+                    series.addPoint([x, y], true, true);
+
+
+                    });   
+
+
+                    }      
+
+                    setInterval(function(){updateChart()},1000);
+
+
+
+                    }
+                }
+            },
+            title: {
+                text: '% CPU'
+            },
+            xAxis: {
+                type: 'datetime',
+                tickPixelInterval: 150
+            },
+            yAxis: {
+                title: {
+                    text: 'Value'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            tooltip: {
+                formatter: function () {
+                    return '<b>' + this.series.name + '</b><br/>' +
+                        Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+                        Highcharts.numberFormat(this.y, 2);
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            exporting: {
+                enabled: false
+            },
+            series: [{
+                name: 'Random data',
+                data: (function () {
+                    // generate an array of random data
+                    var data = [],
+                        time = (new Date()).getTime(),
+                        i;
+
+                    for (i = -19; i <= 0; i += 1) {
+                        data.push({
+                            x: time + i * 1000,
+                            y: Math.random()
+                        });
+                    }
+                    return data;
+                }())
+            }]
+        });
+    });
+});
+
+
+
+
+$(function () {
+
+    $(document).ready(function () {
+
+        // Build the chart
+        $('#pie3').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: 'pie',
+                 events: {
+                    load: function () {
+
+                        // set up the updating of the chart each second
+                        var series = this.series[0];
+
+                        var updateChart = function() {
+                            
+                        $.getJSON("/graphcpu/", function (result) {
+
+                            console.log('grafica',result[0])
+
+                            s_usada=parseInt(result[0]['s_usada'])
+                            s_total = parseInt(result[0]['s_total'])
+                            s_disponible = s_total-s_usada
+
+                            
+
+                            series.data[0].update(s_usada);
+                            series.data[1].update(s_disponible);
+
+                            
+
+                        });   
+
+
+                        }      
+                              
+                        setInterval(function(){updateChart()},1000);
+
+
+
+                    }
+                }
+            },
+            title: {
+                text: 'Uso de memoria virtual'
+            },
+            tooltip: {
+                formatter: function () {
+                    return '<b>' + this.series.name + '</b><br/>' +
+                        Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+                        Highcharts.numberFormat(this.y, 2);
+                }
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: false
+                    },
+                    showInLegend: true
+                }
+            },
+            series: [{
+                name: 'Bytes',
+                colorByPoint: true,
+                data: [{
+                    name: 'Memoria Usada',
+                    y: 0
+                }, {
+                    name: 'Memoria Disponible',
+                    y: 0,
+                    sliced: true,
+                    selected: true
+                }]
+            }]
+        });
+    });
+});
+
+                        // set up the updating of the chart each second
+                        
+                        
+
+</script>
+
+
+
+
+<!--Graficas de Monitoreo-->
+
+
+
+<script src="/static/js/highchart.js"></script>
+
+ 
+
+
+</div>
+
+
+
+
+</div>
+
+
+
+
+
+
+</body>
+
+</html>
+
+
+
