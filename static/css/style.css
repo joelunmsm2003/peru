@@ -11,7 +11,9 @@
 
 
 body {
-    font-family: 'Hind',i;
+    
+    font-family: 'Open Sans', sans-serif;
+    font-size: 13px;
 }
 
 
@@ -52,7 +54,6 @@ outline: 0;
 .legend .enpause { background-color: #D0CA40; }
 .legend .engestion { background-color: #A36AA5; }
 
-<style type="text/css">
 
   
 /*Progress bar*/
@@ -194,3 +195,5 @@ color: #202127;
   overflow: hidden;
 
 }
+
+

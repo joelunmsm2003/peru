@@ -2,30 +2,48 @@
 
 <html lang="en" >
 
-{% include "head.html" %}
+<head>
+ 
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta charset="UTF-8">
+		<title>Peru Call</title>
+		<script src="/static/js/angular.js"></script>
+		<script src="/static/js/angular-cookie.js"></script>
+		<script src="/static/js/angular-route.js"></script>
+		<script type="text/javascript" src ="/static/js/jquery-2.1.1.min.js"></script>
+		<script src="/static/js/sweetalert.js"></script>
+		<link rel="stylesheet" href="/static/css/animate.css" type="text/css" />
+		<link href='https://fonts.googleapis.com/css?family=Hind:400,500' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+		<link href="/static/css/sweetalert.css" rel="stylesheet">
+		<link rel="stylesheet" href="/static/css/bootstrap.css" >
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css">
+		<link rel="stylesheet" href="/static/css/flaticon.css" >
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+		<script type="text/javascript" src="/static/js/ws4redis.js"></script>
+		<script type="text/javascript" src="https://code.angularjs.org/1.2.16/angular-animate.min.js"></script>
+		<link rel="stylesheet" href="/static/css/style.css" >
+		<link rel="stylesheet" href="/static/css/flex.css" >
+
+</head>
 
 <script src="/static/js/admincampania.js"></script>
 
 <body ng-app="App" ng-controller="Controller">
 
-
-
-
-<div class ='vertical' style="position: absolute;">
-  <div class='vertical'> {% include "vertical.html" %} </div>
- 
-</div>
-
-
-<div  class ='container'  >
-
 {% include "header.html" %}
 
+<div class='cuerpo'>
+
+
+{% include "vertical.html" %}
 
 
 
+<div class='derecha' onmouseover='cuerpo()'>
 
-	<div class="panel panel-default">
+<div class="panel panel-default">
   <div class="panel-body">
   	<div class='row'>
 	  	<div class="col-sm-4"><h4><i class="fa fa-lightbulb-o"></i> Asignacion de Agentes</h4>
@@ -35,14 +53,14 @@
 	  	<div class="col-sm-4"><h4><i class="fa fa-building-o"></i>  Cartera  {[{cartera}]} </h4>
 	  	</div>
   	</div>
-    
    
   </div>
 </div>
 
 
+<!--Filtro-->
 
-  <div class="panel-body" onmouseover="container()">
+<div class="panel-body" onmouseover="container()">
 
     	<div class='row'>
   	 	<div class="col-sm-6">
@@ -146,18 +164,101 @@
   </div>
 
 
-
-
-
-
-
-
-
-</div>
+<!--Fin-->
 
 
 
 </div>
+
+
+</div>
+
+<script type="text/javascript">
+	
+
+function comenzar(){
+
+
+$('.itemvertical1').css( "width","250");
+$('.itemvertical2').css( "width","80");
+$('.itemvertical3').css( "width","80");
+$('.itemvertical4').css( "width","80");
+$('.iconvertical1').html( "<i class='fa fa-user-secret'></i> <span class='titulo'><a href='/adminCampania/{{campania.id}}'> <strong>Agentes</strong></a></span>");
+$('.iconvertical2').html( "<i class='fa fa-bar-chart'></i>");
+$('.iconvertical3').html( "<i class='fa fa-filter'></i>");
+
+
+
+
+}
+
+function mbase(){
+
+$('.itemvertical1').css( "width","80");
+
+$('.itemvertical2').css( "width","250");
+$('.itemvertical3').css( "width","80");
+$('.itemvertical4').css( "width","80");
+$('.iconvertical1').html( "<i class='fa fa-user-secret'></i> ");
+$('.iconvertical2').html( "<i class='fa fa-bar-chart'></i><span class='titulo'><a href='/monitoreo/{{campania.id}}'><strong> Monitoreo</strong></a></span>");
+$('.iconvertical3').html( "<i class='fa fa-filter'></i>");
+
+
+
+}
+
+function mlote(){
+
+$('.itemvertical1').css( "width","80");
+$('.itemvertical2').css( "width","80");
+
+$('.itemvertical3').css( "width","250");
+$('.itemvertical4').css( "width","80");
+$('.iconvertical1').html( "<i class='fa fa-user-secret'></i>");
+$('.iconvertical2').html( "<i class='fa fa-bar-chart'></i>");
+$('.iconvertical3').html( "<i class='fa fa-filter'></i> <span class='titulo'><a href='/filtros/{{campania.id}}''><strong> Filtro</strong></a></span>");
+
+
+
+}
+
+
+
+function cuerpo(){
+
+$('.itemvertical1').css( "width","80");
+$('.itemvertical2').css( "width","80");
+$('.itemvertical3').css( "width","80");
+$('.itemvertical4').css( "width","80");
+
+
+
+
+$('.iconvertical1').html( "<i class='fa fa-user-secret'></i> ");
+$('.iconvertical2').html( "<i class='fa fa-bar-chart'></i>");
+$('.iconvertical3').html( "<i class='fa fa-filter'></i>");
+
+
+
+
+}
+
+
+
+</script>
+
+<style type="text/css">
+	
+thead {
+background: #FDF6F6;
+  opacity: 0.8;
+  color: #EA0E11;
+}
+
+</style>
+
+
+
 
 
 
