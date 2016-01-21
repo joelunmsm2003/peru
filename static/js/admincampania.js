@@ -79,14 +79,20 @@ function Controller($scope,$http,$cookies,$filter) {
 
     {
 
-        
-
-        
         console.log($scope.usuarios);
         
         $scope.tipox = "true"
         
 
+       
+    }
+
+      $scope.agente = function() 
+
+    {
+        console.log('hhhh');
+
+        window.location ='/adminCampania/{{campania.id}}'
        
     }
 
