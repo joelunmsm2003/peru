@@ -44,11 +44,10 @@ function Controller($scope,$http,$cookies,$filter) {
 
         $scope.usuarioscampania = response;
         $scope.agentesc =response
-        $scope.campana = response[0]['campania__nombre']
-        $scope.cartera = response[0]['campania__cartera__nombre']
+        //$scope.campana = response[0]['campania__nombre']
+        //$scope.cartera = response[0]['campania__cartera__nombre']
         
 
-        console.log('.........',$scope.campana)
 
         
 
@@ -87,14 +86,31 @@ function Controller($scope,$http,$cookies,$filter) {
        
     }
 
-      $scope.agente = function() 
+      $scope.agentes = function() 
 
     {
-        console.log('hhhh');
 
-        window.location ='/adminCampania/{{campania.id}}'
+        window.location ='/adminCampania/'+campania
        
     }
+
+          $scope.monitor = function() 
+
+    {
+
+        window.location ='/monitoreo/'+campania
+       
+    }
+
+
+      $scope.filtro = function() 
+
+    {
+
+        window.location ='/filtros/'+campania
+       
+    }
+
 
     $scope.agregaruser = function() 
 

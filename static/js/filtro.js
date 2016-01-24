@@ -43,6 +43,34 @@ function Controller($scope,$http,$cookies,$filter) {
     });
 
 
+    
+      $scope.agentes = function() 
+
+    {
+
+        window.location ='/adminCampania/'+campania
+       
+    }
+
+          $scope.monitor = function() 
+
+    {
+
+        window.location ='/monitoreo/'+campania
+       
+    }
+
+
+      $scope.filtro = function() 
+
+    {
+
+        window.location ='/filtros/'+campania
+       
+    }
+
+
+
 
  
 

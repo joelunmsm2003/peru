@@ -1,47 +1,62 @@
-<!DOCTYPE html>
-
-<html lang="en" >
-
+<!doctype html>
+<html ng-app="App" ng-controller="Controller">
 <head>
- 
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<meta charset="UTF-8">
-		<title>Peru Call</title>
-		<script src="/static/js/angular.js"></script>
-		<script src="/static/js/angular-cookie.js"></script>
-		<script src="/static/js/angular-route.js"></script>
-		<script type="text/javascript" src ="/static/js/jquery-2.1.1.min.js"></script>
-		<script src="/static/js/sweetalert.js"></script>
-		<link rel="stylesheet" href="/static/css/animate.css" type="text/css" />
-		<link href='https://fonts.googleapis.com/css?family=Hind:400,500' rel='stylesheet' type='text/css'>
-		<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-		<link href="/static/css/sweetalert.css" rel="stylesheet">
-		<link rel="stylesheet" href="/static/css/bootstrap.css" >
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css">
-		<link rel="stylesheet" href="/static/css/flaticon.css" >
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-		<script type="text/javascript" src="/static/js/ws4redis.js"></script>
-		<script type="text/javascript" src="https://code.angularjs.org/1.2.16/angular-animate.min.js"></script>
-		<link rel="stylesheet" href="/static/css/style.css" >
-		<link rel="stylesheet" href="/static/css/flex.css" >
 
-</head>
+<title>PeruCall</title>
+
+<meta charset="utf-8">
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+{% include "head.html" %}
 
 <script src="/static/js/admincampania.js"></script>
 
-<body ng-app="App" ng-controller="Controller">
+<link rel='stylesheet' href='/static/css/menu.css'>
+<script src='/static/js/jquery-2.1.1.min.js'></script>
+<script src='/static/js/menuv.js'></script>
+
+
+
+
+</head>
+<body class="home nav-collapsed">
+
+
+<div class="page-frame">
+<div class="page">
+
+<nav class="offcanvas" role="navigation">
+  
+    <ul>
+      
+      <li class='current'><a class='current' href="/"><i class="fa fa-home"></i> Home</a></li>
+      
+      <li>
+        
+        <ul>
+          <li><a ng-click='agentes()'><i class="fa fa-user-secret" ></i>Agentes</a></li>
+          <li><a ng-click='monitor()'><i class="fa fa-line-chart"></i> Monitoreo</a></li>
+          <li><a ng-click='filtro()'><i class="fa fa-filter"></i> Filtro</a></li>
+      
+        </ul>
+      </li>
+    
+    </ul>
+
+</nav>
+
+
+<div class="content-frame">
+
+
+
+
+<div class="container" >
 
 {% include "header.html" %}
-
-<div class='cuerpo'>
-
-
-{% include "vertical.html" %}
-
-
-
-<div class='derecha' onmouseover='cuerpo()'>
+<div class='derecha' >
 
 <div class="panel panel-default">
   <div class="panel-body">
@@ -60,7 +75,7 @@
 
 <!--Filtro-->
 
-<div class="panel-body" onmouseover="container()">
+<div class="panel-body">
 
     	<div class='row'>
   	 	<div class="col-sm-6">
@@ -164,108 +179,15 @@
   </div>
 
 
-<!--Fin-->
 
 
 
-</div>
+</div><!-- END .container -->
 
 
-</div>
-
-<script type="text/javascript">
-	
-
-function comenzar(){
-
-
-$('.itemvertical1').css( "width","250");
-$('.itemvertical2').css( "width","80");
-$('.itemvertical3').css( "width","80");
-$('.itemvertical4').css( "width","80");
-$('.iconvertical1').html( "<i class='fa fa-user-secret'></i> <span class='titulo'><strong>Agentes</strong></span>");
-$('.iconvertical2').html( "<i class='fa fa-bar-chart'></i>");
-$('.iconvertical3').html( "<i class='fa fa-filter'></i>");
-
-
-
-
-}
-
-function mbase(){
-
-$('.itemvertical1').css( "width","80");
-
-$('.itemvertical2').css( "width","250");
-$('.itemvertical3').css( "width","80");
-$('.itemvertical4').css( "width","80");
-$('.iconvertical1').html( "<i class='fa fa-user-secret'></i> ");
-$('.iconvertical2').html( "<i class='fa fa-bar-chart'></i><span class='titulo'><strong> Monitoreo</strong></a></span>");
-$('.iconvertical3').html( "<i class='fa fa-filter'></i>");
-
-
-
-}
-
-function mlote(){
-
-$('.itemvertical1').css( "width","80");
-$('.itemvertical2').css( "width","80");
-
-$('.itemvertical3').css( "width","250");
-$('.itemvertical4').css( "width","80");
-$('.iconvertical1').html( "<i class='fa fa-user-secret'></i>");
-$('.iconvertical2').html( "<i class='fa fa-bar-chart'></i>");
-$('.iconvertical3').html( "<i class='fa fa-filter'></i> <span class='titulo'><strong> Filtro</strong></span>");
-
-
-
-}
-
-
-
-function cuerpo(){
-
-$('.itemvertical1').css( "width","80");
-$('.itemvertical2').css( "width","80");
-$('.itemvertical3').css( "width","80");
-$('.itemvertical4').css( "width","80");
-
-
-
-
-$('.iconvertical1').html( "<i class='fa fa-user-secret'></i> ");
-$('.iconvertical2').html( "<i class='fa fa-bar-chart'></i>");
-$('.iconvertical3').html( "<i class='fa fa-filter'></i>");
-
-
-
-
-}
-
-
-
-</script>
-
-<style type="text/css">
-	
-thead {
-background: #FDF6F6;
-  opacity: 0.8;
-  color: #EA0E11;
-}
-
-</style>
-
-
-
-
-
-
-
+</div><!-- END .content-frame -->
+</div><!-- END .page -->
+</div><!-- END .page-frame -->
 
 </body>
-
-
-
 </html>

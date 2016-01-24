@@ -1,19 +1,63 @@
-<!DOCTYPE html>
+<!doctype html>
+<html ng-app="App" ng-controller="Controller">
+<head>
 
-<html lang="en">
+<title>PeruCall</title>
+
+<meta charset="utf-8">
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
 
 {% include "head.html" %}
 
 <script src="/static/js/filtro.js"></script>
 
-<body ng-app="App" ng-controller="Controller">
 
-<div class='vertical' style="position: absolute;">
-  <div class='vertical'> {% include "vertical.html" %} </div>
- 
-</div>
+<link rel='stylesheet' href='/static/css/menu.css'>
+
+<script src='/static/js/menuv.js'></script>
+
+
+
+</head>
+<body class="home nav-collapsed">
+
+
+<div class="page-frame">
+<div class="page">
+
+<nav class="offcanvas" role="navigation">
+  
+    <ul>
+      
+      <li class='current'><a class='current' href="/"><i class="fa fa-home"></i> Home</a></li>
+      
+      <li>
+        
+        <ul>
+          <li><a ng-click='agentes()'><i class="fa fa-user-secret" ></i>Agentes</a></li>
+          <li><a ng-click='monitor()'><i class="fa fa-line-chart"></i> Monitoreo</a></li>
+          <li><a ng-click='filtro()'><i class="fa fa-filter"></i> Filtro</a></li>
+      
+        </ul>
+      </li>
+    
+    </ul>
+
+</nav>
+
+<div class="content-frame">
+
+
+
+
 
 <div class="container" >
+
+{% include "header.html" %}
 
 
 <div id="filtrop" class="modal fade" role="dialog">
@@ -200,7 +244,6 @@
 
 
 
-{% include "header.html" %}
 
 
 
@@ -230,7 +273,7 @@
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#filtrop">Crear Filtro</button>
 
 
-            <div class='row' onmouseover="container()">
+            <div class='row' >
 
 
 
@@ -314,8 +357,12 @@
 
 
 
+
+
+
+</div><!-- END .content-frame -->
+</div><!-- END .page -->
+</div><!-- END .page-frame -->
+
 </body>
-
-
-
 </html>

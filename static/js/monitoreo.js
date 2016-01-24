@@ -397,6 +397,33 @@ function Controller($scope,$http,$cookies,$filter) {
     $scope.pagedItems = [];
     $scope.currentPage = 0;
 
+    
+      $scope.agentesx = function() 
+
+    {
+
+        window.location ='/adminCampania/'+campania
+       
+    }
+
+          $scope.monitor = function() 
+
+    {
+
+        window.location ='/monitoreo/'+campania
+       
+    }
+
+
+      $scope.filtro = function() 
+
+    {
+
+        window.location ='/filtros/'+campania
+       
+    }
+
+
     $http.get("/agentes/"+campania).success(function(response) {$scope.agentes = response;
 
 

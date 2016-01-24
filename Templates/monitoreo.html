@@ -1,23 +1,55 @@
-<!DOCTYPE html>
+<!doctype html>
+<html ng-app="App" ng-controller="Controller">
+<head>
 
-<html lang="en">
+<title>PeruCall</title>
+
+<meta charset="utf-8">
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 {% include "head.html" %}
-
-
 
 <script src="/static/js/monitoreo.js"></script>
 <script src="/static/js/chart.js"></script>
 <script src="/static/js/angular-chart.js"></script>
 
+<link rel='stylesheet' href='/static/css/menu.css'>
+<script src='/static/js/jquery-2.1.1.min.js'></script>
+<script src='/static/js/menuv.js'></script>
 
-<body ng-app="App" ng-controller="Controller">
 
 
-<div class='vertical' style="position: absolute;">
-  <div class='vertical'> {% include "vertical.html" %} </div>
- 
-</div>
+
+</head>
+<body class="home nav-collapsed">
+
+
+<div class="page-frame">
+<div class="page">
+
+<nav class="offcanvas" role="navigation">
+  
+    <ul>
+      
+      <li class='current'><a class='current' href="/"><i class="fa fa-home"></i> Home</a></li>
+      
+      <li>
+        
+        <ul>
+          <li><a ng-click='agentesx()'><i class="fa fa-user-secret" ></i>Agentes</a></li>
+          <li><a ng-click='monitor()'><i class="fa fa-line-chart"></i> Monitoreo</a></li>
+          <li><a ng-click='filtro()'><i class="fa fa-filter"></i> Filtro</a></li>
+      
+        </ul>
+      </li>
+    
+    </ul>
+
+</nav>
+
+<div class="content-frame">
 
 
 
@@ -26,7 +58,10 @@
 
 
 
+
 {% include "header.html" %}
+
+
 
 <script type="text/javascript">
   
@@ -68,7 +103,7 @@ jQuery(document).ready(function($) {
 
 <!--Legenda-->
 
- <div class="panel panel-default" onmouseover="container()">
+ <div class="panel panel-default" >
   
       <div class="panel-body c1">
 
@@ -87,7 +122,7 @@ jQuery(document).ready(function($) {
 
   <!--Agentes Cuadrados-->     
 
-          <div class='row' onmouseover="container()">
+          <div class='row'>
             <div   ng-repeat="contact in agentes " class='active' ts-repeat>
 
             <div class="col-sm-2">
@@ -357,9 +392,10 @@ jQuery(document).ready(function($) {
 
 
 
+
+</div><!-- END .content-frame -->
+</div><!-- END .page -->
+</div><!-- END .page-frame -->
+
 </body>
-
 </html>
-
-
-
