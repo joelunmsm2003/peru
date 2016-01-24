@@ -86,20 +86,21 @@ jQuery(document).ready(function($) {
 </script>
 
 <!--Cabecera-->
+
   <div class="panel panel-default">
-  <div class="panel-body">
-    <div class='row'>
-      <div class="col-sm-4"><h4><i class="fa fa-lightbulb-o"></i> Asignacion de Agentes</h4>
-      </div>
-      <div class="col-sm-4"><h4><i class="fa fa-cube"></i>  Campaña {[{campana}]} </h4>
-      </div>
-      <div class="col-sm-4"><h4><i class="fa fa-building-o"></i>  Cartera  {[{cartera}]} </h4>
-      </div>
+   <div class="panel-body">
+    <div class="col-sm-3">
+    Campaña {{campania.nombre}}
     </div>
-    
-   
+    <div class="col-sm-3">
+    Supervisor : {{campania.supervisor.user.first_name}}
+    </div>
+    <div class="col-sm-3">
+    Timbrados: {{campania.timbrados}}
+    </div>
+
   </div>
-</div>
+  </div>
 
 <!--Legenda-->
 
