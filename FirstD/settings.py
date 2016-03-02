@@ -107,7 +107,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql', 
         'NAME': 'perucall',
         'USER': 'root',
-        'PASSWORD': 'd4t4B4$3*',
+        'PASSWORD': 'd4t4B4$3P3C4ll*',
         'HOST': '127.0.0.1',   # Or an IP Address that your DB is hosted on
         'PORT': '3306',
     }
