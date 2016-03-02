@@ -15,9 +15,8 @@
 .clearfix:before, .clearfix:after {display: table;  content: ''; }
 .clearfix:after { clear: both; }
 
-rect,line{
-
-  fill:#C03737;
+rect, line {
+  fill: #FFFFFF;
 }
 
 
