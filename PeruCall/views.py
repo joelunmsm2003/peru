@@ -1962,25 +1962,25 @@ def usuarios(request):
 
 	if nivel == 4: #Manager
 
-		usuarios = AuthUser.objects.all().values('id','telefono','username','email','empresa__nombre','nivel__nombre','first_name').order_by('-id')
+		usuarios = AuthUser.objects.all().values('anexo','id','telefono','username','email','empresa__nombre','nivel__nombre','first_name').order_by('-id')
 	
 	if nivel == 3: #Agentes
 
-		usuarios = AuthUser.objects.filter(id=id).values('id','telefono','username','email','empresa__nombre','nivel__nombre','first_name').order_by('-id')
+		usuarios = AuthUser.objects.filter(id=id).values('anexo','id','telefono','username','email','empresa__nombre','nivel__nombre','first_name').order_by('-id')
 
 	if nivel == 2: #Supervisores
 
 		supervisor = Supervisor.objects.get(user=id).id
 
-		usuarios = AuthUser.objects.filter(empresa_id=empresa).values('id','telefono','username','email','empresa__nombre','nivel__nombre','first_name').order_by('-id')
+		usuarios = AuthUser.objects.filter(empresa_id=empresa).values('anexo','id','telefono','username','email','empresa__nombre','nivel__nombre','first_name').order_by('-id')
 
 	if nivel == 1: #Admin
 
-		usuarios = AuthUser.objects.filter(empresa=empresa).exclude(nivel=4).values('id','telefono','username','email','empresa__nombre','nivel__nombre','first_name').order_by('-id')
+		usuarios = AuthUser.objects.filter(empresa=empresa).exclude(nivel=4).values('anexo','id','telefono','username','email','empresa__nombre','nivel__nombre','first_name').order_by('-id')
 
 	if nivel == 5: #Admin
 
-		usuarios = AuthUser.objects.filter(empresa=empresa).exclude(nivel=4).values('id','telefono','username','email','empresa__nombre','nivel__nombre','first_name').order_by('-id')
+		usuarios = AuthUser.objects.filter(empresa=empresa).exclude(nivel=4).values('anexo','id','telefono','username','email','empresa__nombre','nivel__nombre','first_name').order_by('-id')
 
 
 	data = json.dumps(ValuesQuerySetToDict(usuarios))
@@ -2040,6 +2040,7 @@ def usuarios(request):
 				usuario.empresa_id = empresa
 				usuario.nivel_id = nivel
 				usuario.first_name = nombre
+				usuario.anexo=data['anexo']
 				usuario.telefono = telefono
 				usuario.save()
 
@@ -2067,8 +2068,9 @@ def usuarios(request):
 					
 					agente.atendidas = 0
 					agente.contactadas =0
+					agente.anexo = data['anexo']
 					agente.estado_id = 1
-					agente.tiempo = datetime.strptime("00:00:00", "%H:%M:%S")
+					#agente.tiempo = datetime.strptime("00:00:00", "%H:%M:%S")
 					agente.save()
 
 			return HttpResponse(info, content_type="application/json")
@@ -2084,6 +2086,7 @@ def usuarios(request):
 			user.username =data['username']
 			user.first_name =data['first_name']
 			user.telefono = data['telefono']
+			user.anexo = data['anexo']
 			
 
 			user.save()
