@@ -81,6 +81,7 @@ urlpatterns = patterns('',
     url(r'^preguntas/$', 'PeruCall.views.preguntas'),
     url(r'^pregunta/$', 'PeruCall.views.pregunta'),
     url(r'^estllamada/(\w+)/$', 'PeruCall.views.estllamada'),
+    url(r'^calificar/$', 'PeruCall.views.calificar'),
   
     url(r'^teleoperador/(\w+)/$', 'PeruCall.views.teleoperador'),
     url(r'^menu/$', 'PeruCall.views.menu'),

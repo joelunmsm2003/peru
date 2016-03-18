@@ -1566,6 +1566,21 @@ def botonera(request):
 	return HttpResponse(resultado, content_type="application/json")
 
 
+@login_required(login_url="/ingresar")
+def calificar(request):
+
+	if request.method == 'POST':
+
+		#{u'r': u'Si', u'valor': {u'empresa': None, u'id': 9, u'pregunta': u'Cuantos a\xf1os', u'respuesta': u'Usted tiene'}}
+
+		data =json.loads(request.body)
+
+		r=data['r']
+		valor = data['valor']['pregunta']
+
+		Preguntas(pregunta=valor,respuesta=r).save()
+
+	return HttpResponse('resultado', content_type="application/json")
 
 
 

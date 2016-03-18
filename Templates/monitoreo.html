@@ -242,17 +242,13 @@ jQuery(document).ready(function($) {
 
                   <div class='row'>
 
-                     <div class="col-sm-3"><center><h5>Criterio</h5></<center>
+                     <div class="col-sm-6"><center><h5>Criterio</h5></center>
                      </div>
 
-                     <div class="col-sm-3"><center><h5>Calificación</h5></<center>
+                     <div class="col-sm-6"><center><h5>Calificación</h5></center>
                      </div>
 
-                     <div class="col-sm-3"><center><h5>Mensaje</h5></<center>
-                     </div>
-
-                     <div class="col-sm-3"><center><h5>Enviar</h5></<center>
-                     </div>
+                  
 
                   </div><br>
 
@@ -263,7 +259,7 @@ jQuery(document).ready(function($) {
                     <ul ng-repeat=" pregunta in preguntas">
                     <div class="col-sm-12">
                         <div class='row'>
-                            <div class="col-sm-3">  
+                            <div class="col-sm-6">  
 
 
 
@@ -277,20 +273,17 @@ jQuery(document).ready(function($) {
 
                             
 
-                            <div class="col-sm-3">
+                            <div class="col-sm-6">
+                            <center>
 
-                            <input type="number" ng-model="pregunta.calificacion" id="input" class="form-control" title="">
+                            <button type="submit" ng-click="calificarsi(pregunta)" class="btn btn-primary">Si <i class="fa fa-check"></i></button>
+
+
+                            <button type="submit" ng-click="calificarno(pregunta)" class="btn btn-primary">No <i class="fa fa-close"></i></button>
+                            </center>
+
                             </div>
 
-                            <div class="col-sm-3">
-
-                            <select required="" class="form-control"  ng-model="pregunta.nota" ng-options="c.tipo for c in nota"></select>
-                            </div>
-
-                             <div class="col-sm-3">
-                             <center><button type="submit" ng-click="calificar(pregunta,user)" class="btn btn-primary"><i class="fa fa-arrow-right"></i></button></center>
-  
-                              </div>
 
 
 

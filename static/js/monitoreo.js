@@ -6,6 +6,10 @@ $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
 });
 
 
+
+
+
+
 campania = window.location.href.split("monitoreo/")[1].split("/")[0]
 
 $(function () {
@@ -42,7 +46,7 @@ $(function () {
 
         }      
               
-        setInterval(function(){updateChart()},1000);
+        setInterval(function(){updateChart()},100000);
 
 
 
@@ -128,7 +132,7 @@ $(function () {
 
         }      
               
-        setInterval(function(){updateChart()},1000);
+        setInterval(function(){updateChart()},100000);
 
 
 
@@ -270,7 +274,7 @@ $(function () {
                                 });   
 
                                 }      
-                                setInterval(function(){updateChart()},1000);
+                                setInterval(function(){updateChart()},100000);
 
                             }
                         }
@@ -385,6 +389,10 @@ function Controller($scope,$http,$cookies,$filter) {
 
 
 
+
+
+
+
     console.log(window.location.href.split("monitoreo/"))
 
     campania = window.location.href.split("monitoreo/")[1].split("/")[0]
@@ -426,7 +434,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
     });
 
-    }, 1000);
+    }, 100000);
 
     
 
@@ -470,6 +478,61 @@ function Controller($scope,$http,$cookies,$filter) {
         console.log('$scope.nivel',$scope.nivel)
 
     });
+
+
+    $scope.calificarsi = function(data) 
+
+    {
+
+        var todo={
+
+            r: 'Si',
+            valor:data
+           
+        }
+
+        $http({
+
+        url: "/calificar/",
+        data: todo,
+        method: 'POST',
+        headers: {
+        'X-CSRFToken': $cookies['csrftoken']
+        }
+        }).
+        success(function(data) {
+
+
+
+        })
+
+    }
+
+     $scope.calificarno = function(data) 
+
+    {
+
+        var todo={
+
+            r: 'No',
+            valor:data
+           
+        }
+
+        $http({
+
+        url: "/calificar/",
+        data: todo,
+        method: 'POST',
+        headers: {
+        'X-CSRFToken': $cookies['csrftoken']
+        }
+        }).
+        success(function(data) {
+
+        })
+    }
+
 
 
     $scope.agregar = function(index,contact) 
