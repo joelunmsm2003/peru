@@ -11,9 +11,14 @@
 
 
 body {
+<<<<<<< HEAD
     
     font-family: 'Open Sans', sans-serif;
     font-size: 13px;
+=======
+    font-family: 'Open Sans', sans-serif;
+    font-size:12px;
+>>>>>>> produccion
 }
 
 

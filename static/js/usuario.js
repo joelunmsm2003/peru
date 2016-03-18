@@ -342,6 +342,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
         $scope.search()
 
+        
 
         // icon setup
         $('th i').each(function(){

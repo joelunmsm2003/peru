@@ -109,6 +109,10 @@ DATABASES = {
         'USER': 'root',
         'PASSWORD': 'd4t4B4$3*',
         'HOST': 'xiencias.com',   # Or an IP Address that your DB is hosted on
+<<<<<<< HEAD
+=======
+
+>>>>>>> produccion
         'PORT': '3306',
     }
 }

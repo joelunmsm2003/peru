@@ -5,6 +5,7 @@
 {% include "head.html" %}
 
 <script src="/static/js/usuario.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css">
 
 <body >
 
@@ -60,6 +61,14 @@
         <div class="form-group">
         <label>Empresa</label>
         <select ng-model="model.empresa" class="form-control" ng-options="cliente.id as cliente.nombre for cliente in empresasf" required =""></select>
+      
+        </div>
+        </div>
+
+        <div class="col-md-6" >
+        <div class="form-group">
+        <label>Anexo</label>
+        <input type="number" ng-model="model.anexo" class="form-control" placeholder="Anexo"  >
       
         </div>
         </div>
@@ -176,9 +185,10 @@
                   <th class="username">Email <a ng-click="sort_by('username',currentPage)"><i class="icon-sort"></i></a></th>
 
                   <th class="first_name">Nombre <a ng-click="sort_by('first_name',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th class="anexo" >Anexo <a ng-click="sort_by('anexo',currentPage)"><i class="icon-sort"></i></a></th>
                   <th class="telefono">Telefono <a ng-click="sort_by('telefono',currentPage)"><i class="icon-sort"></i></a></th>
                   <th class="empresa__nombre" ng-if="user.nivel == 4">Empresa <a ng-click="sort_by('empresa__nombre',currentPage)"><i class="icon-sort"></i></a></th>
-                  <th class="nivel__nommbre">Nivel <a ng-click="sort_by('nivel__nombre',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th class="nivel__nombre">Nivel <a ng-click="sort_by('nivel__nombre',currentPage)"><i class="icon-sort"></i></a></th>
                   
                   <th></th>
         
@@ -203,12 +213,13 @@
 
               <tr  class='animate' ng-repeat="contact in pagedItems[currentPage]  " ts-repeat>
 
-                <td ng-if="user.nivel == 1" data-th="Origen">{[{contact.id}]} </td>
-                <td data-th="Origen">{[{contact.username}]} </td>
-                <td data-th="Destino">{[{contact.first_name}]}</td>
-                <td data-th="Destino">{[{contact.telefono}]}</td>
-                <td ng-if="user.nivel == 4" data-th="Calldate">{[{contact.empresa__nombre}]}</td>
-                <td data-th="Disposition">{[{contact.nivel__nombre}]}</td>
+                <td ng-if="user.nivel == 1">{[{contact.id}]} </td>
+                <td >{[{contact.username}]} </td>
+                <td >{[{contact.first_name}]}</td>
+                <td >{[{contact.anexo}]} </td>
+                <td >{[{contact.telefono}]}</td>
+                <td ng-if="user.nivel == 4">{[{contact.empresa__nombre}]}</td>
+                <td >{[{contact.nivel__nombre}]}</td>
                 
  
 
@@ -218,7 +229,7 @@
 
                     
 
-                        <button ng-if="user.nivel == 1" type="button" class="btn btn-primary .btn-sm" ng-click="editContact(contact,$index,currentPage)" data-toggle="modal" data-target="#edit"><i class="fa fa-pencil-square-o"></i></button>
+                        <button ng-if="user.nivel == 1" type="button" class="btn btn-primary btn-sm" ng-click="editContact(contact,$index,currentPage)" data-toggle="modal" data-target="#edit"><i class="fa fa-pencil-square-o"></i></button>
 
                         <button ng-if="user.nivel == 1" type="button" class="btn btn-primary btn-sm" ng-click="editContact(contact,$index,currentPage)"  data-toggle="modal" data-target="#eliminar"><i class="fa fa-trash"></i></button>
 
@@ -310,7 +321,12 @@
                         <div class="col-md-6">
                         <div class="form-group">
                         <label>Anexo</label>
+<<<<<<< HEAD
                         <input type="number" ng-model="agregar.anexo" class="form-control" placeholder="Telefono"  >
+=======
+                        <input type="number" ng-model="agregar.anexo" class="form-control" placeholder="Anexo"  >
+
+>>>>>>> produccion
                         </div>
                         </div>
 
