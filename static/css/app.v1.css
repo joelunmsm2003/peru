@@ -8197,13 +8197,13 @@ th.visible-print, td.visible-print {
     font-family: 'Open Sans';
     font-style: normal;
     font-weight: 400;
-    src: local('Open Sans'), local('OpenSans'), url('../fonts/opensans/opensans.woff') format('woff');
+    src: local('Open Sans'), local('OpenSans'), url('/static/fonts/opensans/opensans.woff') format('woff');
 }
 @font-face {
     font-family: 'Open Sans';
     font-style: normal;
     font-weight: 700;
-    src: local('Open Sans Bold'), local('OpenSans-Bold'), url('../fonts/opensans/opensans-bold.woff') format('woff');
+    src: local('Open Sans Bold'), local('OpenSans-Bold'), url('/static/fonts/opensans/opensans-bold.woff') format('woff');
 }
 html {
     background-color: #f2f4f8;
@@ -8212,7 +8212,7 @@ html {
 body {
     font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 13px;
-    color: #788288;
+    color: #12131A;
     background-color: transparent;
     -webkit-font-smoothing: antialiased;
     line-height: 1.53846154;
@@ -11114,6 +11114,8 @@ html, body {
 }
 .m-b-lg {
     margin-bottom: 30px;
+        width: 69%;
+ margin-left: 56px;
 }
 .m-b-xl {
     margin-bottom: 40px;

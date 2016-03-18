@@ -1,5 +1,5 @@
 
-var App=angular.module('App', ['ngCookies']);
+var App=angular.module('App', ['ngCookies','ngAnimate']);
 
 App.config(function($interpolateProvider){
 $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
@@ -50,14 +50,8 @@ function Controller($scope,$http,$cookies,$filter) {
 
       $http.get("/carteras").success(function(response) {$scope.carteras = response;
 
-
        
     });
-
-
-
-
-
 
 
     $http.get("/user").success(function(response) {$scope.user = response;
@@ -348,6 +342,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
         $scope.search()
 
+        
 
         // icon setup
         $('th i').each(function(){
@@ -419,6 +414,12 @@ function Controller($scope,$http,$cookies,$filter) {
 
         console.log('$scope.pagedItems',$scope.pagedItems[0])
 
+             var input =[]
+
+            for (var i = 1; i <= $scope.pagedItems.length; i++) input.push(i);
+
+            $scope.toto = input
+
     };
 
 
@@ -435,7 +436,7 @@ function Controller($scope,$http,$cookies,$filter) {
     };
     
     $scope.setPage = function () {
-        $scope.currentPage = this.n;
+        $scope.currentPage = this.n-1;
     };
 
     

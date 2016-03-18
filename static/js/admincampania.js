@@ -34,6 +34,9 @@ function Controller($scope,$http,$cookies,$filter) {
        
     });
 
+    
+
+
       
 
      $http.get("/agentescampania/"+campania).success(function(response) {
@@ -41,6 +44,11 @@ function Controller($scope,$http,$cookies,$filter) {
 
         $scope.usuarioscampania = response;
         $scope.agentesc =response
+        $scope.campana = response[0]['campania__nombre']
+        $scope.cartera = response[0]['campania__cartera__nombre']
+        
+
+        console.log('.........',$scope.campana)
 
         
 
@@ -484,6 +492,12 @@ function Controller($scope,$http,$cookies,$filter) {
 
         console.log('$scope.pagedItems',$scope.pagedItems[0])
 
+                    var input =[]
+
+            for (var i = 1; i <= $scope.pagedItems.length; i++) input.push(i);
+
+            $scope.toto = input
+
     };
 
 
@@ -500,7 +514,8 @@ function Controller($scope,$http,$cookies,$filter) {
     };
     
     $scope.setPage = function () {
-        $scope.currentPage = this.n;
+    
+        $scope.currentPage = this.n-1;
     };
 
     

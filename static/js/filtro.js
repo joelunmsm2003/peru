@@ -26,6 +26,23 @@ function Controller($scope,$http,$cookies,$filter) {
        
     });
 
+     $http.get("/header/"+campania).success(function(response) {$scope.header = response[0];
+
+        console.log('header',$scope.header)
+
+
+       
+    });
+
+    $http.get("/agentescampania/"+campania).success(function(response) {
+
+        $scope.campana = response[0]['campania__nombre']
+        $scope.cartera = response[0]['campania__cartera__nombre']
+
+
+    });
+
+
 
  
 
@@ -68,10 +85,12 @@ function Controller($scope,$http,$cookies,$filter) {
 
     $scope.listafiltros = response; 
 
+    console.log($scope.listafiltros)
+
     });
 
 
-    },5000);
+    },1000);
 
 
     $http.get("/nivel").success(function(response) {$scope.nivel = response;
@@ -79,6 +98,34 @@ function Controller($scope,$http,$cookies,$filter) {
         console.log('$scope.nivel',$scope.nivel)
 
     });
+
+    $scope.activafiltro = function(contact,index) 
+
+
+
+    {
+
+        $('.filtro').css("background-color","#234 !important")
+        console.log(campania)
+
+        $http.get("/activafiltro/"+contact.id+'/'+campania).success(function(response) {
+
+
+    });
+
+    }
+
+
+    $scope.desactivafiltro = function(contact,index) 
+
+    {
+
+         $http.get("/desactivafiltro/"+contact.id+'/'+campania).success(function(response) {
+
+    });
+
+
+    }
 
 
     $scope.agregar = function(index,contact) 
@@ -499,6 +546,11 @@ function Controller($scope,$http,$cookies,$filter) {
         }
 
         console.log('$scope.pagedItems',$scope.pagedItems[0])
+             var input =[]
+
+            for (var i = 1; i <= $scope.pagedItems.length; i++) input.push(i);
+
+            $scope.toto = input
 
     };
 
@@ -516,7 +568,7 @@ function Controller($scope,$http,$cookies,$filter) {
     };
     
     $scope.setPage = function () {
-        $scope.currentPage = this.n;
+        $scope.currentPage = this.n-1;
     };
 
     

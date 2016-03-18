@@ -12,7 +12,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">Peru Call</a>
+      <a class="navbar-brand" href="#" onmouseover="vertical()" onclick='ocultarmenu()'><img src="/static/img/logo.jpg"/></a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -20,18 +20,30 @@
       <ul class="nav navbar-nav">
 
         
-          <li id="empresa" class="active" ng-if="user.nivel == 4 "><a href="/empresa">Empresas  <span class="sr-only">(current)</span></a></li>
+          <li id="empresa" class="active" ng-if="user.nivel == 4 "><a href="/empresa">Empresas <i class="fa fa-building-o"></i> <span class="sr-only">(current)</span></a></li>
         
 
-        <li id="usuario"><a href="/usuario">Usuarios </a></li>
-        <li id="cartera" ng-if="user.nivel == 1 || user.nivel == 2 ||user.nivel == 4"><a href="/cartera">Carteras </a></li>
-        <li id="campania"><a href="/campania">Campañas </a></li>
-       
+        <li id="usuario"><a href="/usuario">  Usuarios <i class="fa fa-users"></i> </a></li>
+        <li id="cartera" ng-if="user.nivel == 1 || user.nivel == 2 ||user.nivel == 4"><a href="/cartera"> Carteras <i class="fa fa-building"></i>    </a></li>
+        <li id="campania"><a href="/campania"> Campañas   <i class="fa fa-bullhorn"></i> </a></li>
+        <!--<li id="formulario" ng-if="user.nivel == 1"><a href="/pregunta"> Formulario   <i class="fa fa-check"></i></a></li>-->
         
-        <li><a href="#">Reporte </a></li>
-         <li><a href="#">Grabaciones </a></li>
+        <li id='reporteg'><a href="/reporteg">Reportes <i class="fa fa-area-chart"></i></a></li>
+        <!-- <li><a href="#">Grabaciones <i class="fa fa-volume-down"></i> </a></li>-->
+
+          <li id='licencia'><a ng-if="user.nivel == 1" href="/licencia">Licencias <i class="fa fa-area-chart"></i></a></li>
+
+          <li id='licencia'><a ng-if="user.nivel == 4" href="/monitorcpu">Server Monitor <i class="fa fa-laptop"></i></a></li>
+        
 
       </ul>
+
+         <!-- <form class="navbar-form navbar-left" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" ng-change="search()" ng-model="tipo" placeholder="Search">
+        </div>
+       
+      </form>-->
 
       <ul class="nav navbar-nav navbar-right">
 
@@ -39,13 +51,13 @@
       
         <li><a href="#">Nivel {[{user.nivel__nombre}]}</a></li>
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Bienvenido, {[{user.first_name}]} <span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user"></i> Bienvenido, {[{user.first_name}]} <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="#">Action</a></li>
+            <!--<li><a href="#">Action</a></li>
             <li><a href="#">Another action</a></li>
             <li><a href="#">Something else here</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="/salir">Salir</a></li>
+            <li role="separator" class="divider"></li>-->
+            <li><a href="/salir">Salir <i class="fa fa-sign-out"></i></a></li>
           </ul>
         </li>
       </ul>
@@ -77,4 +89,168 @@
     $( "#micampania" ).addClass( "active" )
   }
 
+    if (($(location).attr('href').split('/')[3]) =='pregunta'){
+
+    $( "#formulario" ).addClass( "active" )
+  }
+
+  if (($(location).attr('href').split('/')[3]) =='reporteg'){
+
+    $( "#reporteg" ).addClass( "active" )
+  }
+
+    if (($(location).attr('href').split('/')[3]) =='licencia'){
+
+    $( "#licencia" ).addClass( "active" )
+  }
+
+    if (($(location).attr('href').split('/')[3]) =='cartera'){
+
+    $( "#cartera" ).addClass( "active" )
+  }
+
 </script>
+
+<style type="text/css">
+  
+
+  .navbar-default .navbar-nav>li>a:hover{
+
+    color:#B71C1C;
+  }
+
+
+
+  #empresa:hover{
+
+      background-color: white;
+    animation-name: example;
+    animation-duration: .6s;
+  }
+  #campania:hover{
+
+    background-color: white;
+    animation-name: example;
+    animation-duration: .6s;
+  }
+
+
+
+  #micampania:hover{
+
+    background-color: #345;
+       background-color: white;
+    animation-name: example;
+    animation-duration: 1s;
+  }
+
+  #usuario:hover{
+
+    background-color: #345;
+       background-color: white;
+    animation-name: example;
+    animation-duration: 1s;
+  }
+
+  #cartera:hover{
+
+    background-color: #345;
+       background-color: white;
+    animation-name: example;
+    animation-duration: 1s;
+  }
+
+  #reporteg:hover{
+
+    background-color: #345;
+       background-color: white;
+    animation-name: example;
+    animation-duration: 1s;
+  }
+
+    #licencia:hover{
+
+    background-color: #345;
+       background-color: white;
+    animation-name: example;
+    animation-duration: 1s;
+  }
+
+    #adminCampania:hover{
+
+    background-color: #345;
+       background-color: white;
+    animation-name: example;
+    animation-duration: 1s;
+  }
+
+      #monitoreo:hover{
+
+    background-color: #345;
+       background-color: white;
+    animation-name: example;
+    animation-duration: 1s;
+  }
+
+      #filtros:hover{
+
+    background-color: #345;
+       background-color: white;
+    animation-name: example;
+    animation-duration: 1s;
+  }
+
+        #reportes:hover{
+
+    background-color: #345;
+       background-color: white;
+    animation-name: example;
+    animation-duration: 1s;
+  }
+
+          #formulario:hover{
+
+    background-color: #345;
+       background-color: white;
+    animation-name: example;
+    animation-duration: 1s;
+  }
+
+
+
+
+    @keyframes example {
+    from {
+      background-color: #B71C1C;
+      color:white;
+      }
+    to {background-color: white;
+        color:red;}
+}
+
+img {
+border: 0;
+height: 50px;
+margin-left: -14px;
+margin-top: -15px;
+
+}
+
+.navbar-nav {
+float: left;
+margin: 0px;
+margin-left: -15px;
+}
+
+thead {
+background: #B71C1C;
+opacity: 0.8;
+color: #fff;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+
+color: #fff;
+}
+
+</style>

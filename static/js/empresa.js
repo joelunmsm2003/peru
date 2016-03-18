@@ -34,6 +34,15 @@ function Controller($scope,$http,$cookies,$filter) {
 
     });
 
+     $http.get("/mascaras").success(function(response) {$scope.mascaras = response;
+         $scope.selected = $scope.mascaras[0]
+
+         console.log($scope.selected)
+
+
+    });
+
+
 
 
 
@@ -45,6 +54,40 @@ function Controller($scope,$http,$cookies,$filter) {
     return Math.ceil($scope.clientes.length / $scope.pageSize);
     
     };
+
+    $scope.mascara = function(data) 
+    {
+
+    console.log(data['mascara'])
+    $scope.mascarap = data['mascara']
+
+    };
+
+     $scope.editmascara = function(data) 
+    {
+
+    console.log('editando',data.tipo)
+
+    if(data.tipo == 'Externa'){
+
+        $scope.mascarap = 2
+        $scope.model.mascaras__tipo = 2
+    }
+    else{
+
+        $scope.mascarap = 1
+        $scope.model.mascaras__tipo = 1
+
+    }
+
+    
+
+    };
+
+
+    
+
+
 
 
 
@@ -75,7 +118,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-       swal({   title: $scope.empresas.nombre,   text: "Empresa "+data +" agregado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Agregado",   }, function(){   window.location.href = "/empresa" });
+       swal({   title: "PeruCall",   text: "Empresa "+data +" agregado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Agregado",   }, function(){   window.location.href = "/empresa" });
 
  
          $scope.agregar=""
@@ -92,6 +135,8 @@ function Controller($scope,$http,$cookies,$filter) {
         $scope.pagedItems[currentPage][idx] = angular.copy($scope.model);
         $('#edit').modal('hide')
         $('.modal-backdrop').remove();
+
+        console.log('guardanado',$scope.model)
 
 
         var todo={
@@ -112,7 +157,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-            swal({title: $scope.empresas.nombre, text: "Empresa "+data +" editado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Editado",   }, function(){  });
+            swal({title: 'Peru Call', text: "Empresa "+data +" editado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Editado",   }, function(){ window.location.href = "/empresa" });
 
 
         })
@@ -150,7 +195,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-        swal({title: $scope.empresas.nombre , text: "Empresa "+data +" eliminado",   type: "success",   confirmButtonColor: "#337ab7",   confirmButtonText: "Eliminado",   }, function(){   });
+        swal({title: $scope.empresas.nombre , text: "Empresa "+data +" eliminado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Eliminado",   }, function(){   });
 
         $scope.contador =$scope.contador-1
 
@@ -159,12 +204,35 @@ function Controller($scope,$http,$cookies,$filter) {
     };
 
 
+
+
     $scope.editContact = function (contact,index,currentPage) {
 
         $scope.index = index;
         $scope.numberPage =currentPage;
         $scope.model = angular.copy(contact);
-        console.log('edit',$scope.model);
+        console.log('edit',$scope.model.mascaras__tipo);
+
+        if($scope.model.mascaras__tipo=='Interna'){
+
+             $scope.model.selected = $scope.mascaras[1]
+             $scope.mascarap = 1
+             $scope.model.mascaras__tipo = 1
+        }
+           
+        else{
+            $scope.model.selected = $scope.mascaras[0]
+            $scope.mascarap = 2
+            $scope.model.mascaras__tipo = 2
+
+        }
+
+
+
+            
+
+
+
 
     };
 
@@ -284,6 +352,11 @@ function Controller($scope,$http,$cookies,$filter) {
         }
 
         console.log('$scope.pagedItems',$scope.pagedItems[0])
+             var input =[]
+
+            for (var i = 1; i <= $scope.pagedItems.length; i++) input.push(i);
+
+            $scope.toto = input
 
     };
 
@@ -301,7 +374,7 @@ function Controller($scope,$http,$cookies,$filter) {
     };
     
     $scope.setPage = function () {
-        $scope.currentPage = this.n;
+        $scope.currentPage = this.n-1;
     };
 
     

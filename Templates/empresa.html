@@ -12,15 +12,13 @@
 
 {% include "header.html" %}
 
-<h4>Datos de la Empresa</h4>
-
-<div ng-if=" user.nivel == 4">
+<h4>Empresas</h4>
 
 
- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Agregar Empresa</button>
 
 
-<!---Modal-->
+
+
 
   <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog modal-lg">
@@ -54,7 +52,7 @@
           <div class="col-md-6">
           <div class="form-group">
           <label>Licencias</label>
-          <input type="text" ng-model="agregar.licencias" class="form-control" placeholder="Licencias" required ="" >
+          <input type="number" ng-model="agregar.licencias" class="form-control" placeholder="Licencias" required ="" >
           </div>
           </div>
 
@@ -72,33 +70,44 @@
           </div>
           </div>
 
-          <div class="col-md-6">
+          <div class="col-md-6" ng-if="user.nivel == 4">
           <div class="form-group">
           <label>Mascara</label>
-          <input type="text" ng-model="agregar.mascaras" class="form-control" placeholder="Mascara " required ="" >
-          </div>
-          </div>
-          <br></br>
+          <select ng-model="agregar.mascara" ng-change="mascara(agregar)" class="form-control" ng-options="cliente.id as cliente.tipo for cliente in mascaras" required =""></select>
 
-          <div class="col-md-6">
+          </div>
+          </div>
+
+          <div class="col-md-12" ng-if="mascarap == 2">
           <div class="form-group">
-          
+          <label>URL</label>
+          <input type="text" ng-model="agregar.url" class="form-control" placeholder="URL" required =""  >
           </div>
           </div>
 
-                
+
+
+          <div class="col-md-6" ng-if="user.nivel == 4">
+          <div class="form-group">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button class="btn btn-primary" type="submit">Agregar</button>
+          </div>
+          </div>
+
+   
+          </form>
+        
+          
+
+         
+
+     
 
                  
 
-                        
-
           </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-         <button class="btn btn-primary" type="submit">Agregar</button>
-          </form>
-        </div>
+        
       </div>
     </div>
   </div>
@@ -106,11 +115,11 @@
 
 
 
-</div>
+
 
 <div id="edit" class="modal fade" role="dialog">
 
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
 
     <div class="modal-content">
 
@@ -149,10 +158,20 @@
         <input type="text" class="form-control" ng-model="model.mail" required ="" >
         </div>
 
-        <div class="col-md-6">
+         <div class="col-md-6" ng-if="user.nivel == 4">
+        <div class="form-group">
         <label>Mascara</label>
-        <input type="text" class="form-control" ng-model="model.mascaras" required ="" >
+        <select ng-model="model.selected"  ng-change="editmascara(model.selected)" class="form-control" ng-options="m as m.tipo for m in mascaras track by m.id" required =""></select>
+    
         </div>
+        </div>
+
+         <div class="col-md-12" ng-if="mascarap == 2" >
+          <div class="form-group">
+          <label>URL</label>
+          <input type="text" ng-model="model.url" class="form-control" placeholder="URL" required =""  >
+          </div>
+          </div>
 
 
 </div>
@@ -160,6 +179,7 @@
 
 
       <div class="modal-footer">
+           <button class="btn" data-dismiss="modal">Cerrar</button>
            <button type="submit" class="btn btn-primary">Editar</button>
       </div>
 
@@ -199,14 +219,27 @@
   </div>
 </div>
 
-<br>
+
 
       <div class='row'>
-      <div class="col-md-4"><input placeholder="Buscar" ng-change="search()"  type="text" ng-model="tipo" class="form-control" ></div>
-    </div>
-    <br></br>
+       <div class="col-md-2">
 
-    Cantidad de Registros {[{contador}]}
+       <button ng-if=" user.nivel == 4" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Agregar Empresa</button>
+       </div>
+      <div class="col-md-8">
+      <input placeholder="Buscar" ng-change="search()"  type="text" ng-model="tipo" class="form-control" >
+      </div>
+
+      <div class="col-md-2">
+      <p>Cantidad de Registros {[{contador}]}</p>
+    
+      </div>
+
+       
+    </div><br>
+    
+
+ 
 
 
     <table class="table table-striped table-condensed table-hover">
@@ -216,13 +249,13 @@
             <thead>
 
             <tr>
-                  <th>Id <a ng-click="sort_by('id',currentPage)"><i class="icon-sort"></i></a></th>
-                  <th>Nombre <a ng-click="sort_by('nombre',currentPage)"><i class="icon-sort"></i></a></th>
-                  <th>Telefono <a ng-click="sort_by('telefono',currentPage)"><i class="icon-sort"></i></a></th>
-                  <th>Contacto <a ng-click="sort_by('contacto',currentPage)"><i class="icon-sort"></i></a></th>
-                  <th>Mail <a ng-click="sort_by('mail',currentPage)"><i class="icon-sort"></i></a></th>
-                  <th>Licencias <a ng-click="sort_by('licencias',currentPage)"><i class="icon-sort"></i></a></th>
-                  <th>Mascaras <a ng-click="sort_by('mascaras',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th class='id'>Id <a ng-click="sort_by('id',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th class='nombre'>Nombre <a ng-click="sort_by('nombre',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th class='telefono'>Telefono <a ng-click="sort_by('telefono',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th class='contacto'>Contacto <a ng-click="sort_by('contacto',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th class='mail'>Mail <a ng-click="sort_by('mail',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th class='licencias'>Licencias <a ng-click="sort_by('licencias',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th class='mascaras'>Mascaras <a ng-click="sort_by('mascaras',currentPage)"><i class="icon-sort"></i></a></th>
                   <th></th>
                   <th></th>
                         
@@ -231,26 +264,14 @@
             </thead>
 
 
-              <tfoot>
-                    <td colspan="6">
-                        <div class="pagination pull-right">
-                            <ul>
-                                <li ng-class="{disabled: currentPage == 0}">
-                                    <a href ng-click="prevPage()">« Prev</a>
-                                </li>
-                                <li ng-repeat="n in range(pagedItems.length)"
-                                    ng-class="{active: n == currentPage}"
-                                ng-click="setPage()">
-                                    <a href ng-bind="n + 1">1</a>
-                                </li>
-                                <li ng-class="{disabled: currentPage == pagedItems.length - 1}">
-                                    <a href ng-click="nextPage()">Next »</a>
-                                </li>
-                            </ul>
-                        </div>
+                <tfoot>
+                    <td colspan="12">
+                      <ul class="pagination" ng-repeat="n in toto">
+                      <li ng-class="{active: n-1 == currentPage}"><a href="#" ng-click="setPage()">{[{n}]}</a></li>
+                      </ul>
+      
                     </td>
                 </tfoot>
-
 
 
               <tr  ng-repeat="contact in pagedItems[currentPage]  " ts-repeat>
@@ -261,13 +282,13 @@
                 <td data-th="Calldate">{[{contact.contacto}]}</td>
                 <td data-th="Disposition">{[{contact.mail}]}</td>
                 <td data-th="Duration">{[{contact.licencias}]}</td>
-                <td data-th="Billsec">{[{contact.mascaras}]}</td>
+                <td data-th="Billsec">{[{contact.mascaras__tipo}]}</td>
 
-                <td ng-if=" user.nivel == 1 || user.nivel == 4">
+                <td ng-if=" user.nivel == 1 || user.nivel == 4"><center>
 
-                <button type="button" class="btn btn-primary" ng-click="editContact(contact,$index,currentPage)" data-toggle="modal" data-target="#edit">Editar</button>
+                <button type="button" class="btn btn-primary btn-sm" ng-click="editContact(contact,$index,currentPage)" data-toggle="modal" data-target="#edit"><i class="fa fa-pencil-square-o"></i></button>
 
-                <button type="button" class="btn btn-primary" ng-click="editContact(contact,$index,currentPage)"  data-toggle="modal" data-target="#eliminar">Eliminar</button>
+                <button type="button" class="btn btn-primary btn-sm" ng-click="editContact(contact,$index,currentPage)"  data-toggle="modal" data-target="#eliminar"><i class="fa fa-trash"></i></button></center>
 
 
     
@@ -293,7 +314,15 @@
 
 
 
+<style type="text/css">
+  
+.btn-primary{
 
+background-color: #b71c1c;
+
+}
+
+</style>
 
 
 

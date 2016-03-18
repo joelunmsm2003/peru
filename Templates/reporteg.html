@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+
+<html lang="en"  ng-app="App" ng-controller="Controller">
+
+{% include "head.html" %}
+
+<script src="/static/js/base.js"></script>
+
+<body >
+
+<div class="container">
+
+{% include "header.html" %}
+
+
+
+<h4>Reporte</h4>
+
+
+      <div class='row'>
+      <div class="col-md-8"><input placeholder="Buscar" ng-change="search()"  type="text" ng-model="tipo" class="form-control" ></div>
+       <div class="col-md-2">
+       Cantidad de Registros {[{contador}]}
+       </div>
+
+       <div class="col-md-2">
+      <input type="text" name="" ng-change='regxpag()' id="input" placeholder="Registros por pagina" ng-model="itemsPerPage" class="form-control" value="" required="required" title="">
+
+       </div>
+       
+
+    </div><br>
+
+
+ 
+
+
+
+
+
+
+ 
+
+    <table class="table  table-condensed table-hover ">
+    
+        <tbody>
+
+        <thead>
+
+            <tr>
+
+                   <th>Id <a ng-click="sort_by('id',currentPage)"><i class="icon-sort"></i></a></th>
+                  
+                  <th>Telefono <a ng-click="sort_by('telefono',currentPage)"><i class="icon-sort"></i></a></th>
+                 <th>Status <a ng-click="sort_by('status',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th>Campania <a ng-click="sort_by('campania__nombre',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th>Resultado <a ng-click="sort_by('resultado__name',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th>Agente <a ng-click="sort_by('agente__user__first_name',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th>Duracion <a ng-click="sort_by('duracion',currentPage)"><i class="icon-sort"></i></a></th>
+
+            </tr>
+
+            </thead>
+
+
+              <tfoot>
+                    <td colspan="12">
+                      <ul class="pagination" ng-repeat="n in toto">
+                      <li ng-class="{active: n-1 == currentPage}"><a href="#" ng-click="setPage()">{[{n}]}</a></li>
+                      </ul>
+      
+                    </td>
+                </tfoot>
+
+
+ 
+
+
+
+
+              <tr class='animate' ng-repeat="contact in pagedItems[currentPage]  " ts-repeat>
+
+                <td>{[{contact.id}]} </td>
+                <td> {[{contact.telefono}]}</td>
+                
+               
+                <td>{[{contact.status}]}</td>
+          
+                <td>{[{contact.campania__nombre}]}</td>
+                <td>{[{contact.resultado__name}]}</td>
+                 <td>{[{contact.agente__user__first_name}]}</td>
+                  <td>{[{contact.duracion}]}</td>
+
+
+                <td>
+               <!-- <button class="btn btn-primary" ng-click='Admin(contact)'>+</button>-->
+              </td>
+              <td>
+
+                 
+                
+              </td>
+
+
+
+
+           
+                
+
+            
+
+              </tr>
+
+
+        </tbody>
+
+
+        </table>
+
+
+
+
+
+<!---Modal-->
+
+
+            <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Crear Campaña </h4>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+
+                    <form action="/uploadCampania/" method="post"  role="form" enctype="multipart/form-data">
+
+          {% csrf_token %}
+
+          <div class="col-md-12">
+          <div class="form-group">
+          <label>Importar Data</label>
+          <input type="file" required=""  name="process_file">
+          </div>
+          </div>
+
+          <div class="col-md-12">
+          <div class="form-group">
+          <label>Nombre de campaña</label>
+          <input type="text"  name = 'nombre' class="form-control" placeholder="Nombre" required ="">
+          </div>
+          </div>
+
+          <div class="col-md-4">
+          <div class="form-group">
+          <label>Cartera</label>
+          <select name = 'cartera' class="form-control">
+          {% for cartera in cartera%}
+              <option value='{{cartera.cartera.nombre}}'>{{cartera.cartera.nombre}}</option>
+          {% endfor %}
+          </select>
+          </div>
+          </div>
+
+
+
+
+      
+
+     
+
+    
+
+
+
+          <div class="col-md-4">
+          <div class="form-group">
+          <label>Cantidad de Canales</label>
+          <input type="text"  name = 'canales' class="form-control" placeholder="Canales" required ="">
+          </div>
+          </div>
+
+          <div class="col-md-4">
+          <div class="form-group">
+          <label>Timbrados</label>
+          <input type="text"  name = 'timbrados' class="form-control" placeholder="Timbrados" value = "4" required ="">
+          </div>
+          </div>
+
+
+          <div class="col-md-4">
+          <div class="form-group">
+          <label>Hora de trabajo Inicio</label>
+          <input type="time"  name = 'inicio' class="form-control" placeholder="Hora Inicio" required ="" value='08:00'>
+          </div>
+          </div>
+
+          <div class="col-md-4">
+          <div class="form-group">
+          <label>Hora de trabajo Fin</label>
+          <input type="time"  name = 'fin' class="form-control" placeholder="Hora Fin" required ="" value='19:00'>
+          </div>
+          </div>
+
+          <div class="col-md-4">
+          <div class="form-group">
+          <label>Supervisor</label>
+
+          <select name = 'supervisor' class="form-control">
+          {% for supervisor in supervisor%}
+              <option value='{{supervisor.id}}'>{{supervisor.user.first_name}}</option>
+          {% endfor %}
+          </select>
+         
+          </div>
+          </div>
+
+     
+
+          
+
+          <div class="modal-header">
+          <h4>Indicadores de Control (KPI)</h4>
+
+        </div>
+        <br>
+
+
+
+          <div class="col-md-4">
+          <div class="form-group">
+          <label>Minutos por llamada (min)</label>
+          <input type="text" required=""  class="form-control" name="mxllamada" placeholder = "Minutos por llamada" value='2'>
+          </div>
+          </div>
+
+
+          <div class="col-md-4">
+          <div class="form-group">
+          <label>Llamadas por hora </label>
+          <input type="text"  name = 'llamadaxhora' class="form-control" placeholder="Llamadas por hora" required ="" value="25">
+          </div>
+          </div>
+
+          <div class="col-md-4">
+          <div class="form-group">
+          <label>Horas hombre objetivo (%)</label>
+          <input type="text"  name = 'hombreobjetivo' class="form-control" placeholder="Horas hombre" required ="" value="80">
+          </div>
+          </div>
+
+   
+
+
+                        
+
+                  </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button class="btn btn-primary" type="submit">Agregar</button>
+          </form>
+          
+        </div>
+      </div>
+    </div>
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+  <script src="/static/js/angular-route.js"></script>
+
+</body>
+
+</html>

@@ -1,5 +1,5 @@
 
-var App=angular.module('App', ['ngCookies']);
+var App=angular.module('App', ['ngCookies','ngAnimate']);
 
 App.config(function($interpolateProvider){
 $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
@@ -54,7 +54,21 @@ function Controller($scope,$http,$cookies,$filter) {
     {
 
     console.log(contact.id)
-    window.location="/adminCampania/"+contact.id
+    nivel = $scope.user['nivel']
+    if (nivel==5){
+
+        window.location="/monitoreo/"+contact.id
+    }
+    else{
+
+        window.location="/adminCampania/"+contact.id
+
+    }
+
+
+
+
+    
     
     };
 
@@ -350,6 +364,11 @@ function Controller($scope,$http,$cookies,$filter) {
         }
 
         console.log('$scope.pagedItems',$scope.pagedItems[0])
+             var input =[]
+
+            for (var i = 1; i <= $scope.pagedItems.length; i++) input.push(i);
+
+            $scope.toto = input
 
     };
 
@@ -367,7 +386,7 @@ function Controller($scope,$http,$cookies,$filter) {
     };
     
     $scope.setPage = function () {
-        $scope.currentPage = this.n;
+        $scope.currentPage = this.n-1;
     };
 
     
