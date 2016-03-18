@@ -309,6 +309,13 @@
 
                         <div class="col-md-6">
                         <div class="form-group">
+                        <label>Anexo</label>
+                        <input type="number" ng-model="agregar.anexo" class="form-control" placeholder="Telefono"  >
+                        </div>
+                        </div>
+
+                        <div class="col-md-6">
+                        <div class="form-group">
                         <label>Nivel</label>
                         <select ng-model="agregar.nivel" ng-change="nivelp(agregar)" class="form-control" ng-options="cliente.id as cliente.nombre for cliente in nivel"></select>
                         </div>
