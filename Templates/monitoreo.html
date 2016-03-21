@@ -85,83 +85,82 @@ jQuery(document).ready(function($) {
 
 
 
-  <!--Agentes Cuadrados-->     
+  <!--Agentes Cuadrados-->   
 
           <div class='row' onmouseover="container()">
-            <div   ng-repeat="contact in agentes " class='active' ts-repeat>
 
-            <div class="col-sm-2">
 
-                
-                <div class="panel panel-default">
+          <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>Agente</th>
+                  <th>Anexo</th>
+                  <th>T. Gestion</th>
+                  <th>Estado</th>
+                  <th>Atendidas</th>
+
+                  <th>Tiempo</th>
+                  <th></th>
+                  <th ng-if="contact.agente__wordstipeo > 1">Tipeo</th>
+                  <th>Telefono</th>
+                  <th>Notificacion</th>
+                  <th>Evaluacion</th>
+                  <th>Escucha</th>
+                 
+                 
+                </tr>
+              </thead>
+              <tbody>
+                <tr  ng-repeat="contact in agentes " class='active' ts-repeat>
+
+                  <td>{[{contact.agente__user__first_name}]}</td>
+                  <td>{[{contact.agente__anexo}]}</td>
+                  <td>Manual</td>
+                  <td ng-if="contact.agente__estado == '1'" style="background-color:#8FB0B3;">{[{contact.agente__estado__nombre}]}</td>
+                  <td ng-if="contact.agente__estado == '2'" style="background-color:#82BF72;">{[{contact.agente__estado__nombre}]}</td>
+                  <td ng-if="contact.agente__estado == '3'" style="background-color:#478BCE;">{[{contact.agente__estado__nombre}]}</td>
+                  <td ng-if="contact.agente__estado == '4'" style="background-color:#D2447A;">{[{contact.agente__estado__nombre}]}</td>
+                  <td ng-if="contact.agente__estado == '5'" style="background-color:#D0CA40;">{[{contact.agente__estado__nombre}]}</td>
+                  <td ng-if="contact.agente__estado == '6'" style="background-color:#A36AA5;">{[{contact.agente__estado__nombre}]}</td>
+                  <td>{[{contact.agente__atendidas}]}/{[{contact.agente__contactadas}]}</td>
+                 <td>{[{contact.tgestion}]}</td>
+                  <td>
                     
-                      <div class="panel-heading" ng-if="contact.agente__estado == '1'" style="background-color:#8FB0B3; color:#fff;">
-                      {% include "legend.html" %}
-                      </div>
+                    <div class="progre">
+                    <div class="progressi">
+                    <div class="barr" style="width:{[{contact.secgestion}]}px; background-color: {[{contact.color}]};"></div>
+                    </div>
+                    </div>               
+                  </td>
 
-                      <div class="panel-heading" ng-if="contact.agente__estado == '2'" style="background-color:#82BF72; color:#fff;">{% include "legend.html" %}</div>
+                   <td class="col-sm-6" ng-if="contact.agente__wordstipeo > 1">
+                    <center><i class="fa fa-pencil"></i> {[{contact.agente__wordstipeo}]}</center>
+                    </td>
 
-                      <div class="panel-heading" ng-if="contact.agente__estado == '3'" style="background-color:#478BCE; color:#fff;">{% include "legend.html" %}</div>
+                    <td> {[{contact.fono}]}</td>
+                    
 
-                      <div class="panel-heading" ng-if="contact.agente__estado == '4'" style="background-color:#D2447A; color:#fff;">{% include "legend.html" %}</div>
+                    <td><a  ng-click="evaluar(contact,$index)" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#notificacion"><i class="fa fa-rocket"></i></a></td>
+                    <td>
+                    
+                    <a ng-click="evaluar(contact,$index)" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#eliminar"><i class="fa fa-check"></i></a></td>
 
-                      <div class="panel-heading" ng-if="contact.agente__estado == '5'" style="background-color:#D0CA40; color:#fff;">{% include "legend.html" %}</div>
-
-                      <div class="panel-heading" ng-if="contact.agente__estado == '6'" style="background-color:#A36AA5; color:#fff;">{% include "legend.html" %}</div>
-
-
-                <div class="panel-body">
-                <div class="row">
+                    <td><a ng-click="evaluar(contact,$index)" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#listen"><i class="fa fa-headphones"></i></a></td>
 
                     
-                          <div class="col-sm-12" ng-if="contact.agente__estado == '3'|| contact.agente__estado == '6' ">
-                          <center><i class="fa fa-phone"></i>  {[{contact.fono}]}</center>
-                          </div>
+            
 
-                          <div class="col-sm-6">
-                          <center><i class="fa fa-share"></i> {[{contact.agente__atendidas}]}</center>
-                          </div>
-                          <div class="col-sm-6">
-                          <center><i class="fa fa-reply"></i> {[{contact.agente__contactadas}]}</center>
-                          </div>
 
-                          <div class="col-sm-6"><center>
-                          <a ng-click="evaluar(contact,$index)" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#eliminar"><i class="fa fa-check"></i></a></center>
-                          </div>
+                </tr>
+              </tbody>
+            </table>
 
-                          <div class="col-sm-6"><center>
-                          <a  ng-click="evaluar(contact,$index)" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#notificacion"><i class="fa fa-rocket"></i></a></center>
-                          </div>
 
-                          <div class="col-sm-6">
-                          <center><i class="fa fa-clock-o"></i> {[{contact.tgestion}]}</center>
-                          </div>
 
-                          <div class="col-sm-6" ng-if="contact.agente__wordstipeo > 1">
-                          <center><i class="fa fa-pencil"></i> {[{contact.agente__wordstipeo}]}</center>
-                          </div>
-                         
-                          <div class="col-sm-12">
-                          <div class="progre">
-                          <div class="progressi">
 
-                          <div class="barr" style="width:{[{contact.secgestion}]}px; background-color: {[{contact.color}]};"></div>
-                          </div>
-                          </div>
 
-                           <!-- <canvas id="doughnut" class="chart chart-doughnut"
-                            chart-data="[contact.agente__atendidas,contact.agente__contactadas]" chart-labels="labels">
-                            </canvas>
-                            <center><h6>Performance</h6></center>
-                            <center><h6>{[{contact.agente__contactadas}]} %</h6></center>-->
-                          </div>
-                      
 
-                  </div>
-                </div>
-                </div>
-                </div>
-            </div>
+            
 
 
 

@@ -3334,6 +3334,7 @@ select[multiple].input-group-sm>.form-control, select[multiple].input-group-sm>.
     background-color: #b71c1c ;
     border-color: #b71c1c ;
     opacity: .88;
+    font-weight: bold;
 }
 .navbar-default .navbar-brand {
     color: #FFE1E1;
