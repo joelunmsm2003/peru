@@ -401,7 +401,7 @@ class Base(models.Model):
     proflag = models.IntegerField(db_column='ProFlag')  # Field name made lowercase.
     proestado = models.IntegerField(db_column='ProEstado')  # Field name made lowercase.
     filtrohdec = models.IntegerField(db_column='FiltroHdeC')  # Field name made lowercase.
-    agente = models.ForeignKey('Agentes', db_column='agente', blank=True, null=True)
+    agente = models.ForeignKey(Agentes, db_column='agente', blank=True, null=True)
     duracion = models.IntegerField(blank=True, null=True)
     audio = models.CharField(max_length=120, blank=True)
     detalle = models.CharField(max_length=100, blank=True)
@@ -424,6 +424,7 @@ class Calificacion(models.Model):
     campania = models.ForeignKey('Campania', db_column='campania')
     empresa = models.ForeignKey('Empresa', db_column='empresa')
     respuesta = models.IntegerField()
+    llamada = models.IntegerField()
 
     class Meta:
         managed = False

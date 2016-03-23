@@ -156,9 +156,18 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
     {
         console.log('signout')
 
-        location.href = "/salir";
+        location.href = "/salir"
 
     }
+
+    $scope.colgar = function() 
+    {
+
+        location.href = "/finllamada/"+agente+'/'+$scope.cliente.id
+
+
+    }
+
 
 
 
@@ -315,7 +324,7 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
 
             $http.get("/cliente/"+agente).success(function(response) {
 
-        $scope.cliente = response[0];
+            $scope.cliente = response[0];
 
  
              

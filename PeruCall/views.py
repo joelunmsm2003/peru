@@ -511,6 +511,18 @@ def agentes(request,id_campania):
 
 	return HttpResponse(data, content_type="application/json")
 
+@login_required(login_url="/ingresar")
+def agentescalifica(request,agente):
+
+		data = Calificacion.objects.filter(agente_id=agente).values('id','preg_exam__pregunta').order_by('-id')
+
+		data_dict = ValuesQuerySetToDict(data)
+
+		data = simplejson.dumps(data_dict)
+
+		return HttpResponse(data, content_type="application/json")
+
+
 
 @login_required(login_url="/ingresar")
 def nota(request):

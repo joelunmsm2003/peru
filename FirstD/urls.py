@@ -44,6 +44,7 @@ urlpatterns = patterns('',
     url(r'^getcampanias/(\w+)/$','PeruCall.views.getcampanias'),
     url(r'^reportecsv/(\w+)/(\w+)/$','PeruCall.views.reportecsv'),
     url(r'^dashboard/(\w+)/$','PeruCall.views.dashboard'),
+    url(r'^agentescalifica/(\w+)/$','PeruCall.views.agentescalifica'),
 
     url(r'^monitoreo/(\w+)/$', 'PeruCall.views.monitoreo'),
     url(r'^agentes/(\w+)/$', 'PeruCall.views.agentes'),
