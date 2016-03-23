@@ -32,14 +32,36 @@
     </div><br>
 
 
+    Descarga de Reportes 
+
+    <div class='row'>
+
+     <div class="col-md-3">
+
+    Cartera :<select ng-change='getcampania(model.cartera)' ng-options="item as item.cartera__nombre for item in carteras track by item.id" type="text" class="form-control" ng-model="model.cartera" required =""  ></select>
+
+    </div>
+
+
+     <div class="col-md-3">
+
+    Campaña:
+    <select ng-options="item as item.nombre for item in campanias track by item.id" type="text" class="form-control" ng-model="model.campania" required =""  ></select>
+
+     </div>
+
+     <div class="col-md-3">
+     Descarga<br>
+      <button class="btn btn-primary" type="submit" ng-click='descarga()'><i class="fa fa-download"></i></button>
+
+     </div>
+
+
+    </div>
+
+    <br>
  
 
-
-
-
-
-
- 
 
     <table class="table  table-condensed table-hover ">
     

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+{% include "head.html" %}
+
+
+
+<script src="/static/js/dashboard.js"></script>
+<script src="/static/js/chart.js"></script>
+<script src="/static/js/angular-chart.js"></script>
+
+
+<body ng-app="App" ng-controller="Controller">
+
+
+<div class='vertical' style="position: absolute;">
+  <div class='vertical'> {% include "vertical.html" %} </div>
+ 
+</div>
+
+
+
+
+<div class="container" >
+
+
+
+{% include "header.html" %}
+
+<script type="text/javascript">
+  
+jQuery(document).ready(function($) {
+    var ws4redis = WS4Redis({
+        uri: '{{ WEBSOCKET_URI }}foobar?subscribe-broadcast&publish-broadcast&echo',
+        receive_message: receiveMessage,
+        heartbeat_msg: {{ WS4REDIS_HEARTBEAT }}
+    });
+
+
+
+
+
+    function receiveMessage(msg) {
+        console.log('Message from Websocket: ' + msg);
+    }
+});
+
+
+
+</script>
+
+<!--Cabecera-->
+  <div class="panel panel-default" onmouseover="container()">
+  <div class="panel-body">
+    <div class='row'>
+      <div class="col-sm-2"><h5><i class="fa fa-lightbulb-o"></i> Graficas</h5>
+      </div>
+      <div class="col-sm-2"><h5><i class="fa fa-cube"></i>  Campaña {[{campana}]} </h5>
+      </div>
+      <div class="col-sm-2"><h5><i class="fa fa-building-o"></i>  Cartera  {[{cartera}]} </h5>
+      </div>
+
+
+    </div>
+    
+   
+  </div>
+</div>
+
+
+
+
+
+
+
+            
+
+<!--Graficas de Monitoreo-->
+
+<button ng-click="mon()" class="btn btn-primary" ng-show='bb'>Ver Graficas <i class="fa fa-line-chart"></i></button>
+<button ng-click="ocultarmon()" class="btn btn-primary" ng-show='bbi'>Ocultar Graficas <i class="fa fa-line-chart"></i></button>
+<br>
+
+<div class='row'>
+<div class="col-sm-3">
+
+Agente:
+    <select ng-options="item as item.agente__user__first_name for item in agentes track by item.id" type="text" class="form-control" ng-model="model.agente" required =""  ></select>
+
+</div>
+
+</div>
+
+  <div class="panel panel-default monixxx animated bounceIn " >
+
+
+
+
+  <div class="panel-body">
+    
+      <div class ='row'>
+
+    <div class="col-sm-6">
+
+
+<div id="calidadagente" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+
+    </div>
+
+    <div class="col-sm-6">
+
+  <div id="calidezagente" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+    </div>
+
+
+
+  </div>
+
+
+
+  </div>
+
+
+</div>
+
+
+
+  </div>
+
+
+<script src="/static/js/highchart.js"></script>
+
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-more.js"></script>
+
+
+
+
+</div>
+
+
+
+
+</div>
+
+
+
+
+
+
+</body>
+
+</html>
+
+
+

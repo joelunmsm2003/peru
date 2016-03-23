@@ -174,9 +174,13 @@ def game(request):
 @login_required(login_url="/ingresar")
 def empresa(request):
 
-
-
 	return render(request, 'empresa.html',{})
+
+@login_required(login_url="/ingresar")
+def dashboard(request,id):
+	campania = Campania.objects.get(id=id)
+	return render(request, 'dashboard.html',{'campania':campania})
+
 
 @login_required(login_url="/ingresar")
 def monitorcpu(request):
@@ -542,12 +546,21 @@ def agendar(request):
 
 			Agendados(base_id=base,fecha=fecha,agente_id=agente).save()
 
-			
-
-
-
 		return HttpResponse('data', content_type="application/json")
 
+
+
+@login_required(login_url="/ingresar")
+def examen(request):
+
+		data = Examen.objects.all().values('id','nombre').order_by('id')
+
+		data_dict = ValuesQuerySetToDict(data)
+
+		data = simplejson.dumps(data_dict)
+
+
+		return HttpResponse(data, content_type="application/json")
 
 
 @login_required(login_url="/ingresar")
@@ -852,11 +865,11 @@ def eliminarfiltro(request):
 
 
 @login_required(login_url="/ingresar")
-def preguntas(request):
+def preguntas(request,examen):
 
 		if request.method == 'GET':
 
-			data = Preguntas.objects.all().values('id','pregunta','respuesta','empresa').order_by('-id')
+			data = PregExam.objects.filter(examen=examen).values('id','pregunta','examen__nombre','valor').order_by('id')
 
 			data_dict = ValuesQuerySetToDict(data)
 
@@ -940,7 +953,7 @@ def resultado(request):
 @login_required(login_url="/ingresar")
 def agente(request,id_agente):
 
-	data = Agentes.objects.filter(id=id_agente).values('id','anexo','fono','atendidas','contactadas','estado__nombre','user__first_name','supervisor','calificacion').order_by('-id')
+	data = Agentes.objects.filter(id=id_agente).values('id','anexo','fono','atendidas','contactadas','estado__nombre','user__first_name','supervisor','calificacion','user__empresa__mascaras__tipo','user__empresa__url').order_by('-id')
 
 	#for i in range(len(data)):
 
@@ -962,10 +975,17 @@ def agente(request,id_agente):
 
 
 
-@login_required(login_url="/ingresar")
+
 def lanzallamada(request,id_agente,id_base):
 
 		agente = Agentes.objects.get(id=id_agente)
+
+		mascara = agente.user.empresa.mascaras.tipo
+
+		if mascara == 'Mascara Interna':
+
+			print 'interna'
+
 
 		print agente.id
 
@@ -975,15 +995,12 @@ def lanzallamada(request,id_agente,id_base):
 		agente.tiniciollamada = datetime.now()-timedelta(hours=5)
 		agente.save()
 
-
-
 		baseagente = Base.objects.filter(agente_id=id_agente)
 
 		for base in baseagente:
 
 			base.status = 0
 			base.save()
-
 
 		redis_publisher = RedisPublisher(facility='foobar', users=[user])
 
@@ -1135,10 +1152,75 @@ def pausa(request,id_agente):
 		agente.estado_id = 5
 		agente.save()
 
-
-
-
 		return HttpResponseRedirect("/teleoperador/"+id_agente)
+
+
+@login_required(login_url="/ingresar")
+def reportecsv(request,cartera,campania):
+
+	response = HttpResponse(content_type='text/csv')
+	
+	response['Content-Disposition'] = 'attachment; filename="somefilename.csv"'
+
+	writer = csv.writer(response)
+
+	base = Base.objects.filter(campania_id=campania)
+
+	'''
+
+	    telefono = models.CharField(max_length=100, blank=True)
+    orden = models.CharField(max_length=100, blank=True)
+    cliente = models.CharField(max_length=100, blank=True)
+    id_cliente = models.CharField(max_length=100, blank=True)
+    status_a = models.CharField(max_length=100, blank=True)
+    status_b = models.CharField(max_length=100, blank=True)
+    status_c = models.CharField(max_length=100, blank=True)
+    status_d = models.CharField(max_length=100, blank=True)
+    status_e = models.CharField(max_length=100, blank=True)
+    status_f = models.CharField(max_length=100, blank=True)
+    status_g = models.CharField(max_length=100, blank=True)
+    status_h = models.CharField(max_length=100, blank=True)
+    status = models.CharField(max_length=100, blank=True)
+    campania = models.ForeignKey('Campania', db_column='campania', blank=True, null=True)
+    resultado = models.ForeignKey('Resultado', db_column='resultado', blank=True, null=True)
+    telefonomarcado2 = models.IntegerField(db_column='TelefonoMarcado2', blank=True, null=True)  # Field name made lowercase.
+    proflag = models.IntegerField(db_column='ProFlag')  # Field name made lowercase.
+    proestado = models.IntegerField(db_column='ProEstado')  # Field name made lowercase.
+    filtrohdec = models.IntegerField(db_column='FiltroHdeC')  # Field name made lowercase.
+    agente = models.ForeignKey(Agentes, db_column='agente', blank=True, null=True)
+    duracion = models.IntegerField(blank=True, null=True)
+    audio = models.CharField(max_length=120, blank=True)
+    detalle = models.CharField(max_length=100, blank=True)
+    monto = models.CharField(max_length=100, blank=True)
+    fecha = models.DateTimeField(blank=True, null=True)
+    tiniciogestion = models.DateTimeField(blank=True, null=True)
+    tfingestion = models.DateTimeField(blank=True, null=True)
+    tiniciollamada = models.DateTimeField(blank=True, null=True)
+    tfinllamada =
+
+    '''
+
+	writer.writerow(['Id','Telefono','Orden','Cliente','Campania','Agente','Duracion','Monto'])
+
+	for x in base:
+
+		writer.writerow([x.id,x.telefono,x.orden,x.cliente,x.campania.nombre,x.agente,x.duracion,x.monto])
+
+	return response
+
+
+
+@login_required(login_url="/ingresar")
+def getcampanias(request,cartera):
+
+		carteras = Campania.objects.filter(cartera_id=cartera).values('id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name').order_by('-id')
+	
+		data_dict = ValuesQuerySetToDict(carteras)
+
+		data = simplejson.dumps(data_dict)
+
+		return HttpResponse(data, content_type="application/json")
+
 
 @login_required(login_url="/ingresar")
 def play(request,id_agente):
@@ -1571,14 +1653,25 @@ def calificar(request):
 
 	if request.method == 'POST':
 
-		#{u'r': u'Si', u'valor': {u'empresa': None, u'id': 9, u'pregunta': u'Cuantos a\xf1os', u'respuesta': u'Usted tiene'}}
-
+		# {u'campania': u'86', u'user': {u'fono': u'991357001', u'agente': 14,
+		# u'agente__estado': 1, u'agente__fono': 0, u'agente__anexo': 1054, u'id': 296,
+		# u'agente__user__first_name': u'Cesar', u'agente__user__username': u'agente', 
+		# u'performance': 3500, u'agente__wordstipeo': 0, u'agente__atendidas': 10, 
+		# u'agente__contactadas': 350, u'agente__estado__nombre': u'No Login'}, 
+		#u'pregunta': {u'examen__nombre': u'Calidez', u'id': 14, u'pregunta': u'Empatia , Actitud Y  Escucha Activa', u'valor': 6}, 
+		#u'respuesta': u'No'}
+		
 		data =json.loads(request.body)
 
-		r=data['r']
-		valor = data['valor']['pregunta']
+		campania = data['campania']
+		agente = data['user']['agente']
+		pregunta = data['']
+		respuesta = data['respuesta']
 
-		Preguntas(pregunta=valor,respuesta=r).save()
+
+
+
+
 
 	return HttpResponse('resultado', content_type="application/json")
 

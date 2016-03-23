@@ -10,94 +10,161 @@ $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
 
 
 
-campania = window.location.href.split("monitoreo/")[1].split("/")[0]
+campania = window.location.href.split("dashboard/")[1].split("/")[0]
 
 $(function () {
-    $('#pie').highcharts({
+    $('#calidadagente').highcharts({
         chart: {
-            plotBackgroundColor: null,
-            plotBorderWidth: null,
-            plotShadow: false,
-            type: 'pie',
-            events: {
-                    load: function () {
+            type: 'column',
+              events: {
+                        load: function () {
 
-                        // set up the updating of the chart each second
-                        var series = this.series[0];
+                                // set up the updating of the chart each second
+                                var series = this.series[0].points[0];
+                                var updateChart = function() {
 
+                                $.getJSON("/estllamada/"+campania, function (result) {
 
-        var updateChart = function() {
-            
-        $.getJSON("/estllamada/"+campania, function (result) {
+                                console.log('grafica',result)
+                                
+                                  series.update(0);
 
+                                });   
 
-            console.log('grafica',result)
+                                }      
+                                setInterval(function(){updateChart()},1000);
 
-            
-            
-            series.data[0].update(result['porbarrer']);
-            series.data[1].update(result['barridos']);
-          
-
-            
-
-        });   
-
-
-        }      
-              
-        setInterval(function(){updateChart()},1000);
-
-
-
-                    }
-                }
-
-
-
+                            }
+                        }
         },
         title: {
-            text: 'Tráfico'
+            text:'Anexo:',
+           
+        },
+
+       subtitle: {
+            text: 'Calidad'
+        },
+        xAxis: {
+            categories: ['Preparación para Llamada', 'Comprensión Acertiva y Rápida', 'Producto y herramientas de gestión','Argumentos precisos, coherentes y correctos', 'Cierre de Negociación, Consecuencias','Teléfono Contacto, Horarios de Atención,...']
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Total Llamadas'
+            },
+            stackLabels: {
+                enabled: true,
+                style: {
+                    fontWeight: 'bold',
+                    color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                }
+            }
+        },
+        legend: {
+            align: 'right',
+            x: -30,
+            verticalAlign: 'top',
+            y: 25,
+            floating: true,
+            backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+            borderColor: '#CCC',
+            borderWidth: 1,
+            shadow: false
         },
         tooltip: {
-            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            headerFormat: '<b>{point.x}</b><br/>',
+            pointFormat: '{series.name}: {point.y}<br/>Muestra: {point.stackTotal}'
         },
         plotOptions: {
-            pie: {
-                allowPointSelect: true,
-                cursor: 'pointer',
-                showInLegend: true,
+            column: {
+                stacking: 'normal',
                 dataLabels: {
                     enabled: true,
-                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
                     style: {
-                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                        textShadow: '0 0 4px black'
                     }
                 }
             }
         },
-
-         
         series: [{
-
-            name: "Total",
-            colorByPoint: true,
-            data: [
-            {
-                name: "Por Barrer",
-                y: 0,
-
-            }, {
-                name: "Barridos",
-                y: 0,
-            }
-            ]
+            name: 'Sí',
+            data: [6, 1, 4, 5,9,3]
+        }, {
+            name: 'No',
+            data: [7, 3, 1, 9, 4,7]
         }]
-
     });
 });
 
+$(function () {
 
+    $('#calidezagente').highcharts({
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text:'Anexo:',
+           
+        },
+
+       subtitle: {
+            text: 'Calidez'
+        },
+
+        xAxis: {
+            categories: ['Expresión Verbal', 'Vocalización-Tono de Voz', 'Seguridad Al Responder', 'Amabilidad, Respeto, Paciencia y Tolerancia', 'Empatia, Actitud y Escucha Activa','Speech de Saludo','Speech de Despedida']
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Total Llamadas'
+            },
+            stackLabels: {
+                enabled: true,
+                style: {
+                    fontWeight: 'bold',
+                    color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                }
+            }
+        },
+        legend: {
+            align: 'right',
+            x: -30,
+            verticalAlign: 'top',
+            y: 25,
+            floating: true,
+            backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+            borderColor: '#CCC',
+            borderWidth: 1,
+            shadow: false
+        },
+        tooltip: {
+            headerFormat: '<b>{point.x}</b><br/>',
+            pointFormat: '{series.name}: {point.y}<br/>Muestra: {point.stackTotal}'
+        },
+        plotOptions: {
+            column: {
+                stacking: 'normal',
+                dataLabels: {
+                    enabled: true,
+                    color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
+                    style: {
+                        textShadow: '0 0 4px black'
+                    }
+                }
+            }
+        },
+        series: [{
+            name: 'Sí',
+            data: [5, 3, 4, 7,2,8]
+        }, {
+            name: 'No',
+            data: [2, 6, 3, 2, 1,4]
+        }]
+    });
+});
 $(function () {
     $('#pie1').highcharts({
         chart: {
@@ -393,9 +460,9 @@ function Controller($scope,$http,$cookies,$filter) {
 
 
 
-    console.log(window.location.href.split("monitoreo/"))
+    console.log(window.location.href.split("dashboard/"))
 
-    campania = window.location.href.split("monitoreo/")[1].split("/")[0]
+    campania = window.location.href.split("dashboard/")[1].split("/")[0]
     var sortingOrder ='-id';
     $scope.sortingOrder = sortingOrder;
     $scope.reverse = false;

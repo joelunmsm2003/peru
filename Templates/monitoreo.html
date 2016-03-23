@@ -51,28 +51,19 @@ jQuery(document).ready(function($) {
 </script>
 
 <!--Cabecera-->
-  <div class="panel panel-default">
+  <div class="panel panel-default" onmouseover="container()">
   <div class="panel-body">
     <div class='row'>
-      <div class="col-sm-4"><h4><i class="fa fa-lightbulb-o"></i> Asignacion de Agentes</h4>
+      <div class="col-sm-2"><h5><i class="fa fa-lightbulb-o"></i> Asignacion de Agentes</h5>
       </div>
-      <div class="col-sm-4"><h4><i class="fa fa-cube"></i>  Campaña {[{campana}]} </h4>
+      <div class="col-sm-2"><h5><i class="fa fa-cube"></i>  Campaña {[{campana}]} </h5>
       </div>
-      <div class="col-sm-4"><h4><i class="fa fa-building-o"></i>  Cartera  {[{cartera}]} </h4>
+      <div class="col-sm-2"><h5><i class="fa fa-building-o"></i>  Cartera  {[{cartera}]} </h5>
       </div>
-    </div>
-    
-   
-  </div>
-</div>
 
-<!--Legenda-->
+      <div class="col-sm-6">
 
- <div class="panel panel-default" onmouseover="container()">
-  
-      <div class="panel-body c1">
-
-          <ul class="legend">
+      <ul class="legend">
           <li><span class="superawesome"></span> No Login</li>
           <li><span class="awesome"></span> Espera</li>
           <li><span class="kindaawesome"></span> En Llamada</li>
@@ -80,8 +71,17 @@ jQuery(document).ready(function($) {
           <li><span class="enpause"></span> En Pause</li>
            <li><span class="engestion"></span> En Gestion</li>
           </ul>
+
       </div>
+
+
     </div>
+    
+   
+  </div>
+</div>
+
+
 
 
 
@@ -93,6 +93,7 @@ jQuery(document).ready(function($) {
           <table class="table table-hover">
               <thead>
                 <tr>
+                  <th>Id</th>
                   <th>Agente</th>
                   <th>Anexo</th>
                   <th>T. Gestion</th>
@@ -113,6 +114,8 @@ jQuery(document).ready(function($) {
               <tbody>
                 <tr  ng-repeat="contact in agentes " class='active' ts-repeat>
 
+                  
+                  <td>{[{contact.agente}]}</td>
                   <td>{[{contact.agente__user__first_name}]}</td>
                   <td>{[{contact.agente__anexo}]}</td>
                   <td>Manual</td>
@@ -145,7 +148,7 @@ jQuery(document).ready(function($) {
                     
                     <a ng-click="evaluar(contact,$index)" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#eliminar"><i class="fa fa-check"></i></a></td>
 
-                    <td><a ng-click="evaluar(contact,$index)" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#listen"><i class="fa fa-headphones"></i></a></td>
+                    <td><a ng-if="contact.agente__estado == '3'"  ng-click="evaluar(contact,$index)" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#listen"><i class="fa fa-headphones"></i></a></td>
 
                     
             
@@ -162,14 +165,12 @@ jQuery(document).ready(function($) {
 
             
 
-
-
-  </div>
-
-
 <!--Graficas de Monitoreo-->
 
-  <div class="panel panel-default">
+<button ng-click="mon()" class="btn btn-primary" ng-show='bb'>Ver Graficas <i class="fa fa-line-chart"></i></button>
+<button ng-click="ocultarmon()" class="btn btn-primary" ng-show='bbi'>Ocultar Graficas <i class="fa fa-line-chart"></i></button>
+
+  <div class="panel panel-default monixxx animated bounceIn " >
 
 
   <div class="panel-body">
@@ -212,6 +213,11 @@ jQuery(document).ready(function($) {
 
 
 
+  </div>
+
+
+
+
 
 
    {% include "graficos.html" %} 
@@ -236,12 +242,16 @@ jQuery(document).ready(function($) {
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h4 class="modal-title">Calificacion del agente {[{user.agente__user__first_name}]} </h4>
+
+        <h5>Criterio {[{primer.id}]} </h5>
+        <h5>{[{primer.nombre}]}</h5>
+
       </div>
         <div class="modal-body">
 
                   <div class='row'>
 
-                     <div class="col-sm-6"><center><h5>Criterio</h5></center>
+                     <div class="col-sm-6"><center><h5>Preguntas</h5></center>
                      </div>
 
                      <div class="col-sm-6"><center><h5>Calificación</h5></center>
@@ -259,7 +269,6 @@ jQuery(document).ready(function($) {
                     <div class="col-sm-12">
                         <div class='row'>
                             <div class="col-sm-6">  
-
 
 
                             
@@ -301,7 +310,11 @@ jQuery(document).ready(function($) {
         </div>
 
          <div class="modal-footer">
-           <button class="btn" data-dismiss="modal">Cerrar</button>
+
+             <button class="btn" data-dismiss="modal">Cerrar</button>
+             <button class="btn"  ng-click='criterio(primer)' ng-show='btnpregunta'>Siguiente Criterio</button>
+             <button class="btn btn-primary"  ng-click='calificacion()' ng-show='btncalifica' data-toggle="modal" data-target="#calificafin">Enviar Calificacion</button>
+           
       </div>
     
    
@@ -343,6 +356,36 @@ jQuery(document).ready(function($) {
 
   </div>
 </div>
+
+
+<div id="calificafin" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Calificacion al agente {[{user.agente__user__first_name}]} </h4>
+      </div>
+        <div class="modal-body">
+
+        El agente acumulo un porcentaje de {[{puntaje}]}
+                 
+        </div>
+
+         <div class="modal-footer">
+           <button class="btn" data-dismiss="modal">Cerrar</button>
+           <button type="submit" ng-click="calificar(data,user)" class="btn btn-primary">Enviar <i class="fa fa-rocket"></i></a></button>
+      </div>
+    
+   
+
+
+
+    </div>
+
+  </div>
+</div>
+
 
 
 <!--Fin modales-->

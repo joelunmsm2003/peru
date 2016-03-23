@@ -66,7 +66,7 @@ class Agentebase(models.Model):
 
 class Agentecalificacion(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
-    pregunta = models.ForeignKey('Preguntas', db_column='pregunta', blank=True, null=True)
+    pregunta = models.ForeignKey('PregExam', db_column='pregunta', blank=True, null=True)
     nota = models.ForeignKey('Nota', db_column='nota', blank=True, null=True)
     agente = models.ForeignKey('Agentes', db_column='agente', blank=True, null=True)
     descripcion = models.CharField(max_length=100, blank=True)
@@ -97,7 +97,6 @@ class Agentes(models.Model):
     user = models.ForeignKey('AuthUser', db_column='user', blank=True, null=True)
     supervisor = models.ForeignKey('Supervisor', db_column='supervisor', blank=True, null=True)
     disponible = models.IntegerField(blank=True, null=True)
-    calificacion = models.ForeignKey('Base', db_column='calificacion', blank=True, null=True)
     tiniciogestion = models.DateTimeField(blank=True, null=True)
     tfingestion = models.DateTimeField(blank=True, null=True)
     tiniciollamada = models.DateTimeField(blank=True, null=True)
@@ -402,7 +401,7 @@ class Base(models.Model):
     proflag = models.IntegerField(db_column='ProFlag')  # Field name made lowercase.
     proestado = models.IntegerField(db_column='ProEstado')  # Field name made lowercase.
     filtrohdec = models.IntegerField(db_column='FiltroHdeC')  # Field name made lowercase.
-    agente = models.ForeignKey(Agentes, db_column='agente', blank=True, null=True)
+    agente = models.ForeignKey('Agentes', db_column='agente', blank=True, null=True)
     duracion = models.IntegerField(blank=True, null=True)
     audio = models.CharField(max_length=120, blank=True)
     detalle = models.CharField(max_length=100, blank=True)
@@ -420,8 +419,11 @@ class Base(models.Model):
 
 class Calificacion(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
-    tipo = models.CharField(max_length=100)
-    descripcion = models.CharField(max_length=100)
+    preg_exam = models.ForeignKey('PregExam', db_column='preg_exam')
+    agente = models.ForeignKey(Agentes, db_column='agente')
+    campania = models.ForeignKey('Campania', db_column='campania')
+    empresa = models.ForeignKey('Empresa', db_column='empresa')
+    respuesta = models.IntegerField()
 
     class Meta:
         managed = False
@@ -586,6 +588,15 @@ class Estado(models.Model):
         db_table = 'estado'
 
 
+class Examen(models.Model):
+    id = models.IntegerField(primary_key=True)  # AutoField?
+    nombre = models.CharField(max_length=100, blank=True)
+
+    class Meta:
+        managed = False
+        db_table = 'examen'
+
+
 class Filtro(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
     campania = models.ForeignKey(Campania, db_column='campania', blank=True, null=True)
@@ -672,17 +683,15 @@ class Nota(models.Model):
         db_table = 'nota'
 
 
-class Preguntas(models.Model):
+class PregExam(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
     pregunta = models.CharField(max_length=100, blank=True)
-    respuesta = models.CharField(max_length=100, blank=True)
-    empresa = models.ForeignKey(Empresa, db_column='empresa', blank=True, null=True)
-    campania = models.ForeignKey(Campania, db_column='campania', blank=True, null=True)
-    agente = models.ForeignKey(Agentes, db_column='agente', blank=True, null=True)
+    examen = models.ForeignKey(Examen, db_column='examen')
+    valor = models.FloatField()
 
     class Meta:
         managed = False
-        db_table = 'preguntas'
+        db_table = 'preg_exam'
 
 
 class Resultado(models.Model):

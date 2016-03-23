@@ -4129,8 +4129,10 @@ a.list-group-item-danger.active, a.list-group-item-danger.active:focus, a.list-g
     box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
 }
 .panel-body {
-    padding: 15px;
+  padding: 15px;
+  /*height: 98px;*/
 }
+
 .panel-heading {
     padding: 10px 15px;
     border-bottom: 1px solid transparent;
@@ -4266,7 +4268,7 @@ a.list-group-item-danger.active, a.list-group-item-danger.active:focus, a.list-g
     border-bottom: 1px solid #ddd;
 }
 .panel-default {
-    border-color: #ddd;
+    border-color: #DFA8A7;
 }
 .panel-default>.panel-heading {
     color: #454E58;

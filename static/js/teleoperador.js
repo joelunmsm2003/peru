@@ -7,7 +7,7 @@ $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
 
 
 
-function Controller($scope,$http,$cookies,$filter,$interval) {
+function Controller($scope,$http,$cookies,$filter,$interval,$location) {
 
    
 
@@ -144,9 +144,21 @@ function Controller($scope,$http,$cookies,$filter,$interval) {
 
             data = JSON.parse($scope.agente['data'])
 
-            $scope.datoagente =data[0]      
+            $scope.datoagente =data[0] 
+
+    
+
+       
 
     });
+
+     $scope.signout = function(contact) 
+    {
+        console.log('signout')
+
+        location.href = "/salir";
+
+    }
 
 
 

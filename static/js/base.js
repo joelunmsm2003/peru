@@ -41,6 +41,14 @@ function Controller($scope,$http,$cookies,$filter) {
        
     });
 
+
+    $http.get("/carteras").success(function(response) {$scope.carteras = response;
+
+      
+       
+    });
+
+
    
     
 
@@ -51,6 +59,33 @@ function Controller($scope,$http,$cookies,$filter) {
         $scope.user = $scope.user[0]
 
     });
+
+    
+
+     $scope.getcampania = function(cartera) 
+
+
+    {       
+            
+
+            $http.get("/getcampanias/"+cartera.id).success(function(response) {$scope.campanias = response;
+
+                console.log('campanias',$scope.campanias)
+               
+            });
+
+
+    };
+
+    $scope.descarga = function() 
+
+    {       
+        console.log('Descarga',$scope.model.campania.id)
+
+        window.location="/reportecsv/"+12+'/'+$scope.model.campania.id;
+    };
+
+
 
 
     $scope.regxpag = function() 
