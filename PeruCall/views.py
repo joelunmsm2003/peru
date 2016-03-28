@@ -232,14 +232,16 @@ def enviar(request):
 def cpuestado(request):
 
 
-	memoriausada= str(request.GET['memoriausada'])
-	d_usado= str(request.GET['d_usado']).replace("G", "")
-	d_disponible= str(request.GET['d_disponible']).replace("G", "")
-	memoriatotal= str(request.GET['memoriatotal'])
-	memoriausada= str(request.GET['memoriausada'])
-	swaptotal= str(request.GET['swaptotal'])
-	swapusada= str(request.GET['swapusada'])
-	cpu= str(request.GET['cpu'])
+	print 'cpuestado',request.POST
+
+	memoriausada= str(request.POST['memoriausada'])
+	d_usado= str(request.POST['d_usado']).replace("G", "")
+	d_disponible= str(request.POST['d_disponible']).replace("G", "")
+	memoriatotal= str(request.POST['memoriatotal'])
+	memoriausada= str(request.POST['memoriausada'])
+	swaptotal= str(request.POST['swaptotal'])
+	swapusada= str(request.POST['swapusada'])
+	cpu= str(request.POST['cpu'])
 
 
 	date =datetime.now()
@@ -1675,10 +1677,13 @@ def calificar(request):
 		
 		data =json.loads(request.body)
 
+
+
 		campania = data['campania']
 		agente = data['user']['agente']
-		pregunta = data['']
+		pregunta = data['pregunta']['id']
 		respuesta = data['respuesta']
+
 
 
 
