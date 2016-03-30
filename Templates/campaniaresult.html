@@ -6,7 +6,7 @@
 
 
 
-<script src="/static/js/dashboard.js"></script>
+<script src="/static/js/campaniaresult.js"></script>
 <script src="/static/js/chart.js"></script>
 <script src="/static/js/angular-chart.js"></script>
 
@@ -54,11 +54,10 @@ jQuery(document).ready(function($) {
 
       <div class="col-sm-4"><h5><i class="fa fa-cube"></i>  Examen de {[{n_examen.nombre}]} </h5>
       </div>
-      <div class="col-sm-4"><h5><i class="fa fa-cube"></i>  Evaluacion del Agente {[{agentex.user__first_name}]} </h5>
+      <div class="col-sm-4"><h5><i class="fa fa-cube"></i> Campaña {[{rcampania.nombre}]} </h5>
       </div>
 
-      <div class="col-sm-4"><h5><i class="fa fa-cube"></i>  Anexo {[{agentex.user__anexo}]} </h5>
-      </div>
+    
 
 
      
@@ -84,8 +83,8 @@ jQuery(document).ready(function($) {
 <div class='row'>
 <div class="col-sm-2">
 
-Agente:
-    <select  ng-options="item as item.user__first_name for item in agentes track by item.id" type="text" class="form-control" ng-model="model.agente" required =""  ></select>
+Campañas:
+    <select  ng-options="item as item.nombre for item in campanias track by item.id" type="text" class="form-control" ng-model="model.campania" required =""  ></select>
 
 </div>
 

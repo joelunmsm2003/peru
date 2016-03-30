@@ -422,9 +422,9 @@ class Calificacion(models.Model):
     preg_exam = models.ForeignKey('PregExam', db_column='preg_exam')
     agente = models.ForeignKey(Agentes, db_column='agente')
     campania = models.ForeignKey('Campania', db_column='campania')
-    empresa = models.ForeignKey('Empresa', db_column='empresa')
-    respuesta = models.IntegerField()
-    llamada = models.IntegerField()
+    empresa = models.ForeignKey('Empresa', db_column='empresa', blank=True, null=True)
+    respuesta = models.CharField(max_length=1000, blank=True)
+    llamada = models.ForeignKey(AjxProLla, db_column='llamada')
 
     class Meta:
         managed = False

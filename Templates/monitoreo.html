@@ -119,9 +119,9 @@ jQuery(document).ready(function($) {
                   <td>{[{contact.agente__user__first_name}]}</td>
                   <td>{[{contact.agente__anexo}]}</td>
                   <td>Manual</td>
-                  <td ng-if="contact.agente__estado == '1'" style="background-color:#8FB0B3;">{[{contact.agente__estado__nombre}]}</td>
+                  <td ng-if="contact.agente__estado == '1'" style="background-color:#BBCACD;">{[{contact.agente__estado__nombre}]}</td>
                   <td ng-if="contact.agente__estado == '2'" style="background-color:#82BF72;">{[{contact.agente__estado__nombre}]}</td>
-                  <td ng-if="contact.agente__estado == '3'" style="background-color:#478BCE;">{[{contact.agente__estado__nombre}]}</td>
+                  <td ng-if="contact.agente__estado == '3'" style="background-color:#56D0B4;">{[{contact.agente__estado__nombre}]}</td>
                   <td ng-if="contact.agente__estado == '4'" style="background-color:#D2447A;">{[{contact.agente__estado__nombre}]}</td>
                   <td ng-if="contact.agente__estado == '5'" style="background-color:#D0CA40;">{[{contact.agente__estado__nombre}]}</td>
                   <td ng-if="contact.agente__estado == '6'" style="background-color:#A36AA5;">{[{contact.agente__estado__nombre}]}</td>
@@ -146,7 +146,7 @@ jQuery(document).ready(function($) {
                     <td><a  ng-click="evaluar(contact,$index)" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#notificacion"><i class="fa fa-rocket"></i></a></td>
                     <td>
                     
-                    <a ng-click="evaluar(contact,$index)" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#eliminar"><i class="fa fa-check"></i></a></td>
+                    <a ng-if="contact.agente__estado == '3'"  ng-click="evaluar(contact,$index)" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#eliminar"><i class="fa fa-check"></i></a></td>
 
                     <td><a ng-if="contact.agente__estado == '3'"  ng-click="evaluar(contact,$index)" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#listen"><i class="fa fa-headphones"></i></a></td>
 
@@ -284,10 +284,10 @@ jQuery(document).ready(function($) {
                             <div class="col-sm-6">
                             <center>
 
-                            <button type="submit" ng-click="calificarsi(pregunta)" class="btn btn-primary">Si <i class="fa fa-check"></i></button>
+                            <button type="submit" ng-click="calificarsi(pregunta)"  ng-if="pregunta.estadosi==true" class="btn btn-primary animated bounceInRight">Si <i class="fa fa-check"></i></button>
 
 
-                            <button type="submit" ng-click="calificarno(pregunta)" class="btn btn-primary">No <i class="fa fa-close"></i></button>
+                            <button type="submit" ng-click="calificarno(pregunta)"  ng-if="pregunta.estadono==true" class="btn btn-primary animated bounceInRight">No <i class="fa fa-close"></i></button>
                             </center>
 
                             </div>
@@ -389,6 +389,8 @@ jQuery(document).ready(function($) {
 
 
 <!--Fin modales-->
+
+
 
 
 

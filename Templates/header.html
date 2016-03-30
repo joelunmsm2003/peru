@@ -23,9 +23,13 @@
           <li id="empresa" class="active" ng-if="user.nivel == 4 "><a href="/empresa">Empresas <i class="fa fa-building-o"></i> <span class="sr-only">(current)</span></a></li>
         
 
-        <li id="usuario"><a href="/usuario">  Usuarios <i class="fa fa-users"></i> </a></li>
+        <li id="usuario"><a href="/usuario">Usuarios <i class="fa fa-users"></i> </a></li>
+
+
+
         <li id="cartera" ng-if="user.nivel == 1 || user.nivel == 2 ||user.nivel == 4"><a href="/cartera"> Carteras <i class="fa fa-building"></i>    </a></li>
-        <li id="campania"><a href="/campania"> Campañas   <i class="fa fa-bullhorn"></i> </a></li>
+        
+        <li id="campania"><a href="/campania">Campañas   <i class="fa fa-bullhorn"></i> </a></li>
         <!--<li id="formulario" ng-if="user.nivel == 1"><a href="/pregunta"> Formulario   <i class="fa fa-check"></i></a></li>-->
         
         <li id='reporteg'><a href="/reporteg">Reportes <i class="fa fa-area-chart"></i></a></li>
@@ -34,6 +38,23 @@
           <li id='licencia'><a ng-if="user.nivel == 1" href="/licencia">Licencias <i class="fa fa-area-chart"></i></a></li>
 
           <li id='licencia'><a ng-if="user.nivel == 4" href="/monitorcpu">Server Monitor <i class="fa fa-laptop"></i></a></li>
+
+          
+
+        
+
+          <li id='licencia' class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+
+          <i class="fa fa-check"></i> Evaluacion <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+
+            <li id="dashboard"><a href="/dashboard/14/1">Agente <i class="fa fa-bar-chart"></i></a></li>
+              <li id="dashboard"><a href="/campaniaresult/14/1/">Campañia <i class="fa fa-bar-chart"></i></a></li>
+          </ul>
+        </li>
+
+          
         
 
       </ul>

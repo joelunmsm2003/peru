@@ -177,15 +177,48 @@ def empresa(request):
 	return render(request, 'empresa.html',{})
 
 @login_required(login_url="/ingresar")
-def dashboard(request,id):
-	campania = Campania.objects.get(id=id)
-	return render(request, 'dashboard.html',{'campania':campania})
+def dashboard(request,agente,examen):
+
+
+
+	return render(request, 'dashboard.html')
+
+@login_required(login_url="/ingresar")
+def campaniaresult(request,campania,examen):
+
+
+	return render(request, 'campaniaresult.html')
 
 
 @login_required(login_url="/ingresar")
 def monitorcpu(request):
 
 	return render(request, 'monitorcpu.html',{})
+
+
+@login_required(login_url="/ingresar")
+def examenes(request):
+
+
+	base = Examen.objects.all().values('id','nombre')
+
+	data_dict = ValuesQuerySetToDict(base)
+
+	data = simplejson.dumps(data_dict)
+
+	return HttpResponse(data, content_type="application/json")
+
+@login_required(login_url="/ingresar")
+def getexamen(request,examen):
+
+
+	base = Examen.objects.filter(id=examen).values('id','nombre')
+
+	data_dict = ValuesQuerySetToDict(base)
+
+	data = simplejson.dumps(data_dict)
+
+	return HttpResponse(data, content_type="application/json")
 
 
 @login_required(login_url="/ingresar")
@@ -440,10 +473,13 @@ def agentes(request,id_campania):
 
 		agente = Agentes.objects.get(id=user[i]['agente'])
 
+		L = str(AjxProLla.objects.filter(age_codigo=user[i]['agente']).values('id_ori_llamadas').order_by('-id_ori_llamadas')[:1])
+
+		user[i]['idllamada'] = L.replace("[{","").replace("'","").replace("id_ori_llamadas:","").replace("L}]","").replace(" ","")
+
 		if Base.objects.filter(status=1,agente_id=user[i]['agente']):
 
 			user[i]['fono'] =  Base.objects.get(status=1,agente_id=user[i]['agente']).telefono
-
 
 		if agente.estado.id == 2:
 
@@ -452,6 +488,7 @@ def agentes(request,id_campania):
 		if agente.estado.id == 3:
 
 			ti = agente.tiniciollamada
+
 		
 
 		if agente.estado.id == 6:
@@ -524,6 +561,58 @@ def agentescalifica(request,agente):
 
 		return HttpResponse(data, content_type="application/json")
 
+@login_required(login_url="/ingresar")
+def agentesall(request,empresa):
+
+		data = Agentes.objects.filter(user__empresa_id=empresa).values('id','user__first_name').order_by('-id')
+
+		data_dict = ValuesQuerySetToDict(data)
+
+		data = simplejson.dumps(data_dict)
+
+		return HttpResponse(data, content_type="application/json")
+
+
+@login_required(login_url="/ingresar")
+def resultadoagente(request,agente,examen):
+
+	
+		preg = PregExam.objects.filter(examen_id=examen).values('id','examen__nombre','pregunta')
+
+		for i in range(len(preg)):
+
+			print preg[i]['pregunta'] 
+
+			preg[i]['respsi']=Calificacion.objects.filter(agente_id=agente,preg_exam__examen=examen,preg_exam_id=preg[i]['id'],respuesta='Si').count()
+			preg[i]['respno']=Calificacion.objects.filter(agente_id=agente,preg_exam__examen=examen,preg_exam_id=preg[i]['id'],respuesta='No').count()
+
+		
+		data_dict = ValuesQuerySetToDict(preg)
+
+		data = simplejson.dumps(data_dict)
+
+		return HttpResponse(data, content_type="application/json")
+
+
+@login_required(login_url="/ingresar")
+def resultadocampania(request,campania,examen):
+
+	
+		preg = PregExam.objects.filter(examen_id=examen).values('id','examen__nombre','pregunta')
+
+		for i in range(len(preg)):
+
+			print preg[i]['pregunta'] 
+
+			preg[i]['respsi']=Calificacion.objects.filter(campania_id=campania,preg_exam__examen=examen,preg_exam_id=preg[i]['id'],respuesta='Si').count()
+			preg[i]['respno']=Calificacion.objects.filter(campania_id=campania,preg_exam__examen=examen,preg_exam_id=preg[i]['id'],respuesta='No').count()
+
+		
+		data_dict = ValuesQuerySetToDict(preg)
+
+		data = simplejson.dumps(data_dict)
+
+		return HttpResponse(data, content_type="application/json")
 
 
 @login_required(login_url="/ingresar")
@@ -885,6 +974,12 @@ def preguntas(request,examen):
 
 			data = PregExam.objects.filter(examen=examen).values('id','pregunta','examen__nombre','valor').order_by('id')
 
+			for i in range(len(data)):
+
+				data[i]['estadosi'] = True
+
+				data[i]['estadono'] = True
+
 			data_dict = ValuesQuerySetToDict(data)
 
 			data = simplejson.dumps(data_dict)
@@ -897,12 +992,9 @@ def preguntas(request,examen):
 
 			data = json.loads(request.body)['dato']
 
-
-
 			pregunta = data['pregunta']
 
 			respuesta = data['respuesta']
-
 
 			if tipo == 'New':
 
@@ -921,6 +1013,7 @@ def preguntas(request,examen):
 				datap = Preguntas.objects.get(id=id_pregunta)
 			
 				datap.pregunta = pregunta
+
 				datap.respuesta = respuesta
 
 				datap.save()
@@ -929,9 +1022,8 @@ def preguntas(request,examen):
 
 			if tipo == 'Eliminar':
 
-				print data
-
 				id_pregunta = data['id']
+
 				pregunta = Preguntas.objects.get(id=id_pregunta)
 				
 				pregunta.delete()
@@ -967,7 +1059,7 @@ def resultado(request):
 @login_required(login_url="/ingresar")
 def agente(request,id_agente):
 
-	data = Agentes.objects.filter(id=id_agente).values('id','anexo','fono','atendidas','contactadas','estado__nombre','user__first_name','supervisor','calificacion','user__empresa__mascaras__tipo','user__empresa__url').order_by('-id')
+	data = Agentes.objects.filter(id=id_agente).values('id','user__empresa_id','user__anexo','fono','atendidas','contactadas','estado__nombre','user__first_name','supervisor','calificacion','user__empresa__mascaras__tipo','user__empresa__url').order_by('-id')
 
 	#for i in range(len(data)):
 
@@ -1228,6 +1320,17 @@ def reportecsv(request,cartera,campania):
 def getcampanias(request,cartera):
 
 		carteras = Campania.objects.filter(cartera_id=cartera).values('id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name').order_by('-id')
+	
+		data_dict = ValuesQuerySetToDict(carteras)
+
+		data = simplejson.dumps(data_dict)
+
+		return HttpResponse(data, content_type="application/json")
+
+@login_required(login_url="/ingresar")
+def traercampania(request,campania):
+
+		carteras = Campania.objects.filter(id=campania).values('id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name').order_by('-id')
 	
 		data_dict = ValuesQuerySetToDict(carteras)
 
@@ -1666,31 +1769,31 @@ def botonera(request):
 def calificar(request):
 
 	if request.method == 'POST':
-
-		# {u'campania': u'86', u'user': {u'fono': u'991357001', u'agente': 14,
-		# u'agente__estado': 1, u'agente__fono': 0, u'agente__anexo': 1054, u'id': 296,
-		# u'agente__user__first_name': u'Cesar', u'agente__user__username': u'agente', 
-		# u'performance': 3500, u'agente__wordstipeo': 0, u'agente__atendidas': 10, 
-		# u'agente__contactadas': 350, u'agente__estado__nombre': u'No Login'}, 
-		#u'pregunta': {u'examen__nombre': u'Calidez', u'id': 14, u'pregunta': u'Empatia , Actitud Y  Escucha Activa', u'valor': 6}, 
-		#u'respuesta': u'No'}
 		
 		data =json.loads(request.body)
 
-
-
 		campania = data['campania']
 		agente = data['user']['agente']
+		llamada = data['user']['idllamada']
 		pregunta = data['pregunta']['id']
 		respuesta = data['respuesta']
 
+		if Calificacion.objects.filter(campania_id=campania,agente_id=agente,llamada_id=llamada,preg_exam_id=pregunta):
 
+			'''
+			c = Calificacion.objects.get(llamada_id=llamada)
+			c.respuesta = respuesta
+			c.save()
+			'''
+			pass
+			
+		
 
+		else:
 
+			Calificacion(preg_exam_id=pregunta,agente_id=agente,campania_id=campania,respuesta=respuesta,llamada_id=llamada).save()
 
-
-
-	return HttpResponse('resultado', content_type="application/json")
+		return HttpResponse('resultado', content_type="application/json")
 
 
 
@@ -1963,11 +2066,13 @@ def agentesdisponibles(request,id_campania):
 
 	for a in agentescampania:
 
-		lista.append(a.agente.id) 
+		lista.append(a.agente.id) 	
 
-	print lista
+	print 'empresa',empresa
 
 	agentes = Agentes.objects.filter(user__empresa__id=empresa).exclude(id__in=lista).values('id')
+
+	print 'agentes en campania',agentes
 
 
 	for i in range(len(agentes)):
@@ -1997,11 +2102,14 @@ def agentescampania(request,id_campania):
 
 		agentes[i]['estado'] = Agentescampanias.objects.get(id=agentes[i]['id']).agente.estado.nombre
 
+	
 	data_dict = ValuesQuerySetToDict(agentes)
 
 	data = simplejson.dumps(data_dict)
 
 	return HttpResponse(data, content_type="application/json")
+
+
 
 @login_required(login_url="/ingresar")
 def agregaragente(request):

@@ -5,46 +5,75 @@ App.config(function($interpolateProvider){
 $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
 });
 
+agente = window.location.href.split("dashboard/")[1].split("/")[0]
+
+examen = window.location.href.split("dashboard/")[1].split('/')[1]
 
 
 
 
 
-campania = window.location.href.split("dashboard/")[1].split("/")[0]
+
+
 
 $(function () {
+
+
     $('#calidadagente').highcharts({
+
+        title: {
+        text: 'Resultados Cantidad de Si y No'
+        },
         chart: {
             type: 'column',
               events: {
                         load: function () {
 
-                                // set up the updating of the chart each second
-                                var series = this.series[0].points[0];
-                                var updateChart = function() {
+                                serie = this.series
 
-                                $.getJSON("/estllamada/"+campania, function (result) {
+                                $.getJSON("/resultadoagente/"+agente+"/"+examen, function (result) {
 
-                                console.log('grafica',result)
-                                
-                                  series.update(0);
+                                    serie[0].points[0].update(result[0]['respno'])
+                                    serie[1].points[0].update(result[0]['respsi'])
 
-                                });   
+                                    serie[0].points[1].update(result[1]['respno'])
+                                    serie[1].points[1].update(result[1]['respsi'])
 
-                                }      
-                                setInterval(function(){updateChart()},1000);
+                                    serie[0].points[2].update(result[2]['respno'])
+                                    serie[1].points[2].update(result[2]['respsi'])
+
+                                    serie[0].points[3].update(result[3]['respno'])
+                                    serie[1].points[3].update(result[3]['respsi'])
+
+                                    serie[0].points[4].update(result[4]['respno'])
+                                    serie[1].points[4].update(result[4]['respsi'])
+
+                                    serie[0].points[5].update(result[5]['respno'])
+                                    serie[1].points[5].update(result[5]['respsi'])
+
+                                    serie[0].points[6].update(result[6]['respno'])
+                                    serie[1].points[6].update(result[6]['respsi'])
+
+                                    serie[0].points[7].update(result[7]['respno'])
+                                    serie[1].points[7].update(result[7]['respsi'])
+
+                                    serie[0].points[8].update(result[8]['respno'])
+                                    serie[1].points[8].update(result[8]['respsi'])
+                          
+                                });
+
+                        
 
                             }
                         }
         },
-        title: {
-            text:'Anexo:',
-           
-        },
 
-       subtitle: {
-            text: 'Calidad'
-        },
+
+
+
+       
+
+       
         xAxis: {
             categories: ['Preparación para Llamada', 'Comprensión Acertiva y Rápida', 'Producto y herramientas de gestión','Argumentos precisos, coherentes y correctos', 'Cierre de Negociación, Consecuencias','Teléfono Contacto, Horarios de Atención,...']
         },
@@ -90,374 +119,50 @@ $(function () {
         },
         series: [{
             name: 'Sí',
-            data: [6, 1, 4, 5,9,3]
+            data: [0, 0, 0, 0,0,0,0]
         }, {
             name: 'No',
-            data: [7, 3, 1, 9, 4,7]
+            data: [0, 0, 0, 0, 0,0,0]
         }]
     });
-});
-
-$(function () {
-
-    $('#calidezagente').highcharts({
-        chart: {
-            type: 'column'
-        },
-        title: {
-            text:'Anexo:',
-           
-        },
-
-       subtitle: {
-            text: 'Calidez'
-        },
-
-        xAxis: {
-            categories: ['Expresión Verbal', 'Vocalización-Tono de Voz', 'Seguridad Al Responder', 'Amabilidad, Respeto, Paciencia y Tolerancia', 'Empatia, Actitud y Escucha Activa','Speech de Saludo','Speech de Despedida']
-        },
-        yAxis: {
-            min: 0,
-            title: {
-                text: 'Total Llamadas'
-            },
-            stackLabels: {
-                enabled: true,
-                style: {
-                    fontWeight: 'bold',
-                    color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
-                }
-            }
-        },
-        legend: {
-            align: 'right',
-            x: -30,
-            verticalAlign: 'top',
-            y: 25,
-            floating: true,
-            backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
-            borderColor: '#CCC',
-            borderWidth: 1,
-            shadow: false
-        },
-        tooltip: {
-            headerFormat: '<b>{point.x}</b><br/>',
-            pointFormat: '{series.name}: {point.y}<br/>Muestra: {point.stackTotal}'
-        },
-        plotOptions: {
-            column: {
-                stacking: 'normal',
-                dataLabels: {
-                    enabled: true,
-                    color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
-                    style: {
-                        textShadow: '0 0 4px black'
-                    }
-                }
-            }
-        },
-        series: [{
-            name: 'Sí',
-            data: [5, 3, 4, 7,2,8]
-        }, {
-            name: 'No',
-            data: [2, 6, 3, 2, 1,4]
-        }]
-    });
-});
-$(function () {
-    $('#pie1').highcharts({
-        chart: {
-            plotBackgroundColor: null,
-            plotBorderWidth: null,
-            plotShadow: false,
-            type: 'pie',
-            events: {
-                    load: function () {
-
-                        // set up the updating of the chart each second
-                        var series = this.series[0];
 
 
-        var updateChart = function() {
-            
-        $.getJSON("/estllamada/"+campania, function (result) {
+    
+
+    $.getJSON("/resultadoagente/"+agente+"/"+examen, function (result) {
+
+        console.log('examenesssss',result)
+
+        pregunta = []
 
 
-            console.log('grafica',result)
+        for( var key in result ) {
 
-            
-            
-            series.data[0].update(result['errados']);
-            series.data[1].update(result['correctos']);
-          
+          pregunta[key]=result[key]['pregunta']
 
-            
-
-        });   
-
-
-        }      
-              
-        setInterval(function(){updateChart()},1000);
-
-
-
-                    }
-                }
-
-
-
-        },
-        title: {
-            text: 'Estado '
-        },
-        tooltip: {
-            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-        },
-        plotOptions: {
-            pie: {
-                allowPointSelect: true,
-                cursor: 'pointer',
-                showInLegend: true,
-                dataLabels: {
-                    enabled: true,
-                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-                    style: {
-                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-                    }
-                }
-            }
-        },
-
-         
-        series: [{
-
-            name: "Estado ",
-            colorByPoint: true,
-            data: [
-            {
-                name: "Errados",
-                y: 0,
-
-            }, {
-                name: "Correctos",
-                y: 0,
-            }
-            ]
-        }]
-
-    });
-});
-
-
-
-$(function () {
-    $('#xy').highcharts({
-        chart: {
-            type: 'areaspline',
-
-        },
-        title: {
-            text: 'Cantidad'
-        },
-        legend: {
-            layout: 'vertical',
-            align: 'left',
-            verticalAlign: 'top',
-            x: 150,
-            y: 100,
-            floating: true,
-            borderWidth: 1,
-            backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
-        },
-        xAxis: {
-            categories: [
-                'Lu',
-                'Ma',
-                'Mi',
-                'Ju',
-                'Vi',
-                'Sa',
-                'Do'
-            ],
-            plotBands: [{ // visualize the weekend
-                from: 4.5,
-                to: 6.5,
-                color: 'rgba(68, 170, 213, .2)'
-            }]
-        },
-        yAxis: {
-            title: {
-                text: 'Nro Llamadas'
-            }
-        },
-        tooltip: {
-            shared: true,
-            valueSuffix: ' units'
-        },
-        credits: {
-            enabled: false
-        },
-        plotOptions: {
-            areaspline: {
-                fillOpacity: 0.5
-            }
-        },
-        series: [{
-            name: 'Atendidas',
-            data: [3, 4, 3, 5, 4, 10, 12]
-        }, {
-            name: 'Fallidas',
-            data: [1, 3, 4, 3, 3, 5, 4]
-        }]
-    });
-});
-
-
-$(function () {
-
-    $('#ga').highcharts({
-
-        chart: {
-            type: 'gauge',
-            plotBackgroundColor: null,
-            plotBackgroundImage: null,
-            plotBorderWidth: 0,
-            plotShadow: false,
-            events: {
-                        load: function () {
-
-                                // set up the updating of the chart each second
-                                var series = this.series[0].points[0];
-                                var updateChart = function() {
-
-                                $.getJSON("/estllamada/"+campania, function (result) {
-
-                                console.log('grafica',result)
-                                
-                                  series.update(0);
-
-                                });   
-
-                                }      
-                                setInterval(function(){updateChart()},1000);
-
-                            }
-                        }
-        },
-
-        title: {
-            text: 'Llamadas'
-        },
-
-        pane: {
-            startAngle: -150,
-            endAngle: 150,
-            background: [{
-                backgroundColor: {
-                    linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
-                    stops: [
-                        [0, '#FFF'],
-                        [1, '#333']
-                    ]
-                },
-                borderWidth: 0,
-                outerRadius: '109%'
-            }, {
-                backgroundColor: {
-                    linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
-                    stops: [
-                        [0, '#333'],
-                        [1, '#FFF']
-                    ]
-                },
-                borderWidth: 1,
-                outerRadius: '107%'
-            }, {
-                // default background
-            }, {
-                backgroundColor: '#DDD',
-                borderWidth: 0,
-                outerRadius: '105%',
-                innerRadius: '103%'
-            }]
-        },
-
-        // the value axis
-        yAxis: {
-            min: 0,
-            max: 30,
-
-            minorTickInterval: 'auto',
-            minorTickWidth: 1,
-            minorTickLength: 10,
-            minorTickPosition: 'inside',
-            minorTickColor: '#666',
-
-            tickPixelInterval: 30,
-            tickWidth: 2,
-            tickPosition: 'inside',
-            tickLength: 10,
-            tickColor: '#666',
-            labels: {
-                step: 2,
-                rotation: 'auto'
-            },
-            title: {
-                text: ''
-            },
-            plotBands: [{
-                from: 0,
-                to: 10,
-                color: '#55BF3B' // green
-            }, {
-                from: 10,
-                to: 20,
-                color: '#DDDF0D' // yellow
-            }, {
-                from: 20,
-                to: 30,
-                color: '#DF5353' // red
-            }]
-        },
-
-        series: [{
-            name: 'Speed',
-            data: [80],
-            tooltip: {
-                valueSuffix: ' km/h'
-            }
-        }]
-
-    },
-    // Add some life
-    function (chart) {
-        if (!chart.renderer.forExport) {
-           
-                var point = chart.series[0].points[0],
-                    newVal,
-                    inc = Math.round((Math.random() - 0.5) * 20);
-
-                newVal = point.y + inc;
-                if (newVal < 0 || newVal > 200) {
-                    newVal = point.y - inc;
-                }
-
-                point.update(4);
-
-           
         }
-    });
+
+        var chart = $('#calidadagente').highcharts();
+        chart.xAxis[0].setCategories(pregunta)
+
+        console.log(pregunta)
+
+
+
+
+    })
+
+
+    
+
+
 });
+
+
+
 
 
 function Controller($scope,$http,$cookies,$filter) {
-
-
-
-
-
 
 
     console.log(window.location.href.split("dashboard/"))
@@ -472,11 +177,21 @@ function Controller($scope,$http,$cookies,$filter) {
     $scope.pagedItems = [];
     $scope.currentPage = 0;
 
-    $http.get("/agentes/"+campania).success(function(response) {$scope.agentes = response;
+    $http.get("/agente/"+agente).success(function(response) {
 
+    $scope.agente = response;
 
-    console.log('agentes',$scope.agentes)
+    $scope.agentex = JSON.parse($scope.agente.data)[0]
 
+    console.log(JSON.parse($scope.agente.data)[0])
+
+    empresa = JSON.parse($scope.agente.data)[0].user__empresa_id
+
+        $http.get("/agentesall/"+empresa).success(function(response) {$scope.agentes = response;
+
+        });
+
+    //{"atendidas":1,"media":3,"data":"[{\"fono\": 0, \"contactadas\": 350, \"supervisor\": null, \"estado__nombre\": \"En Llamada\", \"atendidas\": 10, \"calificacion\": 426, \"user__empresa__mascaras__tipo\": \"Interna\", \"user__first_name\": \"Cesar\", \"anexo\": 280, \"user__empresa__url\": \"\", \"id\": 14}]","acuerdos":8}
 
     });
 
@@ -486,63 +201,31 @@ function Controller($scope,$http,$cookies,$filter) {
 
     $http.get("/examen").success(function(response) {$scope.examen = response;
 
-        $scope.primer = response[0]
+    $scope.primer = response[0]
 
-        console.log('criterio 1',response[0])
+    });
 
+    $http.get("/examenes").success(function(response) {$scope.examenes = response;
+
+    });
+
+    $http.get("/nota/").success(function(response) {$scope.nota = response;
+
+    });
+
+    $http.get("/nota/").success(function(response) {$scope.nota = response;
+
+    });
+
+    $http.get("/getexamen/"+examen).success(function(response) {$scope.n_examen = response[0];
 
     });
 
 
-
-
-     $http.get("/nota/").success(function(response) {$scope.nota = response;
-
-
-
-    });
-
-    setInterval(function(){ 
-
-    $http.get("/agentes/"+campania).success(function(response) {$scope.agentes = response;
-
-
-    console.log('agentes',$scope.agentes)
-
-
-    });
-
-    }, 1000);
-
-    
-
-
-     $http.get("/agentescampania/"+campania).success(function(response) {$scope.usuarioscampania = response;
-
-        
-
-    });
-
- 
 
     $http.get("/empresas").success(function(response) {$scope.empresas = response[0];
 
-
-       
     });
-
-     $http.get("/agentescampania/"+campania).success(function(response) {
-
-        $scope.campana = response[0]['campania__nombre']
-        $scope.cartera = response[0]['campania__cartera__nombre']
-
-
-    });
-
-
-
-
-
 
     $http.get("/user").success(function(response) {$scope.user = response;
 
@@ -601,6 +284,18 @@ function Controller($scope,$http,$cookies,$filter) {
      
         
 
+
+
+
+    }
+
+    $scope.change = function(data) 
+
+    {
+
+        console.log('ififif',data.agente.id)
+
+        location.href = "/dashboard/"+data.agente.id+'/'+data.examen.id
 
 
 
@@ -739,8 +434,6 @@ function Controller($scope,$http,$cookies,$filter) {
 
     {
 
-    console.log('jjdjdjddjj')
-
     $('.monixxx').show()
     $scope.bb = 'False'
     $scope.bbi = 'True'
@@ -750,7 +443,6 @@ function Controller($scope,$http,$cookies,$filter) {
     $scope.ocultarmon = function() 
 
     {
-
 
     $('.monixxx').hide()
     $scope.bb = 'True'
