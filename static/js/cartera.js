@@ -39,6 +39,7 @@ function Controller($scope,$http,$cookies,$filter) {
        
     });
 
+
        $http.get("/empresas").success(function(response) {$scope.empresasm = response;
 
 
@@ -114,6 +115,13 @@ function Controller($scope,$http,$cookies,$filter) {
 
     
     };
+
+       $http.get("/getempresa").success(function(response) {
+
+        $scope.empresax=response[0]
+       
+    });
+
 
 
 

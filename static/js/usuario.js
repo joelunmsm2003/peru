@@ -27,6 +27,12 @@ function Controller($scope,$http,$cookies,$filter) {
 
     });
 
+     $http.get("/getempresa").success(function(response) {
+
+        $scope.empresax=response[0]
+       
+    });
+
      $http.get("/supervisores").success(function(response) {$scope.supervisores = response;
 
    

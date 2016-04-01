@@ -787,6 +787,22 @@ def examen(request):
 
 		return HttpResponse(data, content_type="application/json")
 
+@login_required(login_url="/ingresar")
+def getempresa(request):
+
+		id = request.user.id
+
+		id_empresa = AuthUser.objects.get(id=id).empresa.id
+
+		data = Empresa.objects.filter(id=id_empresa).values('id','nombre')
+
+		data_dict = ValuesQuerySetToDict(data)
+
+		data = simplejson.dumps(data_dict)
+
+		return HttpResponse(data, content_type="application/json")
+
+
 
 @login_required(login_url="/ingresar")
 def licencias(request):

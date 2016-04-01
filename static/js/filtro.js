@@ -24,6 +24,12 @@ function Controller($scope,$http,$cookies,$filter) {
 
     });
 
+     $http.get("/getempresa").success(function(response) {
+
+        $scope.empresax=response[0]
+       
+    });
+
     $http.get("/infocampania/"+campania).success(function(response) {
 
        console.log('info',response)

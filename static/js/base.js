@@ -35,6 +35,7 @@ function Controller($scope,$http,$cookies,$filter) {
        
     });
 
+
     $http.get("/supervisores").success(function(response) {$scope.supervisores = response;
 
       
@@ -418,6 +419,12 @@ function Controller($scope,$http,$cookies,$filter) {
         $scope.currentPage = this.n-1;
         console.log($scope.currentPage)
     };
+
+      $http.get("/getempresa").success(function(response) {
+
+        $scope.empresax=response[0]
+       
+    });
 
     
     Controller.$inject = ['$scope', '$filter'];

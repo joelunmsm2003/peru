@@ -25,6 +25,12 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
        
     });
 
+     $http.get("/getempresa").success(function(response) {
+
+        $scope.empresax=response[0]
+       
+    });
+
 
     $http.get("/cliente/"+agente).success(function(response) {
 

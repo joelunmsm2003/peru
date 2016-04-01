@@ -28,6 +28,14 @@ function Controller($scope,$http,$cookies,$filter) {
        
     });
 
+    $http.get("/getempresa").success(function(response) {
+
+        $scope.empresax=response[0]
+
+        console.log('sssss',response[0])
+       
+    });
+
     $http.get("/user").success(function(response) {$scope.user = response;
 
         $scope.user = $scope.user[0]

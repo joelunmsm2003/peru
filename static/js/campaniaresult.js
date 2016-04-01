@@ -208,15 +208,16 @@ function Controller($scope,$http,$cookies,$filter) {
 
     });
 
-   
-    $http.get("/getexamen/"+examen).success(function(response) {$scope.n_examen = response[0];
-
-    });
-
 
 
     $http.get("/empresas").success(function(response) {$scope.empresas = response[0];
 
+    });
+
+     $http.get("/getempresa").success(function(response) {
+
+        $scope.empresax=response[0]
+       
     });
 
     $http.get("/user").success(function(response) {$scope.user = response;
@@ -231,6 +232,13 @@ function Controller($scope,$http,$cookies,$filter) {
         console.log('$scope.nivel',$scope.nivel)
 
     });
+
+       
+    $http.get("/getexamen/"+examen).success(function(response) {$scope.n_examen = response[0];
+
+    });
+
+
 
     $scope.btnpregunta = 'True'
 

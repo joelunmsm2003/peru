@@ -6,13 +6,11 @@ $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
 });
 
 
-
-
-
-
 campania = window.location.href.split("monitoreo/")[1].split("/")[0]
 
+
 $(function () {
+
     $('#pie').highcharts({
         chart: {
             plotBackgroundColor: null,
@@ -32,23 +30,16 @@ $(function () {
 
 
             console.log('grafica',result)
-
-            
-            
+       
             series.data[0].update(result['porbarrer']);
             series.data[1].update(result['barridos']);
           
-
-            
-
         });   
 
 
         }      
               
         setInterval(function(){updateChart()},100000);
-
-
 
                     }
                 }
@@ -417,7 +408,6 @@ function Controller($scope,$http,$cookies,$filter) {
        
     });
 
-
     $http.get("/preguntas/1").success(function(response) {$scope.preguntas = response;
 
     });
@@ -428,15 +418,9 @@ function Controller($scope,$http,$cookies,$filter) {
 
         console.log('criterio 1',response[0])
 
-
     });
 
-
-
-
-     $http.get("/nota/").success(function(response) {$scope.nota = response;
-
-
+    $http.get("/nota/").success(function(response) {$scope.nota = response;
 
     });
 
@@ -444,9 +428,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
     $http.get("/agentes/"+campania).success(function(response) {$scope.agentes = response;
 
-
     console.log('agentes',$scope.agentes)
-
 
     });
 
@@ -466,6 +448,11 @@ function Controller($scope,$http,$cookies,$filter) {
     $http.get("/empresas").success(function(response) {$scope.empresas = response[0];
 
 
+       
+    });
+     $http.get("/getempresa").success(function(response) {
+
+        $scope.empresax=response[0]
        
     });
 
