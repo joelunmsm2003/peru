@@ -407,11 +407,16 @@ function Controller($scope,$http,$cookies,$filter) {
 
     $http.get("/agentes/"+campania).success(function(response) {$scope.agentes = response;
 
-
-    console.log('agentes',$scope.agentes)
-
-
     });
+
+    $http.get("/infocampania/"+campania).success(function(response) {
+
+        $scope.campana = response[0]['nombre']
+        $scope.cartera = response[0]['cartera__nombre']
+
+       
+    });
+
 
     $http.get("/preguntas/1").success(function(response) {$scope.preguntas = response;
 
@@ -541,6 +546,19 @@ function Controller($scope,$http,$cookies,$filter) {
 
    $scope.model  = {}
    $scope.dato  = {}
+
+
+   $scope.calificacion = function(data) 
+
+    {
+
+          $('#eliminar').modal('hide')
+        $('.modal-backdrop').remove();
+
+    
+
+
+    }
 
 
 
@@ -725,7 +743,17 @@ function Controller($scope,$http,$cookies,$filter) {
 
     });
 
-    $scope.preguntas
+    $http.get("/examen").success(function(response) {$scope.examen = response;
+
+        $scope.primer = response[0]
+
+        console.log('criterio 1',response[0])
+
+
+    });
+
+
+    console.log('pregunta',$scope.preguntas)
 
     $scope.agente = nota
 

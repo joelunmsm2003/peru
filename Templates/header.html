@@ -35,7 +35,7 @@
         <li id='reporteg'><a href="/reporteg">Reportes <i class="fa fa-area-chart"></i></a></li>
         <!-- <li><a href="#">Grabaciones <i class="fa fa-volume-down"></i> </a></li>-->
 
-          <li id='licencia'><a ng-if="user.nivel == 1" href="/licencia">Licencias <i class="fa fa-area-chart"></i></a></li>
+          <li id='licencia'><a ng-if="user.nivel == 1" href="/licencia">Licencias <i class="fa fa-credit-card-alt"></i></a></li>
 
           <li id='licencia'><a ng-if="user.nivel == 4" href="/monitorcpu">Server Monitor <i class="fa fa-laptop"></i></a></li>
 
@@ -49,8 +49,8 @@
           <i class="fa fa-check"></i> Evaluacion <span class="caret"></span></a>
           <ul class="dropdown-menu">
 
-            <li id="dashboard"><a href="/dashboard/14/1">Agente <i class="fa fa-bar-chart"></i></a></li>
-              <li id="dashboard"><a href="/campaniaresult/14/1/">Campañia <i class="fa fa-bar-chart"></i></a></li>
+            <li id="dashboard"><a href="/dashboard/14/1"><i class="fa fa-check-circle-o"></i> Agente </a></li>
+              <li id="dashboard"><a href="/campaniaresult/14/1/"><i class="fa fa-check-circle"></i> Campañia </a></li>
           </ul>
         </li>
 
@@ -289,4 +289,23 @@ thead {
 color: #fff;
 }
 
+.navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover {
+  color: #BF3737;
+  background-color: #fff;
+}
+.navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:focus, .navbar-default .navbar-nav>.open>a:hover {
+  color: #BF3737;
+  background-color: #e7e7e7;
+}
+.dropdown-menu>li>a {
+
+  color: #BF3737;
+  white-space: nowrap;
+}
+
+ h4 {
+  font-size: 18px;
+  
+  color: #BF3737;
+}
 </style>

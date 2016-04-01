@@ -83,7 +83,7 @@
 
         <td><input type="hidden" ng-model="model.id" required ="" /></td>
        
-        <h4>Desea eliminar usuario {[{model.nombre}]}</h2>
+        <h4>Desea eliminar campaña {[{model.nombre}]}</h2>
         </div>
 
         <div class="modal-footer">
@@ -166,6 +166,7 @@
                   <th>Agentes/ Conectados <a ng-click="sort_by('nivel',currentPage)"><i class="icon-sort"></i></a></th>
                   <th>Fecha Carga</th>
                    <th>Supervisor <a ng-click="sort_by('supervisor',currentPage)"><i class="icon-sort"></i></a></th>
+                   <th ng-if="user.nivel == 1" >Password <a ng-click="sort_by('supervisor',currentPage)"><i class="icon-sort"></i></a></th>
                   <th></th>
                   <th></th>
         
@@ -187,23 +188,25 @@
 
               <tr class='animate' ng-repeat="contact in pagedItems[currentPage]  " ts-repeat>
 
-                <td data-th="Estado">{[{contact.id}]} </td>
-                <td data-th="Estado"> {[{contact.estado}]}</td>
-                <td data-th="Origen">{[{contact.nombre}]} </td>
+                <td >{[{contact.id}]} </td>
+                <td > {[{contact.estado}]}</td>
+                <td >{[{contact.nombre}]} </td>
                
-                <td data-th="Calldate">{[{contact.cargados}]} / {[{contact.barridos}]}  / {[{contact.errados}]}  </td>
-                 <td data-th="Calldate">{[{contact.totalagentes}]} / {[{contact.conectados}]}</td>
-                <td data-th="Disposition">{[{contact.fecha_cargada}]}</td>
-                <td data-th="Disposition">{[{contact.supervisor__user__first_name}]}</td>
-
+                <td >{[{contact.cargados}]} / {[{contact.barridos}]}  / {[{contact.errados}]}  </td>
+                <td >{[{contact.totalagentes}]} / {[{contact.conectados}]}</td>
+                <td >{[{contact.fecha_cargada}]}</td>
+                <td>{[{contact.supervisor__user__first_name}]}</td>
+                <td ng-if="user.nivel == 1">{[{contact.password}]}</td>
 
                 <td>
                 <button class="btn btn-primary btn-sm" ng-click='Admin(contact)'>Administrar</button>
-         
-
-                 
                 <button ng-if="user.nivel == 1" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#reasignar" ng-click='Reasignar(contact)'>Reasignar</button>
-              </td>
+                <button ng-if="user.nivel == 1 || user.nivel == 2" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#eliminar" ng-click='Reasignar(contact)'>Eliminar</button>
+               
+
+                </td>
+
+
 
 
               </tr>
@@ -226,6 +229,9 @@
           <h4 class="modal-title">Crear Campaña </h4>
         </div>
         <div class="modal-body">
+
+
+       
           <div class="row">
 
                     <form action="/uploadCampania/" method="post"  role="form" enctype="multipart/form-data">
@@ -246,12 +252,14 @@
           </div>
           </div>
 
+        
+
           <div class="col-md-4">
           <div class="form-group">
           <label>Cartera</label>
           <select name = 'cartera' class="form-control">
           {% for cartera in cartera%}
-              <option value='{{cartera.cartera.nombre}}'>{{cartera.cartera.nombre}}</option>
+              <option value='{{cartera.cartera.id}}'>{{cartera.cartera.nombre}}</option>
           {% endfor %}
           </select>
           </div>
@@ -336,6 +344,12 @@
           </div>
           </div>
 
+          <div ng-show='mpass' class="col-md-3">
+          <div class="form-group">
+          <label>Clave</label>
+          <input type="text"  name = 'password' class="form-control" placeholder="Nombre" required ="" value='{{password}}'>
+          </div>
+          </div>
 
           </div>
         </div>
@@ -349,6 +363,18 @@
     </div>
 
 </div>
+
+<style type="text/css">
+  
+.confirm .btn .btn-primary{
+
+
+  background-color: #233;
+}
+
+
+</style>
+
 
 
   <script src="/static/js/angular-route.js"></script>

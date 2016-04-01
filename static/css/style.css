@@ -34,7 +34,7 @@ border: 0;
 background: #B71C1C;
 color: white;
 padding: 7px;
-font-family: 'Hind', sans-serif;
+font-family: 'Open Sans', sans-serif;
 }
 [type='file']::-webkit-file-upload-button:active, [type='file']::-webkit-file-upload-button:focus {
 outline: 0;

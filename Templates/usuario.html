@@ -17,7 +17,6 @@
 
 <h4>Usuarios</h4>
 
-
 <div id="edit" class="modal fade" role="dialog">
 
   <div class="modal-dialog ">
@@ -54,7 +53,6 @@
         <input type="number" class="form-control" ng-model="model.telefono" required ="" >
         </div>
         </div>
-
 
         
         <div class="col-md-6" ng-if="user.nivel == 4">
@@ -160,10 +158,13 @@
       <div class='row'>
 
        <div class="col-md-2">
-         
-     <button ng-if="user.nivel == 1 || user.nivel == 4 " type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Agregar Usuario</button>
-       </div>
-      <div class="col-md-8"><input placeholder="Buscar" ng-change="search()"  type="text" ng-model="tipo" class="form-control" ></div>
+    
+   
+     <button ng-click='ocultauser()' ng-if="user.nivel == 1 || user.nivel == 4 " type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Agregar Usuario</button>
+     
+    </div>
+  
+      <div class="col-md-6"><input placeholder="Buscar" ng-change="search()"  type="text" ng-model="tipo" class="form-control" ></div>
 
       
 
@@ -233,6 +234,8 @@
 
                         <button ng-if="user.nivel == 1" type="button" class="btn btn-primary btn-sm" ng-click="editContact(contact,$index,currentPage)"  data-toggle="modal" data-target="#eliminar"><i class="fa fa-trash"></i></button>
 
+                        
+
                         <a ng-if="user.nivel == 1"  type="button" class="btn btn-primary btn-sm" ng-href="/supervisorcartera/{[{contact.id}]}"><i class="fa fa-building-o"></i></a>
                         </center>
                   
@@ -274,7 +277,38 @@
         <div class="modal-body">
           <div class="row">
 
-                        <form ng-submit="addNew(agregar)">
+            <div class="col-md-12">
+            <form action="/uploaduser/" method="post"  role="form" enctype="multipart/form-data">
+
+            {% csrf_token %}
+
+              
+                    
+                        <label>Importacion</label>
+                          <div class='row'>
+                          <div class="col-md-4">
+
+                          <input ng-click='import()' type="file" required=""  name="process_file">
+                          </div>
+
+                           <div class="col-md-2">
+                          <button class="btn btn-primary" type="submit"><i class="fa fa-upload"></i></button>
+                          </div>
+                          </div>
+
+                          <br></br>
+              
+
+
+            </form>
+           
+
+        
+
+
+             
+
+                        <form  ng-show='usermodal' ng-submit="addNew(agregar)">
 
                         <div class="col-md-6">
                         <div class="form-group">
@@ -371,17 +405,14 @@
 
                   </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button class="btn btn-primary" type="submit">Agregar</button>
+        <div ng-show='usermodal' class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" ng-click='ocultauser()'>Close</button>
+          <button class="btn btn-primary" type="submit" >Agregar</button>
           </form>
         </div>
       </div>
     </div>
   </div>
-
-
-
 
 
 

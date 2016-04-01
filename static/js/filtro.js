@@ -22,6 +22,13 @@ function Controller($scope,$http,$cookies,$filter) {
 
     $http.get("/resultado").success(function(response) {$scope.resultado = response;
 
+    });
+
+    $http.get("/infocampania/"+campania).success(function(response) {
+
+       console.log('info',response)
+        $scope.campana = response[0]['nombre']
+        $scope.cartera = response[0]['cartera__nombre']
 
        
     });
@@ -34,17 +41,8 @@ function Controller($scope,$http,$cookies,$filter) {
        
     });
 
-    $http.get("/agentescampania/"+campania).success(function(response) {
-
-        $scope.campana = response[0]['campania__nombre']
-        $scope.cartera = response[0]['campania__cartera__nombre']
 
 
-    });
-
-
-
- 
 
     
     $http.get("/status_f/"+campania).success(function(response) {$scope.ciudad = response;
@@ -115,6 +113,14 @@ function Controller($scope,$http,$cookies,$filter) {
 
     }
 
+    $scope.next = function() 
+
+    {
+
+        window.location='/monitoreo/'+campania
+         
+    }
+
 
     $scope.desactivafiltro = function(contact,index) 
 
@@ -175,6 +181,9 @@ function Controller($scope,$http,$cookies,$filter) {
 
     {   
 
+         $('#filtrop').modal('hide')
+        $('.modal-backdrop').remove();
+
         var convArrToObj = function(array){
 
                 var thisEleObj = new Object();
@@ -222,7 +231,16 @@ function Controller($scope,$http,$cookies,$filter) {
 
             
 
-            swal({   title: $scope.empresas.nombre,   text: r +" registros por barrer",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Agregado",   }, function(){   window.location.href = "/filtros/"+campania });
+            swal({   title: 'Filtro agregado',      type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Aceptar",   }, 
+                function(){   
+
+                    $http.get("/listafiltros/"+campania).success(function(response) {
+
+                    $scope.listafiltros = response; 
+
+                    });
+
+            });
 
 
         })

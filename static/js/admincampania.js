@@ -18,9 +18,16 @@ function Controller($scope,$http,$cookies,$filter) {
     $scope.pagedItems = [];
     $scope.currentPage = 0;
 
+    $http.get("/infocampania/"+campania).success(function(response) {
+
+        $scope.campana = response[0]['nombre']
+        $scope.cartera = response[0]['cartera__nombre']
+
+       
+    });
+
     
     $http.get("/agentesdisponibles/"+campania).success(function(response) {
-
 
         $scope.usuarios = response;
         $scope.agentesd =response
@@ -28,35 +35,20 @@ function Controller($scope,$http,$cookies,$filter) {
        
     });
 
-     $http.get("/empresas").success(function(response) {$scope.empresas = response[0];
 
-
-       
-    });
-
-    
-
-
-      
 
      $http.get("/agentescampania/"+campania).success(function(response) {
 
-
         $scope.usuarioscampania = response;
         $scope.agentesc =response
-        $scope.campana = response[0]['campania__nombre']
-        $scope.cartera = response[0]['campania__cartera__nombre']
-        
 
-        console.log('.........',$scope.campana)
-
-        
 
     });
 
 
-
-
+    $http.get("/empresas").success(function(response) {$scope.empresas = response[0];
+ 
+    });
 
 
 
@@ -79,15 +71,16 @@ function Controller($scope,$http,$cookies,$filter) {
 
     {
 
-        
-
-        
-        console.log($scope.usuarios);
-        
         $scope.tipox = "true"
-        
+         
+    }
 
-       
+     $scope.next = function() 
+
+    {
+
+        window.location='/filtros/'+campania
+         
     }
 
     $scope.agregaruser = function() 
@@ -117,7 +110,27 @@ function Controller($scope,$http,$cookies,$filter) {
 
             console.log(data)
 
-             swal({   title: "Perucall",   text: "Agentes agregados a esta campaña correctamente",   type: "success",   confirmButtonColor: "#B71C1C",   confirmButtonText: "OK",   }, function(){   window.location.href = "/adminCampania/"+campania });
+             swal({   title: "Agentes Agregados",  type: "success",   confirmButtonColor: "#B71C1C",   confirmButtonText: "Aceptar",   }, function(){   
+
+                
+
+            });
+
+               $http.get("/agentesdisponibles/"+campania).success(function(response) {
+
+                $scope.usuarios = response;
+                $scope.agentesd =response
+
+                });
+
+
+                $http.get("/agentescampania/"+campania).success(function(response) {
+
+                $scope.usuarioscampania = response;
+                $scope.agentesc =response
+
+                });
+
  
     
     
@@ -155,9 +168,29 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-            swal({   title: "Perucall",   text: "Agentes quitados de esta campaña correctamente",   type: "success",   confirmButtonColor: "#B71C1C",   confirmButtonText: "OK",   }, function(){   window.location.href = "/adminCampania/"+campania });
+            swal({   title: "Agentes quitados",   type: "success",   confirmButtonColor: "#B71C1C",   confirmButtonText: "Aceptar",   }, function(){   
+
+            });
  
-    
+            
+               $http.get("/agentesdisponibles/"+campania).success(function(response) {
+
+                $scope.usuarios = response;
+                $scope.agentesd =response
+
+                });
+
+
+                $http.get("/agentescampania/"+campania).success(function(response) {
+
+                $scope.usuarioscampania = response;
+                $scope.agentesc =response
+
+                });
+
+        
+
+
         })
     
 
@@ -194,7 +227,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-            console.log(data)
+              
 
             swal({   title: "Peru Call",   text: data[0]['agente__user__first_name'] +' agregado a la campaña ' +data[0]['campania__nombre'] ,   timer: 1500,   showConfirmButton: false });
     
@@ -249,105 +282,12 @@ function Controller($scope,$http,$cookies,$filter) {
 
 
 
-    $scope.addNew=function(agregar){
-
-
-        console.log('agregar',agregar)
-
-        var todo={
-
-            add: "New",
-            dato: agregar,
-            done:false
-        }
-
-        $http({
-        url: "/usuarios/",
-        data: todo,
-        method: 'POST',
-        headers: {
-        'X-CSRFToken': $cookies['csrftoken']
-        }
-        }).
-        success(function(data) {
-
-        swal({   title: "Perucall",   text: "Usuario "+data +" agregado",   type: "success",   confirmButtonColor: "#337ab7",   confirmButtonText: "OK",   }, function(){   window.location.href = "/usuario" });
- 
-        $scope.agregar=""
-
-        })
-
-
-    };
-
-    $scope.saveContact = function (idx,currentPage) {
-
-
-        $scope.pagedItems[currentPage][idx] = angular.copy($scope.model);
-        $('#edit').modal('hide')
-        $('.modal-backdrop').remove();
-
-
-        var todo={
-
-            add: "Edit",
-            dato: $scope.model,
-            done:false
-        }
-
-
-        $http({
-        url: "/usuarios/",
-        data: todo,
-        method: 'POST',
-        headers: {
-        'X-CSRFToken': $cookies['csrftoken']
-        }
-        }).
-        success(function(data) {
-
-        swal({   title: "Perucall",   text: "Usuario "+data +" editado",   type: "success",   confirmButtonColor: "#337ab7",   confirmButtonText: "OK",   }, function(){   });
- 
-        })
-
-
-        $('#Edit').modal('hide')
-        $('.modal-backdrop').remove();
-    };
 
 
 
-    $scope.eliminarContact = function (idx,currentPage) {
-
-        $('#eliminar').modal('hide')
-        $('.modal-backdrop').remove();
-
-        $scope.pagedItems[currentPage].splice(idx,1);
-
-        var todo={
-
-            dato: $scope.model,
-            add: "Eliminar",
-            done:false
-        }
 
 
-        $http({
-        url: "/usuarios/",
-        data: todo,
-        method: 'POST',
-        headers: {
-        'X-CSRFToken': $cookies['csrftoken']
-        }
-        }).
-        success(function(data) {
-
-        $scope.contador =$scope.contador-1
-
-        })
-
-    };
-
+   
 
     $scope.editContact = function (contact,index,currentPage) {
 

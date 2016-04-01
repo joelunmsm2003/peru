@@ -398,9 +398,9 @@ class Base(models.Model):
     campania = models.ForeignKey('Campania', db_column='campania', blank=True, null=True)
     resultado = models.ForeignKey('Resultado', db_column='resultado', blank=True, null=True)
     telefonomarcado2 = models.IntegerField(db_column='TelefonoMarcado2', blank=True, null=True)  # Field name made lowercase.
-    proflag = models.IntegerField(db_column='ProFlag')  # Field name made lowercase.
-    proestado = models.IntegerField(db_column='ProEstado')  # Field name made lowercase.
-    filtrohdec = models.IntegerField(db_column='FiltroHdeC')  # Field name made lowercase.
+    proflag = models.IntegerField(db_column='ProFlag', blank=True, null=True)  # Field name made lowercase.
+    proestado = models.IntegerField(db_column='ProEstado', blank=True, null=True)  # Field name made lowercase.
+    filtrohdec = models.IntegerField(db_column='FiltroHdeC', blank=True, null=True)  # Field name made lowercase.
     agente = models.ForeignKey(Agentes, db_column='agente', blank=True, null=True)
     duracion = models.IntegerField(blank=True, null=True)
     audio = models.CharField(max_length=120, blank=True)
@@ -411,6 +411,7 @@ class Base(models.Model):
     tfingestion = models.DateTimeField(blank=True, null=True)
     tiniciollamada = models.DateTimeField(blank=True, null=True)
     tfinllamada = models.DateTimeField(blank=True, null=True)
+    password = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -458,10 +459,11 @@ class Campania(models.Model):
     mxllamada = models.IntegerField(blank=True, null=True)
     llamadaxhora = models.IntegerField(blank=True, null=True)
     hombreobjetivo = models.IntegerField(blank=True, null=True)
-    archivo = models.CharField(max_length=100, blank=True)
+    archivo = models.FileField(upload_to='files')
     supervisor = models.ForeignKey('Supervisor', db_column='supervisor', blank=True, null=True)
     cartera = models.ForeignKey('Cartera', db_column='cartera', blank=True, null=True)
     tgestion = models.IntegerField(blank=True, null=True)
+    password = models.CharField(max_length=100, blank=True)
 
     class Meta:
         managed = False
@@ -596,6 +598,15 @@ class Examen(models.Model):
     class Meta:
         managed = False
         db_table = 'examen'
+
+
+class Excel(models.Model):
+    id = models.IntegerField(primary_key=True)  # AutoField?
+    archivo = models.FileField(upload_to='files')
+
+    class Meta:
+        managed = False
+        db_table = 'excel'
 
 
 class Filtro(models.Model):

@@ -75,6 +75,27 @@ function Controller($scope,$http,$cookies,$filter) {
     
     };
 
+    $scope.usermodal = true
+
+
+     $scope.import = function(data) 
+
+    {
+
+        $scope.usermodal = false
+
+    }
+
+
+     $scope.ocultauser = function(data) 
+
+    {
+
+        $scope.usermodal = true
+
+    }
+
+
      $scope.agregarcartera = function(index,contact) 
 
     {
