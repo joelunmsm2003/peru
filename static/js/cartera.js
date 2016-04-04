@@ -153,7 +153,7 @@ function Controller($scope,$http,$cookies,$filter) {
         $('#myModal').modal('hide')
         $('.modal-backdrop').remove();
 
-        swal({   title: $scope.empresas.nombre,   text: 'Cartera '+data+' ingresada al sistema , gracias ',   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Aceptar",   }, function(){   window.location.href = "/cartera" });
+        swal({     title: 'Cartera '+data+' ingresada al sistema , gracias ',   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Aceptar",   }, function(){   window.location.href = "/cartera" });
  
         
 
@@ -190,7 +190,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-        swal({   title: $scope.empresas.nombre,   text: "Cartera "+data +" editado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Aceptar",   }, function(){   });
+        swal({     title: "Cartera "+data +" editado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Cerrar",   }, function(){   });
  
         })
 
@@ -227,7 +227,7 @@ function Controller($scope,$http,$cookies,$filter) {
         success(function(data) {
 
         $scope.contador =$scope.contador-1
-        swal({   title: $scope.empresas.nombre,   text: "Cartera  eliminada",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Aceptar",   }, function(){   });
+        swal({      title: "Cartera  eliminada",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Cerrar",   }, function(){   });
  
 
         })

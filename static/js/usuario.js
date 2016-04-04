@@ -20,6 +20,8 @@ function Controller($scope,$http,$cookies,$filter) {
     $scope.pagedItems = [];
     $scope.currentPage = 0;
 
+
+
     
     $http.get("/usuarios").success(function(response) {$scope.clientes = response;
 
@@ -134,7 +136,7 @@ function Controller($scope,$http,$cookies,$filter) {
         $('#myModal').modal('hide')
         $('.modal-backdrop').remove();
 
-         swal({   title: "Asignacion de agentes",   text: data +' agregado',   timer: 2000,   showConfirmButton: false });
+         swal({   title: data +' agregado',   timer: 2000,   showConfirmButton: false });
          
         $scope.agregar=""
 
@@ -212,7 +214,7 @@ function Controller($scope,$http,$cookies,$filter) {
         $('#myModal').modal('hide')
         $('.modal-backdrop').remove();
 
-        swal({   title: $scope.empresas.nombre,   text: data ,   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Aceptar",   }, function(){   window.location.href = "/usuario" });
+        swal({    title: data ,   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Cerrar",   }, function(){   window.location.href = "/usuario" });
  
         
 
@@ -251,7 +253,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-        swal({   title: $scope.empresas.nombre,   text: "Usuario "+data +" editado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Aceptar",   }, function(){   });
+        swal({     title: "Usuario "+data +" editado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Cerrar",   }, function(){ window.location.href = "/usuario"  });
  
         })
 
@@ -267,7 +269,6 @@ function Controller($scope,$http,$cookies,$filter) {
         $('#eliminar').modal('hide')
         $('.modal-backdrop').remove();
 
-        $scope.pagedItems[currentPage].splice(idx,1);
 
         var todo={
 
@@ -288,8 +289,13 @@ function Controller($scope,$http,$cookies,$filter) {
         success(function(data) {
 
         $scope.contador =$scope.contador-1
-        swal({   title: $scope.empresas.nombre,   text: "Usuario "+data +" eliminado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Aceptar",   }, function(){   });
+        swal({    title: "Usuario "+data +" eliminado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Cerrar",   }, function(){   });
  
+         $http.get("/usuarios").success(function(response) {$scope.clientes = response;
+
+        $scope.search();
+
+        });
 
         })
 

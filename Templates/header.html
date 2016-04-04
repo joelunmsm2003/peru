@@ -88,6 +88,22 @@
 
 
 <script type="text/javascript">
+
+
+
+
+ancho = $(window).width()
+
+if (ancho < 1200){
+
+$('.navbar-right').hide()
+
+
+}
+
+
+
+
   $( "li" ).removeClass( "active" )
 
   if (($(location).attr('href').split('/')[3]) =='empresa'){

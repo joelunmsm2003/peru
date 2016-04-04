@@ -39,7 +39,7 @@ $(function () {
 
         }      
               
-        setInterval(function(){updateChart()},100000);
+        setInterval(function(){updateChart()},1000);
 
                     }
                 }
@@ -123,7 +123,7 @@ $(function () {
 
         }      
               
-        setInterval(function(){updateChart()},100000);
+        setInterval(function(){updateChart()},1000);
 
 
 
@@ -179,63 +179,88 @@ $(function () {
 $(function () {
     $('#xy').highcharts({
         chart: {
-            type: 'areaspline',
+            type: 'column',
+            events: {
+                        load: function () {
 
+                                serie = this.series
+
+                                var updateChart = function() {
+
+                                $.getJSON("/botoneragraph/"+campania, function (result) {
+                                    
+                                    serie[0].points[0].update(result['Promesa'])
+                                    serie[0].points[1].update(result['Contacto Directo'])
+                                    serie[0].points[2].update(result['Contacto Indirecto'])
+                                    serie[0].points[3].update(result['No Contacto'])
+                                    serie[0].points[4].update(result['Marcador'])
+                                    serie[0].points[4].update(result['Sin Gestion'])
+
+                          
+                                });
+
+                                }
+
+                                setInterval(function(){updateChart()},1000);
+
+                        
+
+                            }
+                        }
         },
+
+
         title: {
+            text: 'Detalle'
+        },
+        subtitle: {
             text: 'Cantidad'
         },
-        legend: {
-            layout: 'vertical',
-            align: 'left',
-            verticalAlign: 'top',
-            x: 150,
-            y: 100,
-            floating: true,
-            borderWidth: 1,
-            backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
-        },
         xAxis: {
+
+
             categories: [
-                'Lu',
-                'Ma',
-                'Mi',
-                'Ju',
-                'Vi',
-                'Sa',
-                'Do'
+                'Promesa',
+                'Contacto Directo',
+                'Contacto Indirecto',
+                'No Contacto',
+                'Marcador',
+                'Sin Gestion'
+           
             ],
-            plotBands: [{ // visualize the weekend
-                from: 4.5,
-                to: 6.5,
-                color: 'rgba(68, 170, 213, .2)'
-            }]
+            crosshair: true
         },
         yAxis: {
+            min: 0,
             title: {
-                text: 'Nro Llamadas'
+                text: 'Cantidad'
             }
         },
         tooltip: {
+            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y:.0f}</b></td></tr>',
+            footerFormat: '</table>',
             shared: true,
-            valueSuffix: ' units'
-        },
-        credits: {
-            enabled: false
+            useHTML: true
         },
         plotOptions: {
-            areaspline: {
-                fillOpacity: 0.5
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
             }
         },
         series: [{
-            name: 'Atendidas',
-            data: [3, 4, 3, 5, 4, 10, 12]
-        }, {
-            name: 'Fallidas',
-            data: [1, 3, 4, 3, 3, 5, 4]
+            name: 'Resultado',
+            data: [0, 0, 0, 0, 0]
+
         }]
     });
+    
+    $.getJSON("/botoneragraph/"+campania, function (result) {
+
+    })
+
 });
 
 
@@ -258,14 +283,14 @@ $(function () {
 
                                 $.getJSON("/estllamada/"+campania, function (result) {
 
-                                console.log('grafica',result)
+                                console.log('grafica',result['barridos'])
                                 
-                                  series.update(0);
+                                  series.update(result['barridos']);
 
                                 });   
 
                                 }      
-                                setInterval(function(){updateChart()},100000);
+                                setInterval(function(){updateChart()},1000);
 
                             }
                         }
@@ -387,6 +412,7 @@ function Controller($scope,$http,$cookies,$filter) {
     console.log(window.location.href.split("monitoreo/"))
 
     campania = window.location.href.split("monitoreo/")[1].split("/")[0]
+    $scope.camp = campania
     var sortingOrder ='-id';
     $scope.sortingOrder = sortingOrder;
     $scope.reverse = false;
@@ -397,6 +423,12 @@ function Controller($scope,$http,$cookies,$filter) {
     $scope.currentPage = 0;
 
     $http.get("/agentes/"+campania).success(function(response) {$scope.agentes = response;
+
+    });
+
+    $http.get("/estllamada/"+campania).success(function(response) {$scope.nllam = response['barridos'];
+
+        console.log('llammm',$scope.nllam)
 
     });
 
@@ -432,7 +464,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
     });
 
-    }, 100000);
+    }, 1000);
 
     
 
@@ -947,7 +979,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-            swal({   title: "Perucall",   text: "Agente "+user.agente__user__first_name +" notificado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "OK",   }, function(){   });
+            swal({      title: "Agente "+user.agente__user__first_name +" notificado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Cerrar",   }, function(){   });
             $scope.notificacion=""
     
         })

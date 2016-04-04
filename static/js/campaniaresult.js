@@ -385,7 +385,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-            swal({   title: "Asignacion de agentes",   text: data +' agregado',   timer: 2000,   showConfirmButton: false });
+            swal({     text: data +' agregado',   timer: 2000,   showConfirmButton: false });
     
     
     

@@ -157,10 +157,11 @@
             <tr>
 
                    <th>Id <a ng-click="sort_by('id',currentPage)"><i class="icon-sort"></i></a></th>
-                  
-                  <th>Estado <a ng-click="sort_by('status',currentPage)"><i class="icon-sort"></i></a></th>
-                  <th>Campaña <a ng-click="sort_by('nombre',currentPage)"><i class="icon-sort"></i></a></th>
+                    <th>Nombre <a ng-click="sort_by('nombre',currentPage)"><i class="icon-sort"></i></a></th>
 
+                  <th>Cartera <a ng-click="sort_by('cartera__nombre',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th>Estado <a ng-click="sort_by('status',currentPage)"><i class="icon-sort"></i></a></th>
+                 
                   
                   <th>Cargados/ Barridos/ Errados <a ng-click="sort_by('empresa',currentPage)"><i class="icon-sort"></i></a></th>
                   <th>Agentes/ Conectados <a ng-click="sort_by('nivel',currentPage)"><i class="icon-sort"></i></a></th>
@@ -189,19 +190,25 @@
               <tr class='animate' ng-repeat="contact in pagedItems[currentPage]  " ts-repeat>
 
                 <td >{[{contact.id}]} </td>
-                <td > {[{contact.estado}]}</td>
                 <td >{[{contact.nombre}]} </td>
+                <td > {[{contact.cartera__nombre}]}</td>
+                <td > {[{contact.estado}]}</td>
+                
                
                 <td >{[{contact.cargados}]} / {[{contact.barridos}]}  / {[{contact.errados}]}  </td>
                 <td >{[{contact.totalagentes}]} / {[{contact.conectados}]}</td>
                 <td >{[{contact.fecha_cargada}]}</td>
+                
                 <td>{[{contact.supervisor__user__first_name}]}</td>
                 <td ng-if="user.nivel == 1">{[{contact.password}]}</td>
 
                 <td>
-                <button class="btn btn-primary btn-sm" ng-click='Admin(contact)'>Administrar</button>
+                
                 <button ng-if="user.nivel == 1" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#reasignar" ng-click='Reasignar(contact)'>Reasignar</button>
-                <button ng-if="user.nivel == 1 || user.nivel == 2" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#eliminar" ng-click='Reasignar(contact)'>Eliminar</button>
+             
+                <button ng-if="user.nivel == 1 || user.nivel == 2" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#stop" ng-click='Reasignar(contact)'><i class="fa fa-stop"></i></button>
+                <button ng-if="user.nivel == 1 || user.nivel == 2" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#eliminar" ng-click='Reasignar(contact)'><i class="fa fa-trash"></i></button>
+                <button class="btn btn-primary btn-sm" ng-click='Admin(contact)'> Administrar <i class="fa fa-chevron-right"></i></button>
                
 
                 </td>

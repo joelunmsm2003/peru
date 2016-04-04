@@ -64,10 +64,10 @@ jQuery(document).ready(function($) {
      <div class="col-sm-4">
 
       <ul class="legend">
-          <li><span class="superawesome"></span> No Login</li>
-          <li><span class="awesome"></span> Espera</li>
-          <li><span class="kindaawesome"></span> En Llamada</li>
-          <li><span class="notawesome"></span> Descolgado</li>
+          <li><span class="nologin"></span> No Login</li>
+          <li><span class="espera"></span> Espera</li>
+          <li><span class="enllamada"></span> En Llamada</li>
+          <li><span class="descolgado"></span> Descolgado</li>
           <li><span class="enpause"></span> En Pause</li>
            <li><span class="engestion"></span> En Gestion</li>
           </ul>
@@ -81,7 +81,22 @@ jQuery(document).ready(function($) {
   </div>
 </div>
 
+<style>
+/* basic positioning */
+.legend { list-style: none; 
+padding-top: 8px;
+}
+.legend li { float: left; margin-right: 10px; }
+.legend span { border: 1px solid #ccc; float: left; width: 12px; height: 12px; margin: 2px; }
+/* your colors */
+.legend .nologin { background-color: #8FB0B3; }
+.legend .espera { background-color: #82BF72; }
+.legend .enllamada { background-color: #BF3737; }
+.legend .descolgado { background-color: #D2447A; }
+.legend .enpause { background-color: #D0CA40; }
+.legend .engestion { background-color: #A36AA5; }
 
+</style>
 
 
 
@@ -89,24 +104,28 @@ jQuery(document).ready(function($) {
 
           <div class='row' onmouseover="container()">
 
+          <a class='btn btn-primary' ng-href='/adminCampania/{[{camp}]}'> <i class="fa fa-user"></i> Agentes </a>
+          <a class='btn btn-primary'ng-href='/filtros/{[{camp}]}'> <i class="fa fa-filter"></i> Filtros </a>
+
+          <br></br>
 
           <table class="table table-hover">
               <thead>
                 <tr>
-                  <th>Id</th>
-                  <th>Agente</th>
-                  <th>Anexo</th>
-                  <th>T. Gestion</th>
-                  <th>Estado</th>
-                  <th>Atendidas</th>
+                  <th style="text-align:center; ">Id</th>
+                  <th style="text-align:center; ">Agente</th>
+                  <th style="text-align:center; ">Anexo</th>
+                  <th style="text-align:center; ">T. Gestion</th>
+                  <th style="text-align:center; ">Estado</th>
+                  <th style="text-align:center; ">Atendidas</th>
 
-                  <th>Tiempo</th>
-                  <th></th>
+                  <th style="text-align:center; ">Tiempo</th>
+                  <th style="text-align:center; "></th>
                   <th ng-if="contact.agente__wordstipeo > 1">Tipeo</th>
-                  <th>Telefono</th>
-                  <th>Notificacion</th>
-                  <th>Evaluacion</th>
-                  <th>Escucha</th>
+                  <th style="text-align:center; ">Telefono</th>
+                  <th style="text-align:center; ">Notificacion</th>
+                  <th style="text-align:center; ">Evaluacion</th>
+                  <th style="text-align:center; ">Escucha</th>
                  
                  
                 </tr>
@@ -124,7 +143,7 @@ jQuery(document).ready(function($) {
                   <td ng-if="contact.agente__estado == '3'" style="background-color:#BF3737; color:#fff"><i class="fa fa-phone"></i> {[{contact.agente__estado__nombre}]} </td>
                   <td ng-if="contact.agente__estado == '4'" style="background-color: #389B5B; color: #fff;">{[{contact.agente__estado__nombre}]}</td>
                   <td ng-if="contact.agente__estado == '5'" style="background-color: #389B5B; color: #fff;">{[{contact.agente__estado__nombre}]}</td>
-                  <td ng-if="contact.agente__estado == '6'" style="background-color: #4D6DED; color: #fff;"><i class="fa fa-pencil-square-o"></i> {[{contact.agente__estado__nombre}]}</td>
+                  <td ng-if="contact.agente__estado == '6'" style="background-color: #A36AA5; color: #fff;"><i class="fa fa-pencil-square-o"></i> {[{contact.agente__estado__nombre}]}</td>
                   <td>{[{contact.agente__atendidas}]}/{[{contact.agente__contactadas}]}</td>
                  <td>{[{contact.tgestion}]}</td>
                   <td>
@@ -196,9 +215,18 @@ jQuery(document).ready(function($) {
     </div>
 
        <div class="col-sm-3">
+ 
+   <div id="ga" style="width:100%; height:200px;"></div>
+<center><a class='llam'>{[{nllam}]}</a></center>
 
-  <div id="ga" style="width:100%; height:200px;"></div>
-
+<style type="text/css">
+.llam {
+  font-size: 17px;
+  color: #BF3737;
+  font-weight: bold;
+  text-align: center;
+}
+</style>
     </div>
 
 

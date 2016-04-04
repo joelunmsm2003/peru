@@ -240,9 +240,6 @@ def uploaduser(request):
 
 	empresa = AuthUser.objects.get(id=id).empresa.id
 
-	print 'empresa' ,empresa
-
-
 	filex = request.FILES['process_file']
 
 	Excel(archivo=filex).save()
@@ -272,7 +269,6 @@ def uploaduser(request):
 				x = str(sh.row(rx)[col]).replace('text:u','').replace('number:','').replace("'","").replace('.0','')
 				
 				u.append(x)
-
 			
 			email = u[0]
 			password = u[1]
@@ -280,6 +276,7 @@ def uploaduser(request):
 			telefono = u[3]
 			anexo = u[4]
 			nivel =u[5]
+			#password	nombre	telefono	anexo	nivel	idcartera
 
 			users = User.objects.all()
 
@@ -302,6 +299,8 @@ def uploaduser(request):
 				id_user = AuthUser.objects.all().values('id').order_by('-id')[0]['id']
 
 				usuario = AuthUser.objects.get(id=id_user)
+
+				print 'nivel',nivel
 			
 				usuario.empresa_id = int(empresa)
 				usuario.nivel_id = int(nivel)
@@ -342,13 +341,16 @@ def getexamen(request,examen):
 
 
 @login_required(login_url="/ingresar")
-def estllamada(request,id_campania):
+def estllamada(request,campania):
 
 
-	total = Base.objects.filter(campania_id=id_campania).count()
-	barridos = Base.objects.filter(campania_id=id_campania,status=1).count()
-	errados = Base.objects.filter(campania_id=id_campania,status=2).count()
-	correctos = barridos - errados
+	total = AjxProLla.objects.filter(cam_codigo=campania).count()
+	barridos = AjxProLla.objects.filter(cam_codigo=campania,llam_estado=1).count()
+	errados = AjxProLla.objects.filter(cam_codigo=campania,llam_estado=2).count()
+
+	print barridos,errados
+
+	correctos = AjxProLla.objects.filter(cam_codigo=campania,llam_estado=4).count()
 	porbarrer = total-barridos
 
 	data = {'total':total,'barridos':barridos,'porbarrer':porbarrer,'errados':errados,'correctos':correctos}
@@ -358,6 +360,43 @@ def estllamada(request,id_campania):
 
 
 	return HttpResponse(data, content_type="application/json")
+
+
+
+@login_required(login_url="/ingresar")
+def botoneragraph(request,campania):
+
+	id = request.user.id
+	mascara = AuthUser.objects.get(id=id).empresa.mascaras.id
+
+	if mascara == 2:
+
+		data = {'Promesa':Base.objects.filter(resultado_id=15,campania_id=campania).count(),
+
+	              'Contacto Directo':Base.objects.filter(resultado_id=16,campania_id=campania).count(),
+	              'Contacto Indirecto':Base.objects.filter(resultado_id=17,campania_id=campania).count(),
+	              'No Contacto':Base.objects.filter(resultado_id=18,campania_id=campania).count(),
+	              'Marcador':AjxProLla.objects.filter(cam_codigo=campania,llam_estado__in=[2,3,5]).count(),
+	              'Sin Gestion':Base.objects.filter(campania_id=campania).count()-AjxProLla.objects.filter(cam_codigo=campania,llam_estado=1).count()
+	              }
+
+	              #New 0
+	              #Procesando 1
+	              #Error 2
+	              #NC 3
+	              #C 4
+	              #B 5
+	              #Sin Gestion 6
+	              #Mensaje 7
+
+		data_string = json.dumps(data)
+
+	else:
+
+		data_string = 1
+
+
+	return HttpResponse(data_string, content_type="application/json")
 
 
 @login_required(login_url="/ingresar")
@@ -2034,21 +2073,21 @@ def campanias(request):
 
 		if nivel == 4: #Manager
 
-			data = Campania.objects.all().values('password','id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name').order_by('-id')
+			data = Campania.objects.all().values('cartera__nombre','password','id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name').order_by('-id')
 		
 		if nivel == 2: #Supervisores
 			
 			supervisor = Supervisor.objects.get(user=id).id
 
-			data = Campania.objects.filter(supervisor=supervisor).values('password','id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name').order_by('-id')
+			data = Campania.objects.filter(supervisor=supervisor).values('cartera__nombre','password','id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name').order_by('-id')
 
 		if nivel == 1: #Admin
 
-			data = Campania.objects.filter(usuario__empresa=empresa).values('password','id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name').order_by('-id')
+			data = Campania.objects.filter(usuario__empresa=empresa).values('cartera__nombre','password','id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name').order_by('-id')
 
 		if nivel == 5: #Admin
 
-			data = Campania.objects.filter(usuario__empresa=empresa).values('password','id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name').order_by('-id')
+			data = Campania.objects.filter(usuario__empresa=empresa).values('cartera__nombre','password','id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name').order_by('-id')
 
 
 		fmt = '%H:%M:%S %Z'
@@ -2449,7 +2488,9 @@ def usuarios(request):
 		
 			if data['nivel__nombre']=='Supervisor':
 
-				Supervisor.objects.get(user_id=id).delete()
+				if Supervisor.objects.filter(user_id=id):
+
+					Supervisor.objects.get(user_id=id).delete()
 
 			if data['nivel__nombre']=='Agente':
 

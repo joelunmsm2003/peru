@@ -10,12 +10,6 @@ agente = window.location.href.split("dashboard/")[1].split("/")[0]
 examen = window.location.href.split("dashboard/")[1].split('/')[1]
 
 
-
-
-
-
-
-
 $(function () {
 
 
@@ -26,7 +20,7 @@ $(function () {
         },
         chart: {
             type: 'column',
-              events: {
+            events: {
                         load: function () {
 
                                 serie = this.series

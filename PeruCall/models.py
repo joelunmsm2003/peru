@@ -711,6 +711,7 @@ class Resultado(models.Model):
     name = models.CharField(max_length=100, blank=True)
     codigo = models.CharField(max_length=100, blank=True)
     tipo = models.CharField(max_length=100, blank=True)
+    mascara = models.ForeignKey(Mascara, db_column='mascara', blank=True, null=True)
 
     class Meta:
         managed = False

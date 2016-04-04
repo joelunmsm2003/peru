@@ -9,6 +9,9 @@ function Controller($scope,$http,$cookies,$filter) {
 
 
     campania = window.location.href.split("adminCampania/")[1].split("/")[0]
+
+    $scope.camp =campania
+
     var sortingOrder ='-id';
     $scope.sortingOrder = sortingOrder;
     $scope.reverse = false;
@@ -23,47 +26,38 @@ function Controller($scope,$http,$cookies,$filter) {
         $scope.campana = response[0]['nombre']
         $scope.cartera = response[0]['cartera__nombre']
 
-       
     });
 
-    
     $http.get("/agentesdisponibles/"+campania).success(function(response) {
 
         $scope.usuarios = response;
         $scope.agentesd =response
-
        
     });
 
-
-
-     $http.get("/agentescampania/"+campania).success(function(response) {
+    $http.get("/agentescampania/"+campania).success(function(response) {
 
         $scope.usuarioscampania = response;
         $scope.agentesc =response
-
-
     });
-
 
     $http.get("/empresas").success(function(response) {$scope.empresas = response[0];
  
     });
 
-     $http.get("/getempresa").success(function(response) {
+    $http.get("/getempresa").success(function(response) {
 
         $scope.empresax=response[0]
        
     });
 
+    $http.get("/user").success(function(response) {
 
-
-    $http.get("/user").success(function(response) {$scope.user = response;
+        $scope.user = response;
 
         $scope.user = $scope.user[0]
 
     });
-
 
     $http.get("/nivel").success(function(response) {$scope.nivel = response;
 
@@ -76,9 +70,7 @@ function Controller($scope,$http,$cookies,$filter) {
     $scope.add = function(index,contact) 
 
     {
-
-        $scope.tipox = "true"
-         
+        $scope.tipox = "true"        
     }
 
      $scope.next = function() 
@@ -116,7 +108,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
             console.log(data)
 
-             swal({   title: "Agentes Agregados",  type: "success",   confirmButtonColor: "#B71C1C",   confirmButtonText: "Aceptar",   }, function(){   
+             swal({   title: "Agentes Agregados",  type: "success",   confirmButtonColor: "#B71C1C",   confirmButtonText: "Cerrar",   }, function(){   
 
                 
 
@@ -174,7 +166,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-            swal({   title: "Agentes quitados",   type: "success",   confirmButtonColor: "#B71C1C",   confirmButtonText: "Aceptar",   }, function(){   
+            swal({   title: "Agentes quitados",   type: "success",   confirmButtonColor: "#B71C1C",   confirmButtonText: "Cerrar",   }, function(){   
 
             });
  
@@ -235,7 +227,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
               
 
-            swal({   title: "Peru Call",   text: data[0]['agente__user__first_name'] +' agregado a la campaña ' +data[0]['campania__nombre'] ,   timer: 1500,   showConfirmButton: false });
+            swal({     title: data[0]['agente__user__first_name'] +' agregado ' ,   timer: 1500,   showConfirmButton: false });
     
     
     
@@ -271,7 +263,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-            swal({   title: "Peru Call",   text: data +' quitado de esta campaña',   timer: 1000,   showConfirmButton: false });
+            swal({    title: data +' quitado de esta campaña',   timer: 1000,   showConfirmButton: false });
     
     
         })
