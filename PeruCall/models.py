@@ -87,12 +87,12 @@ class Agentes(models.Model):
     anexo = models.IntegerField(blank=True, null=True)
     fono = models.IntegerField(blank=True, null=True)
     tiempo = models.DateTimeField(blank=True, null=True)
-    destino = models.IntegerField()
-    duracion = models.TimeField()
+    destino = models.IntegerField(blank=True, null=True)
+    duracion = models.TimeField(blank=True, null=True)
     atendidas = models.IntegerField(blank=True, null=True)
     contactadas = models.IntegerField(blank=True, null=True)
     estado = models.ForeignKey('Estado', db_column='estado', blank=True, null=True)
-    est_ag_predictivo = models.IntegerField()
+    est_ag_predictivo = models.IntegerField(blank=True, null=True)
     canal = models.CharField(max_length=100, blank=True)
     user = models.ForeignKey('AuthUser', db_column='user', blank=True, null=True)
     supervisor = models.ForeignKey('Supervisor', db_column='supervisor', blank=True, null=True)
@@ -113,12 +113,22 @@ class Agentes(models.Model):
 
 class Agentescampanias(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
-    agente = models.ForeignKey(Agentes, db_column='agente')
-    campania = models.ForeignKey('Campania', db_column='campania')
+    agente = models.ForeignKey(Agentes, db_column='agente', blank=True, null=True)
+    campania = models.ForeignKey('Campania', db_column='campania', blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'agentescampanias'
+
+
+class Agentesupervisor(models.Model):
+    id = models.IntegerField(primary_key=True)  # AutoField?
+    agente = models.IntegerField(blank=True, null=True)
+    supervisor = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'agentesupervisor'
 
 
 class AjxProAcd(models.Model):

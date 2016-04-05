@@ -261,6 +261,9 @@
 
         
 
+
+        
+
           <div class="col-md-4">
           <div class="form-group">
           <label>Cartera</label>
@@ -314,6 +317,40 @@
           </div>
           </div>
 
+            <div class="col-md-4">
+          <div class="form-group">
+          <label>Factor</label>
+          <select name = 'factor' class="form-control">
+         
+              <option value='1'>1</option>
+              <option value='2'>2</option>
+              <option value='3'>3</option>
+              <option value='4'>4</option>
+              <option value='5'>5</option>
+          
+          </select>
+          </div>
+          </div>
+
+            <div class="col-md-4">
+          <div class="form-group">
+          <label>Discado</label>
+          <select name = 'discado' class="form-control">
+         
+              <option value='1'>Predictivo</option>
+              <option value='2'>Progresivo</option>
+          
+          </select>
+          </div>
+          </div>
+
+           <div ng-show='mpass' class="col-md-4">
+          <div class="form-group">
+          <label>Clave</label>
+          <input type="text"  name = 'password' class="form-control" placeholder="Nombre" required ="" value='{{password}}'>
+          </div>
+          </div>
+
 
           <div class="modal-header">
           <h4>Indicadores de Control (KPI)</h4>
@@ -351,12 +388,7 @@
           </div>
           </div>
 
-          <div ng-show='mpass' class="col-md-3">
-          <div class="form-group">
-          <label>Clave</label>
-          <input type="text"  name = 'password' class="form-control" placeholder="Nombre" required ="" value='{{password}}'>
-          </div>
-          </div>
+          
 
           </div>
         </div>
