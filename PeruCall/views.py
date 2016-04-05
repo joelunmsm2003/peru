@@ -1327,7 +1327,7 @@ def finllamada(request,id_agente):
 		
 	
 
-		return HttpResponse(base.cliente, content_type="application/json")
+		return HttpResponse('fin llamada', content_type="application/json")
 
 
 @login_required(login_url="/ingresar")
