@@ -253,6 +253,26 @@ def examenes(request):
 
 
 @login_required(login_url="/ingresar")
+def accionmonitor(request,sup,anexo):
+
+
+	os.system('curl https://xiencias.com/xien/PROC_MONITOR.php?sup='+str(sup)+'&anx='+str(anexo))
+
+	return HttpResponse(' Monitor Activado', content_type="application/json")
+
+
+
+@login_required(login_url="/ingresar")
+def accionsusurro(request,sup,anexo):
+
+
+	os.system('curl https://xiencias.com/xien/PROC_SUSURRO.php?sup='+str(sup)+'&anx='+str(anexo))
+
+	return HttpResponse('Susurro Activado', content_type="application/json")
+
+
+
+@login_required(login_url="/ingresar")
 def passcampania(request,campania):
 
 	c = Campania.objects.filter(id=campania).values('password')
@@ -384,13 +404,15 @@ def getexamen(request,examen):
 
 
 @login_required(login_url="/ingresar")
-def estllamada(request,id_campania):
+def estllamada(request,campania):
 
 
-	total = Base.objects.filter(campania_id=id_campania).count()
-	barridos = Base.objects.filter(campania_id=id_campania,status=1).count()
-	errados = Base.objects.filter(campania_id=id_campania,status=2).count()
-	correctos = barridos - errados
+	total = AjxProLla.objects.filter(cam_codigo=campania).count()
+	barridos = AjxProLla.objects.filter(cam_codigo=campania,llam_estado=1).count()
+	errados = AjxProLla.objects.filter(cam_codigo=campania,llam_estado=2).count()
+ 
+
+	correctos = AjxProLla.objects.filter(cam_codigo=campania,llam_estado=4).count()
 	porbarrer = total-barridos
 
 	data = {'total':total,'barridos':barridos,'porbarrer':porbarrer,'errados':errados,'correctos':correctos}
@@ -624,7 +646,7 @@ def agentes(request,id_campania):
 
 	tges = Campania.objects.get(id=id_campania).tgestion
 
-	user = Agentescampanias.objects.filter(campania=id_campania).values('id','agente__wordstipeo','agente','agente__user__username','agente__user__first_name','agente__fono','agente__anexo','agente__atendidas','agente__contactadas','agente__estado','agente__estado__nombre')
+	user = Agentescampanias.objects.filter(campania=id_campania).values('id','agente__wordstipeo','agente','agente__user__username','agente__user__first_name','agente__fono','agente__anexo','agente__atendidas','agente__contactadas','agente__estado','agente__estado__nombre','campania__supervisor__user__anexo')
 
 	fmt = '%Y-%m-%d %H:%M:%S %Z'
 	fmt1 = '%Y-%m-%d %H:%M:%S'
@@ -1880,6 +1902,39 @@ def reasignarsupervisor(request):
 	return HttpResponse(data, content_type="application/json")
 
 
+
+@login_required(login_url="/ingresar")
+def botoneragraph(request,campania):
+
+
+       id = request.user.id
+       mascara = AuthUser.objects.get(id=id).empresa.mascaras.id
+
+       if mascara == 2:
+
+               data = {'Promesa':Base.objects.filter(resultado_id=15,campania_id=campania).count(),
+
+                     'Contacto Directo':Base.objects.filter(resultado_id=16,campania_id=campania).count(),
+                     'Contacto Indirecto':Base.objects.filter(resultado_id=17,campania_id=campania).count(),
+                     'No Contacto':Base.objects.filter(resultado_id=18,campania_id=campania).count(),
+                     'Marcador':AjxProLla.objects.filter(cam_codigo=campania,llam_estado__in=[2,3,5]).count(),
+                     'Sin Gestion':Base.objects.filter(campania_id=campania).count()-AjxProLla.objects.filter(cam_codigo=campania).count()
+                     
+                     }
+
+
+               data_string = json.dumps(data)
+
+       else:
+
+               data_string = 1
+
+
+       return HttpResponse(data_string, content_type="application/json")
+
+
+
+
 @login_required(login_url="/ingresar")
 def botonera(request):
 
@@ -2066,21 +2121,21 @@ def campanias(request):
 
 		if nivel == 4: #Manager
 
-			data = Campania.objects.all().values('password','id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name').order_by('-id')
+			data = Campania.objects.all().values('cartera__nombre','password','id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name').order_by('-id')
 		
 		if nivel == 2: #Supervisores
 			
 			supervisor = Supervisor.objects.get(user=id).id
 
-			data = Campania.objects.filter(supervisor=supervisor).values('password','id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name').order_by('-id')
+			data = Campania.objects.filter(supervisor=supervisor).values('cartera__nombre','password','id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name').order_by('-id')
 
 		if nivel == 1: #Admin
 
-			data = Campania.objects.filter(usuario__empresa=empresa).values('password','id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name').order_by('-id')
+			data = Campania.objects.filter(usuario__empresa=empresa).values('cartera__nombre','password','id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name').order_by('-id')
 
 		if nivel == 5: #Admin
 
-			data = Campania.objects.filter(usuario__empresa=empresa).values('password','id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name').order_by('-id')
+			data = Campania.objects.filter(usuario__empresa=empresa).values('cartera__nombre','password','id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name').order_by('-id')
 
 
 		fmt = '%H:%M:%S %Z'
@@ -2243,7 +2298,7 @@ def agentescampania(request,id_campania):
 
 	nivel = AuthUser.objects.get(id=id).nivel.id
 
-	agentes = Agentescampanias.objects.filter(campania=id_campania).values('id','agente','campania__nombre','campania__cartera__nombre')
+	agentes = Agentescampanias.objects.filter(campania=id_campania).values('id','agente','campania__nombre','campania__cartera__nombre','campania__supervisor__user__first_name')
 
 	for i in range(len(agentes)):
 
@@ -2481,11 +2536,15 @@ def usuarios(request):
 		
 			if data['nivel__nombre']=='Supervisor':
 
-				Supervisor.objects.get(user_id=id).delete()
+				if Supervisor.objects.filter(user_id=id):
+
+					Supervisor.objects.get(user_id=id).delete()
 
 			if data['nivel__nombre']=='Agente':
 
-				Agentes.objects.get(user_id=id).delete()
+				if Agentes.objects.filter(user_id=id):
+
+					Agentes.objects.get(user_id=id).delete()
 
 			User.objects.get(id=id).delete()
 

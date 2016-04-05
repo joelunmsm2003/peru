@@ -39,7 +39,7 @@ $(function () {
 
         }      
               
-        setInterval(function(){updateChart()},1000);
+        setInterval(function(){updateChart()},100000);
 
                     }
                 }
@@ -123,7 +123,7 @@ $(function () {
 
         }      
               
-        setInterval(function(){updateChart()},1000);
+        setInterval(function(){updateChart()},100000);
 
 
 
@@ -201,7 +201,7 @@ $(function () {
 
                                 }
 
-                                setInterval(function(){updateChart()},1000);
+                                setInterval(function(){updateChart()},100000);
 
                         
 
@@ -290,7 +290,7 @@ $(function () {
                                 });   
 
                                 }      
-                                setInterval(function(){updateChart()},1000);
+                                setInterval(function(){updateChart()},100000);
 
                             }
                         }
@@ -464,7 +464,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
     });
 
-    }, 1000);
+    }, 100000);
 
     
 
@@ -515,6 +515,31 @@ function Controller($scope,$http,$cookies,$filter) {
     });
 
     $scope.btnpregunta = 'True'
+
+    $scope.monitor = function(data) 
+
+    {    
+        console.log(data)
+        
+        $http.get("/accionmonitor/"+data.campania__supervisor__user__anexo+"/"+data.agente__anexo).success(function(response) {
+
+          swal({   title: response,   timer: 1000,   showConfirmButton: false });   
+            
+        });
+  
+    }
+
+    $scope.susurro = function(data) 
+
+    {    
+
+       
+        $http.get("/accionsusurro/"+data.campania__supervisor__user__anexo+"/"+data.agente__anexo).success(function(response) {
+
+          swal({   title: response,   timer: 1000,   showConfirmButton: false });   
+            
+        });
+    }
 
 
     $scope.criterio = function(cri) 

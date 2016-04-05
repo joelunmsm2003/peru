@@ -126,6 +126,7 @@ padding-top: 8px;
                   <th style="text-align:center; ">Notificacion</th>
                   <th style="text-align:center; ">Evaluacion</th>
                   <th style="text-align:center; ">Escucha</th>
+                  <th style="text-align:center; ">Susurro</th>
                  
                  
                 </tr>
@@ -167,7 +168,11 @@ padding-top: 8px;
                     
                     <a ng-if="contact.agente__estado == '3'"  ng-click="evaluar(contact,$index)" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#eliminar"><i class="fa fa-check"></i></a></td>
 
-                    <td><a ng-if="contact.agente__estado == '3'"  ng-click="evaluar(contact,$index)" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#listen"><i class="fa fa-headphones"></i></a></td>
+                    <td><a ng-if="contact.agente__estado == '3'"  ng-click="monitor(contact,$index)" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#listen"><i class="fa fa-headphones"></i></a></td>
+
+                    <td><a ng-if="contact.agente__estado == '3'"  ng-click="susurro(contact,$index)" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#listen"><i class="fa fa-phone-square"></i></a></td>
+
+                    
 
                     
             

@@ -230,9 +230,9 @@
 
                     
 
-                        <button ng-if="user.nivel == 1" type="button" class="btn btn-primary btn-sm" ng-click="editContact(contact,$index,currentPage)" data-toggle="modal" data-target="#edit"><i class="fa fa-pencil-square-o"></i></button>
+                        <button type="button" class="btn btn-primary btn-sm" ng-click="editContact(contact,$index,currentPage)" data-toggle="modal" data-target="#edit"><i class="fa fa-pencil-square-o"></i></button>
 
-                        <button ng-if="user.nivel == 1" type="button" class="btn btn-primary btn-sm" ng-click="editContact(contact,$index,currentPage)"  data-toggle="modal" data-target="#eliminar"><i class="fa fa-trash"></i></button>
+                        <button  type="button" class="btn btn-primary btn-sm" ng-click="editContact(contact,$index,currentPage)"  data-toggle="modal" data-target="#eliminar"><i class="fa fa-trash"></i></button>
 
                         
 
@@ -339,7 +339,7 @@
                         <div class="col-md-6" ng-if="user.nivel == 4 ">
                         <div class="form-group">
                         <label>Empresa</label>
-                        <select ng-model="agregar.empresa" class="form-control" ng-options="cliente.id as cliente.nombre for cliente in empresasf"></select>
+                        <select required ="" ng-model="agregar.empresa" class="form-control" ng-options="cliente.id as cliente.nombre for cliente in empresasf"></select>
                         </div>
                         </div>
                        
@@ -348,14 +348,14 @@
                         <div class="col-md-6">
                         <div class="form-group">
                         <label>Telefono</label>
-                        <input type="number" ng-model="agregar.telefono" class="form-control" placeholder="Telefono"  >
+                        <input type="number" ng-model="agregar.telefono" required ="" class="form-control" placeholder="Telefono"  >
                         </div>
                         </div>
 
                         <div class="col-md-6">
                         <div class="form-group">
                         <label>Anexo</label>
-                        <input type="number" ng-model="agregar.anexo" class="form-control" placeholder="Anexo"  >
+                        <input type="number" ng-model="agregar.anexo" required ="" class="form-control" placeholder="Anexo"  >
 
                         </div>
                         </div>
@@ -363,7 +363,7 @@
                         <div class="col-md-6">
                         <div class="form-group">
                         <label>Nivel</label>
-                        <select ng-model="agregar.nivel" ng-change="nivelp(agregar)" class="form-control" ng-options="cliente.id as cliente.nombre for cliente in nivel"></select>
+                        <select required ="" ng-model="agregar.nivel" ng-change="nivelp(agregar)" class="form-control" ng-options="cliente.id as cliente.nombre for cliente in nivel"></select>
                         </div>
                         </div>
 
