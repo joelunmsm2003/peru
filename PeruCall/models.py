@@ -459,7 +459,7 @@ class Campania(models.Model):
     mxllamada = models.IntegerField(blank=True, null=True)
     llamadaxhora = models.IntegerField(blank=True, null=True)
     hombreobjetivo = models.IntegerField(blank=True, null=True)
-    archivo = models.FileField(upload_to='files')
+    archivo = models.CharField(max_length=100, blank=True)
     supervisor = models.ForeignKey('Supervisor', db_column='supervisor', blank=True, null=True)
     cartera = models.ForeignKey('Cartera', db_column='cartera', blank=True, null=True)
     tgestion = models.IntegerField(blank=True, null=True)
@@ -602,7 +602,7 @@ class Examen(models.Model):
 
 class Excel(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
-    archivo = models.FileField(upload_to='files')
+    archivo = models.CharField(max_length=100, blank=True)
 
     class Meta:
         managed = False
@@ -663,14 +663,22 @@ class Mascara(models.Model):
 
 class Monitorserver(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
-    d_uso = models.CharField(max_length=100, blank=True)
-    d_disponible = models.CharField(max_length=100, blank=True)
-    m_total = models.CharField(max_length=100, blank=True)
-    m_usada = models.CharField(max_length=100, blank=True)
-    s_total = models.CharField(max_length=100, blank=True)
+    dsk_use = models.CharField(max_length=100, blank=True)
+    total_mem = models.CharField(max_length=100, blank=True)
+    use_mem = models.CharField(max_length=100, blank=True)
+    total_swap = models.CharField(max_length=100, blank=True)
+    use_swap = models.CharField(max_length=100, blank=True)
     s_usada = models.CharField(max_length=100, blank=True)
-    cpu = models.CharField(max_length=100, blank=True)
-    date = models.DateTimeField(blank=True, null=True)
+    cpu = models.CharField(db_column='CPU', max_length=100, blank=True)  # Field name made lowercase.
+    astcpuuse = models.CharField(db_column='astCpuUse', max_length=1000, blank=True)  # Field name made lowercase.
+    astmemuse = models.CharField(db_column='astMemUse', max_length=1000, blank=True)  # Field name made lowercase.
+    pytcpuuse = models.CharField(db_column='pytCpuUse', max_length=1000, blank=True)  # Field name made lowercase.
+    pytmemuse = models.CharField(db_column='pytMemUse', max_length=1000, blank=True)  # Field name made lowercase.
+    sqlcpuuse = models.CharField(db_column='sqlCpuUse', max_length=1000, blank=True)  # Field name made lowercase.
+    sqlmemuse = models.CharField(db_column='sqlMemUse', max_length=1000, blank=True)  # Field name made lowercase.
+    activecall = models.CharField(db_column='activeCall', max_length=100, blank=True)  # Field name made lowercase.
+    dsk_tot = models.CharField(max_length=1000, blank=True)
+    date = models.DateTimeField()
 
     class Meta:
         managed = False

@@ -1,1 +1,1 @@
-php5-cgi -q php_server.php
+php5-cgi -q server_monitor.php

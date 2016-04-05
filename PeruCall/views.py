@@ -152,12 +152,12 @@ def menu(request):
 
 
 #####Asterisk y APP Monitoring#####
-
+@csrf_exempt
 def astapp(request):
 
 	print 'astapp',request.POST
 
-	ActiveCall= str(request.POST[activeCall])
+	activeCall= str(request.POST['activeCall'])
 	dsk_use= str(request.POST['dsk_use']).replace("G", "")
 	dsk_tot= str(request.POST['dsk_tot']).replace("G", "")
 	total_mem= str(request.POST['total_mem'])
@@ -170,13 +170,14 @@ def astapp(request):
 	pytCpuUse= str(request.POST['pytCpuUse'])
 	pytMemUse= str(request.POST['pytMemUse'])
 	sqlCpuUse= str(request.POST['sqlCpuUse'])
-	sqlMemUse= str(request.POST['lsqMemUse'])
+	sqlMemUse= str(request.POST['sqlMemUse'])
 
 	date =datetime.now()
 
-	Monitorserver(ActiveCall=activeCall,dsk_use=dsk_use,dsk_tot=dsk_tot,total_mem=total_mem,use_mem=use_mem,total_swap=total_swap,use_swap=use_swap,CPU=CPU,astCpuUse=astCpuUse,astMemUse=astMemUse,pytCpuUse=pytCpuUse,pytMemUse=pytMemUse,sqlCpuUse=sqlCpuUse,sqlMemUse=sqlMemUse,date=date).save()
 
-	data = {'ActiveCall':activeCall,'dsk_use':dsk_use,'dsk_tot':dsk_tot,'total_mem':total_mem,'use_mem':use_mem,'activeCall':activeCall,'dsk_use':dsk_use,'dsk_tot':dsk_tot,'total_mem':total_mem,'use_mem':use_mem,'total_swap':total_swap,'use_swap':use_swap,'CPU':CPU,'astCpuUse':astCpuUse,'astMemUse':astMemUse,'pytCpuUse':pytCpuUse,'pytMemUse':pytMemUse,'sqlCpuUse':sqlCpuUse,'sqlMemUse':sqlMemUse}
+	Monitorserver(activecall=activeCall,dsk_use=dsk_use,dsk_tot=dsk_tot,total_mem=total_mem,use_mem=use_mem,total_swap=total_swap,use_swap=use_swap,cpu=CPU,astcpuuse=astCpuUse,astmemuse=astMemUse,pytcpuuse=pytCpuUse,pytmemuse=pytMemUse,sqlcpuuse=sqlCpuUse,sqlmemuse=sqlMemUse).save()
+
+	data = {'activecall':activeCall,'dsk_use':dsk_use,'dsk_tot':dsk_tot,'total_mem':total_mem,'m_usada':use_mem,'dsk_use':dsk_use,'dsk_tot':dsk_tot,'total_mem':total_mem,'total_swap':total_swap,'use_swap':use_swap,'cpu':CPU,'astCpuUse':astCpuUse,'astMemUse':astMemUse,'pytCpuUse':pytCpuUse,'pytMemUse':pytMemUse,'sqlCpuUse':sqlCpuUse,'sqlMemUse':sqlMemUse}
 
 	data =json.dumps(data)
 
@@ -1305,23 +1306,15 @@ def lanzallamada(request,id_agente,id_base):
 
 
 @login_required(login_url="/ingresar")
-def finllamada(request,id_agente,id_base):
+def finllamada(request,id_agente):
 
 		agente = Agentes.objects.get(id=id_agente)
 
-		print agente.id
-
-		print 'finllamada',datetime.now()
 
 		user = agente.user.username
 		agente.estado_id = 6
 		agente.tiniciogestion = datetime.now()-timedelta(hours=5)
 		agente.save()
-
-
-
-		baseagente = Base.objects.filter(agente_id=id_agente)
-
 
 
 		redis_publisher = RedisPublisher(facility='foobar', users=[user])
@@ -1330,11 +1323,9 @@ def finllamada(request,id_agente,id_base):
 
 		redis_publisher.publish_message(message)
 
-		base = Base.objects.get(id=id_base)
-		base.tfinllamada = datetime.now()
+	
 		
-		base.save()
-
+	
 
 		return HttpResponse(base.cliente, content_type="application/json")
 
