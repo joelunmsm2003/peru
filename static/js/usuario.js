@@ -40,6 +40,11 @@ function Controller($scope,$http,$cookies,$filter) {
    
 
     });
+
+
+    $scope.nivelagente = false
+
+
           $http.get("/troncales").success(function(response) {$scope.troncales = response[0];
 
         console.log('trncales',$scope.troncales)
@@ -104,6 +109,110 @@ function Controller($scope,$http,$cookies,$filter) {
     }
 
 
+     $scope.quitarsupervisor = function(data) 
+
+    {
+
+       console.log('99999999999',data,$scope.model)
+
+        var todo={
+
+            agente:$scope.model,
+            supervisor: data,
+            done:false
+        }
+
+       $http({
+        url: "/quitarsupervisor/",
+        data: todo,
+        method: 'POST',
+        headers: {
+        'X-CSRFToken': $cookies['csrftoken']
+        }
+        }).
+        success(function(data) {
+
+
+                $http.get("/agentesupervisor/"+$scope.model.id).success(function(response) {
+
+                $scope.agentesupervisor = response;
+
+                console.log('as',response)
+
+                });
+
+                $http.get("/agentenosupervisor/"+$scope.model.id).success(function(response) {
+
+                $scope.agentenosupervisor = response;
+
+                console.log('ans',response)
+
+
+                });
+
+
+        
+
+        })
+
+
+
+    }
+
+
+
+     $scope.agregarsupervisor = function(data) 
+
+    {
+
+       console.log(data,$scope.model)
+
+        var todo={
+
+            agente:$scope.model,
+            supervisor: data,
+            done:false
+        }
+
+       $http({
+        url: "/agregarsupervisor/",
+        data: todo,
+        method: 'POST',
+        headers: {
+        'X-CSRFToken': $cookies['csrftoken']
+        }
+        }).
+        success(function(data) {
+
+
+                $http.get("/agentesupervisor/"+$scope.model.id).success(function(response) {
+
+                $scope.agentesupervisor = response;
+
+                console.log('as',response)
+
+                });
+
+                $http.get("/agentenosupervisor/"+$scope.model.id).success(function(response) {
+
+                $scope.agentenosupervisor = response;
+
+                console.log('ans',response)
+
+
+                });
+
+
+        
+
+        })
+
+
+
+    }
+
+
+
      $scope.agregarcartera = function(index,contact) 
 
     {
@@ -136,7 +245,7 @@ function Controller($scope,$http,$cookies,$filter) {
         $('#myModal').modal('hide')
         $('.modal-backdrop').remove();
 
-         swal({   title: data +' agregado',   timer: 2000,   showConfirmButton: false });
+         swal({   title: data +' agregado',   timer: 400,   showConfirmButton: false });
          
         $scope.agregar=""
 
@@ -167,12 +276,21 @@ function Controller($scope,$http,$cookies,$filter) {
 
     nivel = agregar['nivel']
 
+    if (nivel==3){
+
+
+      $scope.nivelagente = true
+    }
+
+
+
 
     
     if (nivel ==2){
 
 
         $scope.nivelcartera = 1
+        $scope.nivelagente = false
 
     }
     else{
@@ -324,6 +442,24 @@ function Controller($scope,$http,$cookies,$filter) {
         console.log('hshhshshs',$scope.carterasupervisor)
 
         });
+
+        $http.get("/agentesupervisor/"+contact.id).success(function(response) {
+
+        $scope.agentesupervisor = response;
+
+        console.log('as',response)
+
+        });
+
+        $http.get("/agentenosupervisor/"+contact.id).success(function(response) {
+
+        $scope.agentenosupervisor = response;
+
+        console.log('ans',response)
+
+
+        });
+
 
 
 

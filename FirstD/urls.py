@@ -68,6 +68,13 @@ urlpatterns = patterns('',
     url(r'^botoneragraph/(\w+)/$', 'PeruCall.views.botoneragraph'),
     url(r'^accionmonitor/(\w+)/(\w+)$', 'PeruCall.views.accionmonitor'),
     url(r'^accionsusurro/(\w+)/(\w+)$', 'PeruCall.views.accionsusurro'),
+    url(r'^agentesupervisor/(\w+)/$', 'PeruCall.views.agentesupervisor'),
+    url(r'^agentenosupervisor/(\w+)/$', 'PeruCall.views.agentenosupervisor'),
+
+
+    url(r'^agregarsupervisor/', 'PeruCall.views.agregarsupervisor'),
+    url(r'^quitarsupervisor/', 'PeruCall.views.quitarsupervisor'),
+
 
     url(r'^cartera/', 'PeruCall.views.cartera'),
     url(r'^carteras/', 'PeruCall.views.carteras'),

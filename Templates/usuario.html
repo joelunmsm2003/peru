@@ -33,21 +33,21 @@
 
         <form ng-submit="saveContact(index,numberPage)">
       
-        <div class="col-md-12">
+        <div class="col-md-6">
         <div class="form-group">
         <label>Email</label>
         <input type="text" class="form-control" ng-model="model.username" required ="" >
         </div>
         </div>
 
-        <div class="col-md-12">
+        <div class="col-md-6">
         <div class="form-group">
         <label>Nombre</label>
         <input type="text" class="form-control" ng-model="model.first_name" required ="" >
         </div>
         </div>
 
-         <div class="col-md-12">
+         <div class="col-md-6">
         <div class="form-group">
         <label>Telefono</label>
         <input type="number" class="form-control" ng-model="model.telefono" required ="" >
@@ -83,7 +83,7 @@
         <tr  ng-repeat="contact in carteranosupervisor " ts-repeat>
        
         <td>{[{contact.cartera__nombre}]}</td>
-        <td><a class="btn btn-primary" ng-click="agregarcartera($index,contact)">Add</a></td>
+        <td><a class="btn btn-primary btn-sm" ng-click="agregarcartera($index,contact)"><i class="fa fa-plus"></i></a></td>
         </tr>
         </tbody>
         </table>
@@ -99,14 +99,49 @@
         <tr  ng-repeat="contactx in carterasupervisor " ts-repeat>
         
         <td center>{[{contactx.cartera__nombre}]}</td>
+        <td><a class="btn btn-primary btn-sm" ng-click="agregarcartera($index,contact)"><i class="fa fa-minus"></i></a></td>
         </tr>
         </tbody>
         </table>
         </div>
         </div>
 
+           <div class="col-md-6" ng-if="model.nivel__nombre == 'Agente'">
+        <div class="form-group">
+        <label>Supervisores Disponibles</label>
+        <table class="table table-striped table-condensed table-hover ">
+        <tbody>
+      
+        <tr  ng-repeat="contactx in agentenosupervisor " ts-repeat>
         
+        <td center>{[{contactx.user__first_name}]}</td>
+        <td><a class="btn btn-primary btn-sm" ng-click="agregarsupervisor(contactx)"><i class="fa fa-plus"></i></a></td>
+        </tr>
+        </tbody>
+        </table>
+        </div>
+        </div>
 
+
+        <div class="col-md-6" ng-if="model.nivel__nombre == 'Agente'">
+        
+        <div class="form-group">
+        <label>Supervisores Asignado </label>
+        <table class="table table-striped table-condensed table-hover  ">
+        <tbody>
+     
+        <tr  ng-repeat="contact in agentesupervisor " ts-repeat>
+       
+        <td>{[{contact.supervisor__user__first_name}]}</td>
+        
+        <td><a class="btn btn-primary btn-sm" ng-click="quitarsupervisor(contact)"><i class="fa fa-minus"></i></a></td>
+        </tr>
+        </tbody>
+        </table>
+        </div>
+        </div>
+
+     
 
 </div>
 </div>
@@ -375,6 +410,35 @@
                         </div>
 
 
+                         <div class="col-md-6" ng-show="nivelagente">
+                          <div class="form-group">
+                           <label>Supervisores Disponibles</label>
+
+                      
+                                  <div class="col-md-12">
+
+                                        <select class="form-control" id="myselection" multiple="true" ng-model="agregar.supervisor" ng-options="c.user__first_name for c in supervisores"></select>
+                                        <div class="form-group">
+                           
+                                         
+                                        <span  ng-repeat="contact in agregar.supervisor">
+                                           | {[{contact.user__first_name}]}
+                                        </span>
+
+                                  </div>
+
+                                 
+
+                      
+                              </div>
+                            
+                          </div>
+
+                          </div>
+
+
+
+
 
                           <div class="col-md-6" ng-show="nivelcartera">
                           <div class="form-group">
@@ -386,10 +450,10 @@
                                         <select class="form-control" id="myselection" multiple="true" ng-model="agregar.cartera" ng-options="c.cartera__nombre for c in carteras"></select>
                                         <div class="form-group">
                            
-                                         <label>Carteras Seleccionadas</label>
-                                        <ul  ng-repeat="contact in agregar.cartera">
-                                            <li>{[{contact.cartera__nombre}]}</li>
-                                        </ul>
+                                         
+                                        <span  ng-repeat="contact in agregar.cartera">
+                                            | {[{contact.cartera__nombre}]}
+                                        </span>
 
                                   </div>
 

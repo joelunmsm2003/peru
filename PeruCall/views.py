@@ -1786,6 +1786,34 @@ def desactivafiltro(request,id_filtro,id_campania):
 	return HttpResponse(data, content_type="application/json")
 
 @login_required(login_url="/ingresar")
+def agentenosupervisor(request,id_user):
+
+
+	id = request.user.id
+	nivel = AuthUser.objects.get(id=id).nivel.id
+	empresa = AuthUser.objects.get(id=id).empresa.id
+
+	
+	data = Agentesupervisor.objects.filter(agente__user__id=id_user)
+
+	lista=[]
+
+	for x in data:
+
+		lista.append(x.supervisor.id)
+
+	print lista
+
+	
+	data = Supervisor.objects.filter(user__empresa__id=empresa).exclude(id__in=lista).values('id','user__first_name').order_by('-id')
+
+	data_dict = ValuesQuerySetToDict(data)
+
+	data = simplejson.dumps(data_dict)
+
+	return HttpResponse(data, content_type="application/json")
+
+@login_required(login_url="/ingresar")
 def carterasupervisor(request,id_user):
 
 
@@ -1820,6 +1848,67 @@ def header(request,id_campania):
 	data = simplejson.dumps(data_dict)
 
 	return HttpResponse(data, content_type="application/json")
+
+
+
+@login_required(login_url="/ingresar")
+def agentesupervisor(request,id_user):
+
+	id = request.user.id
+	nivel = AuthUser.objects.get(id=id).nivel.id
+	empresa = AuthUser.objects.get(id=id).empresa.id
+
+	data = Agentesupervisor.objects.filter(agente__user__id=id_user).values('id','supervisor__user__first_name','supervisor')
+
+	data_dict = ValuesQuerySetToDict(data)
+
+	data = simplejson.dumps(data_dict)
+
+	return HttpResponse(data, content_type="application/json")
+
+@login_required(login_url="/ingresar")
+def agregarsupervisor(request):
+
+	id = request.user.id
+	nivel = AuthUser.objects.get(id=id).nivel.id
+	empresa = AuthUser.objects.get(id=id).empresa.id
+
+	agente = json.loads(request.body)['agente']
+	supervisor = json.loads(request.body)['supervisor']
+
+	user = agente['id']
+
+	agente = Agentes.objects.get(user_id=user).id
+
+	supervisor = supervisor['id']
+
+	Agentesupervisor(agente_id=agente,supervisor_id=supervisor).save()
+
+	return HttpResponse('data', content_type="application/json")
+
+@login_required(login_url="/ingresar")
+def quitarsupervisor(request):
+
+	id = request.user.id
+	nivel = AuthUser.objects.get(id=id).nivel.id
+	empresa = AuthUser.objects.get(id=id).empresa.id
+
+	agente = json.loads(request.body)['agente']
+	supervisor = json.loads(request.body)['supervisor']
+
+	print supervisor
+
+	user = agente['id']
+
+	agente = Agentes.objects.get(user_id=user).id
+
+	supervisor = supervisor['supervisor']
+
+	print 'lllllll',agente,supervisor
+
+	Agentesupervisor.objects.get(agente_id=agente,supervisor_id=supervisor).delete()
+
+	return HttpResponse('data', content_type="application/json")
 
 
 
@@ -2511,6 +2600,17 @@ def usuarios(request):
 					agente.estado_id = 1
 					#agente.tiempo = datetime.strptime("00:00:00", "%H:%M:%S")
 					agente.save()
+
+					id_age = Agentes.objects.all().values('id').order_by('-id')[0]['id']
+
+					for i in data['supervisor']:
+
+						print 'supervisor', i['user__first_name']
+
+						supervisor = Supervisor.objects.get(user__first_name=i['user__first_name']).id
+
+						Agentesupervisor(agente_id=id_age,supervisor_id=supervisor).save()
+
 
 			return HttpResponse(info, content_type="application/json")
 

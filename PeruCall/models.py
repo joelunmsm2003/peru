@@ -123,8 +123,8 @@ class Agentescampanias(models.Model):
 
 class Agentesupervisor(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
-    agente = models.IntegerField(blank=True, null=True)
-    supervisor = models.IntegerField(blank=True, null=True)
+    agente = models.ForeignKey(Agentes, db_column='agente', blank=True, null=True)
+    supervisor = models.ForeignKey('Supervisor', db_column='supervisor', blank=True, null=True)
 
     class Meta:
         managed = False
@@ -469,7 +469,7 @@ class Campania(models.Model):
     mxllamada = models.IntegerField(blank=True, null=True)
     llamadaxhora = models.IntegerField(blank=True, null=True)
     hombreobjetivo = models.IntegerField(blank=True, null=True)
-    archivo = models.FileField(upload_to='files')
+    archivo = models.CharField(max_length=100, blank=True)
     supervisor = models.ForeignKey('Supervisor', db_column='supervisor', blank=True, null=True)
     cartera = models.ForeignKey('Cartera', db_column='cartera', blank=True, null=True)
     tgestion = models.IntegerField(blank=True, null=True)
@@ -612,7 +612,7 @@ class Examen(models.Model):
 
 class Excel(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
-    archivo = models.FileField(upload_to='files')
+    archivo = models.CharField(max_length=100, blank=True)
 
     class Meta:
         managed = False
