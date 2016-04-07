@@ -237,18 +237,15 @@ function Controller($scope,$http,$cookies,$filter) {
 
             object.cantidad = r
 
-            
+            swal({   title: 'Filtro agregado',  type: "success",  timer: 1000,   showConfirmButton: false });
 
-            swal({   title: 'Filtro agregado',      type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Cerrar",   }, 
-                function(){   
-
-                    $http.get("/listafiltros/"+campania).success(function(response) {
+            $http.get("/listafiltros/"+campania).success(function(response) {
 
                     $scope.listafiltros = response; 
 
                     });
 
-            });
+
 
 
         })
