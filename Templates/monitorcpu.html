@@ -19,7 +19,7 @@
 
 <div class='row'>
 
-<div class="col-sm-4">
+<div class="col-sm-3">
 
 <div id="pie" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
 
@@ -27,23 +27,33 @@
 
 
 
-<div class="col-sm-4">
+<div class="col-sm-3">
 
-<div id="pie1" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
-
-</div>
-
-<div class="col-sm-4">
-
-<div id="pie3" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+<div id="cpu" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
 
 </div>
 
-<div class="col-sm-12">
+<div class="col-sm-3">
+
+<div id="llamada" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+</div>
+
+
+<div class="col-sm-3">
 
 <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 
 </div>
+
+
+<div class="col-sm-12">
+
+<div id="gauge" style="min-width: 310px; height: 300px; margin: 0 auto"></div>
+
+</div>
+
+
 
 
 
@@ -53,148 +63,216 @@
 
 
 $(function () {
+    $('#pie').highcharts({
+        chart: {
+            type: 'column',
+            events: {
+                        load: function () {
 
-    $(document).ready(function () {
+                                serie = this.series
 
-        // Build the chart
-        $('#pie1').highcharts({
-            chart: {
-                plotBackgroundColor: null,
-                plotBorderWidth: null,
-                plotShadow: false,
-                type: 'pie',
-                events: {
-                    load: function () {
+                                $.getJSON("/graphcpu/", function (result) {
 
-                        // set up the updating of the chart each second
-                        var series = this.series[0];
+                                    console.log('estado llam',result[0])
 
-                        var updateChart = function() {
-                            
-                        $.getJSON("/graphcpu/", function (result) {
+                           
 
-                            console.log('grafica',result[0])
+                                    serie[0].points[0].update(parseInt(result[0]['dsk_tot'])*1000)
+                                    serie[0].points[1].update(parseInt(result[0]['total_mem']))
+                                    serie[0].points[2].update(parseInt(result[0]['total_swap']))
 
-                            m_usada = parseInt(result[0]['m_usada'])
-                            m_disponible=parseInt(result[0]['m_total'])-m_usada
+                                    serie[1].points[0].update(parseInt(result[0]['dsk_use'])*1000)
+                                    serie[1].points[1].update(parseInt(result[0]['use_mem']))
+                                    serie[1].points[2].update(parseInt(result[0]['use_swap']))
 
-                            
+                                   
+                           
+                                });
 
-                            
-
-                            series.data[0].update(m_usada);
-                            series.data[1].update(m_disponible);
-
-                            
-
-                        });   
-
-
-                        }      
-                              
-                        setInterval(function(){updateChart()},1000);
-
-
-
-                    }
-                }
-
-
-            },
-            title: {
-                text: 'Uso del Memoria'
-            },
-            tooltip: {
-                formatter: function () {
-                    return '<b>' + this.series.name + '</b><br/>' +
                         
-                        Highcharts.numberFormat(this.y, 2);
-                }
+
+                            }
+                        }
+
+        },
+        title: {
+            text: 'Recursos'
+        },
+        xAxis: {
+            categories: [
+                'Disco Duro Kbytes',
+                'Memoria Bytes',
+                'Memoria Swap Bytes'
+            ]
+        },
+        yAxis: [{
+            min: 0,
+            title: {
+                text: ''
+            }
+        }, {
+            title: {
+                text: ' '
             },
-            plotOptions: {
-                pie: {
-                    allowPointSelect: true,
-                    cursor: 'pointer',
-                    dataLabels: {
-                        enabled: false
-                    },
-                    showInLegend: true
-                }
-            },
-            series: [{
-                name: 'B',
-                colorByPoint: true,
-                data: [{
-                    name: 'Memoria Usada',
-                    y: 0
-                }, {
-                    name: 'Memoria Disponible',
-                    y: 0,
-                    sliced: true,
-                    selected: true
-                }]
-            }]
-        });
+            opposite: true
+        }],
+        legend: {
+            shadow: false
+        },
+        tooltip: {
+            shared: true
+        },
+        plotOptions: {
+            column: {
+                grouping: false,
+                shadow: false,
+                borderWidth: 0
+            }
+        },
+        series: [{
+            name: 'Total',
+            color: 'rgba(165,170,217,1)',
+            data: [0, 0, 0],
+            pointPadding: 0.3,
+            pointPlacement: -0.2
+        }, {
+            name: 'Uso',
+            color: 'rgba(126,86,134,.9)',
+            data: [1, 1, 1],
+            pointPadding: 0.4,
+            pointPlacement: -0.2
+        }]
     });
 });
 
+//Grafica
+$(function () {
+    $('#cpu').highcharts({
+        chart: {
+            type: 'bar',
+            events: {
+                        load: function () {
 
+                                serie1 = this.series
 
+                                $.getJSON("/graphcpu/", function (result) {
+
+                                    console.log('estado llam',result[0])
+
+                           
+
+                                    serie1[0].points[0].update(parseInt(result[0]['astcpuuse']))
+                                    serie1[0].points[1].update(parseInt(result[0]['pytcpuuse']))
+                                    serie1[0].points[2].update(parseInt(result[0]['sqlcpuuse']))
+
+                                    serie1[1].points[0].update(parseInt(result[0]['astmemuse']))
+                                    serie1[1].points[1].update(parseInt(result[0]['pytmemuse']))
+                                    serie1[1].points[2].update(parseInt(result[0]['sqlmemuse']))
+
+                                   
+                           
+                                });
+
+                        
+
+                            }
+                        }
+        },
+        title: {
+            text: 'Consumo de Procesos'
+        },
+        subtitle: {
+            text: 'Source: <a href="https://xiencias.com">Xiencias</a>'
+        },
+        xAxis: {
+            categories: ['Asterisk', 'Python', 'Mysql'],
+            title: {
+                text: null
+            }
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: '',
+                align: 'high'
+            },
+            labels: {
+                overflow: 'justify'
+            }
+        },
+        tooltip: {
+            valueSuffix: ' millions'
+        },
+        plotOptions: {
+            bar: {
+                dataLabels: {
+                    enabled: true
+                }
+            }
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'top',
+            x: -40,
+            y: 80,
+            floating: true,
+            borderWidth: 1,
+            backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
+            shadow: true
+        },
+        credits: {
+            enabled: false
+        },
+        series: [{
+            name: '% CPU',
+            data: [0, 0, 0]
+        }, {
+            name: '% Memoria',
+            data: [4, 4, 4]
+        }]
+    });
+});
+
+//Otra
 $(function () {
 
     $(document).ready(function () {
 
         // Build the chart
-        $('#pie').highcharts({
+        $('#llamada').highcharts({
             chart: {
                 plotBackgroundColor: null,
                 plotBorderWidth: null,
                 plotShadow: false,
                 type: 'pie',
-
                  events: {
-                    load: function () {
+                        load: function () {
 
-                        // set up the updating of the chart each second
-                        var series = this.series[0];
+                                serie2 = this.series
 
-                        var updateChart = function() {
-                            
-                        $.getJSON("/graphcpu/", function (result) {
+                                $.getJSON("/totalestllam/", function (result) {
 
-                            console.log('grafica',result[0])
+                                    console.log('estado llam',result[0]['total'])
 
-                            d_uso=parseInt(result[0]['d_uso'])
-                            d_disponible = parseInt(result[0]['d_disponible'])
+                           
+                                    serie2[0].points[0].update(result[0]['total'])
+                                    serie2[0].points[1].update(result[1]['total'])
+                         
+                                   
+                           
+                                });
 
-                            
+                        
 
-                            series.data[0].update(d_uso);
-                            series.data[1].update(d_disponible);
-
-                            
-
-                        });   
-
-
-                        }      
-                              
-                        setInterval(function(){updateChart()},1000);
-
-
-
-                    }
-                }
+                            }
+                        }
             },
             title: {
-                text: 'Uso del Disco'
+                text: 'Estado de llamada'
             },
             tooltip: {
-                formatter: function () {
-                    return '<b>' + this.series.name + '</b><br/>' +
-                        
-                        Highcharts.numberFormat(this.y, 2);
-                }
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
             },
             plotOptions: {
                 pie: {
@@ -207,14 +285,14 @@ $(function () {
                 }
             },
             series: [{
-                name: 'GB',
+                name: 'Brands',
                 colorByPoint: true,
                 data: [{
-                    name: 'Disco Usado',
-                    y: 0
+                    name: 'Exitos',
+                    y: 2
                 }, {
-                    name: 'Disco Disponible',
-                    y: 0,
+                    name: 'Fallidos',
+                    y: 2,
                     sliced: true,
                     selected: true
                 }]
@@ -222,6 +300,180 @@ $(function () {
         });
     });
 });
+
+
+//otroooo
+
+$(function () {
+
+    // Uncomment to style it like Apple Watch
+    /*
+    if (!Highcharts.theme) {
+        Highcharts.setOptions({
+            chart: {
+                backgroundColor: 'black'
+            },
+            colors: ['#F62366', '#9DFF02', '#0CCDD6'],
+            title: {
+                style: {
+                    color: 'silver'
+                }
+            },
+            tooltip: {
+                style: {
+                    color: 'silver'
+                }
+            }
+        });
+    }
+    // */
+
+    Highcharts.chart('container', {
+
+        chart: {
+            type: 'solidgauge',
+            marginTop: 50
+        },
+
+        title: {
+            text: 'Llamadas',
+            style: {
+                fontSize: '24px'
+            }
+        },
+
+        tooltip: {
+            borderWidth: 0,
+            backgroundColor: 'none',
+            shadow: false,
+            style: {
+                fontSize: '16px'
+            },
+            pointFormat: '{series.name}<br><span style="font-size:2em; color: {point.color}; font-weight: bold">{point.y}%</span>',
+            positioner: function (labelWidth, labelHeight) {
+                return {
+                    x: 200 - labelWidth / 2,
+                    y: 180
+                };
+            }
+        },
+
+        pane: {
+            startAngle: 0,
+            endAngle: 360,
+            background: [{ // Track for Move
+                outerRadius: '112%',
+                innerRadius: '88%',
+                backgroundColor: Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0.3).get(),
+                borderWidth: 0
+            }, { // Track for Exercise
+                outerRadius: '87%',
+                innerRadius: '63%',
+                backgroundColor: Highcharts.Color(Highcharts.getOptions().colors[1]).setOpacity(0.3).get(),
+                borderWidth: 0
+            }, { // Track for Stand
+                outerRadius: '62%',
+                innerRadius: '38%',
+                backgroundColor: Highcharts.Color(Highcharts.getOptions().colors[2]).setOpacity(0.3).get(),
+                borderWidth: 0
+            }]
+        },
+
+        yAxis: {
+            min: 0,
+            max: 100,
+            lineWidth: 0,
+            tickPositions: []
+        },
+
+        plotOptions: {
+            solidgauge: {
+                borderWidth: '34px',
+                dataLabels: {
+                    enabled: false
+                },
+                linecap: 'round',
+                stickyTracking: false
+            }
+        },
+
+        series: [{
+            name: 'Total',
+            borderColor: Highcharts.getOptions().colors[0],
+            data: [{
+                color: Highcharts.getOptions().colors[0],
+                radius: '100%',
+                innerRadius: '100%',
+                y: 80
+            }]
+        }, {
+            name: 'Procesadas',
+            borderColor: Highcharts.getOptions().colors[1],
+            data: [{
+                color: Highcharts.getOptions().colors[1],
+                radius: '75%',
+                innerRadius: '75%',
+                y: 65
+            }]
+        }, {
+            name: 'Cola',
+            borderColor: Highcharts.getOptions().colors[2],
+            data: [{
+                color: Highcharts.getOptions().colors[2],
+                radius: '50%',
+                innerRadius: '50%',
+                y: 50
+            }]
+        }]
+    },
+
+    /**
+     * In the chart load callback, add icons on top of the circular shapes
+     */
+    function callback() {
+
+        // Move icon
+        this.renderer.path(['M', -8, 0, 'L', 8, 0, 'M', 0, -8, 'L', 8, 0, 0, 8])
+            .attr({
+                'stroke': '#303030',
+                'stroke-linecap': 'round',
+                'stroke-linejoin': 'round',
+                'stroke-width': 2,
+                'zIndex': 10
+            })
+            .translate(190, 26)
+            .add(this.series[2].group);
+
+        // Exercise icon
+        this.renderer.path(['M', -8, 0, 'L', 8, 0, 'M', 0, -8, 'L', 8, 0, 0, 8, 'M', 8, -8, 'L', 16, 0, 8, 8])
+            .attr({
+                'stroke': '#303030',
+                'stroke-linecap': 'round',
+                'stroke-linejoin': 'round',
+                'stroke-width': 2,
+                'zIndex': 10
+            })
+            .translate(190, 61)
+            .add(this.series[2].group);
+
+        // Stand icon
+        this.renderer.path(['M', 0, 8, 'L', 0, -8, 'M', -8, 0, 'L', 0, -8, 8, 0])
+            .attr({
+                'stroke': '#303030',
+                'stroke-linecap': 'round',
+                'stroke-linejoin': 'round',
+                'stroke-width': 2,
+                'zIndex': 10
+            })
+            .translate(190, 96)
+            .add(this.series[2].group);
+    });
+
+
+});
+
+
+///kkkkk
 
 
 
@@ -233,7 +485,7 @@ $(function () {
             }
         });
 
-        $('#container').highcharts({
+        $('#gauge').highcharts({
             chart: {
                 type: 'spline',
                 animation: Highcharts.svg, // don't animate in old IE
@@ -324,89 +576,6 @@ $(function () {
 
 
 
-$(function () {
-
-    $(document).ready(function () {
-
-        // Build the chart
-        $('#pie3').highcharts({
-            chart: {
-                plotBackgroundColor: null,
-                plotBorderWidth: null,
-                plotShadow: false,
-                type: 'pie',
-                 events: {
-                    load: function () {
-
-                        // set up the updating of the chart each second
-                        var series = this.series[0];
-
-                        var updateChart = function() {
-                            
-                        $.getJSON("/graphcpu/", function (result) {
-
-                            console.log('grafica',result[0])
-
-                            s_usada=parseInt(result[0]['s_usada'])
-                            s_total = parseInt(result[0]['s_total'])
-                            s_disponible = s_total-s_usada
-
-                            
-
-                            series.data[0].update(s_usada);
-                            series.data[1].update(s_disponible);
-
-                            
-
-                        });   
-
-
-                        }      
-                              
-                        setInterval(function(){updateChart()},1000);
-
-
-
-                    }
-                }
-            },
-            title: {
-                text: 'Uso de memoria virtual'
-            },
-            tooltip: {
-                formatter: function () {
-                    return '<b>' + this.series.name + '</b><br/>' +
-                        Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
-                        Highcharts.numberFormat(this.y, 2);
-                }
-            },
-            plotOptions: {
-                pie: {
-                    allowPointSelect: true,
-                    cursor: 'pointer',
-                    dataLabels: {
-                        enabled: false
-                    },
-                    showInLegend: true
-                }
-            },
-            series: [{
-                name: 'Bytes',
-                colorByPoint: true,
-                data: [{
-                    name: 'Memoria Usada',
-                    y: 0
-                }, {
-                    name: 'Memoria Disponible',
-                    y: 0,
-                    sliced: true,
-                    selected: true
-                }]
-            }]
-        });
-    });
-});
-
                         // set up the updating of the chart each second
                         
                         
@@ -421,6 +590,8 @@ $(function () {
 
 
 <script src="/static/js/highchart.js"></script>
+<script src="https://code.highcharts.com/highcharts-more.js"></script>
+<script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
 
  
 

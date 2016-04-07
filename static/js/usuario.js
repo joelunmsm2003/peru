@@ -245,8 +245,7 @@ function Controller($scope,$http,$cookies,$filter) {
         $('#myModal').modal('hide')
         $('.modal-backdrop').remove();
 
-         swal({   title: data +' agregado',   timer: 400,   showConfirmButton: false });
-         
+     
         $scope.agregar=""
 
         })
@@ -332,7 +331,19 @@ function Controller($scope,$http,$cookies,$filter) {
         $('#myModal').modal('hide')
         $('.modal-backdrop').remove();
 
-        swal({    title: data ,   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Cerrar",   }, function(){   window.location.href = "/usuario" });
+        swal({    title: data ,   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Cerrar",   }, function(){   
+
+           // window.location.href = "/usuario"
+
+
+    $http.get("/usuarios").success(function(response) {$scope.clientes = response;
+
+        $scope.search();
+
+    });
+
+
+        });
  
         
 
@@ -371,7 +382,24 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-        swal({     title: "Usuario "+data +" editado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Cerrar",   }, function(){ window.location.href = "/usuario"  });
+        swal({     title: "Usuario "+data +" editado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Cerrar",   }, function(){
+
+
+         //window.location.href = "/usuario"  
+
+             $http.get("/usuarios").success(function(response) {$scope.clientes = response;
+
+        $scope.search();
+
+    });
+
+
+
+     });
+
+
+
+
  
         })
 

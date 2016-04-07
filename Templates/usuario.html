@@ -133,7 +133,7 @@
         <tr  ng-repeat="contact in agentesupervisor " ts-repeat>
        
         <td>{[{contact.supervisor__user__first_name}]}</td>
-        
+
         <td><a class="btn btn-primary btn-sm" ng-click="quitarsupervisor(contact)"><i class="fa fa-minus"></i></a></td>
         </tr>
         </tbody>
@@ -210,7 +210,7 @@
 
 
 
-    <table class="table table-condensed table-hover ">
+    <table class="table table-hover ">
     
         <tbody>
 
@@ -271,7 +271,12 @@
 
                         
 
-                        <a ng-if="user.nivel == 1"  type="button" class="btn btn-primary btn-sm" ng-href="/supervisorcartera/{[{contact.id}]}"><i class="fa fa-building-o"></i></a>
+                        <a ng-if="contact.nivel__nombre == 'Agente' "  type="button" class="btn btn-primary btn-sm" ng-href="/supervisorcartera/{[{contact.id}]}/"><i class="fa fa-building-o"></i></a>
+
+                        <a ng-if="contact.nivel__nombre == 'Supervisor' "  type="button" class="btn btn-primary btn-sm" ng-href="/detallesupervisormant/{[{contact.id}]}/"><i class="fa fa-building-o"></i></a>
+
+
+
                         </center>
                   
                    

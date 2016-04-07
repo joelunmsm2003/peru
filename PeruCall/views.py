@@ -373,6 +373,11 @@ def uploaduser(request):
 				usuario.save()
 
 
+				if nivel == 2: #Asignacion de carteras al supervisor
+
+					Supervisor(user_id=id_user).save()
+
+
 				if nivel == 3: # Usuario Agente
 
 					Agentes(user_id=id_user).save()
@@ -617,6 +622,11 @@ def supervisorcartera(request,id_supervisor):
 	return render(request, 'carterasupervisor.html',{})
 
 @login_required(login_url="/ingresar")
+def detallesupervisormant(request,user):
+	
+	return render(request, 'detallesupervisor.html',{})
+
+@login_required(login_url="/ingresar")
 def adminCampania(request,id_campania):
 	campania = Campania.objects.get(id=id_campania)
 	return render(request, 'admincampania.html',{'campania':campania})
@@ -851,6 +861,21 @@ def examen(request):
 
 		return HttpResponse(data, content_type="application/json")
 
+
+@login_required(login_url="/ingresar")
+def totalestllam(request):
+
+
+		data = AjxProLla.objects.all().values('llam_estado').annotate(total=Count('llam_estado'))
+
+		data_dict = ValuesQuerySetToDict(data)
+
+		data = simplejson.dumps(data_dict)
+
+
+		return HttpResponse(data, content_type="application/json")
+
+
 @login_required(login_url="/ingresar")
 def getempresa(request):
 
@@ -928,7 +953,7 @@ def lictmp(request):
 def graphcpu(request):
 
 
-	cpu = Monitorserver.objects.all().values('id','d_uso','d_disponible','m_total','m_usada','s_usada','s_total','s_usada','cpu').order_by('-id')[0:30]
+	cpu = Monitorserver.objects.all().values('id','dsk_use','total_mem','use_mem','total_swap','use_swap','s_usada','cpu','astcpuuse','astmemuse','pytcpuuse','sqlcpuuse','sqlmemuse','activecall','dsk_tot').order_by('-id')[0:30]
 
 	fmt = '%Y-%m-%d %H:%M:%S %Z'
 
@@ -2091,7 +2116,32 @@ def troncales(request):
 
 	return HttpResponse(data, content_type="application/json")
 
+@login_required(login_url="/ingresar")
+def detallesupervisor(request,user):
 
+	supervisor = Supervisor.objects.get(user_id=user).id
+
+	campanias = Campania.objects.filter(supervisor_id=supervisor).values('id','cartera__nombre','nombre','supervisor__user__first_name')
+
+	data_dict = ValuesQuerySetToDict(campanias)
+
+	data = simplejson.dumps(data_dict)
+
+	return HttpResponse(data, content_type="application/json")
+
+
+@login_required(login_url="/ingresar")
+def detalleagente(request,user):
+
+	agente = Agentes.objects.get(user_id=user).id
+
+	campanias = Agentescampanias.objects.filter(agente_id=agente).values('id','campania__nombre','campania__cartera__nombre','campania__supervisor__user__first_name','agente__user__first_name')
+
+	data_dict = ValuesQuerySetToDict(campanias)
+
+	data = simplejson.dumps(data_dict)
+
+	return HttpResponse(data, content_type="application/json")
 
 @login_required(login_url="/ingresar")
 def uploadCampania(request):
@@ -2120,7 +2170,7 @@ def uploadCampania(request):
 		discado = data['discado']
 		factor = data['factor']
 
-		Campania(discado=discado,factor=factor,tgestion=tgestion,cartera_id=cartera,supervisor_id=supervisor,usuario_id=id,fecha_cargada= now,archivo = archivo,canales=canales,htinicio=inicio,htfin=fin,nombre=nombre,timbrados=timbrados,llamadaxhora=llamadaxhora,hombreobjetivo=hombreobjetivo,mxllamada=mxllamada).save()
+		Campania(password=password,discado=discado,factor=factor,tgestion=tgestion,cartera_id=cartera,supervisor_id=supervisor,usuario_id=id,fecha_cargada= now,archivo = archivo,canales=canales,htinicio=inicio,htfin=fin,nombre=nombre,timbrados=timbrados,llamadaxhora=llamadaxhora,hombreobjetivo=hombreobjetivo,mxllamada=mxllamada).save()
 
 		id_campania = Campania.objects.all().values('id').order_by('-id')[0]['id']
 
@@ -2288,7 +2338,7 @@ def nivel(request):
 		nivel =  Nivel.objects.all().exclude(id=4).values('id','nombre')[1:5]
 
 
-	if nivel == 5: #Admin
+	if nivel == 5: #Monitor
 
 		nivel =  Nivel.objects.all().exclude(id=4).values('id','nombre')[1:5]
 

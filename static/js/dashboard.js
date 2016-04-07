@@ -16,7 +16,7 @@ $(function () {
     $('#calidadagente').highcharts({
 
         title: {
-        text: 'Resultados Cantidad de Si y No'
+        text: 'Resultados'
         },
         chart: {
             type: 'column',

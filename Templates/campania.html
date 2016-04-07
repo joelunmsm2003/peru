@@ -104,17 +104,29 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Reasignar Campaña {[{model.nombre}]}</h4>
+        <h4 class="modal-title">Editar Campaña {[{model.nombre}]}</h4>
       </div>
         <div class="modal-body" ng-if="user.nivel == 1">
 
 
-        <label>Supervisor</label>
+       
 
 
         <form ng-submit="reasig(model)">
 
+         <label>Factor</label>
+
+         <input type="number" class="form-control" ng-model="model.factor" required ="" >
+         <br>
+
+          <label>Discado</label>
+         <input type="number" class="form-control" ng-model="model.discado" required ="" >
+
+<br>
+ <label>Supervisor</label>
         <select  ng-model="model.supervisor" class="form-control" ng-options="cliente.id as cliente.user__first_name for cliente in supervisores" required =""></select>
+
+
         <br></br>
 
 
@@ -204,7 +216,7 @@
 
                 <td>
                 
-                <button ng-if="user.nivel == 1" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#reasignar" ng-click='Reasignar(contact)'>Reasignar</button>
+                <button ng-if="user.nivel == 1" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#reasignar" ng-click='Reasignar(contact)'><i class="fa fa-edit"></i></button>
              
                 <button ng-if="user.nivel == 1 || user.nivel == 2" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#stop" ng-click='Reasignar(contact)'><i class="fa fa-stop"></i></button>
                 <button ng-if="user.nivel == 1 || user.nivel == 2" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#eliminar" ng-click='Reasignar(contact)'><i class="fa fa-trash"></i></button>
@@ -359,11 +371,14 @@
           </div>
 
 
-          <div class="modal-header">
-          <h4>Indicadores de Control (KPI)</h4>
+          
+         <div class="col-md-12">
+          <div class="form-group">
+       
+         <h4>Indicadores de Control (KPI)</h4>
+          </div>
+          </div>
 
-        </div>
-        <br>
 
 
           <div class="col-md-3">
