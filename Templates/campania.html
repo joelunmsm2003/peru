@@ -114,15 +114,19 @@
 
         <form ng-submit="reasig(model)">
 
-         <label>Factor</label>
-
-         <input type="number" class="form-control" ng-model="model.factor" required ="" >
-         <br>
+         
 
           <label>Discado</label>
          <input type="number" class="form-control" ng-model="model.discado" required ="" >
 
 <br>
+
+<label>Factor</label>
+
+         <input type="number" class="form-control" ng-model="model.factor" required ="" >
+         <br>
+
+
  <label>Supervisor</label>
         <select  ng-model="model.supervisor" class="form-control" ng-options="cliente.id as cliente.user__first_name for cliente in supervisores" required =""></select>
 
@@ -336,7 +340,22 @@
           </div>
           </div>
 
-            <div class="col-md-4">
+
+              <div class="col-md-4">
+          <div class="form-group">
+          <label>Discado</label>
+          <select ng-change='discadoget(discadom)' name = 'discado' class="form-control" ng-model = 'discadom'>
+         
+              <option value='1'>Predictivo</option>
+              <option value='2'>Progresivo</option>
+          
+          </select>
+          </div>
+          </div>
+
+
+
+            <div class="col-md-4" ng-show ='discado'>
           <div class="form-group">
           <label>Factor</label>
           <select name = 'factor' class="form-control">
@@ -351,17 +370,7 @@
           </div>
           </div>
 
-            <div class="col-md-4">
-          <div class="form-group">
-          <label>Discado</label>
-          <select name = 'discado' class="form-control">
-         
-              <option value='1'>Predictivo</option>
-              <option value='2'>Progresivo</option>
-          
-          </select>
-          </div>
-          </div>
+        
 
            <div ng-show='mpass' class="col-md-4">
           <div class="form-group">

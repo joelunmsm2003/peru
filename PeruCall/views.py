@@ -255,6 +255,8 @@ def examenes(request):
 @login_required(login_url="/ingresar")
 def accionmonitor(request,sup,anexo):
 
+	print 'Monitor..enviando',sup,anexo
+
 
 	os.system('curl https://xiencias.com/xien/PROC_MONITOR.php?sup='+str(sup)+'&anx='+str(anexo))
 
@@ -265,6 +267,7 @@ def accionmonitor(request,sup,anexo):
 @login_required(login_url="/ingresar")
 def accionsusurro(request,sup,anexo):
 
+	print 'Susurro..enviando',sup,anexo
 
 	os.system('curl https://xiencias.com/xien/PROC_SUSURRO.php?sup='+str(sup)+'&anx='+str(anexo))
 
@@ -2327,7 +2330,7 @@ def nivel(request):
 
 	if nivel == 4: #Manager
 
-		nivel = Nivel.objects.all().values('id','nombre')
+		nivel = Nivel.objects.all().exclude(id=4).values('id','nombre')
 
 
 	if nivel == 2: #Supervisores

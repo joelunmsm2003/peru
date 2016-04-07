@@ -18,6 +18,25 @@ function Controller($scope,$http,$cookies,$filter) {
     $scope.pagedItems = [];
     $scope.currentPage = 0;
 
+    $scope.discado = false
+
+    $scope.discadoget = function(data) 
+    {
+
+        console.log('data',data)
+        if( data==1){
+            $scope.discado = true
+
+        }
+        else{
+
+            $scope.discado = false
+        }
+
+    }
+
+
+
 
     
     $http.get("/campanias").success(function(response) {$scope.clientes = response;
