@@ -105,6 +105,9 @@ function Controller($scope,$http,$cookies,$filter) {
 
     $scope.addNew=function(agregar){
 
+         $('#eliminar').modal('hide')
+        $('.modal-backdrop').remove();
+
       
 
 
@@ -126,13 +129,25 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-       swal({      title: "Empresa "+data +" agregado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Cerrar",   }, function(){   window.location.href = "/empresa" });
+    
+        swal({   title: "Empresa "+data +" agregado",  type: "success",  timer: 1000,   showConfirmButton: false });
 
- 
          $scope.agregar=""
+
+            $http.get("/empresas").success(function(response) {$scope.clientes = response;
+
+        $scope.search();
+
+        $scope.empresas=response[0]
+       
+    });
 
 
         })
+
+
+ 
+
 
 
     };
@@ -165,8 +180,15 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-            swal({title: "Empresa "+data +" editado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Cerrar",   }, function(){ window.location.href = "/empresa" });
+            swal({   title: "Empresa "+data +" editado",  type: "success",  timer: 1000,   showConfirmButton: false });
 
+            $http.get("/empresas").success(function(response) {$scope.clientes = response;
+
+        $scope.search();
+
+        $scope.empresas=response[0]
+       
+    });
 
         })
 
@@ -203,9 +225,16 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-        swal({title: "Empresa "+data +" eliminado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Cerrar",   }, function(){   });
+       swal({   title: "Empresa "+data +" editado",  type: "success",  timer: 1000,   showConfirmButton: false });
+       
+       $http.get("/empresas").success(function(response) {$scope.clientes = response;
 
-        $scope.contador =$scope.contador-1
+        $scope.search();
+
+        $scope.empresas=response[0]
+       
+    });
+
 
 
         })
