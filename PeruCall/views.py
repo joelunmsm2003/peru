@@ -373,12 +373,12 @@ def uploaduser(request):
 				usuario.save()
 
 
-				if nivel == 2: #Asignacion de carteras al supervisor
+				if usuario.nivel_id == 2: 
 
 					Supervisor(user_id=id_user).save()
 
 
-				if nivel == 3: # Usuario Agente
+				if usuario.nivel_id == 3: # Usuario Agente
 
 					Agentes(user_id=id_user).save()
 
@@ -386,7 +386,7 @@ def uploaduser(request):
 					
 					agente.atendidas = 0
 					agente.contactadas =0
-					agente.anexo = data['anexo']
+					
 					agente.estado_id = 1
 					agente.save()
 	
@@ -1829,6 +1829,8 @@ def agentenosupervisor(request,id_user):
 
 	print lista
 
+	print 'agentenosup', Supervisor.objects.filter(user__empresa__id=empresa).values('id','user__first_name')
+
 	
 	data = Supervisor.objects.filter(user__empresa__id=empresa).exclude(id__in=lista).values('id','user__first_name').order_by('-id')
 
@@ -2407,15 +2409,21 @@ def agentesdisponibles(request,id_campania):
 
 	agentescampania = Agentescampanias.objects.filter(campania=id_campania)
 
-	lista = []
+	data = Agentesupervisor.objects.filter(supervisor__user__id=id)
+
+	lista1 = []
+
+	for x in data:
+
+		lista1.append(x.agente.id)
+
+	lista2 = []
 
 	for a in agentescampania:
 
-		lista.append(a.agente.id) 	
+		lista2.append(a.agente.id) 	
 
-	print 'empresa',empresa
-
-	agentes = Agentes.objects.filter(user__empresa__id=empresa).exclude(id__in=lista).values('id')
+	agentes = Agentes.objects.filter(id__in=lista1).exclude(id__in=lista2).values('id')
 
 	print 'agentes en campania',agentes
 
@@ -2437,8 +2445,6 @@ def agentescampania(request,id_campania):
 
 	id = request.user.id
 
-	nivel = AuthUser.objects.get(id=id).nivel.id
-
 	agentes = Agentescampanias.objects.filter(campania=id_campania).values('id','agente','campania__nombre','campania__cartera__nombre','campania__supervisor__user__first_name')
 
 	for i in range(len(agentes)):
@@ -2447,7 +2453,7 @@ def agentescampania(request,id_campania):
 
 		agentes[i]['estado'] = Agentescampanias.objects.get(id=agentes[i]['id']).agente.estado.nombre
 
-	
+
 	data_dict = ValuesQuerySetToDict(agentes)
 
 	data = simplejson.dumps(data_dict)

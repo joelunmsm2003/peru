@@ -108,11 +108,10 @@ function Controller($scope,$http,$cookies,$filter) {
 
             console.log(data)
 
-             swal({   title: "Agentes Agregados",  type: "success",   confirmButtonColor: "#B71C1C",   confirmButtonText: "Cerrar",   }, function(){   
 
-                
+        swal({   title: "Agente agregado",   type: "success",  timer: 1000,   showConfirmButton: false });
 
-            });
+            
 
                $http.get("/agentesdisponibles/"+campania).success(function(response) {
 
@@ -166,9 +165,8 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-            swal({   title: "Agentes quitados",   type: "success",   confirmButtonColor: "#B71C1C",   confirmButtonText: "Cerrar",   }, function(){   
 
-            });
+swal({   title: "Agente quitado",   type: "success",  timer: 900,   showConfirmButton: false });
  
             
                $http.get("/agentesdisponibles/"+campania).success(function(response) {

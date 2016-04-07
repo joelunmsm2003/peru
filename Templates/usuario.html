@@ -99,7 +99,7 @@
         <tr  ng-repeat="contactx in carterasupervisor " ts-repeat>
         
         <td center>{[{contactx.cartera__nombre}]}</td>
-        <td><a class="btn btn-primary btn-sm" ng-click="agregarcartera($index,contact)"><i class="fa fa-minus"></i></a></td>
+        <!--<td><a class="btn btn-primary btn-sm" ng-click="agregarcartera($index,contact)"><i class="fa fa-minus"></i></a></td>-->
         </tr>
         </tbody>
         </table>
@@ -265,9 +265,9 @@
 
                     
 
-                        <button type="button" class="btn btn-primary btn-sm" ng-click="editContact(contact,$index,currentPage)" data-toggle="modal" data-target="#edit"><i class="fa fa-pencil-square-o"></i></button>
+                        <button  ng-if="user.nivel == 1 || user.nivel == 4 " type="button" class="btn btn-primary btn-sm" ng-click="editContact(contact,$index,currentPage)" data-toggle="modal" data-target="#edit"><i class="fa fa-pencil-square-o"></i></button>
 
-                        <button  type="button" class="btn btn-primary btn-sm" ng-click="editContact(contact,$index,currentPage)"  data-toggle="modal" data-target="#eliminar"><i class="fa fa-trash"></i></button>
+                        <button  ng-if="user.nivel == 1 || user.nivel == 4 " type="button" class="btn btn-primary btn-sm" ng-click="editContact(contact,$index,currentPage)"  data-toggle="modal" data-target="#eliminar"><i class="fa fa-trash"></i></button>
 
                         
 
@@ -324,18 +324,19 @@
 
               
                     
-                        <label>Importacion</label>
+                        <label>Importacion Masiva</label>
                           <div class='row'>
                           <div class="col-md-4">
 
                           <input ng-click='import()' type="file" required=""  name="process_file">
                           </div>
 
+
                            <div class="col-md-2">
-                          <button class="btn btn-primary" type="submit"><i class="fa fa-upload"></i></button>
+                          <button class="btn btn-primary btn-sm" type="submit"><i class="fa fa-upload"></i> Cargar Usuarios</button>
                           </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-2">
                             <div class="form-group">
 
                             <a class='btn btn-primary btn-sm' href='https://xiencias.com/html/users.xls'>Plantilla <i class="fa fa-file-excel-o"></i></a>

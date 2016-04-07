@@ -153,11 +153,15 @@ function Controller($scope,$http,$cookies,$filter) {
         $('#myModal').modal('hide')
         $('.modal-backdrop').remove();
 
-        swal({     title: 'Cartera '+data+' ingresada al sistema , gracias ',   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Aceptar",   }, function(){   window.location.href = "/cartera" });
- 
-        
+        swal({   title: 'Cartera '+data+' ingresada al sistema , gracias ',  type: "success",  timer: 1000,   showConfirmButton: false });
 
         $scope.agregar=""
+
+        $http.get("/carteras/").success(function(response) {$scope.clientes = response;
+
+        $scope.search() 
+          
+        });
 
         })
 
