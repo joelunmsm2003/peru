@@ -345,6 +345,8 @@ def uploaduser(request):
 			telefono = u[3]
 			anexo = u[4]
 			nivel =u[5]
+			supervisor = u[6]
+
 
 			users = User.objects.all()
 
@@ -383,6 +385,11 @@ def uploaduser(request):
 
 				if usuario.nivel_id == 3: # Usuario Agente
 
+					s =supervisor.split('|')
+
+					
+
+
 					Agentes(user_id=id_user).save()
 
 					agente =Agentes.objects.get(user=id_user)
@@ -392,6 +399,18 @@ def uploaduser(request):
 					
 					agente.estado_id = 1
 					agente.save()
+
+					id_agente = Agentes.objects.all().values('id').order_by('-id')[0]['id']
+					
+
+					for i in s:
+
+						id_sup = Supervisor.objects.get(user_id=i).id
+
+						Agentesupervisor(agente_id=id_agente,supervisor_id=id_sup).save()
+
+					
+
 	
 	return HttpResponseRedirect("/usuario")
 
