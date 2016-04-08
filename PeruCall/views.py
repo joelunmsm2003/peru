@@ -628,7 +628,7 @@ def cartera(request):
 	return render(request, 'cartera.html',{})
 
 @login_required(login_url="/ingresar")
-def reporteg(request):
+def reporteg(request,campania):
 	
 	return render(request, 'reporteg.html',{})
 

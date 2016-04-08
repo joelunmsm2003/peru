@@ -17,19 +17,7 @@
 <h4>Reporte</h4>
 
 
-      <div class='row'>
-      <div class="col-md-8"><input placeholder="Buscar" ng-change="search()"  type="text" ng-model="tipo" class="form-control" ></div>
-       <div class="col-md-2">
-       Cantidad de Registros {[{contador}]}
-       </div>
 
-       <div class="col-md-2">
-      <input type="text" name="" ng-change='regxpag()' id="input" placeholder="Registros por pagina" ng-model="itemsPerPage" class="form-control" value="" required="required" title="">
-
-       </div>
-       
-
-    </div><br>
 
 
     Descarga de Reportes 
@@ -46,7 +34,7 @@
      <div class="col-md-3">
 
     Campaña:
-    <select ng-options="item as item.nombre for item in campanias track by item.id" type="text" class="form-control" ng-model="model.campania" required =""  ></select>
+    <select ng-options="item as item.nombre for item in campanias track by item.id" type="text" class="form-control" ng-model="model.campania" required ="" ng-change='graficarcampania(model)' ></select>
 
      </div>
 
@@ -60,7 +48,273 @@
     </div>
 
     <br>
+
+
+    <div class='row'>
+
+    <div class="col-md-6 animated bounceInLeft">
+
+    <h4>Cobertura por Campaña</h4>
+        <div class='row'>
+          <div class="col-md-3 ">
+
+              <div class='row'>
+
+                  <div class="col-md-12 ba">Botonera a agente
+                  </div>
+                  
+
+
+              </div>
+          </div>
+          <div class="col-md-3 ">
+
+              <div class='row'>
+
+                  <div class="col-md-12 ba ">Promesa
+                  </div>
+                   <div class="col-md-12 ba ">Directo
+                  </div>
+                   <div class="col-md-12 ba">Indirecto
+                  </div>
+                   <div class="col-md-12 ba">No Contacto
+                  </div>
+
+
+              </div>
+          </div>
+           <div class="col-md-3 ">
+                  <div class='row'>
+
+                  <div class="col-md-12 ba">{[{promesa}]}
+                  </div>
+                   <div class="col-md-12 ba">{[{directo}]}
+                  </div>
+                   <div class="col-md-12 ba">{[{indirecto}]}
+                  </div>
+                   <div class="col-md-12 ba">{[{singestion}]}
+                  </div>
+
+
+              </div>
+
+           </div>
+
+           <div class="col-md-3">
+                  <div class='row'>
+
+                  <div class="col-md-12 ba">5
+                  </div>
+                   <div class="col-md-12 ba">4
+                  </div>
+                   <div class="col-md-12 ba">3
+                  </div>
+                   <div class="col-md-12 ba">5
+                  </div>
+
+
+              </div>
+
+           </div>
+
+           <div class="col-md-3 ">
+                  <div class='row'>
+
+                  <div class="col-md-12 as">Asterisk
+                  </div>
+                 
+
+
+              </div>
+
+           </div>
+
+          <div class="col-md-3 ">
+
+              <div class='row'>
+
+                  <div class="col-md-12 as">Promesa
+                  </div>
+                   <div class="col-md-12 as">Directo
+                  </div>
+                   <div class="col-md-12 as">Indirecto
+                  </div>
+                   <div class="col-md-12 as">Contacto
+                  </div>
+
+
+              </div>
+          </div>
+
+          <div class="col-md-3 ">
+
+              <div class='row'>
+
+                  <div class="col-md-12 as">6
+                  </div>
+                   <div class="col-md-12 as">5
+                  </div>
+                   <div class="col-md-12 as">3
+                  </div>
+                   <div class="col-md-12 as">2
+                  </div>
+
+
+              </div>
+          </div>
+
+          <div class="col-md-3 ">
+
+              <div class='row'>
+
+                  <div class="col-md-12 as">7
+                  </div>
+                   <div class="col-md-12 as">6
+                  </div>
+                   <div class="col-md-12 as">4
+                  </div>
+                   <div class="col-md-12 as">6
+                  </div>
+
+
+              </div>
+          </div>
+
+          <div class="col-md-3 ">
+
+              <div class='row'>
+
+                  <div class="col-md-12 pe">Pendiente
+                  </div>
+        
+
+              </div>
+          </div>
+
+          <div class="col-md-3 ">
+
+              <div class='row'>
+
+                  <div class="col-md-12 pe">7
+                  </div>
+        
+
+              </div>
+          </div>
+           <div class="col-md-3 ">
+
+              <div class='row'>
+
+                  <div class="col-md-12 pe">4
+                  </div>
+        
+
+              </div>
+          </div>
+           <div class="col-md-3 ">
+
+              <div class='row'>
+
+                  <div class="col-md-12 pe">4
+                  </div>
+        
+
+              </div>
+          </div>
+        </div>
+
+      
+    </div>
+    <div class="col-md-6">
+    <h4>Grafica</h4>
+    <div id="graph1" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+    </div>
+
+
+    </div>
+
+
+<style>
+.col-md-12 {
  
+padding: 11px;
+  border-color: #4C7A99;
+  border-style: solid;
+  border-width: 5px;
+  border-color: #F9F9F9;
+  background: #8375D8;
+  color: #FFF;
+  border-width: 1px 1px 0px 1px;
+}
+
+.ba {
+
+  transition:.5s;
+  background: #EF5350;
+
+}
+
+.ba:hover{
+
+background: #BF3737;
+color: #fff;
+
+
+}
+.as {
+
+  transition:.5s;
+  background: #3682CF;
+
+}
+
+.as:hover{
+
+background: #1173D7;
+
+
+
+}
+.pe {
+
+  transition:.5s;
+  background: #8375D8;
+
+}
+
+.pe:hover{
+
+background: #5F4ADF;
+color: #fff;
+
+
+}
+
+
+
+</style>
+
+
+
+
+ 
+
+
+    <!--  <div class='row'>
+      <div class="col-md-8"><input placeholder="Buscar" ng-change="search()"  type="text" ng-model="tipo" class="form-control" ></div>
+       <div class="col-md-2">
+       Cantidad de Registros {[{contador}]}
+       </div>
+
+       <div class="col-md-2">
+      <input type="text" name="" ng-change='regxpag()' id="input" placeholder="Registros por pagina" ng-model="itemsPerPage" class="form-control" value="" required="required" title="">
+
+       </div>
+       
+
+    </div><br>
+
+
 
 
     <table class="table  table-condensed table-hover ">
@@ -115,7 +369,7 @@
 
 
                 <td>
-               <!-- <button class="btn btn-primary" ng-click='Admin(contact)'>+</button>-->
+               <button class="btn btn-primary" ng-click='Admin(contact)'>+</button>
               </td>
               <td>
 
@@ -138,6 +392,7 @@
 
 
         </table>
+-->
 
 
 
@@ -295,12 +550,9 @@
 
 
 
-
-
-
-
-
-
+<script src="/static/js/highchart.js"></script>
+<script src="https://code.highcharts.com/highcharts-more.js"></script>
+<script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
 
   <script src="/static/js/angular-route.js"></script>
 

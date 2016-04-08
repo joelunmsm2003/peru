@@ -1,4 +1,8 @@
 
+campania = window.location.href.split("reporteg/")[1].split("/")[0]
+
+
+
 var App=angular.module('App', ['ngCookies','ngAnimate']);
 
 App.config(function($interpolateProvider){
@@ -17,8 +21,6 @@ function Controller($scope,$http,$cookies,$filter) {
     $scope.itemsPerPage = 30;
     $scope.pagedItems = [];
     $scope.currentPage = 0;
-
-
 
 
 
@@ -49,6 +51,17 @@ function Controller($scope,$http,$cookies,$filter) {
        
     });
 
+    $http.get("/botoneragraph/"+campania).success(function(response) {
+
+    $scope.singestion = response['Sin Gestion']
+    $scope.directo = response['Contacto Indirecto']
+    $scope.indirecto = response['Contacto Indirecto']
+    $scope.promesa = response['Promesa']
+
+
+    });
+
+
 
    
     
@@ -60,6 +73,17 @@ function Controller($scope,$http,$cookies,$filter) {
         $scope.user = $scope.user[0]
 
     });
+
+     $scope.graficarcampania = function(data) 
+
+
+    {       
+            
+
+        console.log(data.campania.id)
+        window.location="/reporteg/"+data.campania.id
+
+    };
 
     
 
@@ -431,3 +455,246 @@ function Controller($scope,$http,$cookies,$filter) {
 
 }
 
+
+
+        $(function () {
+    // Create the chart
+    $('#graph1').highcharts({
+        chart: {
+            type: 'column',
+             events: {
+                        load: function () {
+
+                                serie1 = this.series
+
+                                  var updateChart = function() {
+
+                                $.getJSON("/botoneragraph/"+campania, function (result) {
+
+                                    console.log('botoro llam',result)
+
+       
+
+                                    serie1[0].points[0].update(result['Promesa'])
+                                    serie1[0].points[1].update(result['Contacto Directo'])
+                                    serie1[0].points[2].update(result['Contacto Indirecto'])
+                                    serie1[0].points[3].update(result['Sin Gestion'])
+
+                          
+
+                                   
+                           
+                                });
+
+                            }
+
+                        setInterval(function(){updateChart()},1000);
+
+                            }
+                        }
+        },
+        title: {
+            text: ''
+        },
+     
+        xAxis: {
+            type: 'Llamadas'
+        },
+        yAxis: {
+            title: {
+                text: 'Porcentaje'
+            }
+
+        },
+        legend: {
+            enabled: false
+        },
+        plotOptions: {
+            series: {
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.y:.1f}%'
+                }
+            }
+        },
+
+        tooltip: {
+            headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
+        },
+
+        series: [{
+            name: 'Llamadas',
+            colorByPoint: true,
+            data: [{
+                name: 'Promesa',
+                y: 56.33,
+                drilldown: 'Promesa'
+            }, {
+                name: 'Directo',
+                y: 24.03,
+                drilldown: 'Directo'
+            }, {
+                name: 'Indirecto',
+                y: 10.38,
+                drilldown: 'Indirecto'
+            }, {
+                name: 'No Contacto',
+                y: 4.77,
+                drilldown: 'No Contacto'
+            },
+            {
+                name: 'Asterik',
+                y: 4.77,
+                drilldown: 'Asterik'
+            },
+
+            {
+                name: 'Pendiente',
+                y: 4.77,
+                drilldown: 'Pendiente'
+            }]
+        }],
+        drilldown: {
+            series: [{
+                name: 'Promesa',
+                id: 'Promesa',
+                data: [3
+            
+                ]
+            }, {
+                name: 'Directo',
+                id: 'Directo',
+                data: [
+                    [
+                        'v40.0',
+                        5
+                    ],
+                    [
+                        'v41.0',
+                        4.32
+                    ],
+                    [
+                        'v42.0',
+                        3.68
+                    ],
+                    [
+                        'v39.0',
+                        2.96
+                    ],
+                    [
+                        'v36.0',
+                        2.53
+                    ],
+                    [
+                        'v43.0',
+                        1.45
+                    ],
+                    [
+                        'v31.0',
+                        1.24
+                    ],
+                    [
+                        'v35.0',
+                        0.85
+                    ],
+                    [
+                        'v38.0',
+                        0.6
+                    ],
+                    [
+                        'v32.0',
+                        0.55
+                    ],
+                    [
+                        'v37.0',
+                        0.38
+                    ],
+                    [
+                        'v33.0',
+                        0.19
+                    ],
+                    [
+                        'v34.0',
+                        0.14
+                    ],
+                    [
+                        'v30.0',
+                        0.14
+                    ]
+                ]
+            }, {
+                name: 'Indirecto',
+                id: 'Indirecto',
+                data: [
+                    [
+                        'v35',
+                        2.76
+                    ],
+                    [
+                        'v36',
+                        2.32
+                    ],
+                    [
+                        'v37',
+                        2.31
+                    ],
+                    [
+                        'v34',
+                        1.27
+                    ],
+                    [
+                        'v38',
+                        1.02
+                    ],
+                    [
+                        'v31',
+                        0.33
+                    ],
+                    [
+                        'v33',
+                        0.22
+                    ],
+                    [
+                        'v32',
+                        0.15
+                    ]
+                ]
+            }, {
+                name: 'No Contacto',
+                id: 'No Contacto',
+                data: [
+                    [
+                        'v8.0',
+                        2.56
+                    ],
+                    [
+                        'v7.1',
+                        0.77
+                    ],
+                    [
+                        'v5.1',
+                        0.42
+                    ],
+                    [
+                        'v5.0',
+                        0.3
+                    ],
+                    [
+                        'v6.1',
+                        0.29
+                    ],
+                    [
+                        'v7.0',
+                        0.26
+                    ],
+                    [
+                        'v6.2',
+                        0.17
+                    ]
+                ]
+            }]
+        }
+    });
+});
