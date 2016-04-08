@@ -105,7 +105,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
     $scope.addNew=function(agregar){
 
-         $('#eliminar').modal('hide')
+         $('#myModal').modal('hide')
         $('.modal-backdrop').remove();
 
       
