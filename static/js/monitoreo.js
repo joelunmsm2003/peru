@@ -39,7 +39,7 @@ $(function () {
 
         }      
               
-        setInterval(function(){updateChart()},1000);
+        setInterval(function(){updateChart()},100000);
 
                     }
                 }
@@ -123,7 +123,7 @@ $(function () {
 
         }      
               
-        setInterval(function(){updateChart()},1000);
+        setInterval(function(){updateChart()},100000);
 
 
 
@@ -201,7 +201,7 @@ $(function () {
 
                                 }
 
-                                setInterval(function(){updateChart()},1000);
+                                setInterval(function(){updateChart()},100000);
 
                         
 
@@ -290,7 +290,7 @@ $(function () {
                                 });   
 
                                 }      
-                                setInterval(function(){updateChart()},1000);
+                                setInterval(function(){updateChart()},100000);
 
                             }
                         }
@@ -464,7 +464,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
     });
 
-    }, 1000);
+    }, 100000);
 
     
 
