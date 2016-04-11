@@ -905,7 +905,8 @@ $(function () {
         title: {
             text: 'Botonera por Agente'
         },
-        subtitle: {0           text: 'Source: Xiencias.org'
+        subtitle: {         
+         text: 'Source: Xiencias.org'
         },
         xAxis: {
             categories: [
