@@ -258,8 +258,8 @@ def accionmonitor(request,sup,anexo):
 	print 'Monitor..enviando',sup,anexo
 
 
-	os.system('curl "https://xiencias.com/xien/PROC_MONITOR.php?sup="'+str(sup)+'"&anx="'+str(anexo)+"'")
-	#os.system('curl "https://xiencias.com/xien/PROC_MONITOR.php?sup=1042&anx=280"')
+	#os.system('curl "https://xiencias.com/xien/PROC_MONITOR.php?sup='+str(sup)+'&anx='+str(anexo)")
+	os.system('curl "https://xiencias.com/xien/PROC_MONITOR.php?sup=1042&anx=280"')
 
 	return HttpResponse(' Monitor Activado', content_type="application/json")
 
