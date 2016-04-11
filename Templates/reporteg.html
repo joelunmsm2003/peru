@@ -49,12 +49,15 @@
 
     <br>
 
+    <h3> Cartera: {[{infocamp.cartera__nombre}]} | Campaña: {[{infocamp.nombre}]} </h3>
+
 
     <div class='row'>
 
     <div class="col-md-6 animated bounceInLeft">
 
-    <h4>Cobertura por Campaña</h4>
+        <h4>Cobertura </h4>
+
         <div class='row'>
           <div class="col-md-3 ">
 
@@ -92,7 +95,7 @@
                   </div>
                    <div class="col-md-12 ba">{[{indirecto}]}
                   </div>
-                   <div class="col-md-12 ba">{[{singestion}]}
+                   <div class="col-md-12 ba">{[{nocontacto}]}
                   </div>
 
 
@@ -100,16 +103,19 @@
 
            </div>
 
+     
+       
+
            <div class="col-md-3">
                   <div class='row'>
 
-                  <div class="col-md-12 ba">5
+                  <div class="col-md-12 ba">{[{pPromesa}]} %
                   </div>
-                   <div class="col-md-12 ba">4
+                   <div class="col-md-12 ba">{[{pDirecto}]} %
                   </div>
-                   <div class="col-md-12 ba">3
+                   <div class="col-md-12 ba">{[{pIndirecto}]} %
                   </div>
-                   <div class="col-md-12 ba">5
+                   <div class="col-md-12 ba">{[{pNocontacto}]} %
                   </div>
 
 
@@ -120,7 +126,7 @@
            <div class="col-md-3 ">
                   <div class='row'>
 
-                  <div class="col-md-12 as">Asterisk
+                  <div class="col-md-12 as">Asterisk 
                   </div>
                  
 
@@ -133,14 +139,31 @@
 
               <div class='row'>
 
-                  <div class="col-md-12 as">Promesa
+                  <div class="col-md-12 as">Buzon
                   </div>
-                   <div class="col-md-12 as">Directo
+                   <div class="col-md-12 as">No Contesta
                   </div>
-                   <div class="col-md-12 as">Indirecto
+                   <div class="col-md-12 as">Congestion de Red
                   </div>
-                   <div class="col-md-12 as">Contacto
+              
+
+
+              </div>
+          </div>
+
+          <div class="col-md-3 ">
+
+
+
+              <div class='row'>
+
+                  <div class="col-md-12 as">{[{buzon}]} 
                   </div>
+                   <div class="col-md-12 as">{[{nocontesta}]} 
+                  </div>
+                   <div class="col-md-12 as">{[{congestiondered}]} 
+                  </div>
+                 
 
 
               </div>
@@ -150,31 +173,14 @@
 
               <div class='row'>
 
-                  <div class="col-md-12 as">6
+                  
+                  <div class="col-md-12 as">{[{pBuzon}]} %
                   </div>
-                   <div class="col-md-12 as">5
+                   <div class="col-md-12 as">{[{pNocontesta}]} %
                   </div>
-                   <div class="col-md-12 as">3
+                   <div class="col-md-12 as">{[{pCongestion}]} %
                   </div>
-                   <div class="col-md-12 as">2
-                  </div>
-
-
-              </div>
-          </div>
-
-          <div class="col-md-3 ">
-
-              <div class='row'>
-
-                  <div class="col-md-12 as">7
-                  </div>
-                   <div class="col-md-12 as">6
-                  </div>
-                   <div class="col-md-12 as">4
-                  </div>
-                   <div class="col-md-12 as">6
-                  </div>
+                  
 
 
               </div>
@@ -195,7 +201,7 @@
 
               <div class='row'>
 
-                  <div class="col-md-12 pe">7
+                  <div class="col-md-12 pe">Pendiente
                   </div>
         
 
@@ -205,7 +211,7 @@
 
               <div class='row'>
 
-                  <div class="col-md-12 pe">4
+                  <div class="col-md-12 pe">{[{pendiente}]}
                   </div>
         
 
@@ -215,7 +221,7 @@
 
               <div class='row'>
 
-                  <div class="col-md-12 pe">4
+                  <div class="col-md-12 pe">{[{pPendiente}]} %
                   </div>
         
 
@@ -226,9 +232,137 @@
       
     </div>
     <div class="col-md-6">
-    <h4>Grafica</h4>
+    
     <div id="graph1" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
     </div>
+
+
+    </div>
+
+
+       <div class='row'>
+
+
+
+
+    <div class="col-md-6 animated bounceInLeft">
+
+
+        <h4>Cobertura </h4>
+
+        <div class='row'>
+          <div class="col-md-3 ">
+
+              <div class='row'>
+
+                  <div class="col-md-12 ba">Botonera a agente
+                  </div>
+                  
+
+
+              </div>
+          </div>
+          <div class="col-md-3 ">
+
+              <div class='row'>
+
+                  <div class="col-md-12 ba ">Promesa
+                  </div>
+                   <div class="col-md-12 ba ">Directo
+                  </div>
+                   <div class="col-md-12 ba">Indirecto
+                  </div>
+                   <div class="col-md-12 ba">No Contacto
+                  </div>
+
+
+              </div>
+          </div>
+           <div class="col-md-3 ">
+                  <div class='row'>
+
+                  <div class="col-md-12 ba">{[{promesa}]}
+                  </div>
+                   <div class="col-md-12 ba">{[{directo}]}
+                  </div>
+                   <div class="col-md-12 ba">{[{indirecto}]}
+                  </div>
+                   <div class="col-md-12 ba">{[{nocontacto}]}
+                  </div>
+
+
+              </div>
+
+           </div>
+
+     
+       
+
+           <div class="col-md-3">
+                  <div class='row'>
+
+                  <div class="col-md-12 ba">{[{pPromesa}]} %
+                  </div>
+                   <div class="col-md-12 ba">{[{pDirecto}]} %
+                  </div>
+                   <div class="col-md-12 ba">{[{pIndirecto}]} %
+                  </div>
+                   <div class="col-md-12 ba">{[{pNocontacto}]} %
+                  </div>
+
+
+              </div>
+
+           </div>
+
+    
+
+   
+        </div>
+
+      
+    </div>
+    <div class="col-md-6">
+    
+    <div id="pie" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+
+    </div>
+
+
+    </div>
+
+
+    <div class='row'>
+
+    
+
+      <table class="table table-striped table-condensed table-hover ">
+        <tbody>
+
+         <thead>
+
+              <tr><th >Agente </th>
+                  <th >Promesa </th>
+                  <th >Directo</th>
+                  <th>Indirecto</th>
+                   <th>No Contacto</th>
+
+                  </tr>
+              </thead>
+
+              <tr class='animate' ng-repeat="contact in agenteboton " class='active' ts-repeat>
+
+                  <td>{[{contact.agente__user__first_name}]}</td>
+                  <td>{[{contact.promesa}]}</td>
+                  <td>{[{contact.directo}]}</td>
+                  <td>{[{contact.indirecto}]}</td>
+                  <td>{[{contact.nocontacto}]}</td>
+              </tr>
+            </tbody>
+
+            </table>  
+
+        <div id="columnas" style="min-width: 1200px; height: 400px; max-width: 1200px; margin: 0 auto"></div>
 
 
     </div>

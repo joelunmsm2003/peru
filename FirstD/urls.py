@@ -78,7 +78,8 @@ urlpatterns = patterns('',
 
     url(r'^agregarsupervisor/', 'PeruCall.views.agregarsupervisor'),
     url(r'^quitarsupervisor/', 'PeruCall.views.quitarsupervisor'),
-
+    url(r'^getcamp/(\w+)/', 'PeruCall.views.getcamp'),
+    url(r'^botoneraagente/(\w+)/', 'PeruCall.views.botoneraagente'),
 
     url(r'^cartera/', 'PeruCall.views.cartera'),
     url(r'^carteras/', 'PeruCall.views.carteras'),

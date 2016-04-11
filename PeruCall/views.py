@@ -431,15 +431,28 @@ def getexamen(request,examen):
 
 
 @login_required(login_url="/ingresar")
+def getcamp(request,campania):
+
+	data = Campania.objects.filter(id=campania).values('id','usuario','estado','nombre','cartera__nombre')
+
+	data_dict = ValuesQuerySetToDict(data)
+
+	data = simplejson.dumps(data_dict)
+
+	return HttpResponse(data, content_type="application/json")
+
+@login_required(login_url="/ingresar")
 def estllamada(request,campania):
 
 
 	total = AjxProLla.objects.filter(cam_codigo=campania).count()
+
 	barridos = AjxProLla.objects.filter(cam_codigo=campania,llam_estado=1).count()
+
 	errados = AjxProLla.objects.filter(cam_codigo=campania,llam_estado=2).count()
- 
 
 	correctos = AjxProLla.objects.filter(cam_codigo=campania,llam_estado=4).count()
+
 	porbarrer = total-barridos
 
 	data = {'total':total,'barridos':barridos,'porbarrer':porbarrer,'errados':errados,'correctos':correctos}
@@ -2042,26 +2055,81 @@ def reasignarsupervisor(request):
 
 
 @login_required(login_url="/ingresar")
+def botoneraagente(request,campania):
+
+
+	agentes = Agentescampanias.objects.filter(campania_id=campania).values('id','agente__user__first_name','campania','agente')
+
+	for i in range(len(agentes)):
+
+		agentes[i]['promesa'] = Base.objects.filter(campania_id=campania,resultado_id=15,agente_id=agentes[i]['agente']).count()
+		agentes[i]['directo'] = Base.objects.filter(campania_id=campania,resultado_id=16,agente_id=agentes[i]['agente']).count()
+		agentes[i]['indirecto'] = Base.objects.filter(campania_id=campania,resultado_id=17,agente_id=agentes[i]['agente']).count()
+		agentes[i]['nocontacto'] = Base.objects.filter(campania_id=campania,resultado_id=18,agente_id=agentes[i]['agente']).count()
+		
+	
+	data_dict = ValuesQuerySetToDict(agentes)
+
+	data = simplejson.dumps(data_dict)
+
+	return HttpResponse(data, content_type="application/json")
+
+
+
+
+	return HttpResponse('data_string', content_type="application/json")
+
+
+
+
+@login_required(login_url="/ingresar")
 def botoneragraph(request,campania):
 
 
        id = request.user.id
        mascara = AuthUser.objects.get(id=id).empresa.mascaras.id
+       total = Base.objects.filter(campania_id=campania).count()
+       promesa = Base.objects.filter(resultado_id=15,campania_id=campania).count()
+       contactodirecto = Base.objects.filter(resultado_id=16,campania_id=campania).count()
+       contactoindirecto = Base.objects.filter(resultado_id=17,campania_id=campania).count()
+       nocontacto = Base.objects.filter(resultado_id=18,campania_id=campania).count()
+       nocontesta = AjxProLla.objects.filter(cam_codigo=campania,llam_estado=3).count()
+       buzon = AjxProLla.objects.filter(cam_codigo=campania,llam_estado=5).count()
+       congestiondered = AjxProLla.objects.filter(cam_codigo=campania,llam_estado=2).count()
+       asterisk = AjxProLla.objects.filter(cam_codigo=campania,llam_estado__in=[2,3,5]).count()
+       pendiente = Base.objects.filter(campania_id=campania).count()-AjxProLla.objects.filter(cam_codigo=campania).count()
+
 
        if mascara == 2:
 
-               data = {'Promesa':Base.objects.filter(resultado_id=15,campania_id=campania).count(),
+               data = {
 
-                     'Contacto Directo':Base.objects.filter(resultado_id=16,campania_id=campania).count(),
-                     'Contacto Indirecto':Base.objects.filter(resultado_id=17,campania_id=campania).count(),
-                     'No Contacto':Base.objects.filter(resultado_id=18,campania_id=campania).count(),
-                     'Marcador':AjxProLla.objects.filter(cam_codigo=campania,llam_estado__in=[2,3,5]).count(),
-                     'Sin Gestion':Base.objects.filter(campania_id=campania).count()-AjxProLla.objects.filter(cam_codigo=campania).count()
-                     
+               		 'Promesa':promesa,
+                     'Contacto Directo':contactodirecto,
+                     'Contacto Indirecto':contactoindirecto,
+                     'No Contacto':nocontacto,
+       				 'No Contesta':nocontesta,
+                     'Buzon':buzon,
+                     'Congestion de Red':congestiondered,
+                     'Asterisk':asterisk,
+                     'Pendiente':pendiente,
+                     'pPromesa':promesa*100/total,
+                     'pDirecto':contactodirecto*100/total,
+                     'pIndirecto':contactoindirecto*100/total,
+                     'pNocontacto':nocontacto*100/total,
+                     'pNocontesta':nocontesta*100/total,
+                     'pBuzon':buzon*100/total,
+                     'pCongestion':promesa*100/total,
+                     'pAsterisk':asterisk*100/total,
+                     'pPendiente':pendiente*100/total
+
+                   
                      }
 
 
                data_string = json.dumps(data)
+
+               print 
 
        else:
 
@@ -2069,6 +2137,7 @@ def botoneragraph(request,campania):
 
 
        return HttpResponse(data_string, content_type="application/json")
+
 
 
 
