@@ -25,6 +25,8 @@ function Controller($scope,$http,$cookies,$filter) {
 
         $scope.campana = response[0]['nombre']
         $scope.cartera = response[0]['cartera__nombre']
+        $scope.empresa = response[0]['supervisor__user__empresa__nombre']
+        $scope.supervisor = response[0]['supervisor__user__first_name']
 
     });
 

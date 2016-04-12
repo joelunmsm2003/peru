@@ -201,12 +201,14 @@ def teleoperador(request,id_agente):
 
 	id_user = Agentes.objects.get(id=id_agente).user.id
 
+	url = AuthUser.objects.get(id=id).empresa.url
+
 	if id==id_user:
 
-		return render(request, 'screenagent.html',{})
+		return render(request, 'screenagent.html',{'url':url})
+
 	else:
 
-		
 		return HttpResponseRedirect("/")
 
 @login_required(login_url="/ingresar")
@@ -290,7 +292,7 @@ def passcampania(request,campania):
 @login_required(login_url="/ingresar")
 def infocampania(request,campania):
 
-	c = Campania.objects.filter(id=campania).values('password','nombre','cartera__nombre')
+	c = Campania.objects.filter(id=campania).values('password','nombre','cartera__nombre','supervisor__user__empresa__nombre','supervisor__user__first_name')
 
 	data_dict = ValuesQuerySetToDict(c)
 
@@ -434,7 +436,7 @@ def getexamen(request,examen):
 @login_required(login_url="/ingresar")
 def getcamp(request,campania):
 
-	data = Campania.objects.filter(id=campania).values('id','usuario','estado','nombre','cartera__nombre')
+	data = Campania.objects.filter(id=campania).values('id','usuario','estado','nombre','cartera__nombre','supervisor__user__empresa__nombre')
 
 	data_dict = ValuesQuerySetToDict(data)
 
@@ -2035,14 +2037,27 @@ def reasignarsupervisor(request):
 
 		data= json.loads(request.body)['dato']
 
+		print 'data..............',data
+
+	
 		id_supervisor = data['supervisor']
+
 		id_campania = data['id']
+
+		factor = data['factor']
+
+		discado = data['discado']
+
+		password = data['password']
 
 		campania = Campania.objects.get(id=id_campania)
 
-		print campania.nombre
-
 		campania.supervisor_id = id_supervisor
+
+		campania.factor = factor
+		campania.discado = discado
+		campania.password = password
+
 		campania.save()
 
 
@@ -2356,22 +2371,21 @@ def campanias(request):
 
 		if nivel == 4: #Manager
 
-			data = Campania.objects.all().values('cartera__nombre','password','id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name').order_by('-id')
+			data = Campania.objects.all().values('cartera__nombre','password','id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name','supervisor__user__empresa__nombre','supervisor').order_by('-id')
 		
 		if nivel == 2: #Supervisores
 			
 			supervisor = Supervisor.objects.get(user=id).id
 
-			data = Campania.objects.filter(supervisor=supervisor).values('cartera__nombre','password','id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name').order_by('-id')
+			data = Campania.objects.filter(supervisor=supervisor).values('cartera__nombre','password','id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name','factor','discado','supervisor').order_by('-id')
 
 		if nivel == 1: #Admin
 
-			data = Campania.objects.filter(usuario__empresa=empresa).values('cartera__nombre','password','id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name').order_by('-id')
+			data = Campania.objects.filter(usuario__empresa=empresa).values('cartera__nombre','password','id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name','factor','discado','supervisor').order_by('-id')
 
-		if nivel == 5: #Admin
+		if nivel == 5: #Monitor
 
-			data = Campania.objects.filter(usuario__empresa=empresa).values('cartera__nombre','password','id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name').order_by('-id')
-
+			data = Campania.objects.filter(usuario__empresa=empresa).values('cartera__nombre','password','id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name','supervisor').order_by('-id')
 
 		fmt = '%H:%M:%S %Z'
 		fmt1 = '%Y-%m-%d %H:%M:%S %Z'
@@ -2419,7 +2433,7 @@ def nivel(request):
 
 	if nivel == 4: #Manager
 
-		nivel = Nivel.objects.all().exclude(id=4).values('id','nombre')
+		nivel = Nivel.objects.all().exclude(id__in=[2,3,4]).values('id','nombre')
 
 
 	if nivel == 2: #Supervisores
@@ -2493,11 +2507,8 @@ def status_h(request,id_campania):
 @login_required(login_url="/ingresar")
 def agentesdisponibles(request,id_campania):
 
-	id = request.user.id
 
-	nivel = AuthUser.objects.get(id=id).nivel.id
-
-	empresa = AuthUser.objects.get(id=id).empresa.id
+	id = Campania.objects.get(id=id_campania).supervisor.user.id
 
 	agentescampania = Agentescampanias.objects.filter(campania=id_campania)
 
@@ -2667,13 +2678,20 @@ def usuarios(request):
 
 		data = json.loads(request.body)['dato']
 
-		print data
+		print 'data',data
+
+		telefono = None
 
 		if tipo == "New":
 
-			username = data['username']
-			telefono = data['telefono']
+			for d in data:
 
+				if d == 'telefono':
+
+					telefono = data['telefono']
+			
+			username = data['username']
+					
 			if nivel == 4:
 			
 				empresa = data['empresa']
@@ -2730,7 +2748,7 @@ def usuarios(request):
 
 					for i in data['cartera']:
 
-						id_cartera = Cartera.objects.get(nombre=i['cartera__nombre']).id
+						id_cartera = Carteraempresa.objects.get(cartera__nombre=i['cartera__nombre'],empresa_id=empresa).id
 
 						Supervisorcartera(cartera_id=id_cartera,supervisor_id=id_sup).save()
 

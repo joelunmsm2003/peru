@@ -153,7 +153,7 @@ function Controller($scope,$http,$cookies,$filter) {
         $('#myModal').modal('hide')
         $('.modal-backdrop').remove();
 
-        swal({   title: 'Cartera '+data+' ingresada al sistema , gracias ',  type: "success",  timer: 1000,   showConfirmButton: false });
+        swal({   title: 'Cartera '+data+' ingresada al sistema , gracias ',  type: "success",  timer: 1200,   showConfirmButton: false });
 
         $scope.agregar=""
 

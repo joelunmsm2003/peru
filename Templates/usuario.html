@@ -35,7 +35,7 @@
       
         <div class="col-md-6">
         <div class="form-group">
-        <label>Email</label>
+        <label>Usuario</label>
         <input type="text" class="form-control" ng-model="model.username" required ="" >
         </div>
         </div>
@@ -231,7 +231,7 @@
 
             <tr>
                   <th class="id" ng-if="user.nivel == 1">Id <a ng-click="sort_by('id',currentPage)"><i class="icon-sort"></i></a></th>
-                  <th class="username">Email <a ng-click="sort_by('username',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th class="username">Usuario <a ng-click="sort_by('username',currentPage)"><i class="icon-sort"></i></a></th>
 
                   <th class="first_name">Nombre <a ng-click="sort_by('first_name',currentPage)"><i class="icon-sort"></i></a></th>
                   <th class="anexo" >Anexo <a ng-click="sort_by('anexo',currentPage)"><i class="icon-sort"></i></a></th>
@@ -373,16 +373,16 @@
 
                         <div class="col-md-6">
                         <div class="form-group">
-                        <label>Email</label>
-                        <input type="text" ng-change="usuariorepetido(agregar)" ng-model="agregar.username" class="form-control" placeholder="Email" required ="">{[{alerta}]}
+                        <label>Usuario</label>
+                        <input type="text" ng-change="usuariorepetido(agregar)" ng-model="agregar.username" class="form-control" placeholder="Usuario" required ="">{[{alerta}]}
                         </div>
                         </div>
 
 
                         <div class="col-md-6">
                         <div class="form-group">
-                        <label>Password</label>
-                        <input type="password" ng-model="agregar.password" class="form-control" placeholder="Password" required ="">
+                        <label>Clave de Usuario</label>
+                        <input type="password" ng-model="agregar.password" class="form-control" placeholder="Clave de Usuario" required ="">
                         </div>
                         </div>
 
@@ -409,7 +409,7 @@
                         <div class="col-md-6">
                         <div class="form-group">
                         <label>Telefono</label>
-                        <input type="number" ng-model="agregar.telefono" required ="" class="form-control" placeholder="Telefono"  >
+                        <input type="number" ng-model="agregar.telefono"  value = '1' class="form-control" placeholder="Telefono"  >
                         </div>
                         </div>
 

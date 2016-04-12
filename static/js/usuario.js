@@ -255,7 +255,7 @@ function Controller($scope,$http,$cookies,$filter) {
     
     };
 
-
+ 
 
 
     $scope.MyCtrl = function() 
@@ -277,9 +277,21 @@ function Controller($scope,$http,$cookies,$filter) {
 
     if (nivel==3){
 
-
+        $scope.nivelcartera = false
       $scope.nivelagente = true
     }
+
+    if (nivel==1){
+
+        $scope.nivelcartera = false
+      $scope.nivelagente = false
+    }
+    if (nivel==5){
+
+        $scope.nivelcartera = false
+      $scope.nivelagente = false
+    }
+
 
 
 
@@ -292,10 +304,7 @@ function Controller($scope,$http,$cookies,$filter) {
         $scope.nivelagente = false
 
     }
-    else{
-
-        $scope.nivelcartera= 0
-    }
+   
 
 
     
@@ -331,7 +340,7 @@ function Controller($scope,$http,$cookies,$filter) {
         $('#myModal').modal('hide')
         $('.modal-backdrop').remove();
 
-        swal({   title: data,   type: "success",  timer: 700,   showConfirmButton: false });
+        swal({   title: data,   type: "success",  timer: 1000,   showConfirmButton: false });
 
 
     $http.get("/usuarios").success(function(response) {$scope.clientes = response;

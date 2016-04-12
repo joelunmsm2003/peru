@@ -107,6 +107,15 @@ function Controller($scope,$http,$cookies,$filter) {
 
         $scope.model = angular.copy(contact);
         console.log($scope.model)
+        if ($scope.model.discado == 1){
+
+            $scope.discado = true
+        }
+        else{
+
+             $scope.discado = false
+
+        }
  
     };
 
@@ -114,6 +123,9 @@ function Controller($scope,$http,$cookies,$filter) {
     {
 
         console.log('jjjj',contact)
+
+          $('#reasignar').modal('hide')
+        $('.modal-backdrop').remove();
 
         var todo={
 
@@ -132,10 +144,17 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-        swal({   title: "Supervisor actualizado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Aceptar",   }, function(){   window.location.href = "/campania" });
 
+        swal({   title: 'Campaña '+contact.nombre+ ' editada :)',   type: "success",  timer: 1000,   showConfirmButton: false });
          
          $scope.agregar=""
+
+         $http.get("/campanias").success(function(response) {$scope.clientes = response;
+
+        $scope.search();
+       
+    });
+
 
 
         })
@@ -199,7 +218,7 @@ function Controller($scope,$http,$cookies,$filter) {
     $scope.saveContact = function (idx,currentPage) {
 
      
-        $scope.pagedItems[currentPage][idx] = angular.copy($scope.model);
+        consoel.log()
         $('#edit').modal('hide')
         $('.modal-backdrop').remove();
 
