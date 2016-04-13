@@ -235,22 +235,25 @@
                 </tfoot>
 
 
-              <tr class='animate' ng-repeat="contact in pagedItems[currentPage]  " ts-repeat>
+              <tr class='animate'  ng-repeat="contact in pagedItems[currentPage]  " ts-repeat>
 
-                <td >{[{contact.id}]} </td>
-                <td >{[{contact.nombre}]} </td>
+                <td style='background:{[{contact.color}]}; color:{[{contact.font}]};'>{[{contact.id}]} </td>
+                <td style='background:{[{contact.color}]}; color:{[{contact.font}]};'>{[{contact.nombre}]} </td>
                 
-                <td ng-if="user.nivel == 4" >{[{contact.supervisor__user__empresa__nombre}]} </td>
-                <td > {[{contact.cartera__nombre}]}</td>
-                <td > {[{contact.estado}]}</td>
+                <td style='background:{[{contact.color}]}; color:{[{contact.font}]};' ng-if="user.nivel == 4" >{[{contact.supervisor__user__empresa__nombre}]} </td>
+                <td style='background:{[{contact.color}]}; color:{[{contact.font}]};'> {[{contact.cartera__nombre}]}</td>
+                <td style='background:{[{contact.color}]}; color:{[{contact.font}]};'> {[{contact.estado}]}</td>
                 
                
-                <td >{[{contact.cargados}]} | {[{contact.barridos}]}  | {[{contact.errados}]}  </td>
-                <td >{[{contact.totalagentes}]} | {[{contact.conectados}]}</td>
-                <td >{[{contact.fecha_cargada}]}</td>
+                <td  style='background:{[{contact.color}]}; color:{[{contact.font}]};'>{[{contact.cargados}]} | {[{contact.barridos}]}  | {[{contact.errados}]}  </td>
+
+               
+
+                <td style='background:{[{contact.color}]}; color:{[{contact.font}]};' >{[{contact.totalagentes}]} | {[{contact.conectados}]}</td>
+                <td style='background:{[{contact.color}]}; color:{[{contact.font}]};'>{[{contact.fecha_cargada}]}</td>
                 
-                <td>{[{contact.supervisor__user__first_name}]}</td>
-                <td ng-if="user.nivel == 1">{[{contact.password}]}</td>
+                <td style='background:{[{contact.color}]}; color:{[{contact.font}]};'>{[{contact.supervisor__user__first_name}]}</td>
+                <td style='background:{[{contact.color}]}; color:{[{contact.font}]};' ng-if="user.nivel == 1">{[{contact.password}]}</td>
 
                 <td>
                 

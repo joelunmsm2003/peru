@@ -292,7 +292,7 @@ def passcampania(request,campania):
 @login_required(login_url="/ingresar")
 def infocampania(request,campania):
 
-	c = Campania.objects.filter(id=campania).values('password','nombre','cartera__nombre','supervisor__user__empresa__nombre','supervisor__user__first_name')
+	c = Campania.objects.filter(id=campania).values('password','nombre','cartera__nombre','supervisor__user__empresa__nombre','supervisor__user__first_name','supervisor__user__empresa__mascaras')
 
 	data_dict = ValuesQuerySetToDict(c)
 
@@ -798,7 +798,9 @@ def agentescalifica(request,agente):
 @login_required(login_url="/ingresar")
 def agentesall(request,empresa):
 
-		data = Agentes.objects.filter(user__empresa_id=empresa).values('id','user__first_name').order_by('-id')
+		data = Agentes.objects.filter(user__empresa_id=empresa).values('id','user__first_name','user__empresa__nombre').order_by('-id')
+
+		print 'agentesall',data.count()
 
 		data_dict = ValuesQuerySetToDict(data)
 
@@ -2109,6 +2111,20 @@ def botoneragraph(request,campania):
        contactodirecto = Base.objects.filter(resultado_id=16,campania_id=campania).count()
        contactoindirecto = Base.objects.filter(resultado_id=17,campania_id=campania).count()
        nocontacto = Base.objects.filter(resultado_id=18,campania_id=campania).count()
+       fallecido =  Base.objects.filter(resultado_id=1,campania_id=campania).count()
+       consultatramite =  Base.objects.filter(resultado_id=2,campania_id=campania).count()
+       contactosinpromesa =  Base.objects.filter(resultado_id=3,campania_id=campania).count()
+       dificultadpago =  Base.objects.filter(resultado_id=4,campania_id=campania).count()
+       acuerdoconfecha =  Base.objects.filter(resultado_id=5,campania_id=campania).count()
+       reclamoinstitucion =  Base.objects.filter(resultado_id=6,campania_id=campania).count()
+       refinanciaconvenio =  Base.objects.filter(resultado_id=7,campania_id=campania).count()
+       renuenterehuye =  Base.objects.filter(resultado_id=8,campania_id=campania).count()
+       pagoboucher =  Base.objects.filter(resultado_id=9,campania_id=campania).count()
+       desconocidomudado =  Base.objects.filter(resultado_id=10,campania_id=campania).count()
+       novivelabora =  Base.objects.filter(resultado_id=11,campania_id=campania).count()
+       sivivelabora =  Base.objects.filter(resultado_id=12,campania_id=campania).count()
+
+       contesta = AjxProLla.objects.filter(cam_codigo=campania,llam_estado=4).count()
        nocontesta = AjxProLla.objects.filter(cam_codigo=campania,llam_estado=3).count()
        buzon = AjxProLla.objects.filter(cam_codigo=campania,llam_estado=5).count()
        congestiondered = AjxProLla.objects.filter(cam_codigo=campania,llam_estado=2).count()
@@ -2116,15 +2132,28 @@ def botoneragraph(request,campania):
        pendiente = Base.objects.filter(campania_id=campania).count()-AjxProLla.objects.filter(cam_codigo=campania).count()
 
 
-       if mascara == 2:
+       if 2 == 2:
 
                data = {
 
+               		 'fallecido':fallecido,
+               		 'consultatramite':consultatramite,
+               		 'contactosinpromesa':contactosinpromesa,
+               		 'dificultadpago':dificultadpago,
+               		 'acuerdoconfecha':acuerdoconfecha,
+               		 'reclamoinstitucion':reclamoinstitucion,
+               		 'refinanciaconvenio':refinanciaconvenio,
+               		 'renuenterehuye':renuenterehuye,
+               		 'pagoboucher':pagoboucher,
+               		 'desconocidomudado':desconocidomudado,
+               		 'novivelabora':novivelabora,
+               		 'sivivelabora':sivivelabora,
                		 'Promesa':promesa,
                      'Contacto Directo':contactodirecto,
                      'Contacto Indirecto':contactoindirecto,
                      'No Contacto':nocontacto,
        				 'No Contesta':nocontesta,
+       				 'Contesta':contesta,
                      'Buzon':buzon,
                      'Congestion de Red':congestiondered,
                      'Asterisk':asterisk,
@@ -2401,6 +2430,16 @@ def campanias(request):
 			data[i]['barridos'] = Base.objects.filter(campania_id=data[i]['id'],status=1).count()
 			data[i]['errados'] = Base.objects.filter(campania_id=data[i]['id'],status=2).count()
 
+			if data[i]['cargados'] == data[i]['barridos']:
+
+				data[i]['color'] = '#FFF1F1'
+				data[i]['font'] = '#C6231C'
+
+			else:
+				data[i]['color'] = '#fff'
+				data[i]['font'] = '#000'
+
+
 		data_dict = ValuesQuerySetToDict(data)
 
 		data = simplejson.dumps(data_dict)
@@ -2663,11 +2702,11 @@ def usuarios(request):
 
 	if nivel == 1: #Admin
 
-		usuarios = AuthUser.objects.filter(empresa=empresa).exclude(nivel=4).values('anexo','id','telefono','username','email','empresa__nombre','nivel__nombre','first_name').order_by('-id')
+		usuarios = AuthUser.objects.filter(empresa_id=empresa).exclude(nivel=4).values('anexo','id','telefono','username','email','empresa__nombre','nivel__nombre','first_name').order_by('-id')
 
 	if nivel == 5: #Admin
 
-		usuarios = AuthUser.objects.filter(empresa=empresa).exclude(nivel=4).values('anexo','id','telefono','username','email','empresa__nombre','nivel__nombre','first_name').order_by('-id')
+		usuarios = AuthUser.objects.filter(empresa_id=empresa).exclude(nivel=4).values('anexo','id','telefono','username','email','empresa__nombre','nivel__nombre','first_name').order_by('-id')
 
 
 	data = json.dumps(ValuesQuerySetToDict(usuarios))

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" ng-app="App" ng-controller="Controller">
 
 {% include "head.html" %}
 
@@ -11,7 +11,7 @@
 <script src="/static/js/angular-chart.js"></script>
 
 
-<body ng-app="App" ng-controller="Controller">
+<body >
 
 
 <div class='vertical' style="position: absolute;">
@@ -106,6 +106,9 @@ padding-top: 8px;
 
           <a class='btn btn-primary' ng-href='/adminCampania/{[{camp}]}'> <i class="fa fa-user"></i> Agentes </a>
  <a class='btn btn-primary' ng-href='/filtros/{[{camp}]}'> <i class="fa fa-filter"></i> Filtros </a>
+ 
+<button ng-click="mon()" class="btn btn-primary" ng-show='bb'>Ver Graficas <i class="fa fa-line-chart"></i></button>
+<button ng-click="ocultarmon()" class="btn btn-primary" ng-show='bbi'>Ocultar Graficas <i class="fa fa-line-chart"></i></button>
 
 
           <br></br>
@@ -192,8 +195,6 @@ padding-top: 8px;
 
 <!--Graficas de Monitoreo-->
 
-<button ng-click="mon()" class="btn btn-primary" ng-show='bb'>Ver Graficas <i class="fa fa-line-chart"></i></button>
-<button ng-click="ocultarmon()" class="btn btn-primary" ng-show='bbi'>Ocultar Graficas <i class="fa fa-line-chart"></i></button>
 
   <div class="panel panel-default monixxx animated bounceIn " >
 
@@ -202,38 +203,25 @@ padding-top: 8px;
     
       <div class ='row'>
 
-    <div class="col-sm-3">
+    <div class="col-md-6">
 
-  <div id="pie" style="width:80%; height:200px;"></div>
-
-    </div>
-
-    <div class="col-sm-3">
-
-  <div id="pie1" style="width:80%; height:200px;"></div>
+  <div id="pie3D" style="width:100%; height:300px;"></div>
 
     </div>
 
-      <div class="col-sm-3">
+    <div  class="col-md-6">
 
-  <div id="xy" style="width:100%; height:200px;"></div>
-
-    </div>
-
-       <div class="col-sm-3">
  
-   <div id="ga" style="width:100%; height:200px;"></div>
-<center><a class='llam'>{[{nllam}]}</a></center>
 
-<style type="text/css">
-.llam {
-  font-size: 17px;
-  color: #BF3737;
-  font-weight: bold;
-  text-align: center;
-}
-</style>
+    <div id="graph1" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+
     </div>
+
+   
+
+
+
+
 
 
   </div>
@@ -252,10 +240,13 @@ padding-top: 8px;
 
 
 
+<script src="/static/js/highchart.js"></script>
+
+<script src="/static/js/highcharts3d.js"></script>
 
 
-   {% include "graficos.html" %} 
- 
+<script src="https://code.highcharts.com/highcharts-more.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
 
 
 </div>

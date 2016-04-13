@@ -9,6 +9,622 @@ $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
 campania = window.location.href.split("monitoreo/")[1].split("/")[0]
 
 
+
+$(function () {
+    // Create the chart
+    $('#graph1').highcharts({
+        chart: {
+            type: 'column',
+             events: {
+                        load: function () {
+
+                                serie1 = this.series
+
+                                  var updateChart = function() {
+
+                                $.getJSON("/botoneragraph/"+campania, function (result) {
+
+                                    console.log('botoro llam',result)
+
+       
+
+                                    serie1[0].points[0].update(result['pPromesa'])
+                                    serie1[0].points[1].update(result['pDirecto'])
+                                    serie1[0].points[2].update(result['pIndirecto'])
+                                    serie1[0].points[3].update(result['pNocontacto'])
+                                    serie1[0].points[4].update(result['pAsterisk'])
+                                    serie1[0].points[5].update(result['pPendiente'])
+                                   
+
+                          
+
+                                   
+                           
+                                });
+
+                            }
+
+                        setTimeout(function(){updateChart()},1000);
+
+                            }
+                        }
+        },
+        title: {
+            text: 'Cobertura Campaña'
+        },
+     
+        xAxis: {
+
+
+            categories: [
+                'Promesa',
+                'Contacto Directo',
+                'Contacto Indirecto',
+                'No Contacto',
+                'Asterisk',
+                'Pendiente'
+           
+            ],
+            crosshair: true
+        },
+        yAxis: {
+            title: {
+                text: 'Porcentaje'
+            }
+
+        },
+        legend: {
+            enabled: false
+        },
+        plotOptions: {
+            series: {
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.y:.1f}%'
+                }
+            }
+        },
+
+        tooltip: {
+            headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
+        },
+
+        series: [{
+            name: 'Llamadas',
+            colorByPoint: true,
+            data: [{
+                name: 'Promesa',
+                y: 56.33,
+                drilldown: 'Promesa'
+            }, {
+                name: 'Directo',
+                y: 24.03,
+                drilldown: 'Directo'
+            }, {
+                name: 'Indirecto',
+                y: 10.38,
+                drilldown: 'Indirecto'
+            }, {
+                name: 'No Contacto',
+                y: 4.77,
+                drilldown: 'No Contacto'
+            },
+            {
+                name: 'Asterik',
+                y: 4.77,
+                drilldown: 'Asterik'
+            },
+
+            {
+                name: 'Pendiente',
+                y: 4.77,
+                drilldown: 'Pendiente'
+            }]
+        }],
+        drilldown: {
+            series: [{
+                name: 'Promesa',
+                id: 'Promesa',
+                data: [3
+            
+                ]
+            }, {
+                name: 'Directo',
+                id: 'Directo',
+                data: [
+                    [
+                        'v40.0',
+                        5
+                    ],
+                    [
+                        'v41.0',
+                        4.32
+                    ],
+                    [
+                        'v42.0',
+                        3.68
+                    ],
+                    [
+                        'v39.0',
+                        2.96
+                    ],
+                    [
+                        'v36.0',
+                        2.53
+                    ],
+                    [
+                        'v43.0',
+                        1.45
+                    ],
+                    [
+                        'v31.0',
+                        1.24
+                    ],
+                    [
+                        'v35.0',
+                        0.85
+                    ],
+                    [
+                        'v38.0',
+                        0.6
+                    ],
+                    [
+                        'v32.0',
+                        0.55
+                    ],
+                    [
+                        'v37.0',
+                        0.38
+                    ],
+                    [
+                        'v33.0',
+                        0.19
+                    ],
+                    [
+                        'v34.0',
+                        0.14
+                    ],
+                    [
+                        'v30.0',
+                        0.14
+                    ]
+                ]
+            }, {
+                name: 'Indirecto',
+                id: 'Indirecto',
+                data: [
+                    [
+                        'v35',
+                        2.76
+                    ],
+                    [
+                        'v36',
+                        2.32
+                    ],
+                    [
+                        'v37',
+                        2.31
+                    ],
+                    [
+                        'v34',
+                        1.27
+                    ],
+                    [
+                        'v38',
+                        1.02
+                    ],
+                    [
+                        'v31',
+                        0.33
+                    ],
+                    [
+                        'v33',
+                        0.22
+                    ],
+                    [
+                        'v32',
+                        0.15
+                    ]
+                ]
+            }, {
+                name: 'No Contacto',
+                id: 'No Contacto',
+                data: [
+                    [
+                        'v8.0',
+                        2.56
+                    ],
+                    [
+                        'v7.1',
+                        0.77
+                    ],
+                    [
+                        'v5.1',
+                        0.42
+                    ],
+                    [
+                        'v5.0',
+                        0.3
+                    ],
+                    [
+                        'v6.1',
+                        0.29
+                    ],
+                    [
+                        'v7.0',
+                        0.26
+                    ],
+                    [
+                        'v6.2',
+                        0.17
+                    ]
+                ]
+            }]
+        }
+    });
+});
+
+
+//-----
+
+
+$(function () {
+    // Create the chart
+    $('#graph2').highcharts({
+        chart: {
+            type: 'column',
+             events: {
+                        load: function () {
+
+                                serie1 = this.series
+
+                                  var updateChart = function() {
+
+                                $.getJSON("/botoneragraph/"+campania, function (result) {
+
+                                    console.log('botoro llam',result)
+
+       
+
+                                    serie1[0].points[0].update(result['Promesa'])
+                                    serie1[0].points[1].update(result['Contacto Directo'])
+                                    serie1[0].points[2].update(result['Contacto Indirecto'])
+                                    serie1[0].points[3].update(result['No Contacto'])
+                                    serie1[0].points[4].update(result['fallecido'])
+                                    serie1[0].points[5].update(result['consultatramite'])
+                                    serie1[0].points[5].update(result['contactosinpromesa'])
+                                    serie1[0].points[5].update(result['dificultadpago'])
+                                    serie1[0].points[5].update(result['acuerdoconfecha'])
+                                    serie1[0].points[5].update(result['reclamoinstitucion'])
+                                    serie1[0].points[5].update(result['refinanciaconvenio'])
+                                    serie1[0].points[5].update(result['renuenterehuye'])
+                                    serie1[0].points[5].update(result['pagoboucher'])
+                                    serie1[0].points[5].update(result['desconocidomudado'])
+                                    serie1[0].points[5].update(result['novivelabora'])
+                                    serie1[0].points[5].update(result['sivivelabora'])
+
+     
+                           
+                                });
+
+                            }
+
+                        setTimeout(function(){updateChart()},1000);
+
+                            }
+                        }
+        },
+        title: {
+            text: 'Cobertura Campaña'
+        },
+     
+        xAxis: {
+
+
+            categories: [
+                'Promesa',
+                'Contacto Directo',
+                'Contacto Indirecto',
+                'No Contacto',
+                'Fallecido',
+                'Consulta en tramite',
+                'Contacto sin promesa',
+                'Dificultad de Pago',
+                'Acuerdo con fecha de pago',
+                'Reclamo Institucion',
+                'Refinancia/Convenio',
+                'Renuente/Rehuye',
+                'Ya pago con boucher',
+                'Tit.desconocido/ Mudado',
+                'Msj Tercero(No vive/labora)',
+                'Msj Tercero(Si vive/labora)'
+
+            ],
+            crosshair: true
+        },
+        yAxis: {
+            title: {
+                text: 'Porcentaje'
+            }
+
+        },
+        legend: {
+            enabled: false
+        },
+        plotOptions: {
+            series: {
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.y:.1f}%'
+                }
+            }
+        },
+
+        tooltip: {
+            headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
+        },
+
+        series: [{
+            name: 'Llamadas',
+            colorByPoint: true,
+            data: [{
+                name: 'Promesa',
+                y: 56.33,
+                drilldown: 'Promesa'
+            }, {
+                name: 'Directo',
+                y: 24.03,
+                drilldown: 'Directo'
+            }, {
+                name: 'Indirecto',
+                y: 10.38,
+                drilldown: 'Indirecto'
+            }, {
+                name: 'No Contacto',
+                y: 4.77,
+                drilldown: 'No Contacto'
+            },
+            {
+                name: 'Asterik',
+                y: 4.77,
+                drilldown: 'Asterik'
+            },
+
+            {
+                name: 'Pendiente',
+                y: 4.77,
+                drilldown: 'Pendiente'
+            }]
+        }],
+        drilldown: {
+            series: [{
+                name: 'Promesa',
+                id: 'Promesa',
+                data: [3
+            
+                ]
+            }, {
+                name: 'Directo',
+                id: 'Directo',
+                data: [
+                    [
+                        'v40.0',
+                        5
+                    ],
+                    [
+                        'v41.0',
+                        4.32
+                    ],
+                    [
+                        'v42.0',
+                        3.68
+                    ],
+                    [
+                        'v39.0',
+                        2.96
+                    ],
+                    [
+                        'v36.0',
+                        2.53
+                    ],
+                    [
+                        'v43.0',
+                        1.45
+                    ],
+                    [
+                        'v31.0',
+                        1.24
+                    ],
+                    [
+                        'v35.0',
+                        0.85
+                    ],
+                    [
+                        'v38.0',
+                        0.6
+                    ],
+                    [
+                        'v32.0',
+                        0.55
+                    ],
+                    [
+                        'v37.0',
+                        0.38
+                    ],
+                    [
+                        'v33.0',
+                        0.19
+                    ],
+                    [
+                        'v34.0',
+                        0.14
+                    ],
+                    [
+                        'v30.0',
+                        0.14
+                    ]
+                ]
+            }, {
+                name: 'Indirecto',
+                id: 'Indirecto',
+                data: [
+                    [
+                        'v35',
+                        2.76
+                    ],
+                    [
+                        'v36',
+                        2.32
+                    ],
+                    [
+                        'v37',
+                        2.31
+                    ],
+                    [
+                        'v34',
+                        1.27
+                    ],
+                    [
+                        'v38',
+                        1.02
+                    ],
+                    [
+                        'v31',
+                        0.33
+                    ],
+                    [
+                        'v33',
+                        0.22
+                    ],
+                    [
+                        'v32',
+                        0.15
+                    ]
+                ]
+            }, {
+                name: 'No Contacto',
+                id: 'No Contacto',
+                data: [
+                    [
+                        'v8.0',
+                        2.56
+                    ],
+                    [
+                        'v7.1',
+                        0.77
+                    ],
+                    [
+                        'v5.1',
+                        0.42
+                    ],
+                    [
+                        'v5.0',
+                        0.3
+                    ],
+                    [
+                        'v6.1',
+                        0.29
+                    ],
+                    [
+                        'v7.0',
+                        0.26
+                    ],
+                    [
+                        'v6.2',
+                        0.17
+                    ]
+                ]
+            }]
+        }
+    });
+});
+
+
+
+//------
+
+
+$(function () {
+    $('#pie3D').highcharts({
+        chart: {
+            type: 'pie',
+            options3d: {
+                enabled: true,
+                alpha: 45,
+                beta: 0
+            },
+            events: {
+                        load: function () {
+
+                                var serie3 = this.series[0];
+
+                                  var updateChartpie = function() {
+
+                                $.getJSON("/botoneragraph/"+campania, function (response) {
+
+                     
+                                    nocontesta = response['No Contesta']
+                                    buzon = response['Buzon']
+                                    error = response['Congestion de Red']
+                                    contesta = response['Contesta']
+
+                                    serie3.data[0].update(nocontesta);
+                                    serie3.data[1].update(buzon);
+                                    serie3.data[2].update(error);
+                                    serie3.data[3].update(contesta);
+                                                       
+                           
+                                });
+
+                            }
+
+
+                        setTimeout(function(){updateChartpie()},1000);
+
+                       
+
+                            }
+                        }
+        },
+        title: {
+            text: 'Monitoreo de Llamadas'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                depth: 35,
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.name}'
+                }
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: 'Cantidad',
+            data: [
+
+
+                ['No Contesta', 45.0],
+                ['Buzon', 26.8],
+             
+                ['Error', 8.5],
+                ['Contesta', 6.2]
+               
+            ]
+        }]
+    });
+});
+
+
 $(function () {
 
     $('#pie').highcharts({
@@ -39,7 +655,7 @@ $(function () {
 
         }      
               
-        setInterval(function(){updateChart()},100000);
+        setInterval(function(){updateChart()},1000);
 
                     }
                 }
@@ -123,7 +739,7 @@ $(function () {
 
         }      
               
-        setInterval(function(){updateChart()},100000);
+        setInterval(function(){updateChart()},1000);
 
 
 
@@ -201,7 +817,7 @@ $(function () {
 
                                 }
 
-                                setInterval(function(){updateChart()},100000);
+                                setInterval(function(){updateChart()},1000);
 
                         
 
@@ -290,7 +906,7 @@ $(function () {
                                 });   
 
                                 }      
-                                setInterval(function(){updateChart()},100000);
+                                setInterval(function(){updateChart()},1000);
 
                             }
                         }
@@ -436,6 +1052,9 @@ function Controller($scope,$http,$cookies,$filter) {
 
         $scope.campana = response[0]['nombre']
         $scope.cartera = response[0]['cartera__nombre']
+        $scope.mascara = response[0]['supervisor__user__empresa__mascaras']
+
+
 
        
     });
@@ -464,7 +1083,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
     });
 
-    }, 100000);
+    }, 1000);
 
     
 

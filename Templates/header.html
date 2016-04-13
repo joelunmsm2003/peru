@@ -43,10 +43,10 @@
 
         
 
-          <li id='licencia' class="dropdown">
+          <li  ng-if="user.nivel == 1 || user.nivel == 2" id='licencia' class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
 
-          <i class="fa fa-check"></i> Evaluacion <span class="caret"></span></a>
+          <i  class="fa fa-check"></i> Evaluacion <span class="caret"></span></a>
           <ul class="dropdown-menu">
 
             <li id="dashboard"><a href="/dashboard/14/1"><i class="fa fa-check-circle-o"></i> Agente </a></li>

@@ -173,20 +173,21 @@ function Controller($scope,$http,$cookies,$filter) {
 
     $http.get("/agente/"+agente).success(function(response) {
 
-    $scope.agente = response;
+            $scope.agente = response;
 
-    $scope.agentex = JSON.parse($scope.agente.data)[0]
+            $scope.agentex = JSON.parse($scope.agente.data)[0]
 
-    console.log(JSON.parse($scope.agente.data)[0])
+            console.log(JSON.parse($scope.agente.data)[0])
 
-    empresa = JSON.parse($scope.agente.data)[0].user__empresa_id
+            empresa = JSON.parse($scope.agente.data)[0].user__empresa_id
 
-        $http.get("/agentesall/"+empresa).success(function(response) {$scope.agentes = response;
+            console.log('empresa',empresa)
 
-        });
+                $http.get("/agentesall/"+empresa).success(function(response) {$scope.agentes = response;
 
-    //{"atendidas":1,"media":3,"data":"[{\"fono\": 0, \"contactadas\": 350, \"supervisor\": null, \"estado__nombre\": \"En Llamada\", \"atendidas\": 10, \"calificacion\": 426, \"user__empresa__mascaras__tipo\": \"Interna\", \"user__first_name\": \"Cesar\", \"anexo\": 280, \"user__empresa__url\": \"\", \"id\": 14}]","acuerdos":8}
+                });
 
+   
     });
 
     $http.get("/preguntas/1").success(function(response) {$scope.preguntas = response;

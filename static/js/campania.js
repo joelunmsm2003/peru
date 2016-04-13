@@ -35,6 +35,8 @@ function Controller($scope,$http,$cookies,$filter) {
 
     }
 
+    $scope.color='#333'
+
 
 
 
