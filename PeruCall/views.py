@@ -1698,7 +1698,7 @@ def carteras(request):
 
 		if nivel == 1:
 
-			data = Carteraempresa.objects.filter(empresa_id=empresa).values('id','cartera__nombre','empresa__nombre').order_by('-id')
+			data = Carteraempresa.objects.filter(empresa_id=empresa).values('id','cartera__nombre','empresa__nombre','cartera_id').order_by('-id')
 
 		if nivel == 2:
 
@@ -1707,15 +1707,15 @@ def carteras(request):
 
 		if nivel == 3:
 
-			data = Carteraempresa.objects.filter(empresa_id=empresa).values('id','cartera__nombre','empresa__nombre').order_by('-id')
+			data = Carteraempresa.objects.filter(empresa_id=empresa).values('id','cartera__nombre','empresa__nombre','cartera_id').order_by('-id')
 
 		if nivel == 4:
 
-			data = Carteraempresa.objects.all().values('id','cartera__nombre','empresa__nombre').order_by('-id')
+			data = Carteraempresa.objects.all().values('id','cartera__nombre','empresa__nombre','cartera_id').order_by('-id')
 
 		if nivel == 5:
 
-			data = Carteraempresa.objects.filter(empresa_id=empresa).values('id','cartera__nombre','empresa__nombre').order_by('-id')
+			data = Carteraempresa.objects.filter(empresa_id=empresa).values('id','cartera__nombre','empresa__nombre','cartera_id').order_by('-id')
 
 
 

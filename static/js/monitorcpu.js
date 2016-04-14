@@ -35,7 +35,8 @@ function Controller($scope,$http,$cookies,$filter) {
 
         $scope.user = $scope.user[0]
 
-        $('#wrapper').fadeToggle("slow")
+        
+        $('.container').fadeToggle("slow")
 
     });
 

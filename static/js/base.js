@@ -98,7 +98,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
         $scope.infocamp = response[0];
 
-        $('#wrapper').fadeToggle("slow")
+        $('.container').fadeToggle("slow")
 
     });
 
@@ -122,7 +122,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
             console.log($scope.user.nivel)
 
-            if ($scope.user.nivel == 2){
+            if ($scope.user.nivel == 2 || $scope.user.nivel == 1 ){
 
                 $http.get("/getcampanias/"+cartera.cartera_id).success(function(response) {$scope.campanias = response;
 

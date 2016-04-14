@@ -1185,7 +1185,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
     $http.get("/nivel").success(function(response) {$scope.nivel = response;
 
-    $('#wrapper').fadeToggle("slow")
+    $('.container').fadeToggle("slow","linear")
 
 
      

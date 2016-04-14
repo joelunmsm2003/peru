@@ -8,9 +8,6 @@
 
 <body >
 
- <div id="wrapper">
-
-
 <div class="container" >
 
 {% include "header.html" %}
@@ -238,7 +235,7 @@
                 </tfoot>
 
 
-              <tr class='animate'  ng-repeat="contact in pagedItems[currentPage]  " ts-repeat>
+              <tr   ng-repeat="contact in pagedItems[currentPage]  " ts-repeat>
 
                 <td style='background:{[{contact.color}]}; color:{[{contact.font}]};'>{[{contact.id}]} </td>
                 <td style='background:{[{contact.color}]}; color:{[{contact.font}]};'>{[{contact.nombre}]} </td>
@@ -490,7 +487,7 @@
   <script src="/static/js/angular-route.js"></script>
 
 
-</div>
+
 
 </body>
 

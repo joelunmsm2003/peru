@@ -9,7 +9,6 @@
 
 <body >
 
- <div id="wrapper">
 {% include "header.html" %}
 
 <div class="container" >
@@ -259,7 +258,7 @@
 
 
 
-              <tr  class='animate' ng-repeat="contact in pagedItems[currentPage]  " ts-repeat>
+              <tr   ng-repeat="contact in pagedItems[currentPage]  " ts-repeat>
 
                 <td ng-if="user.nivel == 1">{[{contact.id}]} </td>
                 <td >{[{contact.username}]} </td>
@@ -503,7 +502,7 @@
     </div>
   </div>
 
-</div>
+
 
 </body>
 

@@ -154,6 +154,7 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
     
 
             $('#wrapper').fadeToggle("slow")
+            $('.container').fadeToggle("slow")
 
     });
 

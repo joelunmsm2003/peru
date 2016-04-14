@@ -8,7 +8,7 @@
 
 <body >
 
- <div id="wrapper">
+
 
 <div class="container">
 
@@ -100,13 +100,16 @@
                   </tr>
               </thead>
 
-              <tr class='animate' ng-repeat="contact in agenteboton " class='active' ts-repeat>
+              <tr  ng-repeat="contact in agenteboton " class='active' ts-repeat>
 
                   <td>{[{contact.agente__user__first_name}]}</td>
                   <td>{[{contact.promesa}]}</td>
                   <td>{[{contact.directo}]}</td>
                   <td>{[{contact.indirecto}]}</td>
                   <td>{[{contact.nocontacto}]}</td>
+                  <input type="checkbox" ng-model='contact.seleccionar' ng-change="add(contact)">
+
+
               </tr>
             </tbody>
 
@@ -441,7 +444,7 @@ color: #fff;
 
   <script src="/static/js/angular-route.js"></script>
 
-  </div>
+
 
 </body>
 

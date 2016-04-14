@@ -416,7 +416,8 @@ function Controller($scope,$http,$cookies,$filter) {
         $scope.currentPage = this.n-1;
     };
 
-     $('#wrapper').fadeToggle("slow")
+     
+     $('.container').fadeToggle("slow")
 
     
     Controller.$inject = ['$scope', '$filter'];

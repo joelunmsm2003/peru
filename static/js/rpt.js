@@ -90,6 +90,7 @@ function Todo($scope,$http,$cookies,$filter) {
         $scope.empresax=response[0]
 
         $('#wrapper').fadeToggle("slow")
+        $('.container').fadeToggle("slow")
        
     });
 
