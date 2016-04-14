@@ -266,17 +266,17 @@
                        
                       <tr  ng-repeat="resultado in listafiltros " class='active' ts-repeat>
                           
-                      <td>{[{resultado.status}]}</td> 
-                      <td>{[{resultado.resultado}]}</td> 
-                      <td>{[{resultado.ciudad}]}</td>
-                      <td>{[{resultado.segmento}]}</td>
-                      <td>{[{resultado.grupo}]}</td>
+                      <td style='background:{[{resultado.color}]}; color:{[{resultado.colort}]}'>{[{resultado.status}]}</td> 
+                      <td style='background:{[{resultado.color}]}; color:{[{resultado.colort}]}'>{[{resultado.resultado}]}</td> 
+                      <td style='background:{[{resultado.color}]}; color:{[{resultado.colort}]}'>{[{resultado.ciudad}]}</td>
+                      <td style='background:{[{resultado.color}]}; color:{[{resultado.colort}]}'>{[{resultado.segmento}]}</td>
+                      <td style='background:{[{resultado.color}]}; color:{[{resultado.colort}]}'>{[{resultado.grupo}]}</td>
                       <td style='background:{[{resultado.color}]}; color:{[{resultado.colort}]}'><center>{[{resultado.fonosporbarrer}]} / {[{resultado.total}]}</center></td>
-                      <td><center>{[{resultado.fonosinexito}]}</center> </td>
+                      <td style='background:{[{resultado.color}]}; color:{[{resultado.colort}]}'><center>{[{resultado.fonosinexito}]}</center> </td>
                       
-                      <td><a ng-click="eliminar(resultado,$index)" class="btn btn-primary" data-toggle="modal" data-target="#eliminar"><i class="icon-trash"></i> </a></td>
+                      <td style='background:{[{resultado.color}]}; color:{[{resultado.colort}]}'><a ng-click="eliminar(resultado,$index)" class="btn btn-primary" data-toggle="modal" data-target="#eliminar"><i class="icon-trash"></i> </a></td>
 
-                      <td>
+                      <td style='background:{[{resultado.color}]}; color:{[{resultado.colort}]}'>
                       <a ng-click="desactivafiltro(resultado,$index)" ng-if="resultado.status == 1" class="btn btn-primary" ><center><i class="fa fa-stop"></i></center></a>
                       
 

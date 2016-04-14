@@ -1165,8 +1165,8 @@ function Controller($scope,$http,$cookies,$filter) {
 
      $http.get("/agentescampania/"+campania).success(function(response) {
 
-        $scope.campana = response[0]['campania__nombre']
-        $scope.cartera = response[0]['campania__cartera__nombre']
+        //$scope.campana = response[0]['campania__nombre']
+        //$scope.cartera = response[0]['campania__cartera__nombre']
 
 
     });
@@ -1185,7 +1185,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
     $http.get("/nivel").success(function(response) {$scope.nivel = response;
 
-        console.log('$scope.nivel',$scope.nivel)
+     
 
     });
 

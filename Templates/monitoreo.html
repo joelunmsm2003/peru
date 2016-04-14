@@ -102,10 +102,10 @@ padding-top: 8px;
 
   <!--Agentes Cuadrados-->   
 
-          <div class='row' onmouseover="container()">
+          <div class='row' >
 
-          <a class='btn btn-primary' ng-href='/adminCampania/{[{camp}]}'> <i class="fa fa-user"></i> Agentes </a>
- <a class='btn btn-primary' ng-href='/filtros/{[{camp}]}'> <i class="fa fa-filter"></i> Filtros </a>
+  <a ng-if="user.nivel == 1 || user.nivel == 2 " class='btn btn-primary' ng-href='/adminCampania/{[{camp}]}'> <i class="fa fa-user"></i> Agentes </a>
+ <a ng-if="user.nivel == 1 || user.nivel == 2 " class='btn btn-primary' ng-href='/filtros/{[{camp}]}'> <i class="fa fa-filter"></i> Filtros </a>
  
 <button ng-click="mon()" class="btn btn-primary" ng-show='bb'>Ver Graficas <i class="fa fa-line-chart"></i></button>
 <button ng-click="ocultarmon()" class="btn btn-primary" ng-show='bbi'>Ocultar Graficas <i class="fa fa-line-chart"></i></button>
