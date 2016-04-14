@@ -1787,13 +1787,13 @@ def listafiltros(request,id_campania):
 
 		if data[i]['status']==1:
 
-			data[i]['color'] = '#3640FD'
-			data[i]['colort'] = '#fff'
+			data[i]['color'] = '#A7DBFA'
+			data[i]['colort'] = '#000'
 
 		
 		else:
 
-			data[i]['color'] = '#E7DFE1'
+			data[i]['color'] = '#FAF8F8'
 
 
 
@@ -2511,8 +2511,9 @@ def campanias(request):
 
 			if data[i]['cargados'] == data[i]['barridos']:
 
-				data[i]['color'] = '#5C86F4'
-				data[i]['font'] = '#fff'
+				data[i]['color'] = '#A7DBFA'
+				##F2CA95
+				data[i]['font'] = '#000'
 
 			else:
 				data[i]['color'] = '#fff'
