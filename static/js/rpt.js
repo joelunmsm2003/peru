@@ -88,6 +88,8 @@ function Todo($scope,$http,$cookies,$filter) {
        $http.get("/getempresa").success(function(response) {
 
         $scope.empresax=response[0]
+
+        $('#wrapper').fadeToggle("slow")
        
     });
 

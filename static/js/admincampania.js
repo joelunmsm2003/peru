@@ -63,7 +63,8 @@ function Controller($scope,$http,$cookies,$filter) {
 
     $http.get("/nivel").success(function(response) {$scope.nivel = response;
 
-        console.log('$scope.nivel',$scope.nivel)
+       $('#wrapper').fadeToggle("slow")
+
 
     });
 

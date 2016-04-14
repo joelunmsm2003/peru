@@ -98,7 +98,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
         $scope.infocamp = response[0];
 
-        console.log('camppp',response)
+        $('#wrapper').fadeToggle("slow")
 
     });
 

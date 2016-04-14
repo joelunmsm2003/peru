@@ -16,6 +16,11 @@ body {
     color:#101010;
 }
 
+#wrapper{
+    
+    display:none;
+}
+
 
 .col .s6 .offset-s6 .grid-example .user{
 

@@ -75,7 +75,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
         }
 
-           
+         $('#wrapper').fadeToggle("slow")  
 
     });
 
