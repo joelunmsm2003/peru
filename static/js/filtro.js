@@ -22,7 +22,11 @@ function Controller($scope,$http,$cookies,$filter) {
 
     $scope.filtro = []
 
-    $http.get("/resultado").success(function(response) {$scope.resultado = response;
+    $http.get("/resultado/"+campania).success(function(response) {
+
+        $scope.resultado = response;
+
+        console.log('resultado',response)
 
     });
 

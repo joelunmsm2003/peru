@@ -54,6 +54,7 @@ urlpatterns = patterns('',
     url(r'^detallesupervisormant/(\w+)/$','PeruCall.views.detallesupervisormant'),
     url(r'^detallesupervisor/(\w+)/$','PeruCall.views.detallesupervisor'),
     url(r'^totalestllam/$','PeruCall.views.totalestllam'),
+    url(r'^lanzaespera/$','PeruCall.views.lanzaespera'),
 
 
     url(r'^agentescalifica/(\w+)/$','PeruCall.views.agentescalifica'),
@@ -121,12 +122,13 @@ urlpatterns = patterns('',
     url(r'^status_f/(\w+)/$', 'PeruCall.views.status_f'),
     url(r'^status_g/(\w+)/$', 'PeruCall.views.status_g'),
     url(r'^status_h/(\w+)/$', 'PeruCall.views.status_h'),
-    url(r'^resultado/$', 'PeruCall.views.resultado'),
+    url(r'^resultado/(\w+)/$', 'PeruCall.views.resultado'),
+    url(r'^resultadototal/$', 'PeruCall.views.resultadototal'),
     url(r'^cpuestado/$', 'PeruCall.views.cpuestado'),
     url(r'^astapp/$', 'PeruCall.views.astapp'),
     url(r'^monitorcpu/$', 'PeruCall.views.monitorcpu'),
     url(r'^graphcpu/$', 'PeruCall.views.graphcpu'),
-
+    url(r'^botonexterno/$', 'PeruCall.views.botonexterno'),
 
 
 )

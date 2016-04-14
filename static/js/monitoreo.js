@@ -368,6 +368,9 @@ $(function () {
             pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
         },
 
+         
+
+
         series: [{
             name: 'Llamadas',
             colorByPoint: true,
@@ -384,20 +387,73 @@ $(function () {
                 y: 10.38,
                 drilldown: 'Indirecto'
             }, {
-                name: 'No Contacto',
+                name: 'Fallecido',
                 y: 4.77,
-                drilldown: 'No Contacto'
+                drilldown: 'Fallecido'
             },
             {
-                name: 'Asterik',
+                name: 'Consulta en tramite',
                 y: 4.77,
-                drilldown: 'Asterik'
+                drilldown: 'Consulta en tramit'
+            },
+
+
+
+            {
+                name: 'Contacto sin promesa',
+                y: 4.77,
+                drilldown: 'Contacto sin promesa'
             },
 
             {
-                name: 'Pendiente',
+                name: 'Dificultad de Pago',
                 y: 4.77,
-                drilldown: 'Pendiente'
+                drilldown: 'Dificultad de Pago'
+            }
+            ,
+            {
+                name: 'Acuerdo con fecha de pago',
+                y: 4.77,
+                drilldown: 'Acuerdo con fecha de pago'
+            },
+
+            {
+                name: 'Reclamo Institucion',
+                y: 4.77,
+                drilldown: 'Reclamo Institucion'
+            },
+
+            {
+                name: 'Refinancia/Convenio',
+                y: 4.77,
+                drilldown: 'Refinancia/Convenio'
+            },
+
+            {
+                name: 'Renuente/Rehuye',
+                y: 4.77,
+                drilldown: 'Renuente/Rehuye'
+            },
+
+            {
+                name: 'Ya pago con boucher',
+                y: 4.77,
+                drilldown: 'Ya pago con boucher'
+            },
+            {
+                name: 'Tit.desconocido/ Mudado',
+                y: 4.77,
+                drilldown: 'Tit.desconocido/ Mudado'
+            },
+            {
+                name: 'Msj Tercero(No vive/labora)',
+                y: 4.77,
+                drilldown: 'Msj Tercero(No vive/labora)'
+            },
+            {
+                name: 'Msj Tercero(Si vive/labora)',
+                y: 4.77,
+                drilldown: 'Msj Tercero(Si vive/labora)'
             }]
         }],
         drilldown: {

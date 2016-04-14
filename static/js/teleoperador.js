@@ -9,17 +9,11 @@ $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
 
 function Controller($scope,$http,$cookies,$filter,$interval,$location) {
 
-   
-
-
     agente = window.location.href.split("teleoperador/")[1].split("/")[0]
-
     
-    $http.get("/resultado").success(function(response) {$scope.resultado = response;
+    $http.get("/resultadototal").success(function(response) {$scope.resultado = response;
               
     });
-
-
     $http.get("/empresas").success(function(response) {$scope.empresas = response[0];
    
        
@@ -32,9 +26,19 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
     });
 
 
+     $scope.promesa = 15
+     $scope.directo = 16
+     $scope.indirecto = 17
+     $scope.nocontacto = 18
+
+
     $http.get("/cliente/"+agente).success(function(response) {
 
         $scope.cliente = response[0];
+
+        console.log('Reg base',$scope.cliente)
+
+
 
 
         $scope.id_campania = $scope.cliente.id
@@ -53,11 +57,6 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
         $scope.iniciollamada = new Date($scope.cliente.tiniciollamada)
              
     });
-
-    
-
-    
-
 
 
     $http.get("/user").success(function(response) {$scope.user = response;
@@ -174,10 +173,54 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
 
     }
 
+    $scope.botonexterno = function(data) 
+    {
+
+            var todo={
+
+            boton: data,
+            cliente : $scope.cliente,
+            agente:agente,
+            done:false
+            }
+
+            $http({
+            url: "/botonexterno/",
+            data: todo,
+            method: 'POST',
+            headers: {
+            'X-CSRFToken': $cookies['csrftoken']
+            }
+            }).
+            success(function(data) {
+
+            })
+
+            $http({
+            url: "/lanzaespera/",
+            data: todo,
+            method: 'POST',
+            headers: {
+            'X-CSRFToken': $cookies['csrftoken']
+            }
+            }).
+            success(function(data) {
+
+                window.location.href = '/teleoperador/'+agente;
 
 
 
-     $scope.gestionlanza = function(contact) 
+            })
+
+
+
+    }
+
+
+
+
+    $scope.gestionlanza = function(contact) 
+
     {
 
     console.log(contact)
@@ -200,16 +243,11 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
             }).
             success(function(data) {
 
-       
-
             })
    
-    
     };
 
-
-
-     $scope.Agendar = function(contact) 
+    $scope.Agendar = function(contact) 
     
     {
 

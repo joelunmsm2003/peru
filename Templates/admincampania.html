@@ -30,17 +30,17 @@
 
   		<div ng-if="user.nivel == 4" class="col-md-3"><h4><i class="fa fa-building-o" aria-hidden="true"></i> Empresa {[{empresa}]} </h4>
 	  	</div>
-	  	<div class="col-md-3"><h4><i class="fa fa-user"></i> Asignacion de Agentes </h4>
+	  	<div class="col-md-3" ><h4><i style="color:#BF3737;" class="fa fa-user" ></i> <span style="color:#BF3737;" >ASIGNACION DE AGENTES </span> </h4>
 	  	</div>
 
 
 
-	  	<div class="col-md-3"><h4><i class="fa fa-cube"></i> Campaña {[{campana}]} </h4>
+	  	<div class="col-md-3"><h4><i class="fa fa-cube"></i> CAMPAÑA: {[{campana}]} </h4>
 	  	</div>
 	  	
-	  	<div class="col-md-3"><h4><i class="fa fa-building-o"></i>  Cartera  {[{cartera}]} </h4>
+	  	<div class="col-md-3"><h4><i class="fa fa-building-o"></i>  CARTERA: {[{cartera}]} </h4>
 	  	</div>
-	  	<div ng-if="user.nivel == 1" class="col-md-3"><h4><i class="fa fa-building-o"></i>  Supervisor  {[{supervisor}]} </h4>
+	  	<div ng-if="user.nivel == 1" class="col-md-3"><h4><i class="fa fa-building-o"></i>  SUPERVISOR:  {[{supervisor}]} </h4>
 	  	</div>
   	</div>
     
@@ -76,23 +76,18 @@
 				</form>
 				</div>
 
-
 				<div class="col-sm-2">
 				{[{contador1}]}
-				</div>
-
-				
+				</div>		
 			</div>
 
-  	 		
-
-			
-
 			<br>
+			
 			<table class="table table-striped table-condensed table-hover ">
 				<tbody>
 				<thead>
-	           		<th >Selecccionar </th>
+					<tr>
+	           		<th ><input type="checkbox" ng-model='estado' ng-click="masiva(estado)"> Selecccionar </th>
 	                <th >Estado </th>
 	                <th >Nombre</th>
 	                <th></th>
@@ -141,7 +136,7 @@
 
 				 <thead>
 
-	            <tr><th >Seleccionar </th>
+	            <tr><th ><input type="checkbox" ng-model='estado1' ng-click="masiva1(estado1)"> Seleccionar </th>
 	                <th >Estado </th>
 	                <th >Nombre</th><th></th></tr>
 	            </thead>

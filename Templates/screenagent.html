@@ -597,8 +597,9 @@
    <iframe  src="{{url}}" width="100%" height="500" frameborder="0">
    </iframe>
 
+
       <div class='row'>
-      <div class="col-md-3 col-sm-3 panel panel-default btnc">
+      <div class="col-md-3 col-sm-3 panel panel-default btnc" ng-click = 'botonexterno(promesa)'>
 
           <div class=' panel-body '>
           Promesa de Pago <br>(Acuerdo con Fecha) 
@@ -606,7 +607,7 @@
           </div>
       </div>
 
-      <div class="col-md-3 col-sm-3 panel panel-default btnc">
+      <div class="col-md-3 col-sm-3 panel panel-default btnc" ng-click = 'botonexterno(directo)'>
 
       <div class=' panel-body '>
       Contacto Directo <br>(Titular sin Promesa) 
@@ -614,7 +615,7 @@
 
       </div>
 
-      <div class="col-md-3 col-sm-3 panel panel-default btnc">
+      <div class="col-md-3 col-sm-3 panel panel-default btnc" ng-click = 'botonexterno(indirecto)'>
 
       <div class=' panel-body  '>
       Contacto Indirecto<br> (Trabaja o pertence al fono) 
@@ -623,7 +624,7 @@
 
       </div>
 
-      <div class="col-md-3 col-sm-3 panel panel-default btnc" ng-click='signout()'>
+      <div class="col-md-3 col-sm-3 panel panel-default btnc"  ng-click = 'botonexterno(nocontacto)'>
 
       <div class=' panel-body '>
       No Contacto<br> ( No Trabaja o Pertence al Fono) 
@@ -658,11 +659,12 @@
   background: #EF5350;
   color: #FFF;
   font-weight: bold;
-  margin-left: 0px;
+  margin-left: 22px;
   margin-top: -14px;
   font-size: 19px;
   padding-top: 4px;
   transition: .6s;
+  width: 15em;
 }
 
 .btna:hover{
@@ -675,15 +677,15 @@ font-size:20px;
 
 
 .btnc {
-  text-align: center;
+text-align: center;
   height: 71px;
   background: #EF5350;
   color: #FFF;
   font-weight: bold;
-  margin-left: 0px;
-
-  font-size:14px;
-  transition:.5s;
+  margin-left: 4px;
+  font-size: 14px;
+  transition: .5s;
+  width: 23em;
 
 }
 

@@ -852,6 +852,30 @@ def resultadocampania(request,campania,examen):
 
 
 @login_required(login_url="/ingresar")
+def botonexterno(request):
+
+		if request.method == 'POST':
+
+			data = json.loads(request.body)
+
+			print data
+			#{u'agente': u'14', u'done': False, u'boton': 18, u'cliente': {u'status': u'1', u'orden': None, u'resultado': 5, u'status_d': None, u'campania__nombre': u'Pastillas LSD', u'status_h': u'SCORE C', u'status_g': u'NUEVO', u'status_f': u'LIMA', u'id_cliente': None, u'resultado__name': u'Acuerdo con fecha de pago', u'status_c': None, u'status_b': None, u'status_a': None, u'id': 2, u'status_e': None, u'tiniciollamada': u'2016-04-13 23:34:34 UTC', u'telefono': None, u'cliente': None}}
+
+			resultado = data['boton']
+			base = data['cliente']['id']
+
+			b = Base.objects.get(id=base)
+			b.resultado_id = resultado
+			b.save
+
+
+		data_dict = ValuesQuerySetToDict(data)
+
+		data = simplejson.dumps(data_dict)
+
+		return HttpResponse(data, content_type="application/json")
+
+@login_required(login_url="/ingresar")
 def nota(request):
 
 		data = Nota.objects.all().values('id','tipo').order_by('-id')
@@ -1069,6 +1093,27 @@ def gestion(request):
 
 	return HttpResponse('data', content_type="application/json")
 
+
+@login_required(login_url="/ingresar")
+def lanzaespera(request):
+
+	if request.method == 'POST':
+
+		data = json.loads(request.body)
+
+		#{u'agente': u'14', u'done': False, u'boton': 17, u'cliente': {u'status': u'1', u'orden': None, u'resultado': 5, u'status_d': None, u'campania__nombre': u'Pastillas LSD', u'status_h': u'SCORE C', u'status_g': u'NUEVO', u'status_f': u'LIMA', u'id_cliente': None, u'resultado__name': u'Acuerdo con fecha de pago', u'status_c': None, u'status_b': None, u'status_a': None, u'id': 2, u'status_e': None, u'tiniciollamada': u'2016-04-13 23:34:34 UTC', u'telefono': None, u'cliente': None}}
+
+		agente_id = data['agente']
+
+		agente = Agentes.objects.get(id=agente_id)
+
+		agente.estado_id= 2
+		agente.save()
+
+		return HttpResponse('data', content_type="application/json")
+
+
+
 @login_required(login_url="/ingresar")
 def gestionupdate(request):
 
@@ -1179,11 +1224,21 @@ def agregarfiltro(request):
 
 	if request.method == 'POST':
 
+		data = json.loads(request.body)
+
 		grupo= json.loads(request.body)['grupo']
 		ciudad= json.loads(request.body)['ciudad']
 		segmento= json.loads(request.body)['segmento']
 		campania = json.loads(request.body)['campania']
-		resultado = json.loads(request.body)['resultado']
+		resultado = ''
+
+		for d in data:
+
+			if d == 'resultado':
+
+				resultado = data['resultado']
+
+
 
 		ciudadt = ""
 		grupot = ""
@@ -1213,9 +1268,11 @@ def agregarfiltro(request):
 			print segmento[i]['status_h']
 
 			segmentot = segmentot  + segmento[i]['status_h'] +'/'
-  
 
+  	
 		Filtro(resultado = resultadot,ciudad=ciudadt,grupo=grupot,segmento=segmentot,campania_id=campania,status=1).save()
+
+
 
 	
 		return HttpResponse('data', content_type="application/json")
@@ -1310,11 +1367,34 @@ def mascaras(request):
 
 		return HttpResponse(data, content_type="application/json")
 
-
 @login_required(login_url="/ingresar")
-def resultado(request):
+def resultadototal(request):
+
+
 
 		data = Resultado.objects.all().values('id','name','tipo','codigo').order_by('-id')
+
+		data_dict = ValuesQuerySetToDict(data)
+
+		data = simplejson.dumps(data_dict)
+
+		return HttpResponse(data, content_type="application/json")
+
+@login_required(login_url="/ingresar")
+def resultado(request,campania):
+
+		xdata = Base.objects.filter(campania_id=campania).annotate(total=Count('resultado'))
+		
+
+		lista=[]
+
+		for x in xdata:
+
+			lista.append(x.resultado_id)
+
+		print lista
+
+		data = Resultado.objects.filter(id__in =lista).values('id','name','tipo','codigo').order_by('-id')
 
 		data_dict = ValuesQuerySetToDict(data)
 
@@ -1392,7 +1472,7 @@ def lanzallamada(request,id_agente,id_base):
 		return HttpResponse(base.cliente, content_type="application/json")
 
 
-@login_required(login_url="/ingresar")
+
 def finllamada(request,id_agente):
 
 		agente = Agentes.objects.get(id=id_agente)
@@ -1422,16 +1502,13 @@ def cliente(request,id_agente):
 
 		user = Agentes.objects.get(id=id_agente).user.username
 
-
 		redis_publisher = RedisPublisher(facility='foobar', users=[user])
 
 		message = RedisMessage('Consulta')
 
 		redis_publisher.publish_message(message)
 
-		
-
-		base = Base.objects.filter(agente_id=id_agente,status=1).order_by('-id').values('id','telefono','orden','cliente','id_cliente','status_a','status_b','status_c','status_d','status_e','status_f','status_g','status_h','status','campania__nombre','resultado__name')
+		base = Base.objects.filter(agente_id=id_agente,status=1).order_by('-id').values('id','telefono','orden','cliente','id_cliente','status_a','status_b','status_c','status_d','status_e','status_f','status_g','status_h','status','campania__nombre','resultado__name','resultado')
 
 		fmt = '%Y-%m-%d %H:%M:%S %Z'
 
@@ -1542,6 +1619,8 @@ def reportecsv(request,cartera,campania):
 @login_required(login_url="/ingresar")
 def getcampanias(request,cartera):
 
+		print 'cartera',cartera
+
 		carteras = Campania.objects.filter(cartera_id=cartera).values('id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name').order_by('-id')
 	
 		data_dict = ValuesQuerySetToDict(carteras)
@@ -1623,7 +1702,7 @@ def carteras(request):
 
 		if nivel == 2:
 
-			data =Supervisorcartera.objects.filter(supervisor__user__id=id).values('id','cartera__nombre')
+			data =Supervisorcartera.objects.filter(supervisor__user__id=id).values('id','cartera__nombre','cartera_id')
 
 
 		if nivel == 3:

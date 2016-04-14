@@ -56,9 +56,9 @@ function Controller($scope,$http,$cookies,$filter) {
     });
 
 
-    $http.get("/carteras").success(function(response) {$scope.carteras = response;
+    $http.get("/carteras").success(function(response) {
 
-      
+        $scope.carteras = response;
        
     });
 
@@ -118,14 +118,30 @@ function Controller($scope,$http,$cookies,$filter) {
      $scope.getcampania = function(cartera) 
 
 
-    {       
-            
+    {       console.log('cartera',cartera)
 
-            $http.get("/getcampanias/"+cartera.id).success(function(response) {$scope.campanias = response;
+            console.log($scope.user.nivel)
+
+            if ($scope.user.nivel == 2){
+
+                $http.get("/getcampanias/"+cartera.cartera_id).success(function(response) {$scope.campanias = response;
 
                 console.log('campanias',$scope.campanias)
                
             });
+
+            }
+            else{
+
+                $http.get("/getcampanias/"+cartera.id).success(function(response) {$scope.campanias = response;
+
+                console.log('campanias',$scope.campanias)
+               
+            });
+            }
+            
+
+            
 
 
     };

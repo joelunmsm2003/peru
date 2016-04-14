@@ -83,12 +83,74 @@ function Controller($scope,$http,$cookies,$filter) {
          
     }
 
+    $scope.estado = false
+     $scope.estado1 = false
+
+    $scope.masiva = function(estado) 
+
+    {
+
+        object = $scope.usuarios
+
+        if (estado == false){
+
+            for( var key in object ) {
+       
+            object[key].seleccionar = true
+            }
+
+        }
+
+        if (estado == true){
+
+            for( var key in object ) {
+       
+            object[key].seleccionar = false
+            }
+
+        }
+
+        $scope.estado = false
+     $scope.estado1 = false
+
+    }
+
+        $scope.masiva1 = function(estado) 
+
+    {
+
+        object = $scope.usuarioscampania
+
+        if (estado == false){
+
+            for( var key in object ) {
+       
+            object[key].seleccionar = true
+            }
+
+        }
+
+        if (estado == true){
+
+            for( var key in object ) {
+       
+            object[key].seleccionar = false
+            }
+
+        }
+
+        $scope.estado = false
+     $scope.estado1 = true
+
+    }
+
+
     $scope.agregaruser = function() 
 
     {
         $scope.usuariosp = $filter('filter')($scope.usuarios,$scope.tipox);
 
-        console.log($scope.usuariosp)
+        console.log('Agregando...',$scope.usuariosp)
 
         var todo={
 
