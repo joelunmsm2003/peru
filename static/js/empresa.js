@@ -48,6 +48,8 @@ function Controller($scope,$http,$cookies,$filter) {
          console.log($scope.selected)
 
 
+
+
     });
 
 
@@ -413,6 +415,8 @@ function Controller($scope,$http,$cookies,$filter) {
     $scope.setPage = function () {
         $scope.currentPage = this.n-1;
     };
+
+     $('#wrapper').fadeToggle("slow")
 
     
     Controller.$inject = ['$scope', '$filter'];
