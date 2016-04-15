@@ -572,6 +572,8 @@ function Controller($scope,$http,$cookies,$filter) {
        
     });
 
+      $scope.graficoc = false
+
       //grafica ultima
 
 
@@ -598,6 +600,9 @@ $(function () {
                                 serie1 = this.series
 
                                 $scope.link = function(){
+
+
+                                    $scope.graficoc = true
 
                                     obj = $filter('filter')($scope.agenteboton,'si')
 
