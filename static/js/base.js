@@ -115,6 +115,7 @@ function Controller($scope,$http,$cookies,$filter) {
         $('.repor').fadeToggle("slow")
         $('.navbar-default').fadeToggle("slow")
         $('.panel-default').fadeToggle("slow")
+        $('.table').fadeToggle("slow")
         
 
   
