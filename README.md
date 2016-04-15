@@ -11,7 +11,7 @@ ssh://root@188.166.72.64:5022/opt/perucall.git
 
 ip: 188.166.72.64
 port: 5022
-pass: 4pp$X13nc14$2015*
+pass: 4pp$X13NC14$2016*
 
 Base Datos
 ==========
