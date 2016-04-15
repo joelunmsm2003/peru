@@ -112,6 +112,9 @@ function Controller($scope,$http,$cookies,$filter) {
     $http.get("/getcamp/"+campania).success(function(response) {
 
         $scope.infocamp = response[0];
+        $('.repor').fadeToggle("slow")
+        $('.navbar-default').fadeToggle("slow")
+        
 
   
 
@@ -647,24 +650,28 @@ $(function () {
 
                                     chart.addSeries({
                                     data: p,
+                                    name:'Promesa',
                                     index: 0,
                                     zIndex:1
                                     });
 
                                     chart.addSeries({
                                     data: d,
+                                    name:'Directo',
                                     index: 1,
                                     zIndex:1
                                     });
 
                                     chart.addSeries({
                                     data: i,
+                                    name:'Indirecto',
                                     index: 2,
                                     zIndex:1
                                     });
 
                                     chart.addSeries({
                                     data: nc,
+                                    name:'No Contacto',
                                     index: 3,
                                     zIndex:1
                                     });
