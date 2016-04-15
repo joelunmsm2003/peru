@@ -114,6 +114,7 @@ function Controller($scope,$http,$cookies,$filter) {
         $scope.infocamp = response[0];
         $('.repor').fadeToggle("slow")
         $('.navbar-default').fadeToggle("slow")
+        $('.panel-default').fadeToggle("slow")
         
 
   

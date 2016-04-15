@@ -12,8 +12,27 @@
 
 <body >
 
+<style>
+.containerx {
 
-<div class="container" >
+      padding-right: 69px;
+  padding-left: 69px;
+  margin-right: auto;
+  margin-left: auto;
+  padding-top: 60px;
+
+
+}
+
+.navbar-default,.panel-default,.table{
+  display:none;
+}
+
+</style>
+
+
+
+<div class="containerx" >
 
 {% include "header.html" %}
 
@@ -99,11 +118,44 @@ padding-top: 8px;
   <a ng-if="user.nivel == 1 || user.nivel == 2 || user.nivel == 4 " class='btn btn-primary' ng-href='/adminCampania/{[{camp}]}'> <i class="fa fa-user"></i> Agentes </a>
  <a ng-if="user.nivel == 1 || user.nivel == 2 || user.nivel == 4 " class='btn btn-primary' ng-href='/filtros/{[{camp}]}'> <i class="fa fa-filter"></i> Filtros </a>
  
-<button ng-click="mon()" class="btn btn-primary" ng-show='bb'>Ver Graficas <i class="fa fa-line-chart"></i></button>
-<button ng-click="ocultarmon()" class="btn btn-primary" ng-show='bbi'>Ocultar Graficas <i class="fa fa-line-chart"></i></button>
+<a href='#arriba' ng-click="mon()" class="btn btn-primary" ng-show='bb'>Ver Graficas <i class="fa fa-line-chart"></i></a>
+<a  ng-click="ocultarmon()" class="btn btn-primary" ng-show='bbi'>Ocultar Graficas <i class="fa fa-line-chart"></i></a>
 
 
           <br></br>
+
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th style="text-align:center;">Total</th>
+                <th style="text-align:center;">Espera</th>
+                <th style="text-align:center;">Ocupado</th>
+                <th style="text-align:center;">Pausa</th>
+                <th style="text-align:center;">Gestion</th>
+                <th style="text-align:center;">Total</th>
+                <th style="text-align:center;">Procesado</th>
+                <th style="text-align:center;">Pendiente</th>
+                <th style="text-align:center;">ACD</th>
+             
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{[{total1}]}</td>
+                <td>{[{enespera}]}</td>
+                <td>{[{ocupado}]}</td>
+                <td>{[{enpausa}]}</td>
+                <td>{[{engestion}]}</td>
+                <td>{[{total2}]}</td>
+                <td>{[{procesado}]}</td>
+                <td>{[{pendiente}]}</td>
+                <td>{[{acd}]}</td>
+
+
+              </tr>
+            </tbody>
+          </table>
 
           <table class="table table-hover">
               <thead>
@@ -188,6 +240,25 @@ padding-top: 8px;
 <!--Graficas de Monitoreo-->
 
 
+<div class ='row monixxx animated bounceInLeft'>
+
+<div class="col-md-6">
+
+<div id="pie3D" style="width:100%; height:400px;"></div>
+
+</div>
+
+<div  class="col-md-6">
+
+
+
+<div id="graph2"  style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+</div>
+
+</div>
+
+<a name="arriba"></a>
 
 
 
@@ -375,23 +446,6 @@ th {
 
 
  
-      <div class ='row monixxx'>
-
-    <div class="col-md-6">
-
-  <div id="pie3D" style="width:100%; height:400px;"></div>
-
-    </div>
-
-    <div  class="col-md-6">
-
- 
-
-    <div id="graph2" style="min-width: 310px; height: 400px; max-width: 500px; margin: 0 auto"></div>
-
-    </div>
-
-  </div>
 
 
 </div>

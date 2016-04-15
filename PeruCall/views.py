@@ -700,7 +700,6 @@ def agentes(request,id_campania):
 	fmt1 = '%Y-%m-%d %H:%M:%S'
 	fmt2='%H:%M:%S'
 
-
 	print 'user',user
 
 	for i in range(len(user)):
@@ -722,8 +721,6 @@ def agentes(request,id_campania):
 		if agente.estado.id == 3:
 
 			ti = agente.tiniciollamada
-
-		
 
 		if agente.estado.id == 6:
 
@@ -2258,6 +2255,8 @@ def botoneragraph(request,campania):
        if 2 == 2:
 
                data = {
+
+               		 'total':total,
 
                		 'fallecido':fallecido,
                		 'consultatramite':consultatramite,

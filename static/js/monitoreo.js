@@ -1094,9 +1094,17 @@ function Controller($scope,$http,$cookies,$filter) {
     $scope.pagedItems = [];
     $scope.currentPage = 0;
 
-    $http.get("/agentes/"+campania).success(function(response) {$scope.agentes = response;
 
-    });
+
+    function ObjectLength( object ) {
+    var length = 0;
+    for( var key in object ) {
+        if( object.hasOwnProperty(key) ) {
+            ++length;
+        }
+    }
+    return length;
+    };
 
     $http.get("/estllamada/"+campania).success(function(response) {$scope.nllam = response['barridos'];
 
@@ -1135,9 +1143,26 @@ function Controller($scope,$http,$cookies,$filter) {
 
     $http.get("/agentes/"+campania).success(function(response) {$scope.agentes = response;
 
-    console.log('agentes',$scope.agentes)
+    $scope.ocupado = ObjectLength($filter('filter')($scope.agentes,'En Llamada'))
+    $scope.engestion = ObjectLength($filter('filter')($scope.agentes,'En Gestion'))
+    $scope.enpausa = ObjectLength($filter('filter')($scope.agentes,'En Pausa'))
+    $scope.enespera = ObjectLength($filter('filter')($scope.agentes,'En Espera'))
+    $scope.total1 = $scope.ocupado+$scope.engestion+$scope.enpausa+$scope.enespera
 
     });
+
+
+    $http.get("/botoneragraph/"+campania).success(function(response) {
+
+        console.log('total',response['total'])
+
+
+        $scope.pendiente = response['pendiente']
+        $scope.total2 = response['total']
+        $scope.procesado = $scope.total2 - $scope.pendiente
+
+    });
+    
 
     }, 1000);
 
@@ -1163,6 +1188,8 @@ function Controller($scope,$http,$cookies,$filter) {
        
     });
 
+
+
      $http.get("/agentescampania/"+campania).success(function(response) {
 
         //$scope.campana = response[0]['campania__nombre']
@@ -1185,10 +1212,13 @@ function Controller($scope,$http,$cookies,$filter) {
 
     $http.get("/nivel").success(function(response) {$scope.nivel = response;
 
-    $('.container').fadeToggle("slow","linear")
+    $('.navbar-default').fadeToggle("slow","linear")
+    $('.panel-default').fadeToggle("slow","linear")
+    $('.table').fadeToggle("slow","linear")
+    
 
 
-     
+
 
     });
 
@@ -1464,6 +1494,15 @@ function Controller($scope,$http,$cookies,$filter) {
     $http.get("/preguntas/1").success(function(response) {$scope.preguntas = response;
 
     });
+
+
+
+
+
+    
+
+
+   
 
     $http.get("/examen").success(function(response) {$scope.examen = response;
 
