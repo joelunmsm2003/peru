@@ -172,9 +172,9 @@ function Controller($scope,$http,$cookies,$filter) {
     $scope.descarga = function() 
 
     {       
-        console.log('Descarga',$scope.model.campania.id)
+        
 
-        window.location="/reportecsv/"+12+'/'+$scope.model.campania.id;
+        window.location="/reportecsv/"+12+'/'+campania;
     };
 
 

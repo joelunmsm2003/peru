@@ -1607,6 +1607,17 @@ def reportecsv(request,cartera,campania):
 
 	for x in base:
 
+		x.campania.nombre = x.campania.nombre.encode('ascii','ignore')
+
+		x.campania.nombre = x.campania.nombre.encode('ascii','replace')
+
+		x.monto = x.monto.encode('ascii','ignore')
+
+		x.monto = x.monto.encode('ascii','replace')
+
+
+
+
 		writer.writerow([x.id,x.telefono,x.orden,x.cliente,x.campania.nombre,x.agente,x.duracion,x.monto])
 
 	return response
