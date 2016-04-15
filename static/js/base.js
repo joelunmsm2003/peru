@@ -44,14 +44,29 @@ function Controller($scope,$http,$cookies,$filter) {
        
     });
 
-    
+
+    $scope.mpromesa = []
+    $scope.mdirecto = []
+    $scope.mindirecto = []
+    $scope.mnocontacto = []
 
 
-    $http.get("/botoneraagente/"+campania).success(function(response) {$scope.agenteboton = response;
+    $http.get("/botoneraagente/"+campania).success(function(response) {
 
-        console.log('Agente',response)
+        $scope.agenteboton = response;
+        console.log('Inicio',response)
 
-      
+
+
+        for( var key in response ) {
+
+            $scope.mpromesa.push(8)
+            $scope.mdirecto.push(3)
+            $scope.mindirecto.push(55)
+            $scope.mnocontacto.push(1)
+
+        }
+
        
     });
 
@@ -402,6 +417,50 @@ function Controller($scope,$http,$cookies,$filter) {
     
     };
 
+    promesa = []
+
+    $scope.agenteg = function (data) {
+
+
+        var todo={
+
+            agentes: $scope.agenteboton,
+            campania:campania ,
+            
+        }
+
+
+        $http({
+        url: "/agentegrafico/",
+        data: todo,
+        method: 'POST',
+        headers: {
+        'X-CSRFToken': $cookies['csrftoken']
+        }
+        }).
+        success(function(data) {
+
+        console.log('Graficando...',data)
+
+           
+        for( var key in data ) {
+
+            $scope.mpromesa.push(2)
+            $scope.mdirecto.push(1)
+            $scope.mindirecto.push(111)
+            $scope.mnocontacto.push(1)
+
+        }
+
+
+        })
+
+    
+
+
+
+    }
+
     $scope.search = function () {
 
         
@@ -482,6 +541,25 @@ function Controller($scope,$http,$cookies,$filter) {
             $scope.currentPage++;
         }
     };
+
+  
+
+     $scope.activa = function (data) {
+            
+        console.log('activa',data)
+        data.seleccionar = 'si'
+        data.btnon = false
+        data.btnoff = true
+    };
+
+     $scope.desactiva = function (data) {
+            
+        console.log('desac',data)
+        data.seleccionar='no'
+        data.btnon = true
+        data.btnoff = false
+    };
+    
     
     $scope.setPage = function () {
         $scope.currentPage = this.n-1;
@@ -493,6 +571,189 @@ function Controller($scope,$http,$cookies,$filter) {
         $scope.empresax=response[0]
        
     });
+
+      //grafica ultima
+
+
+$(function () {
+
+    
+
+
+
+    $http.get("/botoneraagente/"+campania).success(function(response) {
+
+        console.log('kkkkk',response)
+
+
+
+   
+
+    $('#columnas').highcharts({
+        chart: {
+            type: 'column',
+             events: {
+                        load: function () {
+
+                                serie1 = this.series
+
+                                $scope.link = function(){
+
+                                    obj = $filter('filter')($scope.agenteboton,'si')
+
+                                    console.log('Filtrando.....',obj)
+
+                                    var chart = $('#columnas').highcharts();
+
+                                       
+                                    while(chart.series.length > 0){
+
+                                         chart.series[0].remove(true);
+
+                                    }    
+
+                                    pregunta = []
+                                    p = []
+                                    d=[]
+                                    i=[]
+                                    nc=[]
+
+                                    for( var key in obj ) {
+
+                                      p.push(parseInt(obj[key]['promesa']))
+                                      d.push(parseInt(obj[key]['directo']))
+                                      i.push(parseInt(obj[key]['indirecto']))
+                                      nc.push(parseInt(obj[key]['nocontacto']))
+
+                                      pregunta[key]=obj[key]['agente__user__first_name'] 
+
+                                    }
+
+                                    
+
+                                    console.log('pregunta',pregunta)
+
+                                    serie1 = this.series
+
+                                    chart.addSeries({
+                                    data: p,
+                                    index: 0,
+                                    zIndex:1
+                                    });
+
+                                    chart.addSeries({
+                                    data: d,
+                                    index: 1,
+                                    zIndex:1
+                                    });
+
+                                    chart.addSeries({
+                                    data: i,
+                                    index: 2,
+                                    zIndex:1
+                                    });
+
+                                    chart.addSeries({
+                                    data: nc,
+                                    index: 3,
+                                    zIndex:1
+                                    });
+
+
+                                    chart.xAxis[0].setCategories(pregunta)  
+       
+                                }
+
+
+
+
+                                
+
+                            }
+                        }
+        
+           },
+        title: {
+            text: 'Botonera por Agente'
+        },
+        subtitle: {         
+         text: 'Source: Xiencias.org'
+        },
+        xAxis: {
+            categories: [
+                'Jan',
+                'Feb'
+               
+            ],
+            crosshair: true
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Cantidad '
+            }
+        },
+        tooltip: {
+            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y:.1f} </b></td></tr>',
+            footerFormat: '</table>',
+            shared: true,
+            useHTML: true
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }
+        },
+        series: [{
+            name: 'Promesa',
+            data: $scope.mpromesa
+
+        }, {
+            name: 'Directo',
+            data: $scope.mdirecto
+
+        }, {
+            name: 'Indirecto',
+            data: $scope.mindirecto
+
+        }, {
+            name: 'No Contacto',
+            data: $scope.mnocontacto
+
+        }]
+    });
+
+    
+    $.getJSON("/botoneraagente/"+campania, function (result) {
+
+        pregunta = []
+
+        for( var key in result ) {
+
+          pregunta[key]=result[key]['agente__user__first_name']
+
+        }
+
+        console.log('pregunta',pregunta)
+
+        var chart = $('#columnas').highcharts();
+        chart.xAxis[0].setCategories(pregunta)
+
+
+    })
+
+
+     });
+
+
+    });
+
+
+
+//fin grafica
 
     
     Controller.$inject = ['$scope', '$filter'];
@@ -510,6 +771,7 @@ function Controller($scope,$http,$cookies,$filter) {
                         load: function () {
 
                                 serie1 = this.series
+
 
                                   var updateChart = function() {
 
@@ -844,177 +1106,3 @@ $(function () {
 });
 
 
-//grafica ultima
-
-
-$(function () {
-
-    mpromesa = [2, 2, 2, 57, 57, 57, 57, 7, 7, 7, 7, 8,6,7,8,9,6,6,6,7,4,4,45,56,67,33,22,11]
-    mdirecto = [4, 5, 1, 5, 7, 17, 27, 17, 27, 47, 2, 18,6,7,8,19,6,6,16,17,14,14,15,56,27,13,12,11]
-    mindirecto = [4, 5, 1, 5, 7, 17, 27, 17, 27, 47, 2, 18,6,7,8,19,6,6,16,17,14,14,15,56,27,13,12,11]
-    mnocontacto = [14, 25, 11, 15, 71, 1, 17, 1, 7, 27, 12, 8,16,17,18,29,26,16,6,7,1,1,1,5,2,1,1,1]
-
-    $('#columnas').highcharts({
-        chart: {
-            type: 'column',
-            events: {
-                        load: function () {
-
-                                var serie4 = this.series;
-
-                                  var updateChartpie9 = function() {
-
-                                $.getJSON("/botoneraagente/"+campania, function (response) {
-
-                                    console.log('sasas')
-
-                                    
-                                    i=0
-                                    for( var key in response ) {
-                                       
-                                       console.log('Promesa...',response[key].agente)
-                                       serie4[0].points[i].update(response[i]['promesa'])
-                                       i=i+1
-
-
-                                    }
-                                    i=0
-                                     for( var key in response ) {
-                                       
-                                       
-                                       serie4[1].points[i].update(response[i]['directo'])
-                                       i=i+1
-
-
-                                    }
-                                    i=0
-                                     for( var key in response ) {
-                                       
-                                 
-                                       serie4[2].points[i].update(response[i]['indirecto'])
-                                       i=i+1
-
-
-                                    }
-                                    i=0
-
-                                     for( var key in response ) {
-                                       
-                                       
-                                       serie4[3].points[i].update(response[i]['nocontacto'])
-                                       i=i+1
-
-
-                                    }
-
-                                
-                         
-                                        
-                           
-                                });
-
-                            }
-
-
-                        setTimeout(function(){updateChartpie9()},1000);
-
-                       
-
-                            }
-                        }
-        },
-        title: {
-            text: 'Botonera por Agente'
-        },
-        subtitle: {         
-         text: 'Source: Xiencias.org'
-        },
-        xAxis: {
-            categories: [
-                'Jan',
-                'Feb',
-                'Mar',
-                'Apr',
-                'May',
-                'Jun',
-                'Jul',
-                'Aug',
-                'Sep',
-                'Oct',
-                'Nov',
-                'Dec'
-            ],
-            crosshair: true
-        },
-        yAxis: {
-            min: 0,
-            title: {
-                text: 'Cantidad '
-            }
-        },
-        tooltip: {
-            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                '<td style="padding:0"><b>{point.y:.1f} </b></td></tr>',
-            footerFormat: '</table>',
-            shared: true,
-            useHTML: true
-        },
-        plotOptions: {
-            column: {
-                pointPadding: 0.2,
-                borderWidth: 0
-            }
-        },
-        series: [{
-            name: 'Promesa',
-            data: mpromesa
-
-        }, {
-            name: 'Directo',
-            data: mdirecto
-
-        }, {
-            name: 'Indirecto',
-            data: mindirecto
-
-        }, {
-            name: 'No Contacto',
-            data: mnocontacto
-
-        }]
-    });
-
-    
-    $.getJSON("/botoneraagente/"+campania, function (result) {
-
-        pregunta = []
-
-        for( var key in result ) {
-
-          pregunta[key]=result[key]['agente__user__first_name']
-
-        }
-
-        var chart = $('#columnas').highcharts();
-        chart.xAxis[0].setCategories(pregunta)
-
-        console.log(pregunta)
-
-
-
-
-    })
-
-
-
-
-
-
-
-
-
-
-
-
-});

@@ -55,6 +55,7 @@ urlpatterns = patterns('',
     url(r'^detallesupervisor/(\w+)/$','PeruCall.views.detallesupervisor'),
     url(r'^totalestllam/$','PeruCall.views.totalestllam'),
     url(r'^lanzaespera/$','PeruCall.views.lanzaespera'),
+    url(r'^agentegrafico/$','PeruCall.views.agentegrafico'),
 
 
     url(r'^agentescalifica/(\w+)/$','PeruCall.views.agentescalifica'),

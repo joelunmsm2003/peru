@@ -2163,7 +2163,9 @@ def botoneraagente(request,campania):
 		agentes[i]['directo'] = Base.objects.filter(campania_id=campania,resultado_id=16,agente_id=agentes[i]['agente']).count()
 		agentes[i]['indirecto'] = Base.objects.filter(campania_id=campania,resultado_id=17,agente_id=agentes[i]['agente']).count()
 		agentes[i]['nocontacto'] = Base.objects.filter(campania_id=campania,resultado_id=18,agente_id=agentes[i]['agente']).count()
-		
+		agentes[i]['seleccionar'] = 'no'
+		agentes[i]['btnon'] = True
+		agentes[i]['btnoff'] = False
 	
 	data_dict = ValuesQuerySetToDict(agentes)
 
@@ -2173,8 +2175,50 @@ def botoneraagente(request,campania):
 
 
 
+@login_required(login_url="/ingresar")
+def agentegrafico(request):
 
-	return HttpResponse('data_string', content_type="application/json")
+	if request.method == 'POST':
+
+		age = json.loads(request.body)['agentes']
+		campania = json.loads(request.body)['campania']
+
+		print type(age),len(age)
+
+		lista1 = []
+
+
+		for i in range(len(age)):
+
+			print age[i]['agente']
+
+			s =  age[i]['seleccionar']
+
+			print age[i]
+
+			if s == True:
+
+				lista1.append(age[i]['agente'])
+
+		print 'Lista',lista1
+
+		agentes = Agentescampanias.objects.filter(campania_id=campania).values('id','agente__user__first_name','campania','agente')
+
+		print 'contador',agentes.count
+
+		for i in range(len(agentes)):
+
+			agentes[i]['promesa'] = Base.objects.filter(campania_id=campania,resultado_id=15,agente_id=agentes[i]['agente']).count()
+			agentes[i]['directo'] = Base.objects.filter(campania_id=campania,resultado_id=16,agente_id=agentes[i]['agente']).count()
+			agentes[i]['indirecto'] = Base.objects.filter(campania_id=campania,resultado_id=17,agente_id=agentes[i]['agente']).count()
+			agentes[i]['nocontacto'] = Base.objects.filter(campania_id=campania,resultado_id=18,agente_id=agentes[i]['agente']).count()
+			
+		
+		data_dict = ValuesQuerySetToDict(agentes)
+
+		data = simplejson.dumps(data_dict)
+
+		return HttpResponse(data, content_type="application/json")
 
 
 

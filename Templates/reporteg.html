@@ -96,6 +96,7 @@
                   <th >Directo</th>
                   <th>Indirecto</th>
                    <th>No Contacto</th>
+                   <th>Seleccionar</th>
 
                   </tr>
               </thead>
@@ -107,13 +108,18 @@
                   <td>{[{contact.directo}]}</td>
                   <td>{[{contact.indirecto}]}</td>
                   <td>{[{contact.nocontacto}]}</td>
-                  <input type="checkbox" ng-model='contact.seleccionar' ng-change="add(contact)">
+                  <td ng-show = 'contact.btnon'><a  ng-click="activa(contact)"><i class="fa fa-toggle-off" aria-hidden="true"></i></a></td>
+                  <td  ng-show= 'contact.btnoff'><a ng-click="desactiva(contact)"><i class="fa fa-toggle-on" aria-hidden="true"></i></a></td>
 
 
+              </tr>
+              <tr>
+              <td></td><td></td><td></td><td></td><td></td><td><a class='btn btn-primary btn-sm' ng-click="link()"> Graficar <i class="fa fa-paper-plane" aria-hidden="true"></i></a> </td>
               </tr>
             </tbody>
 
             </table>  
+
 
         <div id="columnas" style="min-width: 1200px; height: 400px; max-width: 1200px; margin: 0 auto"></div>
 
