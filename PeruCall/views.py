@@ -1603,7 +1603,8 @@ def reportecsv(request,cartera,campania):
 
 	base = Base.objects.filter(campania_id=campania)
 
-	writer.writerow(['Id','Telefono','Orden','Cliente','Campania','Agente','Duracion','Monto'])
+	writer.writerow(['Id','Telefono','Orden','Cliente','ID Cliente','Cartera','Campania','Agente','Duracion','Monto','Fecha Gestion','Status A','Status B','Status C','Status D','Status E','Status F','Status G','Status H','Botonera','Observacion','Fecha de Pago','Importe de Pago'])
+
 
 	for x in base:
 
@@ -1615,10 +1616,16 @@ def reportecsv(request,cartera,campania):
 
 		x.monto = x.monto.encode('ascii','replace')
 
+		if x.agente:
 
+			agente = x.agente.user.first_name
 
+		else:
 
-		writer.writerow([x.id,x.telefono,x.orden,x.cliente,x.campania.nombre,x.agente,x.duracion,x.monto])
+			agente = 'No existe'
+
+		writer.writerow([x.id,x.telefono,x.orden,x.cliente,x.campania.nombre,agente,x.duracion,x.monto,x.fecha,x.status_a,x.status_b,x.status_b,x.status_c,x.status_d,x.status_e,x.status_f,x.status_g,x.status_h,resultado,'Observacion','Fecha de Pago','Importe de Pago'])
+
 
 	return response
 

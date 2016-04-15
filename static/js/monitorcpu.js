@@ -36,7 +36,7 @@ function Controller($scope,$http,$cookies,$filter) {
         $scope.user = $scope.user[0]
 
         
-        $('.container').fadeToggle("slow")
+        $('.navbar-default').fadeToggle("slow")
 
     });
 

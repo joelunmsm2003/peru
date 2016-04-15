@@ -9,8 +9,26 @@
 
 <body ng-app="App" ng-controller="Controller">
 
+<style type="text/css">
+    .containerx {
 
-<div class="container" >
+      padding-right: 69px;
+  padding-left: 69px;
+  margin-right: auto;
+  margin-left: auto;
+  padding-top: 60px;
+
+
+}
+
+.navbar-default,.panel-default,.table{
+  display:none;
+}
+
+
+</style>
+
+<div class="containerx" >
 
 {% include "header.html" %}
 
@@ -19,7 +37,14 @@
 
 <div class="col-sm-3">
 
-<div id="pie" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+<div class='row'>
+
+
+
+<div id="discoduro" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+
+
+</div>
 
 </div>
 
@@ -58,6 +83,89 @@
 </div>
 
 <script type="text/javascript">
+
+$(function () {
+    $('#discoduro').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: 0,
+            plotShadow: false,
+              events: {
+                        load: function () {
+
+                                seriex = this.series
+
+                                var updateChart = function() {
+
+                                $.getJSON("/graphcpu/", function (result) {
+
+                                    console.log('estado llam',parseInt(result[0]['dsk_use'])*1000)
+                                    console.log('.....',parseInt(result[0]['dsk_tot'])*1000-parseInt(result[0]['dsk_use'])*1000)
+
+                                    seriex[0].points[0].update(parseInt(result[0]['dsk_use'])*1000)
+                                    seriex[0].points[1].update(parseInt(result[0]['dsk_tot'])*1000-parseInt(result[0]['dsk_use'])*1000)
+
+
+                                   
+                           
+                                });
+
+                            }
+
+                                    setTimeout(function(){updateChart()},1000);
+
+
+                        
+
+                            }
+                        }
+        },
+        title: {
+            text: 'Disco Duro<br> GBytes',
+            align: 'center',
+            verticalAlign: 'middle',
+            y: 40
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                dataLabels: {
+                    enabled: true,
+                    distance: -50,
+                    style: {
+                        fontWeight: 'bold',
+                        color: 'white',
+                        textShadow: '0px 1px 2px black'
+                    }
+                },
+                startAngle: -90,
+                endAngle: 90,
+                center: ['50%', '75%']
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: 'Capacidad',
+            innerSize: '50%',
+            data: [
+                ['Uso',   10.38],
+                ['Libre',       56.33],
+                
+             
+               
+                {
+                    name: 'Proprietary or Undetectable',
+                    y: 0.2,
+                    dataLabels: {
+                        enabled: false
+                    }
+                }
+            ]
+        }]
+    });
+});
 
 
 $(function () {
@@ -151,7 +259,9 @@ $(function () {
             events: {
                         load: function () {
 
-                                serie1 = this.series
+                                serie5 = this.series
+
+                                var updateChart = function() {
 
                                 $.getJSON("/graphcpu/", function (result) {
 
@@ -159,17 +269,15 @@ $(function () {
 
                            
 
-                                    serie1[0].points[0].update(parseInt(result[0]['astcpuuse']))
-                                    serie1[0].points[1].update(parseInt(result[0]['pytcpuuse']))
-                                    serie1[0].points[2].update(parseInt(result[0]['sqlcpuuse']))
-
-                                    serie1[1].points[0].update(parseInt(result[0]['astmemuse']))
-                                    serie1[1].points[1].update(parseInt(result[0]['pytmemuse']))
-                                    serie1[1].points[2].update(parseInt(result[0]['sqlmemuse']))
-
+                                    serie5[0].points[0].update(9);
                                    
                            
                                 });
+
+                                }
+
+
+                                 setTimeout(function(){updateChart()},1000);
 
                         
 
