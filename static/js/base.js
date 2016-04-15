@@ -113,7 +113,10 @@ function Controller($scope,$http,$cookies,$filter) {
 
         $scope.infocamp = response[0];
 
-        $('.container').fadeToggle("slow")
+  
+
+
+
 
     });
 
@@ -637,6 +640,8 @@ $(function () {
                                     
 
                                     console.log('pregunta',pregunta)
+                                    var chart = $('#columnas').highcharts();
+                                    chart.xAxis[0].setCategories(pregunta) 
 
                                     serie1 = this.series
 
@@ -665,7 +670,7 @@ $(function () {
                                     });
 
 
-                                    chart.xAxis[0].setCategories(pregunta)  
+                                     
        
                                 }
 
