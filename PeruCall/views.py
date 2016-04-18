@@ -284,7 +284,7 @@ def accionmonitor(request,sup,anexo):
 
 	print 'Monitor..enviando',sup,anexo
 
-	cmd = ('curl "https://localhost/xien/PROC_MONITOR.php?sup=%s&anx=%s" ' %(sup, anexo))
+	cmd = ('curl "http://localhost/xien/PROC_MONITOR.php?sup=%s&anx=%s" ' %(sup, anexo))
 	os.system(cmd)
 
 	return HttpResponse(' Monitor Activado', content_type="application/json")
@@ -296,7 +296,7 @@ def accionsusurro(request,sup,anexo):
 
 	print 'Susurro..enviando',sup,anexo
 
-	cmd = ('curl "https://localhost/xien/PROC_SUSURRO.php?sup=%s&anx=%s" ' %(sup, anexo))
+	cmd = ('curl "http://localhost/xien/PROC_SUSURRO.php?sup=%s&anx=%s" ' %(sup, anexo))
 	os.system(cmd)
 
 	return HttpResponse('Susurro Activado', content_type="application/json")
