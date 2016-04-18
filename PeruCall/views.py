@@ -2591,7 +2591,7 @@ def campanias(request):
 
 			if data[i]['cargados'] == data[i]['barridos']:
 
-				data[i]['color'] = '#A7DBFA'
+				data[i]['color'] = 'gainsboro'
 				##F2CA95
 				data[i]['font'] = '#000'
 
