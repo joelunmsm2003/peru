@@ -288,6 +288,10 @@
 
                         <a ng-if="contact.nivel__nombre == 'Supervisor' "  type="button" class="btn btn-primary btn-sm" ng-href="/detallesupervisormant/{[{contact.id}]}/"><i class="fa fa-building-o"></i></a>
 
+                       
+
+                        <button  ng-if="user.nivel == 1 " type="button" class="btn btn-primary btn-sm" ng-click="editContact(contact,$index,currentPage)"  data-toggle="modal" data-target="#Pass"><i class="fa fa-key"></i></button>
+
 
 
                         </center>
@@ -319,6 +323,38 @@
 
 
 <!---Modal-->
+
+  
+
+    <div id="Pass" class="modal fade " role="dialog">
+  <div class="modal-dialog">
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Cambiar Password</h4>
+      </div>
+        <div class="modal-body">
+
+        <td><input type="hidden" ng-model="model.id" required ="" /></td>
+       
+        <label>Nuevo Password : </label><input type="text" ng-model="model.password" class='form-control' required ="" />
+        </div>
+
+        <div class="modal-footer">
+
+            <button class="btn" data-dismiss="modal">Cerrar</button>
+            <button type="submit" ng-click="Pass(model)" class="btn btn-primary">Cambiar</button>
+            
+
+        </div>
+    </div>
+
+  </div>
+</div>
+
+
+
 
   <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog modal-lg">

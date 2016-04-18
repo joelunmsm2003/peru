@@ -46,6 +46,26 @@ from ws4redis.redis_store import RedisMessage
 from datetime import datetime,timedelta
 
 
+@login_required(login_url="/ingresar")
+def changepass(request):
+
+	id = request.user.id
+
+	if request.method == 'POST':
+
+		data = json.loads(request.body)['dato']
+
+		password = data['password']
+
+		print 'password',password
+
+		u = User.objects.get(id=id)
+
+		u.set_password(password)
+
+		u.save()
+
+		return HttpResponse('data', content_type="application/json")
 
 
 @receiver(user_logged_in)
@@ -380,18 +400,13 @@ def uploaduser(request):
 				usuario.telefono = int(telefono)
 				usuario.save()
 
-
 				if usuario.nivel_id == 2: 
 
 					Supervisor(user_id=id_user).save()
 
-
 				if usuario.nivel_id == 3: # Usuario Agente
 
 					s =supervisor.split('|')
-
-					
-
 
 					Agentes(user_id=id_user).save()
 
@@ -399,13 +414,12 @@ def uploaduser(request):
 					
 					agente.atendidas = 0
 					agente.contactadas =0
-					
+					agente.anexo = int(anexo)					
 					agente.estado_id = 1
 					agente.save()
 
 					id_agente = Agentes.objects.all().values('id').order_by('-id')[0]['id']
 					
-
 					for i in s:
 
 						id_sup = Supervisor.objects.get(user_id=i).id
@@ -747,7 +761,6 @@ def agentes(request,id_campania):
 				sec[2] = 165
 				user[i]['secgestion'] = 180
 
-			
 			if int(sec[2]) > 0 and int(sec[2])< 30:
 				user[i]['color'] = '#81C784'
 			if int(sec[2]) > 30 and int(sec[2])< 55:
@@ -2106,7 +2119,7 @@ def user(request):
 
 	id = request.user.id
 
-	user = AuthUser.objects.filter(id=id).values('id','username','email','empresa','nivel','first_name','nivel__nombre')
+	user = AuthUser.objects.filter(id=id).values('id','username','email','empresa','nivel','first_name','nivel__nombre','empresa__mascaras__tipo')
 
 	fmt = '%Y-%m-%d %H:%M:%S %Z'
 
@@ -2937,11 +2950,11 @@ def usuarios(request):
 
 					
 					Agentes(user_id=id_user).save()
-
 					agente =Agentes.objects.get(user=id_user)
-					
 					agente.atendidas = 0
 					agente.contactadas =0
+
+					print 'Save anexo....',data['anexo']
 					agente.anexo = data['anexo']
 					agente.estado_id = 1
 					#agente.tiempo = datetime.strptime("00:00:00", "%H:%M:%S")
@@ -2972,7 +2985,10 @@ def usuarios(request):
 			user.first_name =data['first_name']
 			user.telefono = data['telefono']
 			user.anexo = data['anexo']
-			
+
+			agente = Agentes.objects.get(user_id=id)
+			agente.anexo = data['anexo']
+			agente.save()
 
 			user.save()
 

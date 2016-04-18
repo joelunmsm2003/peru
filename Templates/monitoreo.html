@@ -248,13 +248,21 @@ padding-top: 8px;
 
 </div>
 
-<div  class="col-md-6">
 
 
+<div  class="col-md-6" ng-show="mexterna" >
 
 <div id="graph2"  style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 
 </div>
+
+<div  class="col-md-6" ng-show="minterna" >
+
+<div id="graph3"  style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+</div>
+
+
 
 </div>
 
@@ -279,7 +287,7 @@ padding-top: 8px;
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h5 class="modal-title">Calificacion del agente {[{user.agente__user__first_name}]} </h5>
+        <h5 class="modal-title">Calificacion del agente  {[{user.agente__user__first_name}]} </h5>
 
         <h5>{[{primer.nombre}]}</h5>
 

@@ -230,7 +230,7 @@ function Controller($scope,$http,$cookies,$filter) {
     $http.get("/nivel").success(function(response) {$scope.nivel = response;
 
         
-        $('.container').fadeToggle("slow")
+      
 
     });
 
@@ -811,7 +811,10 @@ function Controller($scope,$http,$cookies,$filter) {
         $scope.currentPage = this.n-1;
     };
 
+    $('.navbar-default').fadeToggle("slow","linear")
     
+
+
     Controller.$inject = ['$scope', '$filter'];
 
 }
