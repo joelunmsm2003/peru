@@ -46,6 +46,26 @@ from ws4redis.redis_store import RedisMessage
 from datetime import datetime,timedelta
 
 
+@login_required(login_url="/ingresar")
+def changepass(request):
+
+	id = request.user.id
+
+	if request.method == 'POST':
+
+		data = json.loads(request.body)['dato']
+
+		password = data['password']
+
+		print 'password',password
+
+		u = User.objects.get(id=id)
+
+		u.set_password(password)
+
+		u.save()
+
+		return HttpResponse('data', content_type="application/json")
 
 
 @receiver(user_logged_in)

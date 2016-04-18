@@ -20,6 +20,47 @@ function Controller($scope,$http,$cookies,$filter) {
     $scope.pagedItems = [];
     $scope.currentPage = 0;
 
+      $scope.Pass = function (model) {
+  
+        console.log('$scope.model',$scope.model)
+        
+        var todo={
+
+       
+            dato: $scope.model,
+            done:false
+        }
+
+        $http({
+        url: "/changepass/",
+        data: todo,
+        method: 'POST',
+        headers: {
+        'X-CSRFToken': $cookies['csrftoken']
+        }
+        }).
+        success(function(data) {
+
+        $http.get("/usuarios").success(function(response) {$scope.clientes = response;
+
+        $scope.search();
+
+        });
+
+
+       swal({   title: data,   type: "success",  timer: 1000,   showConfirmButton: false });
+
+
+        $('#Pass').modal('hide')
+        $('.modal-backdrop').remove();
+
+        })
+
+        
+
+
+    };
+
 
 
     
