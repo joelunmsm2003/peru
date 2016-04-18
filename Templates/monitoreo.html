@@ -73,6 +73,7 @@ jQuery(document).ready(function($) {
           <li><span class="nologin"></span> No Login</li>
           <li><span class="espera"></span> Espera</li>
           <li><span class="enllamada"></span> En Llamada</li>
+          <br>
           <li><span class="descolgado"></span> Descolgado</li>
           <li><span class="enpause"></span> En Pause</li>
            <li><span class="engestion"></span> En Gestion</li>
@@ -97,7 +98,7 @@ jQuery(document).ready(function($) {
 .legend { list-style: none; 
 padding-top: 8px;
 }
-.legend li { float: left; margin-right: 10px; }
+.legend li { float: left; margin-right: 10px;   width: 82px;}
 .legend span { border: 1px solid #ccc; float: left; width: 12px; height: 12px; margin: 2px; }
 /* your colors */
 .legend .nologin { background-color: #8FB0B3; }
@@ -106,6 +107,8 @@ padding-top: 8px;
 .legend .descolgado { background-color: #D2447A; }
 .legend .enpause { background-color: #D0CA40; }
 .legend .engestion { background-color: #A36AA5; }
+
+
 
 </style>
 
@@ -193,7 +196,7 @@ padding-top: 8px;
                   <td ng-if="contact.agente__estado == '4'" style="background-color: #389B5B; color: #fff;">{[{contact.agente__estado__nombre}]}</td>
                   <td ng-if="contact.agente__estado == '5'" style="background-color: #389B5B; color: #fff;">{[{contact.agente__estado__nombre}]}</td>
                   <td ng-if="contact.agente__estado == '6'" style="background-color: #A36AA5; color: #fff;"><i class="fa fa-pencil-square-o"></i> {[{contact.agente__estado__nombre}]}</td>
-                  <td>{[{contact.agente__atendidas}]}/{[{contact.agente__contactadas}]}</td>
+                  <td>{[{contact.atendidas}]}/{[{contact.total}]}</td>
                  <td>{[{contact.tgestion}]}</td>
                   <td>
                     

@@ -729,6 +729,10 @@ def agentes(request,id_campania):
 
 		user[i]['idllamada'] = L.replace("[{","").replace("'","").replace("id_ori_llamadas:","").replace("L}]","").replace(" ","")
 
+		user[i]['atendidas'] = AjxProLla.objects.filter(cam_codigo=id_campania,age_codigo=user[i]['agente'],llam_estado=4).count()
+
+		user[i]['total'] =  AjxProLla.objects.filter(cam_codigo=id_campania,age_codigo=user[i]['agente']).count()
+
 		if Base.objects.filter(status=1,agente_id=user[i]['agente']):
 
 			user[i]['fono'] =  Base.objects.get(status=1,agente_id=user[i]['agente']).telefono
@@ -745,7 +749,6 @@ def agentes(request,id_campania):
 
 			ti = agente.tiniciogestion
 
-
 		if agente.estado.id > 1:
 
 			ti= str(ti)[0:19]
@@ -753,7 +756,6 @@ def agentes(request,id_campania):
 
 			tf= str(datetime.now())[0:19]
 			tf = datetime.strptime(tf,fmt1)
-
 
 			user[i]['tgestion'] = str(tf-ti)
 	
@@ -2187,7 +2189,6 @@ def reasignarsupervisor(request):
 @login_required(login_url="/ingresar")
 def botoneraagente(request,campania):
 
-
 	agentes = Agentescampanias.objects.filter(campania_id=campania).values('id','agente__user__first_name','campania','agente')
 
 	for i in range(len(agentes)):
@@ -2928,11 +2929,13 @@ def usuarios(request):
 				id_user = AuthUser.objects.all().values('id').order_by('-id')[0]['id']
 
 				usuario = AuthUser.objects.get(id=id_user)
+
+				
 			
 				usuario.empresa_id = empresa
 				usuario.nivel_id = nivel
 				usuario.first_name = nombre
-				usuario.anexo=data['anexo']
+				usuario.anexo = data['anexo']
 				usuario.telefono = telefono
 				usuario.save()
 
@@ -2983,7 +2986,7 @@ def usuarios(request):
 
 			id= data['id']
 
-			print data
+			print 'Anexo :',data['anexo']
 
 			user = AuthUser.objects.get(id=id)
 			user.username =data['username']
@@ -2991,11 +2994,13 @@ def usuarios(request):
 			user.telefono = data['telefono']
 			user.anexo = data['anexo']
 
-			agente = Agentes.objects.get(user_id=id)
-			agente.anexo = data['anexo']
-			agente.save()
+			if nivel == 3:
 
-			user.save()
+				agente = Agentes.objects.get(user_id=id)
+				agente.anexo = data['anexo']
+				agente.save()
+
+				user.save()
 
 
 		if tipo=="Eliminar":
