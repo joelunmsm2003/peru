@@ -6,9 +6,10 @@
 
 <script src="/static/js/empresa.js"></script>
 
-<body ng-app="App">
+<body ng-app="App" ng-controller="Controller">
 
-<div class="container" ng-controller="Controller">
+
+<div class="container" >
 
 {% include "header.html" %}
 
@@ -87,16 +88,9 @@
 
 
 
-          <div class="col-md-6" ng-if="user.nivel == 4">
-          <div class="form-group">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button class="btn btn-primary" type="submit">Agregar</button>
-          </div>
-          </div>
+    
 
    
-          </form>
-        
           
 
          
@@ -106,6 +100,12 @@
                  
 
           </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button class="btn btn-primary" type="submit">Agregar</button>
+          </form>
         </div>
         
       </div>
@@ -323,8 +323,6 @@ background-color: #b71c1c;
 }
 
 </style>
-
-
 
 
 

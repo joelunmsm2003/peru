@@ -18,6 +18,27 @@ function Controller($scope,$http,$cookies,$filter) {
     $scope.pagedItems = [];
     $scope.currentPage = 0;
 
+    $scope.discado = false
+
+    $scope.discadoget = function(data) 
+    {
+
+        console.log('data',data)
+        if( data==1){
+            $scope.discado = true
+
+        }
+        else{
+
+            $scope.discado = false
+        }
+
+    }
+
+    $scope.color='#333'
+
+
+
 
     
     $http.get("/campanias").success(function(response) {$scope.clientes = response;
@@ -32,6 +53,7 @@ function Controller($scope,$http,$cookies,$filter) {
        
     });
 
+
     $http.get("/supervisores").success(function(response) {$scope.supervisores = response;
 
       
@@ -40,12 +62,21 @@ function Controller($scope,$http,$cookies,$filter) {
 
    
     
-
+    $scope.mpass= true
 
 
     $http.get("/user").success(function(response) {$scope.user = response;
 
         $scope.user = $scope.user[0]
+
+        if($scope.user['nivel']==2){
+
+            $scope.mpass= false
+
+        }
+
+         
+         $('.container').fadeToggle("slow")  
 
     });
 
@@ -54,7 +85,9 @@ function Controller($scope,$http,$cookies,$filter) {
     {
 
     console.log(contact.id)
+
     nivel = $scope.user['nivel']
+
     if (nivel==5){
 
         window.location="/monitoreo/"+contact.id
@@ -77,6 +110,15 @@ function Controller($scope,$http,$cookies,$filter) {
 
         $scope.model = angular.copy(contact);
         console.log($scope.model)
+        if ($scope.model.discado == 1){
+
+            $scope.discado = true
+        }
+        else{
+
+             $scope.discado = false
+
+        }
  
     };
 
@@ -84,6 +126,9 @@ function Controller($scope,$http,$cookies,$filter) {
     {
 
         console.log('jjjj',contact)
+
+          $('#reasignar').modal('hide')
+        $('.modal-backdrop').remove();
 
         var todo={
 
@@ -102,10 +147,17 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-        swal({   title: "Perucall",   text: "Supervisor actualizado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Aceptar",   }, function(){   window.location.href = "/campania" });
 
+        swal({   title: 'Campaña '+contact.nombre+ ' editada :)',   type: "success",  timer: 1000,   showConfirmButton: false });
          
          $scope.agregar=""
+
+         $http.get("/campanias").success(function(response) {$scope.clientes = response;
+
+        $scope.search();
+       
+    });
+
 
 
         })
@@ -155,7 +207,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-       swal({   title: "Perucall",   text: "Empresa "+data +" agregado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Agregado",   }, function(){   window.location.href = "/empresa" });
+       swal({    title: "Empresa "+data +" agregado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Cerrar",   }, function(){   window.location.href = "/empresa" });
 
          
          $scope.agregar=""
@@ -169,7 +221,7 @@ function Controller($scope,$http,$cookies,$filter) {
     $scope.saveContact = function (idx,currentPage) {
 
      
-        $scope.pagedItems[currentPage][idx] = angular.copy($scope.model);
+        consoel.log()
         $('#edit').modal('hide')
         $('.modal-backdrop').remove();
 
@@ -192,7 +244,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-            swal({title: "Perucall", text: "Empresa "+data +" editado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Editado",   }, function(){  });
+            swal({title: "Empresa "+data +" editado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Cerrar",   }, function(){  });
 
 
         })
@@ -208,35 +260,145 @@ function Controller($scope,$http,$cookies,$filter) {
         $('#eliminar').modal('hide')
         $('.modal-backdrop').remove();
 
-        
 
-        $scope.pagedItems[currentPage].splice(idx,1);
+        $http.get("/user").success(function(response) {$scope.user = response;
 
-        var todo={
+        $scope.user = $scope.user[0]
 
-            dato: $scope.model,
-            add: "Eliminar",
-            done:false
+
+        });
+
+
+        if($scope.user.nivel==1){
+
+            var todo={
+
+                dato: $scope.model,
+                add: "Eliminar",
+                done:false
+            }
+
+
+            $http({
+            url: "/campanias/",
+            data: todo,
+            method: 'POST',
+            headers: {
+            'X-CSRFToken': $cookies['csrftoken']
+            }
+            }).
+            success(function(data) {
+
+            $scope.contador =$scope.contador-1
+
+            $http.get("/campanias").success(function(response) {$scope.clientes = response;
+
+            $scope.search();
+
+            });
+
+
+            })
         }
 
 
-        $http({
-        url: "/empresas/",
-        data: todo,
-        method: 'POST',
-        headers: {
-        'X-CSRFToken': $cookies['csrftoken']
+        if($scope.user.nivel==2){
+
+
+            swal({ 
+                title: "Ingrese clave secreta",   
+                   
+                type: "input",   
+                confirmButtonColor: "#b71c1c",
+                showCancelButton: true,   
+                closeOnConfirm: false,   
+                animation: "slide-from-top",   
+                inputPlaceholder: "Ingrese clave secreta" }, 
+
+            function(inputValue){   if (inputValue === false) return false;      if (inputValue === "") {     
+
+                swal.showInputError("Ingrese la clave");  
+
+                return false   } 
+
+                else{
+
+                    $http.get("/passcampania/"+$scope.model.id).success(function(response) {$scope.pass = response;
+
+                    $scope.passcampania = $scope.pass[0]
+
+                    console.log('pass',inputValue,$scope.passcampania)
+
+                    if (parseInt(inputValue) == parseInt($scope.passcampania.password)){
+
+                        var todo={
+
+                            dato: $scope.model,
+                            add: "Eliminar",
+                            done:false
+                        }
+
+
+                        $http({
+                        url: "/campanias/",
+                        data: todo,
+                        method: 'POST',
+                        headers: {
+                        'X-CSRFToken': $cookies['csrftoken']
+                        }
+                        }).
+                        success(function(data) {
+
+                        $scope.contador =$scope.contador-1
+
+                        })
+
+
+
+                        swal({title: "Campaña Eliminada ",   type: "success", confirmButtonColor: "#b71c1c",   confirmButtonText: "Aceptar",   }, function(){   });
+
+                        $http.get("/campanias").success(function(response) {$scope.clientes = response;
+
+                            $scope.search();
+                           
+                        });
+
+                    }
+                    else{
+
+                        swal({   title: "Contraseña incorrecta, lo siento ",    timer: 800,   showConfirmButton: false });
+                    }
+
+
+                    });
+
+
+
+                    
+
+
+                }     
+
+                
+
+
+            });
+
         }
-        }).
-        success(function(data) {
 
-        swal({title: "Perucall", text: "Empresa "+data +" eliminado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Eliminado",   }, function(){   });
-
-        $scope.contador =$scope.contador-1
+            
 
 
-        })
+
+
     };
+
+    $http.get("/getempresa").success(function(response) {
+
+        $scope.empresax=response[0]
+       
+    });
+     
 
 
     $scope.editContact = function (contact,index,currentPage) {

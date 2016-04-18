@@ -24,10 +24,19 @@ function Controller($scope,$http,$cookies,$filter) {
 
     });
 
+     $http.get("/getempresa").success(function(response) {
+
+        $scope.empresax=response[0]
+       
+    });
+
 
     $http.get("/user").success(function(response) {$scope.user = response;
 
         $scope.user = $scope.user[0]
+
+        
+        $('.navbar-default').fadeToggle("slow")
 
     });
 
@@ -69,7 +78,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-        swal({   title: "Perucall",   text: "Usuario "+data +" agregado",   type: "success",   confirmButtonColor: "#337ab7",   confirmButtonText: "OK",   }, function(){   window.location.href = "/usuario" });
+        swal({     title: "Usuario "+data +" agregado",   type: "success",   confirmButtonColor: "#337ab7",   confirmButtonText: "OK",   }, function(){   window.location.href = "/usuario" });
  
         $scope.agregar=""
 

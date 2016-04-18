@@ -39,6 +39,7 @@ function Controller($scope,$http,$cookies,$filter) {
        
     });
 
+
        $http.get("/empresas").success(function(response) {$scope.empresasm = response;
 
 
@@ -66,7 +67,8 @@ function Controller($scope,$http,$cookies,$filter) {
 
     $http.get("/nivel").success(function(response) {$scope.nivel = response;
 
-        console.log('$scope.nivel',$scope.nivel)
+       
+       $('.container').fadeToggle("slow")
 
     });
 
@@ -115,6 +117,13 @@ function Controller($scope,$http,$cookies,$filter) {
     
     };
 
+       $http.get("/getempresa").success(function(response) {
+
+        $scope.empresax=response[0]
+       
+    });
+
+
 
 
 
@@ -145,11 +154,15 @@ function Controller($scope,$http,$cookies,$filter) {
         $('#myModal').modal('hide')
         $('.modal-backdrop').remove();
 
-        swal({   title: $scope.empresas.nombre,   text: 'Cartera '+data+' ingresada al sistema , gracias ',   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Aceptar",   }, function(){   window.location.href = "/cartera" });
- 
-        
+        swal({   title: 'Cartera '+data+' ingresada al sistema , gracias ',  type: "success",  timer: 1200,   showConfirmButton: false });
 
         $scope.agregar=""
+
+        $http.get("/carteras/").success(function(response) {$scope.clientes = response;
+
+        $scope.search() 
+          
+        });
 
         })
 
@@ -182,7 +195,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-        swal({   title: $scope.empresas.nombre,   text: "Cartera "+data +" editado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Aceptar",   }, function(){   });
+        swal({     title: "Cartera "+data +" editado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Cerrar",   }, function(){   });
  
         })
 
@@ -219,7 +232,7 @@ function Controller($scope,$http,$cookies,$filter) {
         success(function(data) {
 
         $scope.contador =$scope.contador-1
-        swal({   title: $scope.empresas.nombre,   text: "Cartera  eliminada",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Aceptar",   }, function(){   });
+        swal({      title: "Cartera  eliminada",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Cerrar",   }, function(){   });
  
 
         })

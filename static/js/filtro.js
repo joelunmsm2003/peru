@@ -9,6 +9,8 @@ function Controller($scope,$http,$cookies,$filter) {
 
 
     campania = window.location.href.split("filtros/")[1].split("/")[0]
+    $scope.camp = campania
+    $scope.camp = campania
     var sortingOrder ='-id';
     $scope.sortingOrder = sortingOrder;
     $scope.reverse = false;
@@ -20,8 +22,25 @@ function Controller($scope,$http,$cookies,$filter) {
 
     $scope.filtro = []
 
-    $http.get("/resultado").success(function(response) {$scope.resultado = response;
+    $http.get("/resultado/"+campania).success(function(response) {
 
+        $scope.resultado = response;
+
+        console.log('resultado',response)
+
+    });
+
+     $http.get("/getempresa").success(function(response) {
+
+        $scope.empresax=response[0]
+       
+    });
+
+    $http.get("/infocampania/"+campania).success(function(response) {
+
+       console.log('info',response)
+        $scope.campana = response[0]['nombre']
+        $scope.cartera = response[0]['cartera__nombre']
 
        
     });
@@ -32,14 +51,6 @@ function Controller($scope,$http,$cookies,$filter) {
 
 
        
-    });
-
-    $http.get("/agentescampania/"+campania).success(function(response) {
-
-        $scope.campana = response[0]['campania__nombre']
-        $scope.cartera = response[0]['campania__cartera__nombre']
-
-
     });
 
 
@@ -72,7 +83,6 @@ function Controller($scope,$http,$cookies,$filter) {
 
 
 
- 
 
     
     $http.get("/status_f/"+campania).success(function(response) {$scope.ciudad = response;
@@ -123,7 +133,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
     $http.get("/nivel").success(function(response) {$scope.nivel = response;
 
-        console.log('$scope.nivel',$scope.nivel)
+        $('.container').fadeToggle("slow")
 
     });
 
@@ -141,6 +151,14 @@ function Controller($scope,$http,$cookies,$filter) {
 
     });
 
+    }
+
+    $scope.next = function() 
+
+    {
+
+        window.location='/monitoreo/'+campania
+         
     }
 
 
@@ -182,7 +200,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-            swal({   title: "Asignacion de agentes",   text: data +' agregado',   timer: 2000,   showConfirmButton: false });
+            swal({      title: data +' agregado',   timer: 2000,   showConfirmButton: false });
     
     
     
@@ -202,6 +220,9 @@ function Controller($scope,$http,$cookies,$filter) {
       $scope.filtrado = function(dato) 
 
     {   
+
+         $('#filtrop').modal('hide')
+        $('.modal-backdrop').remove();
 
         var convArrToObj = function(array){
 
@@ -248,9 +269,15 @@ function Controller($scope,$http,$cookies,$filter) {
 
             object.cantidad = r
 
-            
+            swal({   title: 'Filtro agregado',  type: "success",  timer: 1000,   showConfirmButton: false });
 
-            swal({   title: $scope.empresas.nombre,   text: r +" registros por barrer",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Agregado",   }, function(){   window.location.href = "/filtros/"+campania });
+            $http.get("/listafiltros/"+campania).success(function(response) {
+
+                    $scope.listafiltros = response; 
+
+                    });
+
+
 
 
         })
@@ -342,7 +369,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-            swal({   title: "Peru Call ",   text: 'Filtro eliminado :(',   timer: 1500,   showConfirmButton: false });
+            swal({      title: 'Filtro eliminado :(',   timer: 1500,   showConfirmButton: false });
     
     
         })
@@ -376,7 +403,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-        swal({   title: "Perucall",   text: "Usuario "+data +" agregado",   type: "success",   confirmButtonColor: "#337ab7",   confirmButtonText: "OK",   }, function(){   window.location.href = "/usuario" });
+        swal({     title: "Usuario "+data +" agregado",   type: "success",   confirmButtonColor: "#337ab7",   confirmButtonText: "Cerrar",   }, function(){   window.location.href = "/usuario" });
  
         $scope.agregar=""
 
@@ -411,7 +438,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-        swal({   title: "Perucall",   text: "Usuario "+data +" editado",   type: "success",   confirmButtonColor: "#337ab7",   confirmButtonText: "OK",   }, function(){   });
+        swal({   title: "Usuario "+data +" editado",   type: "success",   confirmButtonColor: "#337ab7",   confirmButtonText: "Cerrar",   }, function(){   });
  
         })
 

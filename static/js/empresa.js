@@ -28,6 +28,14 @@ function Controller($scope,$http,$cookies,$filter) {
        
     });
 
+    $http.get("/getempresa").success(function(response) {
+
+        $scope.empresax=response[0]
+
+        console.log('sssss',response[0])
+       
+    });
+
     $http.get("/user").success(function(response) {$scope.user = response;
 
         $scope.user = $scope.user[0]
@@ -38,6 +46,8 @@ function Controller($scope,$http,$cookies,$filter) {
          $scope.selected = $scope.mascaras[0]
 
          console.log($scope.selected)
+
+
 
 
     });
@@ -97,6 +107,9 @@ function Controller($scope,$http,$cookies,$filter) {
 
     $scope.addNew=function(agregar){
 
+         $('#myModal').modal('hide')
+        $('.modal-backdrop').remove();
+
       
 
 
@@ -118,13 +131,25 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-       swal({   title: "PeruCall",   text: "Empresa "+data +" agregado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Agregado",   }, function(){   window.location.href = "/empresa" });
+    
+        swal({   title: "Empresa "+data +" agregado",  type: "success",  timer: 1000,   showConfirmButton: false });
 
- 
          $scope.agregar=""
+
+            $http.get("/empresas").success(function(response) {$scope.clientes = response;
+
+        $scope.search();
+
+        $scope.empresas=response[0]
+       
+    });
 
 
         })
+
+
+ 
+
 
 
     };
@@ -157,8 +182,15 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-            swal({title: 'Peru Call', text: "Empresa "+data +" editado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Editado",   }, function(){ window.location.href = "/empresa" });
+            swal({   title: "Empresa "+data +" editado",  type: "success",  timer: 1000,   showConfirmButton: false });
 
+            $http.get("/empresas").success(function(response) {$scope.clientes = response;
+
+        $scope.search();
+
+        $scope.empresas=response[0]
+       
+    });
 
         })
 
@@ -195,9 +227,16 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-        swal({title: $scope.empresas.nombre , text: "Empresa "+data +" eliminado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Eliminado",   }, function(){   });
+       swal({   title: "Empresa "+data +" editado",  type: "success",  timer: 1000,   showConfirmButton: false });
+       
+       $http.get("/empresas").success(function(response) {$scope.clientes = response;
 
-        $scope.contador =$scope.contador-1
+        $scope.search();
+
+        $scope.empresas=response[0]
+       
+    });
+
 
 
         })
@@ -376,6 +415,9 @@ function Controller($scope,$http,$cookies,$filter) {
     $scope.setPage = function () {
         $scope.currentPage = this.n-1;
     };
+
+     
+     $('.container').fadeToggle("slow")
 
     
     Controller.$inject = ['$scope', '$filter'];

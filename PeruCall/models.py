@@ -66,7 +66,7 @@ class Agentebase(models.Model):
 
 class Agentecalificacion(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
-    pregunta = models.ForeignKey('Preguntas', db_column='pregunta', blank=True, null=True)
+    pregunta = models.ForeignKey('PregExam', db_column='pregunta', blank=True, null=True)
     nota = models.ForeignKey('Nota', db_column='nota', blank=True, null=True)
     agente = models.ForeignKey('Agentes', db_column='agente', blank=True, null=True)
     descripcion = models.CharField(max_length=100, blank=True)
@@ -97,7 +97,6 @@ class Agentes(models.Model):
     user = models.ForeignKey('AuthUser', db_column='user', blank=True, null=True)
     supervisor = models.ForeignKey('Supervisor', db_column='supervisor', blank=True, null=True)
     disponible = models.IntegerField(blank=True, null=True)
-    calificacion = models.ForeignKey('Base', db_column='calificacion', blank=True, null=True)
     tiniciogestion = models.DateTimeField(blank=True, null=True)
     tfingestion = models.DateTimeField(blank=True, null=True)
     tiniciollamada = models.DateTimeField(blank=True, null=True)
@@ -114,12 +113,22 @@ class Agentes(models.Model):
 
 class Agentescampanias(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
-    agente = models.ForeignKey(Agentes, db_column='agente')
-    campania = models.ForeignKey('Campania', db_column='campania')
+    agente = models.ForeignKey(Agentes, db_column='agente', blank=True, null=True)
+    campania = models.ForeignKey('Campania', db_column='campania', blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'agentescampanias'
+
+
+class Agentesupervisor(models.Model):
+    id = models.IntegerField(primary_key=True)  # AutoField?
+    agente = models.ForeignKey(Agentes, db_column='agente', blank=True, null=True)
+    supervisor = models.ForeignKey('Supervisor', db_column='supervisor', blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'agentesupervisor'
 
 
 class AjxProAcd(models.Model):
@@ -399,12 +408,12 @@ class Base(models.Model):
     campania = models.ForeignKey('Campania', db_column='campania', blank=True, null=True)
     resultado = models.ForeignKey('Resultado', db_column='resultado', blank=True, null=True)
     telefonomarcado2 = models.IntegerField(db_column='TelefonoMarcado2', blank=True, null=True)  # Field name made lowercase.
-    proflag = models.IntegerField(db_column='ProFlag')  # Field name made lowercase.
-    proestado = models.IntegerField(db_column='ProEstado')  # Field name made lowercase.
-    filtrohdec = models.IntegerField(db_column='FiltroHdeC')  # Field name made lowercase.
+    proflag = models.IntegerField(db_column='ProFlag', blank=True, null=True)  # Field name made lowercase.
+    proestado = models.IntegerField(db_column='ProEstado', blank=True, null=True)  # Field name made lowercase.
+    filtrohdec = models.IntegerField(db_column='FiltroHdeC', blank=True, null=True)  # Field name made lowercase.
     agente = models.ForeignKey(Agentes, db_column='agente', blank=True, null=True)
     duracion = models.IntegerField(blank=True, null=True)
-    audio = models.CharField(max_length=120)
+    audio = models.CharField(max_length=120, blank=True)
     detalle = models.CharField(max_length=100, blank=True)
     monto = models.CharField(max_length=100, blank=True)
     fecha = models.DateTimeField(blank=True, null=True)
@@ -412,6 +421,7 @@ class Base(models.Model):
     tfingestion = models.DateTimeField(blank=True, null=True)
     tiniciollamada = models.DateTimeField(blank=True, null=True)
     tfinllamada = models.DateTimeField(blank=True, null=True)
+    password = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -420,8 +430,12 @@ class Base(models.Model):
 
 class Calificacion(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
-    tipo = models.CharField(max_length=100)
-    descripcion = models.CharField(max_length=100)
+    preg_exam = models.ForeignKey('PregExam', db_column='preg_exam')
+    agente = models.ForeignKey(Agentes, db_column='agente')
+    campania = models.ForeignKey('Campania', db_column='campania')
+    empresa = models.ForeignKey('Empresa', db_column='empresa', blank=True, null=True)
+    respuesta = models.CharField(max_length=1000, blank=True)
+    llamada = models.ForeignKey(AjxProLla, db_column='llamada')
 
     class Meta:
         managed = False
@@ -437,17 +451,17 @@ class Campania(models.Model):
     tipo = models.IntegerField(blank=True, null=True)
     discado = models.IntegerField(blank=True, null=True)
     factor = models.IntegerField(blank=True, null=True)
-    status = models.IntegerField()
-    prefijo = models.IntegerField()
+    status = models.IntegerField(blank=True, null=True)
+    prefijo = models.IntegerField(blank=True, null=True)
     troncal = models.IntegerField(blank=True, null=True)
-    timbrado1 = models.IntegerField()
-    timbrado2 = models.IntegerField()
-    grabacion = models.IntegerField()
-    t1 = models.IntegerField()
-    t2 = models.IntegerField()
-    t3 = models.IntegerField()
-    o_error_cnt = models.IntegerField()
-    o_nocontesto_cnt = models.IntegerField()
+    timbrado1 = models.IntegerField(blank=True, null=True)
+    timbrado2 = models.IntegerField(blank=True, null=True)
+    grabacion = models.IntegerField(blank=True, null=True)
+    t1 = models.IntegerField(blank=True, null=True)
+    t2 = models.IntegerField(blank=True, null=True)
+    t3 = models.IntegerField(blank=True, null=True)
+    o_error_cnt = models.IntegerField(blank=True, null=True)
+    o_nocontesto_cnt = models.IntegerField(blank=True, null=True)
     canales = models.IntegerField(blank=True, null=True)
     timbrados = models.IntegerField(blank=True, null=True)
     htinicio = models.TimeField(blank=True, null=True)
@@ -455,10 +469,11 @@ class Campania(models.Model):
     mxllamada = models.IntegerField(blank=True, null=True)
     llamadaxhora = models.IntegerField(blank=True, null=True)
     hombreobjetivo = models.IntegerField(blank=True, null=True)
-    archivo = models.CharField(max_length=100, blank=True)
+    archivo =  models.FileField(upload_to='files')
     supervisor = models.ForeignKey('Supervisor', db_column='supervisor', blank=True, null=True)
     cartera = models.ForeignKey('Cartera', db_column='cartera', blank=True, null=True)
     tgestion = models.IntegerField(blank=True, null=True)
+    password = models.CharField(max_length=100, blank=True)
 
     class Meta:
         managed = False
@@ -478,7 +493,7 @@ class Carteraempresa(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
     cartera = models.ForeignKey(Cartera, db_column='cartera')
     empresa = models.ForeignKey('Empresa', db_column='empresa')
-    privilegio = models.IntegerField()
+    privilegio = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -586,6 +601,24 @@ class Estado(models.Model):
         db_table = 'estado'
 
 
+class Examen(models.Model):
+    id = models.IntegerField(primary_key=True)  # AutoField?
+    nombre = models.CharField(max_length=100, blank=True)
+
+    class Meta:
+        managed = False
+        db_table = 'examen'
+
+
+class Excel(models.Model):
+    id = models.IntegerField(primary_key=True)  # AutoField?
+    archivo =  models.FileField(upload_to='files')
+
+    class Meta:
+        managed = False
+        db_table = 'excel'
+
+
 class Filtro(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
     campania = models.ForeignKey(Campania, db_column='campania', blank=True, null=True)
@@ -640,14 +673,22 @@ class Mascara(models.Model):
 
 class Monitorserver(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
-    d_uso = models.CharField(max_length=100, blank=True)
-    d_disponible = models.CharField(max_length=100, blank=True)
-    m_total = models.CharField(max_length=100, blank=True)
-    m_usada = models.CharField(max_length=100, blank=True)
-    s_total = models.CharField(max_length=100, blank=True)
+    dsk_use = models.CharField(max_length=100, blank=True)
+    total_mem = models.CharField(max_length=100, blank=True)
+    use_mem = models.CharField(max_length=100, blank=True)
+    total_swap = models.CharField(max_length=100, blank=True)
+    use_swap = models.CharField(max_length=100, blank=True)
     s_usada = models.CharField(max_length=100, blank=True)
-    cpu = models.CharField(max_length=100, blank=True)
-    date = models.DateTimeField(blank=True, null=True)
+    cpu = models.CharField(db_column='CPU', max_length=100, blank=True)  # Field name made lowercase.
+    astcpuuse = models.CharField(db_column='astCpuUse', max_length=1000, blank=True)  # Field name made lowercase.
+    astmemuse = models.CharField(db_column='astMemUse', max_length=1000, blank=True)  # Field name made lowercase.
+    pytcpuuse = models.CharField(db_column='pytCpuUse', max_length=1000, blank=True)  # Field name made lowercase.
+    pytmemuse = models.CharField(db_column='pytMemUse', max_length=1000, blank=True)  # Field name made lowercase.
+    sqlcpuuse = models.CharField(db_column='sqlCpuUse', max_length=1000, blank=True)  # Field name made lowercase.
+    sqlmemuse = models.CharField(db_column='sqlMemUse', max_length=1000, blank=True)  # Field name made lowercase.
+    activecall = models.CharField(db_column='activeCall', max_length=100, blank=True)  # Field name made lowercase.
+    dsk_tot = models.CharField(max_length=1000, blank=True)
+    date = models.DateTimeField()
 
     class Meta:
         managed = False
@@ -672,15 +713,15 @@ class Nota(models.Model):
         db_table = 'nota'
 
 
-class Preguntas(models.Model):
+class PregExam(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
     pregunta = models.CharField(max_length=100, blank=True)
-    respuesta = models.CharField(max_length=100, blank=True)
-    empresa = models.ForeignKey(Empresa, db_column='empresa', blank=True, null=True)
+    examen = models.ForeignKey(Examen, db_column='examen')
+    valor = models.FloatField()
 
     class Meta:
         managed = False
-        db_table = 'preguntas'
+        db_table = 'preg_exam'
 
 
 class Resultado(models.Model):
@@ -688,6 +729,7 @@ class Resultado(models.Model):
     name = models.CharField(max_length=100, blank=True)
     codigo = models.CharField(max_length=100, blank=True)
     tipo = models.CharField(max_length=100, blank=True)
+    mascara = models.ForeignKey(Mascara, db_column='mascara', blank=True, null=True)
 
     class Meta:
         managed = False

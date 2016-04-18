@@ -20,6 +20,8 @@ function Controller($scope,$http,$cookies,$filter) {
     $scope.pagedItems = [];
     $scope.currentPage = 0;
 
+
+
     
     $http.get("/usuarios").success(function(response) {$scope.clientes = response;
 
@@ -27,11 +29,22 @@ function Controller($scope,$http,$cookies,$filter) {
 
     });
 
+     $http.get("/getempresa").success(function(response) {
+
+        $scope.empresax=response[0]
+       
+    });
+
      $http.get("/supervisores").success(function(response) {$scope.supervisores = response;
 
    
 
     });
+
+
+    $scope.nivelagente = false
+
+
           $http.get("/troncales").success(function(response) {$scope.troncales = response[0];
 
         console.log('trncales',$scope.troncales)
@@ -63,7 +76,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
     $http.get("/nivel").success(function(response) {$scope.nivel = response;
 
-        console.log('$scope.nivel',$scope.nivel)
+$('.container').fadeToggle("slow")
 
     });
 
@@ -74,6 +87,131 @@ function Controller($scope,$http,$cookies,$filter) {
     return Math.ceil($scope.clientes.length / $scope.pageSize);
     
     };
+
+    $scope.usermodal = true
+
+
+     $scope.import = function(data) 
+
+    {
+
+        $scope.usermodal = false
+
+    }
+
+
+     $scope.ocultauser = function(data) 
+
+    {
+
+        $scope.usermodal = true
+
+    }
+
+
+     $scope.quitarsupervisor = function(data) 
+
+    {
+
+       console.log('99999999999',data,$scope.model)
+
+        var todo={
+
+            agente:$scope.model,
+            supervisor: data,
+            done:false
+        }
+
+       $http({
+        url: "/quitarsupervisor/",
+        data: todo,
+        method: 'POST',
+        headers: {
+        'X-CSRFToken': $cookies['csrftoken']
+        }
+        }).
+        success(function(data) {
+
+
+                $http.get("/agentesupervisor/"+$scope.model.id).success(function(response) {
+
+                $scope.agentesupervisor = response;
+
+                console.log('as',response)
+
+                });
+
+                $http.get("/agentenosupervisor/"+$scope.model.id).success(function(response) {
+
+                $scope.agentenosupervisor = response;
+
+                console.log('ans',response)
+
+
+                });
+
+
+        
+
+        })
+
+
+
+    }
+
+
+
+     $scope.agregarsupervisor = function(data) 
+
+    {
+
+       console.log(data,$scope.model)
+
+        var todo={
+
+            agente:$scope.model,
+            supervisor: data,
+            done:false
+        }
+
+       $http({
+        url: "/agregarsupervisor/",
+        data: todo,
+        method: 'POST',
+        headers: {
+        'X-CSRFToken': $cookies['csrftoken']
+        }
+        }).
+        success(function(data) {
+
+
+                $http.get("/agentesupervisor/"+$scope.model.id).success(function(response) {
+
+                $scope.agentesupervisor = response;
+
+                console.log('as',response)
+
+                });
+
+                $http.get("/agentenosupervisor/"+$scope.model.id).success(function(response) {
+
+                $scope.agentenosupervisor = response;
+
+                console.log('ans',response)
+
+
+                });
+
+
+        
+
+        })
+
+
+
+    }
+
+
 
      $scope.agregarcartera = function(index,contact) 
 
@@ -107,8 +245,7 @@ function Controller($scope,$http,$cookies,$filter) {
         $('#myModal').modal('hide')
         $('.modal-backdrop').remove();
 
-         swal({   title: "Asignacion de agentes",   text: data +' agregado',   timer: 2000,   showConfirmButton: false });
-         
+     
         $scope.agregar=""
 
         })
@@ -118,7 +255,7 @@ function Controller($scope,$http,$cookies,$filter) {
     
     };
 
-
+ 
 
 
     $scope.MyCtrl = function() 
@@ -138,18 +275,36 @@ function Controller($scope,$http,$cookies,$filter) {
 
     nivel = agregar['nivel']
 
+    if (nivel==3){
+
+        $scope.nivelcartera = false
+      $scope.nivelagente = true
+    }
+
+    if (nivel==1){
+
+        $scope.nivelcartera = false
+      $scope.nivelagente = false
+    }
+    if (nivel==5){
+
+        $scope.nivelcartera = false
+      $scope.nivelagente = false
+    }
+
+
+
+
 
     
     if (nivel ==2){
 
 
         $scope.nivelcartera = 1
+        $scope.nivelagente = false
 
     }
-    else{
-
-        $scope.nivelcartera= 0
-    }
+   
 
 
     
@@ -185,7 +340,16 @@ function Controller($scope,$http,$cookies,$filter) {
         $('#myModal').modal('hide')
         $('.modal-backdrop').remove();
 
-        swal({   title: $scope.empresas.nombre,   text: data ,   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Aceptar",   }, function(){   window.location.href = "/usuario" });
+        swal({   title: data,   type: "success",  timer: 1000,   showConfirmButton: false });
+
+
+    $http.get("/usuarios").success(function(response) {$scope.clientes = response;
+
+        $scope.search();
+
+    });
+
+
  
         
 
@@ -224,9 +388,23 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-        swal({   title: $scope.empresas.nombre,   text: "Usuario "+data +" editado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Aceptar",   }, function(){   });
- 
-        })
+   
+              swal({   title: "Usuario "+data +" editado",   type: "success",  timer: 700,   showConfirmButton: false });
+
+         //window.location.href = "/usuario"  
+
+             $http.get("/usuarios").success(function(response) {$scope.clientes = response;
+
+        $scope.search();
+
+    });
+
+
+
+     });
+
+
+
 
 
         $('#Edit').modal('hide')
@@ -240,7 +418,6 @@ function Controller($scope,$http,$cookies,$filter) {
         $('#eliminar').modal('hide')
         $('.modal-backdrop').remove();
 
-        $scope.pagedItems[currentPage].splice(idx,1);
 
         var todo={
 
@@ -261,8 +438,15 @@ function Controller($scope,$http,$cookies,$filter) {
         success(function(data) {
 
         $scope.contador =$scope.contador-1
-        swal({   title: $scope.empresas.nombre,   text: "Usuario "+data +" eliminado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Aceptar",   }, function(){   });
+        
+
+        swal({   title: "Usuario "+data +" eliminado",   type: "success",  timer: 700,   showConfirmButton: false });
  
+         $http.get("/usuarios").success(function(response) {$scope.clientes = response;
+
+        $scope.search();
+
+        });
 
         })
 
@@ -291,6 +475,24 @@ function Controller($scope,$http,$cookies,$filter) {
         console.log('hshhshshs',$scope.carterasupervisor)
 
         });
+
+        $http.get("/agentesupervisor/"+contact.id).success(function(response) {
+
+        $scope.agentesupervisor = response;
+
+        console.log('as',response)
+
+        });
+
+        $http.get("/agentenosupervisor/"+contact.id).success(function(response) {
+
+        $scope.agentenosupervisor = response;
+
+        console.log('ans',response)
+
+
+        });
+
 
 
 

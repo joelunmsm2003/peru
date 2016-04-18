@@ -18,17 +18,19 @@ function Controller($scope,$http,$cookies,$filter) {
     $scope.currentPage = 0;
 
 
-    user = window.location.href.split("supervisorcartera/")[1].split("/")[0]
+    user = window.location.href.split("detallesupervisormant/")[1].split("/")[0]
 
 
 
-    $http.get("/detalleagente/"+user).success(function(response) {
+    $http.get("/detallesupervisor/"+user).success(function(response) {
 
         $scope.campanias = response;
 
-        $scope.agentev = response[0]
+        $scope.name = response[0]
 
-        console.log($scope.carteras)
+       
+
+        console.log('kdkdkdkdkdd',response[0])
 
     });
 
@@ -92,8 +94,8 @@ function Controller($scope,$http,$cookies,$filter) {
 
     $http.get("/nivel").success(function(response) {$scope.nivel = response;
 
-       
-       $('.container').fadeToggle("slow")
+        
+        $('.container').fadeToggle("slow")
 
     });
 

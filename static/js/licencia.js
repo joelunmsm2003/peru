@@ -53,6 +53,15 @@ function Controller($scope,$http,$cookies,$filter) {
 
     });
 
+       $http.get("/getempresa").success(function(response) {
+
+        $scope.empresax=response[0]
+        
+        $('.container').fadeToggle("slow")
+       
+    });
+
+
 
 
 
@@ -89,7 +98,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-       swal({   title: $scope.empresas.nombre,   text: "Licencias Temporal "+data +" agregado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Agregado",   }, function(){   window.location.href = "/licencia" });
+       swal({      title: "Licencias Temporal "+data +" agregado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Cerrar",   }, function(){   window.location.href = "/licencia" });
 
 
 
@@ -127,7 +136,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-       swal({   title: $scope.empresas.nombre,   text: "Empresa "+data +" agregado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Agregado",   }, function(){   window.location.href = "/empresa" });
+       swal({     title: "Empresa "+data +" agregado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Cerrar",   }, function(){   window.location.href = "/empresa" });
 
  
          $scope.agregar=""
@@ -164,7 +173,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-            swal({title: $scope.empresas.nombre, text: "Empresa "+data +" editado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Editado",   }, function(){ window.location.href = "/empresa" });
+            swal({ title: "Empresa "+data +" editado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Cerrar",   }, function(){ window.location.href = "/empresa" });
 
 
         })
@@ -202,7 +211,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-        swal({title: $scope.empresas.nombre , text: "Empresa "+data +" eliminado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Eliminado",   }, function(){   });
+        swal({ title: "Empresa "+data +" eliminado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Cerrar",   }, function(){   });
 
         $scope.contador =$scope.contador-1
 

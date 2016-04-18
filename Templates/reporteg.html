@@ -8,7 +8,30 @@
 
 <body >
 
-<div class="container">
+<style>
+
+.containerx {
+
+      padding-right: 69px;
+  padding-left: 69px;
+  margin-right: auto;
+  margin-left: auto;
+  padding-top: 60px;
+
+
+}
+
+.repor{
+  display:none;
+}
+.navbar-default,.table{
+  display:none;
+}
+</style>
+
+
+
+<div class="containerx">
 
 {% include "header.html" %}
 
@@ -16,8 +39,169 @@
 
 <h4>Reporte</h4>
 
+    Descarga de Reportes 
 
-      <div class='row'>
+    <div class='row repor'>
+
+     <div class="col-md-2">
+
+    Cartera :<select ng-change='getcampania(model.cartera)' ng-options="item as item.cartera__nombre for item in carteras track by item.id" type="text" class="form-control" ng-model="model.cartera" required =""  ></select>
+
+    </div>
+
+
+     <div class="col-md-2">
+
+    Campaña:
+    <select ng-options="item as item.nombre for item in campanias track by item.id" type="text" class="form-control" ng-model="model.campania" required ="" ng-change='graficarcampania(model)' ></select>
+ 
+
+     </div>
+      <div class="col-md-2">
+      CSV <br>
+
+    <button class="btn btn-primary" type="submit" ng-click='descarga()'><i class="fa fa-download"></i> Descarga</button>
+     
+     </div>
+
+
+      <div class="col-md-6">
+
+     
+    <h3> Cartera: {[{infocamp.cartera__nombre}]} | Campaña: {[{infocamp.nombre}]} </h3>
+
+     </div>
+
+
+    </div>
+
+    <br>
+
+
+
+    <div class='row'>
+
+   
+    <div class="col-md-6">
+    
+    <div id="graph1" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+    </div>
+    <div class="col-md-6">
+    
+    <div id="pie" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+
+    </div>
+
+    </div>
+
+      <table class="table table-striped table-condensed table-hover ">
+        <tbody>
+
+         <thead>
+
+              <tr><th >Agente </th>
+                  <th >Promesa </th>
+                  <th >Directo</th>
+                  <th>Indirecto</th>
+                   <th>No Contacto</th>
+                   <th>Seleccionar</th>
+
+                  </tr>
+              </thead>
+
+              <tr  ng-repeat="contact in agenteboton " class='active' ts-repeat>
+
+                  <td>{[{contact.agente__user__first_name}]}</td>
+                  <td>{[{contact.promesa}]}</td>
+                  <td>{[{contact.directo}]}</td>
+                  <td>{[{contact.indirecto}]}</td>
+                  <td>{[{contact.nocontacto}]}</td>
+                  <td ng-show = 'contact.btnon'><a  ng-click="activa(contact)"><i class="fa fa-toggle-off" aria-hidden="true"></i></a></td>
+                  <td  ng-show= 'contact.btnoff'><a ng-click="desactiva(contact)"><i class="fa fa-toggle-on" aria-hidden="true"></i></a></td>
+
+
+              </tr>
+              <tr>
+              <td></td><td></td><td></td><td></td><td></td><td><a class='btn btn-primary btn-sm' href="#arriba" ng-click="link()"> Graficar <i class="fa fa-paper-plane" aria-hidden="true"></i></a> </td>
+              </tr>
+            </tbody>
+
+            </table>  
+
+       
+        <div class='animated bounceInLeft' ng-show='graficoc' id="columnas" style="min-width: 1200px; height: 400px; max-width: 1200px; margin: 0 auto"></div>
+         <a name="arriba"></a>
+
+  
+
+
+<style>
+.col-md-12 {
+ 
+padding: 11px;
+  border-color: #4C7A99;
+  border-style: solid;
+  border-width: 5px;
+  border-color: #F9F9F9;
+  background: #8375D8;
+  color: #FFF;
+  border-width: 1px 1px 0px 1px;
+}
+
+.ba {
+
+  transition:.5s;
+  background: #EF5350;
+
+}
+
+.ba:hover{
+
+background: #BF3737;
+color: #fff;
+
+
+}
+.as {
+
+  transition:.5s;
+  background: #3682CF;
+
+}
+
+.as:hover{
+
+background: #1173D7;
+
+
+
+}
+.pe {
+
+  transition:.5s;
+  background: #8375D8;
+
+}
+
+.pe:hover{
+
+background: #5F4ADF;
+color: #fff;
+
+
+}
+
+
+
+</style>
+
+
+
+
+ 
+
+
+    <!--  <div class='row'>
       <div class="col-md-8"><input placeholder="Buscar" ng-change="search()"  type="text" ng-model="tipo" class="form-control" ></div>
        <div class="col-md-2">
        Cantidad de Registros {[{contador}]}
@@ -32,14 +216,7 @@
     </div><br>
 
 
- 
 
-
-
-
-
-
- 
 
     <table class="table  table-condensed table-hover ">
     
@@ -93,7 +270,7 @@
 
 
                 <td>
-               <!-- <button class="btn btn-primary" ng-click='Admin(contact)'>+</button>-->
+               <button class="btn btn-primary" ng-click='Admin(contact)'>+</button>
               </td>
               <td>
 
@@ -116,6 +293,7 @@
 
 
         </table>
+-->
 
 
 
@@ -273,14 +451,14 @@
 
 
 
-
-
-
-
-
-
+<script src="/static/js/highchart.js"></script>
+<script src="https://code.highcharts.com/highcharts-more.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
 
   <script src="/static/js/angular-route.js"></script>
+
+
 
 </body>
 

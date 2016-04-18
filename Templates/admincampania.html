@@ -1,81 +1,60 @@
-<!doctype html>
-<html ng-app="App" ng-controller="Controller">
-<head>
+<!DOCTYPE html>
 
-<title>PeruCall</title>
-
-<meta charset="utf-8">
-
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="en" >
 
 {% include "head.html" %}
 
 <script src="/static/js/admincampania.js"></script>
 
-<link rel='stylesheet' href='/static/css/menu.css'>
-<script src='/static/js/jquery-2.1.1.min.js'></script>
-<script src='/static/js/menuv.js'></script>
+<body ng-app="App" ng-controller="Controller">
 
 
 
 
-</head>
-<body class="home nav-collapsed">
 
 
-<div class="page-frame">
-<div class="page">
-
-<nav class="offcanvas" role="navigation">
-  
-    <ul>
-      
-      <li class='current'><a class='current' href="/"><i class="fa fa-home"></i> Home</a></li>
-      
-      <li>
-        
-        <ul>
-          <li><a ng-click='agentes()'><i class="fa fa-user-secret" ></i>Agentes</a></li>
-          <li><a ng-click='monitor()'><i class="fa fa-line-chart"></i> Monitoreo</a></li>
-          <li><a ng-click='filtro()'><i class="fa fa-filter"></i> Filtro</a></li>
-      
-        </ul>
-      </li>
-    
-    </ul>
-
-</nav>
-
-
-<div class="content-frame">
-
-
-
-
-<div class="container" >
+<div  class ='container'  >
 
 {% include "header.html" %}
-<div class='derecha' >
 
-<div class="panel panel-default">
+
+
+
+	<div class="panel panel-default">
   <div class="panel-body">
   	<div class='row'>
-	  	<div class="col-sm-4"><h4><i class="fa fa-lightbulb-o"></i> Asignacion de Agentes</h4>
+
+  		<div ng-if="user.nivel == 4" class="col-md-3"><h4><i class="fa fa-building-o" aria-hidden="true"></i> Empresa {[{empresa}]} </h4>
 	  	</div>
-	  	<div class="col-sm-4"><h4><i class="fa fa-cube"></i>  Campaña {[{campana}]} </h4>
+	  	<div class="col-md-3" ><h4><i style="color:#BF3737;" class="fa fa-user" ></i> <span style="color:#BF3737;" >ASIGNACION DE AGENTES </span> </h4>
 	  	</div>
-	  	<div class="col-sm-4"><h4><i class="fa fa-building-o"></i>  Cartera  {[{cartera}]} </h4>
+
+
+
+	  	<div class="col-md-3"><h4><i class="fa fa-cube"></i> CAMPAÑA: {[{campana}]} </h4>
+	  	</div>
+	  	
+	  	<div class="col-md-3"><h4><i class="fa fa-building-o"></i>  CARTERA: {[{cartera}]} </h4>
+	  	</div>
+	  	<div ng-if="user.nivel == 1" class="col-md-3"><h4><i class="fa fa-building-o"></i>  SUPERVISOR:  {[{supervisor}]} </h4>
 	  	</div>
   	</div>
+    
    
   </div>
 </div>
 
 
-<!--Filtro-->
+ <a class='btn btn-primary' ng-href='/filtros/{[{camp}]}'> <i class="fa fa-filter"></i> Filtros </a>
+    <a class='btn btn-primary'ng-href='/monitoreo/{[{camp}]}'> <i class="fa fa-video-camera"></i> Monitor </a>
 
-<div class="panel-body">
+
+<!--{% include "botoncampania.html" %}-->
+
+
+
+
+  <div class="panel-body" onmouseover="container()">
 
     	<div class='row'>
   	 	<div class="col-sm-6">
@@ -83,7 +62,7 @@
 
   	 			<h5>Usuarios Disponibles</h5>
   	 			<div class="col-sm-2">
-				<a ng-click="agregaruser()" class="btn btn-primary" >Agregar</a>
+				<a  ng-click="agregaruser()" class="btn btn-primary" >Agregar</a>
 				</div>
   	 			
 
@@ -93,30 +72,25 @@
 				</form>
 				</div>
 
-
 				<div class="col-sm-2">
 				{[{contador1}]}
-				</div>
-
-				
+				</div>		
 			</div>
 
-  	 		
-
-			
-
 			<br>
+			
 			<table class="table table-striped table-condensed table-hover ">
 				<tbody>
 				<thead>
-	           		<th >Selecccionar </th>
+					<tr>
+	           		<th ><input type="checkbox" ng-model='estado' ng-click="masiva(estado)"> Selecccionar </th>
 	                <th >Estado </th>
 	                <th >Nombre</th>
 	                <th></th>
 					</tr>
 
 	            </thead>
-	            <tr  class='animate' ng-repeat="contact in usuarios " class='active' ts-repeat>
+	            <tr   ng-repeat="contact in usuarios " class='active' ts-repeat>
 
 	                <td><input type="checkbox" ng-model='contact.seleccionar' ng-change="add($index,contact)"></td>
 	                <td>{[{contact.estado}]}</td>
@@ -158,12 +132,12 @@
 
 				 <thead>
 
-	            <tr><th >Seleccionar </th>
+	            <tr><th ><input type="checkbox" ng-model='estado1' ng-click="masiva1(estado1)"> Seleccionar </th>
 	                <th >Estado </th>
 	                <th >Nombre</th><th></th></tr>
 	            </thead>
 
-	            <tr class='animate' ng-repeat="contact in usuarioscampania " class='active' ts-repeat>
+	            <tr  ng-repeat="contact in usuarioscampania " class='active' ts-repeat>
 	             	<td><input type="checkbox" ng-model='contact.seleccionar' ng-change="add($index,contact)"></td>
 	                <td>{[{contact.estado}]}</td>
 	                <td>{[{contact.name}]}</td>
@@ -180,14 +154,36 @@
 
 
 
+  <style type="text/css">
+
+  .tt{
+
+  	float:right;
+  	}
 
 
-</div><!-- END .container -->
+
+  	</style>
 
 
-</div><!-- END .content-frame -->
-</div><!-- END .page -->
-</div><!-- END .page-frame -->
+
+
+
+
+
+
+
+</div>
+
+
+
+</div>
+
+
+
 
 </body>
+
+
+
 </html>

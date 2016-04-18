@@ -26,6 +26,7 @@ function Todo($scope,$http,$cookies,$filter) {
 
 
 
+
     $scope.Query = function(){
 
 
@@ -83,6 +84,16 @@ function Todo($scope,$http,$cookies,$filter) {
      $http.get("/audiences").success(function(response) {$scope.audiences = response;
  
     });
+
+       $http.get("/getempresa").success(function(response) {
+
+        $scope.empresax=response[0]
+
+        $('#wrapper').fadeToggle("slow")
+        $('.container').fadeToggle("slow")
+       
+    });
+
 
 
 

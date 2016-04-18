@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+{% include "head.html" %}
+
+
+
+<script src="/static/js/dashboard.js"></script>
+<script src="/static/js/chart.js"></script>
+<script src="/static/js/angular-chart.js"></script>
+
+
+<body ng-app="App" ng-controller="Controller">
+
+
+
+
+
+
+
+<div class="container" >
+
+
+
+{% include "header.html" %}
+
+<script type="text/javascript">
+  
+jQuery(document).ready(function($) {
+    var ws4redis = WS4Redis({
+        uri: '{{ WEBSOCKET_URI }}foobar?subscribe-broadcast&publish-broadcast&echo',
+        receive_message: receiveMessage,
+        heartbeat_msg: {{ WS4REDIS_HEARTBEAT }}
+    });
+
+
+
+
+
+    function receiveMessage(msg) {
+        console.log('Message from Websocket: ' + msg);
+    }
+});
+
+
+
+</script>
+
+<!--Cabecera-->
+  <div class="panel panel-default" >
+  <div class="panel-body">
+    <div class='row'>
+
+      <div class="col-sm-4"><h4><i class="fa fa-check"></i>  Examen de {[{n_examen.nombre}]} </h4>
+      </div>
+      <div class="col-sm-4"><h4><i class="fa fa-user"></i>  Evaluacion del Agente {[{agentex.user__first_name}]} </h4>
+      </div>
+
+      <div class="col-sm-4"><h4><i class="fa fa-phone"></i>  Anexo {[{agentex.user__anexo}]} </h4>
+      </div>
+
+
+     
+
+
+    </div>
+    
+   
+  </div>
+</div>
+
+
+
+
+
+
+
+            
+
+<!--Graficas de Monitoreo-->
+
+
+<div class='row'>
+<div class="col-sm-2">
+
+Agente:
+    <select  ng-options="item as item.user__first_name for item in agentes track by item.id" type="text" class="form-control" ng-model="model.agente" required =""  ></select>
+
+</div>
+
+<div class="col-sm-2">
+
+Examen:
+    <select ng-click= 'change(model)' ng-options="item as item.nombre for item in examenes track by item.id" type="text" class="form-control" ng-model="model.examen" required =""  ></select>
+
+</div>
+
+
+</div><br>
+
+
+
+
+
+
+<center><div id="calidadagente" style="min-width: 1000px; height: 400px; margin: 0 auto"></div></center>
+
+
+
+
+
+
+
+  </div>
+
+
+
+  </div>
+
+
+</div>
+
+
+
+  </div>
+
+
+
+<script src="/static/js/highchart.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+
+
+
+</div>
+
+
+
+
+</div>
+
+
+
+
+
+</body>
+
+</html>
+
+
+
