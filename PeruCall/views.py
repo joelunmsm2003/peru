@@ -61,11 +61,13 @@ def changepass(request):
 
 		u = User.objects.get(id=id)
 
+		data = u.first_name
+
 		u.set_password(password)
 
 		u.save()
 
-		return HttpResponse('data', content_type="application/json")
+		return HttpResponse(data, content_type="application/json")
 
 
 @receiver(user_logged_in)
