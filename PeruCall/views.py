@@ -284,7 +284,7 @@ def accionmonitor(request,sup,anexo):
 
 	print 'Monitor..enviando',sup,anexo
 
-	cmd = ('curl "https://xiencias.com/xien/PROC_MONITOR.php?sup=%s&anx=%s" ' %(sup, anexo))
+	cmd = ('curl "https://localhost/xien/PROC_MONITOR.php?sup=%s&anx=%s" ' %(sup, anexo))
 	os.system(cmd)
 
 	return HttpResponse(' Monitor Activado', content_type="application/json")
@@ -296,7 +296,7 @@ def accionsusurro(request,sup,anexo):
 
 	print 'Susurro..enviando',sup,anexo
 
-	cmd = ('curl "https://xiencias.com/xien/PROC_SUSURRO.php?sup=%s&anx=%s" ' %(sup, anexo))
+	cmd = ('curl "https://localhost/xien/PROC_SUSURRO.php?sup=%s&anx=%s" ' %(sup, anexo))
 	os.system(cmd)
 
 	return HttpResponse('Susurro Activado', content_type="application/json")
@@ -2993,6 +2993,7 @@ def usuarios(request):
 			user.first_name =data['first_name']
 			user.telefono = data['telefono']
 			user.anexo = data['anexo']
+			user.save()
 
 			if nivel == 3:
 
@@ -3000,7 +3001,7 @@ def usuarios(request):
 				agente.anexo = data['anexo']
 				agente.save()
 
-				user.save()
+				
 
 
 		if tipo=="Eliminar":
