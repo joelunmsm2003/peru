@@ -55,11 +55,14 @@ def changepass(request):
 
 		data = json.loads(request.body)['dato']
 
+		print 'data',data
+
 		password = data['password']
+		id_user = data['id']
 
 		print 'password',password
 
-		u = User.objects.get(id=id)
+		u = User.objects.get(id=id_user)
 
 		data = u.first_name
 
