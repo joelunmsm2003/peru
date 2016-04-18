@@ -48,7 +48,7 @@ function Controller($scope,$http,$cookies,$filter) {
         });
 
 
-       swal({   title: data,   type: "success",  timer: 1000,   showConfirmButton: false });
+       swal({   title: data +' cambiado de password',   type: "success",  timer: 1000,   showConfirmButton: false });
 
 
         $('#Pass').modal('hide')
