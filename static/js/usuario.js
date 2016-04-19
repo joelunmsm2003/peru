@@ -138,6 +138,7 @@ $('.container').fadeToggle("slow")
 
         $scope.usermodal = false
 
+
     }
 
 
@@ -146,6 +147,8 @@ $('.container').fadeToggle("slow")
     {
 
         $scope.usermodal = true
+        $scope.contact = ""
+
 
     }
 
@@ -345,6 +348,14 @@ $('.container').fadeToggle("slow")
         $scope.nivelagente = false
 
     }
+
+        $http.get("/getanexo/"+nivel).success(function(response) {
+
+        $scope.anexos = response;
+
+        console.log(response)
+
+        });
    
 
 
@@ -391,10 +402,15 @@ $('.container').fadeToggle("slow")
     });
 
 
+
+
+        $scope.nivelcartera = false
+        $scope.nivelagente = false
  
         
 
         $scope.agregar=""
+        $scope.anexos = ""
 
         })
 
