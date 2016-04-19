@@ -197,7 +197,7 @@ padding-top: 8px;
                   <td ng-if="contact.agente__estado == '5'" style="background-color: #389B5B; color: #fff;">{[{contact.agente__estado__nombre}]}</td>
                   <td ng-if="contact.agente__estado == '6'" style="background-color: #A36AA5; color: #fff;"><i class="fa fa-pencil-square-o"></i> {[{contact.agente__estado__nombre}]}</td>
                   <td>{[{contact.atendidas}]}/{[{contact.total}]}</td>
-                 <td>{[{contact.tgestion}]}</td>
+                 <td >{[{contact.tgestion}]} <span ng-if="contact.agente__wordstipeo > 1"> <i class="fa fa-pencil"></i> {[{contact.agente__wordstipeo}]}</span></td>
                   <td>
                     
                     <div class="progre">
@@ -207,11 +207,7 @@ padding-top: 8px;
                     </div>               
                   </td>
 
-                   <td class="col-sm-6" ng-if="contact.agente__wordstipeo > 1">
-                    <center><i class="fa fa-pencil"></i> {[{contact.agente__wordstipeo}]}</center>
-                    </td>
-
-                    <td> {[{contact.fono}]}</td>
+                  <td> {[{contact.fono}]}</td>
                     
 
                     <td><a  ng-click="evaluar(contact,$index)" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#notificacion"><i class="fa fa-rocket"></i></a></td>
