@@ -515,7 +515,17 @@ $('.container').fadeToggle("slow")
         $scope.index = index;
         $scope.numberPage =currentPage;
 
-        console.log(contact)
+        nivel = contact.nivel
+
+        $http.get("/getanexo/"+nivel).success(function(response) {
+
+        $scope.anexos = response;
+
+        $scope.anexos.push(contact.anexo)
+
+        console.log(response)
+
+        });
 
         $http.get("/carterasupervisor/"+contact.id).success(function(response) {
 
