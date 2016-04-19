@@ -117,6 +117,6 @@ $sqlMemUse 	= $sqlmem[0];
 
 #system ("curl --data \"memoriausada=$memoriausada&d_usado=$d_usado&d_disponible=$d_disponible&memoriatotal=$memoriatotal&memoriausada=$memoriausada&swaptotal=$swaptotal&swapusada=$swapusada&cpu=$cpu\" \"http://localhost:8000/cpuestado/\" >AstApp.html");
 
-system ("curl --data \"activeCall=$activeCall&dsk_use=$dsk_use&dsk_tot=$dsk_tot&total_mem=$total_mem&use_mem=$use_mem&total_swap=$total_swap&use_swap=$use_swap&CPU=$CPU&astCpuUse=$astCpuUse&astMemUse=$astMemUse&pytCpuUse=$pytCpuUse&pytMemUse=$pytMemUse&sqlCpuUse=$sqlCpuUse&sqlMemUse=$sqlMemUse\" \"http://localhost:8000/astapp/\" >AstApp.html");
+system ("curl --data \"activeCall=$activeCall&dsk_use=$dsk_use&dsk_tot=$dsk_tot&total_mem=$total_mem&use_mem=$use_mem&total_swap=$total_swap&use_swap=$use_swap&CPU=$CPU&astCpuUse=$astCpuUse&astMemUse=$astMemUse&pytCpuUse=$pytCpuUse&pytMemUse=$pytMemUse&sqlCpuUse=$sqlCpuUse&sqlMemUse=$sqlMemUse\" \"http://localhost:8000/astapp/\" ");
 
 ?>
