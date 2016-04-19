@@ -2928,25 +2928,25 @@ def usuarios(request):
 
 	if nivel == 4: #Manager
 
-		usuarios = AuthUser.objects.all().values('anexo','id','telefono','username','email','empresa__nombre','nivel__nombre','first_name').order_by('-id')
+		usuarios = AuthUser.objects.all().values('nivel','anexo','id','telefono','username','email','empresa__nombre','nivel__nombre','first_name').order_by('-id')
 	
 	if nivel == 3: #Agentes
 
-		usuarios = AuthUser.objects.filter(id=id).values('anexo','id','telefono','username','email','empresa__nombre','nivel__nombre','first_name').order_by('-id')
+		usuarios = AuthUser.objects.filter(id=id).values('nivel','anexo','id','telefono','username','email','empresa__nombre','nivel__nombre','first_name').order_by('-id')
 
 	if nivel == 2: #Supervisores
 
 		supervisor = Supervisor.objects.get(user=id).id
 
-		usuarios = AuthUser.objects.filter(empresa_id=empresa).values('anexo','id','telefono','username','email','empresa__nombre','nivel__nombre','first_name').order_by('-id')
+		usuarios = AuthUser.objects.filter(empresa_id=empresa).values('nivel','anexo','id','telefono','username','email','empresa__nombre','nivel__nombre','first_name').order_by('-id')
 
 	if nivel == 1: #Admin
 
-		usuarios = AuthUser.objects.filter(empresa_id=empresa).exclude(nivel=4).values('anexo','id','telefono','username','email','empresa__nombre','nivel__nombre','first_name').order_by('-id')
+		usuarios = AuthUser.objects.filter(empresa_id=empresa).exclude(nivel=4).values('nivel','anexo','id','telefono','username','email','empresa__nombre','nivel__nombre','first_name').order_by('-id')
 
 	if nivel == 5: #Admin
 
-		usuarios = AuthUser.objects.filter(empresa_id=empresa).exclude(nivel=4).values('anexo','id','telefono','username','email','empresa__nombre','nivel__nombre','first_name').order_by('-id')
+		usuarios = AuthUser.objects.filter(empresa_id=empresa).exclude(nivel=4).values('nivel','anexo','id','telefono','username','email','empresa__nombre','nivel__nombre','first_name').order_by('-id')
 
 
 	data = json.dumps(ValuesQuerySetToDict(usuarios))
@@ -3023,9 +3023,6 @@ def usuarios(request):
 				id_user = AuthUser.objects.all().values('id').order_by('-id')[0]['id']
 
 				usuario = AuthUser.objects.get(id=id_user)
-
-				
-			
 				usuario.empresa_id = empresa
 				usuario.nivel_id = nivel
 				usuario.first_name = nombre
@@ -3084,7 +3081,7 @@ def usuarios(request):
 
 			id= data['id']
 
-			print 'Anexo :',data['anexo']
+			print 'Anexo :',data
 
 			user = AuthUser.objects.get(id=id)
 			user.username =data['username']
