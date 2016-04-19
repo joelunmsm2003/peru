@@ -1385,6 +1385,86 @@ def mascaras(request):
 		return HttpResponse(data, content_type="application/json")
 
 @login_required(login_url="/ingresar")
+def getanexo(request,nivel):
+
+		if int(nivel) == 3:
+
+			anexo = []
+
+			for i in range(100, 300):
+			
+				anexo.insert(0,i)
+
+			print anexo
+
+			users = AuthUser.objects.all()
+
+			anexouso = []
+
+			for u in users:
+
+				print u.anexo
+
+				if u.anexo > 0:
+
+					anexouso.insert(0,int(u.anexo))
+
+			libres = []
+			
+			for i in anexo:
+
+				if i in anexouso:
+
+					print 'haha',i
+				else:
+
+					libres.insert(0,i)
+
+			print libres
+
+
+			anexo = json.dumps(libres)
+
+		else:
+
+			anexo = []
+
+			for i in range(300, 500):
+			
+				anexo.insert(0,i)
+
+			print anexo
+
+			users = AuthUser.objects.all()
+
+			anexouso = []
+
+			for u in users:
+
+				print u.anexo
+
+				if u.anexo > 0:
+
+					anexouso.insert(0,int(u.anexo))
+
+			libres = []
+			
+			for i in anexo:
+
+				if i in anexouso:
+
+					print 'haha',i
+				else:
+
+					libres.insert(0,i)
+
+		libres = sorted(libres, reverse = True)
+
+		anexo = json.dumps(libres)
+
+		return HttpResponse(anexo, content_type="application/json")
+
+@login_required(login_url="/ingresar")
 def resultadototal(request):
 
 
@@ -2126,7 +2206,7 @@ def user(request):
 
 	id = request.user.id
 
-	user = AuthUser.objects.filter(id=id).values('id','username','email','empresa','nivel','first_name','nivel__nombre','empresa__mascaras__tipo')
+	user = AuthUser.objects.filter(id=id).values('id','username','email','empresa','nivel','first_name','nivel__nombre','empresa__mascaras__tipo','anexo')
 
 	fmt = '%Y-%m-%d %H:%M:%S %Z'
 
@@ -2881,6 +2961,9 @@ def usuarios(request):
 
 		telefono = None
 
+		supi = False
+		carti = False
+
 		if tipo == "New":
 
 			for d in data:
@@ -2888,6 +2971,17 @@ def usuarios(request):
 				if d == 'telefono':
 
 					telefono = data['telefono']
+
+				if d == 'supervisor':
+
+					supi = True
+
+				if d == 'cartera':
+
+					carti = True
+
+
+
 			
 			username = data['username']
 					
@@ -2913,7 +3007,7 @@ def usuarios(request):
 
 				if username == users.username:
 
-					info = username +' este correo ya existe, escoja otro pofavor'
+					info = username +' este usuario ya existe, escoja otro pofavor'
 					e = 0
 
 			print 'e',e
@@ -2947,11 +3041,13 @@ def usuarios(request):
 
 					id_sup = Supervisor.objects.all().values('id').order_by('-id')[0]['id']
 
-					for i in data['cartera']:
+					if carti:
 
-						id_cartera = Carteraempresa.objects.get(cartera__nombre=i['cartera__nombre'],empresa_id=empresa).id
+						for i in data['cartera']:
 
-						Supervisorcartera(cartera_id=id_cartera,supervisor_id=id_sup).save()
+							id_cartera = Carteraempresa.objects.get(cartera__nombre=i['cartera__nombre'],empresa_id=empresa).id
+
+							Supervisorcartera(cartera_id=id_cartera,supervisor_id=id_sup).save()
 
 		
 				if nivel == 3: # Usuario Agente
@@ -2970,13 +3066,15 @@ def usuarios(request):
 
 					id_age = Agentes.objects.all().values('id').order_by('-id')[0]['id']
 
-					for i in data['supervisor']:
+					if supi:
 
-						print 'supervisor', i['user__first_name']
+						for i in data['supervisor']:
 
-						supervisor = Supervisor.objects.get(user__first_name=i['user__first_name']).id
+							print 'supervisor', i['user__first_name']
 
-						Agentesupervisor(agente_id=id_age,supervisor_id=supervisor).save()
+							supervisor = Supervisor.objects.get(user__first_name=i['user__first_name']).id
+
+							Agentesupervisor(agente_id=id_age,supervisor_id=supervisor).save()
 
 
 			return HttpResponse(info, content_type="application/json")

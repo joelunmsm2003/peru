@@ -367,7 +367,7 @@
           <div class="row">
 
             <div class="col-md-12">
-            <form action="/uploaduser/" method="post"  role="form" enctype="multipart/form-data">
+            <form action="/uploaduser/" method="post"  role="form" enctype="multipart/form-data" novalidate>
 
             {% csrf_token %}
 
@@ -405,7 +405,7 @@
 
              
 
-                        <form  ng-show='usermodal' ng-submit="addNew(agregar)">
+                        <form  ng-show='usermodal' ng-submit="addNew(agregar)" validate>
 
                         <div class="col-md-6">
                         <div class="form-group">
@@ -451,18 +451,21 @@
 
                         <div class="col-md-6">
                         <div class="form-group">
-                        <label>Anexo</label>
-                        <input type="number" ng-model="agregar.anexo" required ="" class="form-control" placeholder="Anexo"  >
-
+                        <label>Nivel</label>
+                        <select required ="" ng-model="agregar.nivel" ng-change="nivelp(agregar)" class="form-control" ng-options="cliente.id as cliente.nombre for cliente in nivel"></select>
                         </div>
                         </div>
 
                         <div class="col-md-6">
                         <div class="form-group">
-                        <label>Nivel</label>
-                        <select required ="" ng-model="agregar.nivel" ng-change="nivelp(agregar)" class="form-control" ng-options="cliente.id as cliente.nombre for cliente in nivel"></select>
+                        <label>Anexo</label>
+                        <select required ="" ng-model="agregar.anexo" class="form-control" ng-options="a for a in anexos"></select>
+
+
                         </div>
                         </div>
+
+                       
 
 
                          <div class="col-md-6" ng-show="nivelagente">
@@ -472,7 +475,7 @@
                       
                                   <div class="col-md-12">
 
-                                        <select class="form-control" id="myselection" multiple="true" ng-model="agregar.supervisor" ng-options="c.user__first_name for c in supervisores"></select>
+                                        <select  class="form-control" id="myselection" multiple="true" ng-model="agregar.supervisor" ng-options="c.user__first_name for c in supervisores" name="sup"></select>
                                         <div class="form-group">
                            
                                          
@@ -502,7 +505,7 @@
                       
                                   <div class="col-md-12">
 
-                                        <select class="form-control" id="myselection" multiple="true" ng-model="agregar.cartera" ng-options="c.cartera__nombre for c in carteras"></select>
+                                        <select  class="form-control" id="myselection" multiple="true" ng-model="agregar.cartera" ng-options="c.cartera__nombre for c in carteras" ></select>
                                         <div class="form-group">
                            
                                          
