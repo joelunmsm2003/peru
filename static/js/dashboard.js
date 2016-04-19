@@ -238,7 +238,8 @@ function Controller($scope,$http,$cookies,$filter) {
     $http.get("/nivel").success(function(response) {$scope.nivel = response;
 
         
-        $('.container').fadeToggle("slow")
+        $('.navbar-default').fadeToggle("slow","linear")
+        $('.panel-default').fadeToggle("slow","linear")
     });
 
     $scope.btnpregunta = 'True'
