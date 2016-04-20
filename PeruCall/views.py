@@ -1497,17 +1497,22 @@ def agente(request,id_agente):
 
 	data = simplejson.dumps(data_dict)
 
-	atendidas = Base.objects.filter(agente_id=id_agente,status=1).count()
+	AjxProLla.objects.filter(age_codigo=id_agente).count()
 
-	acuerdos = Base.objects.filter(agente_id=id_agente,resultado_id__in=[4,1,2]).count()
+	atendidas = AjxProLla.objects.filter(age_codigo=id_agente).count()
 
-	data = {'data':data,'atendidas':atendidas,'acuerdos':acuerdos,'media':3}
+	acuerdos = Base.objects.filter(agente_id=id_agente,resultado_id__in=[15,5]).count()
+
+	if atendidas == 0:
+		media = 0
+	else:
+		media=float(acuerdos)*100/float(atendidas)
+
+	data = {'data':data,'atendidas':atendidas,'acuerdos':acuerdos,'media':media}
 
 	data = simplejson.dumps(data)
 
 	return HttpResponse(data, content_type="application/json")
-
-
 
 
 def lanzallamada(request,id_agente,id_base):
@@ -1522,7 +1527,7 @@ def lanzallamada(request,id_agente,id_base):
 
 		user = agente.user.username
 		agente.estado_id = 3
-
+		agente.est_ag_predictivo_id=0
 		agente.tiniciollamada = datetime.now()-timedelta(hours=5)
 		agente.save()
 
