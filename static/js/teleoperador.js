@@ -311,6 +311,8 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
             }).
             success(function(data) {
 
+                window.location.href = '/teleoperador/'+agente;
+
             })
    
     };

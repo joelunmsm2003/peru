@@ -728,7 +728,7 @@ def agentes(request,id_campania):
 
 		if Base.objects.filter(status=1,agente_id=user[i]['agente']):
 
-			user[i]['fono'] =  Base.objects.get(status=1,agente_id=user[i]['agente']).telefono
+			user[i]['fono'] =  str(Base.objects.filter(status=1,agente_id=user[i]['agente']).values('telefono')[:1]).replace("[{'telefono':",'').replace('L}]','')
 
 		if agente.estado.id == 2:
 
@@ -1114,6 +1114,7 @@ def lanzaespera(request):
 		agente_id = data['agente']
 
 		agente = Agentes.objects.get(id=agente_id)
+		agente.tinicioespera = datetime.now()-timedelta(hours=5)
 
 		agente.estado_id= 2
 		agente.save()
@@ -1131,6 +1132,13 @@ def gestionupdate(request):
 		gestion = json.loads(request.body)['gestion']
 		agente = json.loads(request.body)['agente']
 		cliente = json.loads(request.body)['cliente']['id']
+
+		age = Agentes.objects.get(id=agente)
+
+		if age.checa == 1:
+
+			age.estado = 5
+			age.save()
 
 
 
@@ -1675,9 +1683,13 @@ def pausa(request,id_agente):
 
 
 		agente = Agentes.objects.get(id=id_agente)
-		agente.estado_id = 5
+		agente.checa = 1
+
+		
 		agente.tiniciopausa = datetime.now()-timedelta(hours=5)
+		
 		agente.save()
+
 
 		return HttpResponseRedirect("/teleoperador/"+id_agente)
 
