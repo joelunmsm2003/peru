@@ -155,7 +155,7 @@
     <div class="col-md-6" >
     <i class="fa fa-clock-o"></i> Tiempo
     </div>
-    <div class="col-md-6" >{[{tllamada}]}
+    <div class="col-md-6" ng-if ="tllamada != 'Invalid Date'">{[{tllamada}]}
 
     </div>
 
@@ -197,7 +197,7 @@
                                   <div class='row'>
                                   <div class="col-md-8"><i class="fa fa-wifi"></i> Conectado
                                   </div>
-                                  <div class="col-md-4">{[{con}]} 
+                                  <div class="col-md-4" ng-if ="con != 'Invalid Date'">{[{con}]} 
                                   </div>
 
                                   </div>
@@ -308,7 +308,16 @@
 
       </div>
 
-      <div class="col-md-3 col-sm-3 panel panel-default btna" ng-click='pausa()'>
+      <div class="col-md-3 col-sm-3 panel panel-default btna" ng-click='play()' ng-show="playx">
+
+      <div class=' panel-body btnb'>
+      PLAY <i class="fa fa-play"></i> 
+
+      </div>
+
+      </div>
+
+       <div class="col-md-3 col-sm-3 panel panel-default btna" ng-click='pausa()' ng-show="pausax">
 
       <div class=' panel-body btnb'>
       PAUSE <i class="fa fa-pause"></i> 
@@ -345,6 +354,15 @@
   <center><iframe src="http://192.168.100.26/2048/" width="1200" height="1500" frameborder="NO"></iframe></center>
 
   </div>
+
+
+  <div class='row animate' ng-if="datoagente.estado__nombre == 'En Pausa'">
+
+  <center><img src="https://d13yacurqjgara.cloudfront.net/users/315053/screenshots/1914235/geometric-shape-play-circle-1-3.gif"></center>
+
+  </div>
+
+  
 
 <div class='row' ng-if="datoagente.estado__nombre == 'En Llamada' || datoagente.estado__nombre == 'En gestion' ">
 
