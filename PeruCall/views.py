@@ -1508,6 +1508,7 @@ def agente(request,id_agente):
 		media = 0
 	else:
 		media=float(acuerdos)*100/float(atendidas)
+		media = round(media,2)
 
 	data = {'data':data,'atendidas':atendidas,'acuerdos':acuerdos,'media':media}
 
