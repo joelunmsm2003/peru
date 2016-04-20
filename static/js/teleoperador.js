@@ -170,17 +170,20 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
 
 
     {
-        console.log('hshshshs')
-        $http.get("/pausa/"+agente).success(function(response) {
 
-            $http.get("/agente/"+agente).success(function(response) {$scope.agente = response;
-
-
-            data = JSON.parse($scope.agente['data'])
-
-            $scope.datoagente =data[0] 
-
+    $scope.pausax=false
+    $scope.playx=true
     
+
+
+    console.log('hshshshs')
+    $http.get("/pausa/"+agente).success(function(response) {
+
+    $http.get("/agente/"+agente).success(function(response) {$scope.agente = response;
+
+    data = JSON.parse($scope.agente['data'])
+
+    $scope.datoagente =data[0] 
 
     });
 
@@ -188,6 +191,45 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
               
         });
 
+
+    }
+
+    $scope.playx=false
+    $scope.pausax=true
+
+    $scope.play = function() 
+
+    {
+
+        $scope.playx=false
+        $scope.pausax=true
+
+        var todo={
+            agente:agente,
+            done:false
+            }
+
+
+        $http({
+            url: "/lanzaespera/",
+            data: todo,
+            method: 'POST',
+            headers: {
+            'X-CSRFToken': $cookies['csrftoken']
+            }
+            }).
+            success(function(data) {
+
+                    $http.get("/agente/"+agente).success(function(response) {$scope.agente = response;
+
+                    data = JSON.parse($scope.agente['data'])
+
+                    $scope.datoagente =data[0] 
+
+                    });
+
+
+        })
 
     }
 
