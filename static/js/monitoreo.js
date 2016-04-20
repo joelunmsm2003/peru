@@ -44,7 +44,7 @@ $(function () {
 
                             }
 
-                        setTimeout(function(){updateChart()},1000);
+                        setInterval(function(){updateChart()},1000);
 
                             }
                         }
@@ -300,7 +300,7 @@ $(function () {
 
                             }
 
-                        setTimeout(function(){updateChart()},1000);
+                        setInterval(function(){updateChart()},1000);
 
                             }
                         }
@@ -562,7 +562,7 @@ $(function () {
 
                             }
 
-                        setTimeout(function(){updateChart()},1000);
+                        setInterval(function(){updateChart()},1000);
 
                             }
                         }
@@ -889,7 +889,7 @@ $(function () {
                             }
 
 
-                        setTimeout(function(){updateChartpie()},1000);
+                        setInterval(function(){updateChartpie()},1000);
 
                        
 

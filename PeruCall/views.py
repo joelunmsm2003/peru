@@ -743,11 +743,14 @@ def agentes(request,id_campania):
 
 			ti = agente.tiniciogestion
 
+		if agente.estado.id == 5:
+
+			ti = agente.tiniciopausa
+
 		if agente.estado.id > 1:
 
 			ti= str(ti)[0:19]
 			ti = datetime.strptime(ti,fmt1)
-
 			tf= str(datetime.now())[0:19]
 			tf = datetime.strptime(tf,fmt1)
 
@@ -1678,6 +1681,7 @@ def pausa(request,id_agente):
 
 		agente = Agentes.objects.get(id=id_agente)
 		agente.estado_id = 5
+		agente.tiniciopausa = datetime.now()-timedelta(hours=5)
 		agente.save()
 
 		return HttpResponseRedirect("/teleoperador/"+id_agente)
@@ -2350,6 +2354,10 @@ def botoneragraph(request,campania):
        congestiondered = AjxProLla.objects.filter(cam_codigo=campania,llam_estado=2).count()
        asterisk = AjxProLla.objects.filter(cam_codigo=campania,llam_estado__in=[2,3,5]).count()
        pendiente = Base.objects.filter(campania_id=campania).count()-AjxProLla.objects.filter(cam_codigo=campania).count()
+       
+       if int(total) == 0:
+
+       		total = 0.0001
 
 
        if 2 == 2:

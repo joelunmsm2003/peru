@@ -166,6 +166,31 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
 
     }
 
+     $scope.pausa = function() 
+
+
+    {
+        console.log('hshshshs')
+        $http.get("/pausa/"+agente).success(function(response) {
+
+            $http.get("/agente/"+agente).success(function(response) {$scope.agente = response;
+
+
+            data = JSON.parse($scope.agente['data'])
+
+            $scope.datoagente =data[0] 
+
+    
+
+    });
+
+    
+              
+        });
+
+
+    }
+
     $scope.colgar = function() 
     {
 
