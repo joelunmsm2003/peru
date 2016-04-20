@@ -54,7 +54,7 @@ $swaptotal= $swap_tot[0];
 $swapusada= $swap_use[0];
 $cpu= $cpu1[0];
 
-system ("curl --data \"memoriausada=$memoriausada&d_usado=$d_usado&d_disponible=$d_disponible&memoriatotal=$memoriatotal&memoriausada=$memoriausada&swaptotal=$swaptotal&swapusada=$swapusada&cpu=$cpu\" \"http://localhost:8000/cpuestado/\" >mayra.html");
+system ("curl --data \"memoriausada=$memoriausada&d_usado=$d_usado&d_disponible=$d_disponible&memoriatotal=$memoriatotal&memoriausada=$memoriausada&swaptotal=$swaptotal&swapusada=$swapusada&cpu=$cpu\" \"http://localhost:8000/cpuestado/\"");
       
 
 
