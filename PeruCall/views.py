@@ -55,12 +55,12 @@ def changepass(request):
 
 		data = json.loads(request.body)['dato']
 
-		print 'data',data
+
 
 		password = data['password']
 		id_user = data['id']
 
-		print 'password',password
+
 
 		u = User.objects.get(id=id_user)
 
@@ -76,8 +76,7 @@ def changepass(request):
 @receiver(user_logged_in)
 def my_handler(sender,**kwargs):
 	x = kwargs['request'].POST
-	print 'name',AuthUser.objects.get(id=2).username
-	print 'xxxxxx',x
+
 
 
 def ingresar(request):
@@ -125,7 +124,6 @@ def ingresar(request):
 
 					
 
-					print nivel
 
 					if nivel == 1:
 
@@ -180,7 +178,7 @@ def menu(request):
 @csrf_exempt
 def astapp(request):
 
-	print 'astapp',request.POST
+
 
 	activeCall= str(request.POST['activeCall'])
 	dsk_use= str(request.POST['dsk_use']).replace("G", "")
@@ -222,7 +220,6 @@ def teleoperador(request,id_agente):
 
 	id=request.user.id
 
-	print 'id',id
 
 	id_user = Agentes.objects.get(id=id_agente).user.id
 
@@ -282,9 +279,9 @@ def examenes(request):
 @login_required(login_url="/ingresar")
 def accionmonitor(request,sup,anexo):
 
-	print 'Monitor..enviando',sup,anexo
 
-	cmd = ('curl "https://xiencias.com/xien/PROC_MONITOR.php?sup=%s&anx=%s" ' %(sup, anexo))
+
+	cmd = ('curl "https://localhost/xien/PROC_MONITOR.php?sup=%s&anx=%s" ' %(sup, anexo))
 	os.system(cmd)
 
 	return HttpResponse(' Monitor Activado', content_type="application/json")
@@ -294,9 +291,8 @@ def accionmonitor(request,sup,anexo):
 @login_required(login_url="/ingresar")
 def accionsusurro(request,sup,anexo):
 
-	print 'Susurro..enviando',sup,anexo
 
-	cmd = ('curl "https://xiencias.com/xien/PROC_SUSURRO.php?sup=%s&anx=%s" ' %(sup, anexo))
+	cmd = ('curl "https://localhost/xien/PROC_SUSURRO.php?sup=%s&anx=%s" ' %(sup, anexo))
 	os.system(cmd)
 
 	return HttpResponse('Susurro Activado', content_type="application/json")
@@ -333,7 +329,7 @@ def uploaduser(request):
 
 	empresa = AuthUser.objects.get(id=id).empresa.id
 
-	print 'empresa' ,empresa
+
 
 
 	filex = request.FILES['process_file']
@@ -354,7 +350,7 @@ def uploaduser(request):
 
 	for rx in range(sh.nrows):
 
-		print 'rx',rx
+	
 
 		if rx > 0:
 
@@ -496,7 +492,7 @@ def enviar(request):
 
 		user=json.loads(request.body)['username']
 
-		print 'user',user
+		
 
 		redis_publisher = RedisPublisher(facility='foobar', users=[user])
 
@@ -511,7 +507,6 @@ def enviar(request):
 def cpuestado(request):
 
 
-	print 'cpuestado',request.POST
 
 	memoriausada= str(request.POST['memoriausada'])
 	d_usado= str(request.POST['d_usado']).replace("G", "")
@@ -550,7 +545,6 @@ def notificar(request):
 
 		user=json.loads(request.body)['username']
 
-		print 'user',user
 
 		redis_publisher = RedisPublisher(facility='foobar', users=[user])
 
@@ -564,7 +558,7 @@ def notificar(request):
 	return HttpResponse('data', content_type="application/json")
 
 
-@login_required(login_url="/ingresar")
+@login_required(login_url="/")
 def usuario(request):
 	return render(request, 'usuario.html',{})
 
@@ -719,7 +713,7 @@ def agentes(request,id_campania):
 	fmt1 = '%Y-%m-%d %H:%M:%S'
 	fmt2='%H:%M:%S'
 
-	print 'user',user
+
 
 	for i in range(len(user)):
 
@@ -787,13 +781,12 @@ def agentes(request,id_campania):
 
 			user[i]['performance'] =  (user[i]['agente__contactadas']*100/user[i]['agente__atendidas'])
 
-			print 'performance',user[i]['performance']
 
 		else:
 
 			user[i]['performance'] = 0
 
-	print 'final',user
+
 
 	data_dict = ValuesQuerySetToDict(user)
 
@@ -817,7 +810,7 @@ def agentesall(request,empresa):
 
 		data = Agentes.objects.filter(user__empresa_id=empresa).values('id','user__first_name','user__empresa__nombre').order_by('-id')
 
-		print 'agentesall',data.count()
+		
 
 		data_dict = ValuesQuerySetToDict(data)
 
@@ -834,7 +827,7 @@ def resultadoagente(request,agente,examen):
 
 		for i in range(len(preg)):
 
-			print preg[i]['pregunta'] 
+			
 
 			preg[i]['respsi']=Calificacion.objects.filter(agente_id=agente,preg_exam__examen=examen,preg_exam_id=preg[i]['id'],respuesta='Si').count()
 			preg[i]['respno']=Calificacion.objects.filter(agente_id=agente,preg_exam__examen=examen,preg_exam_id=preg[i]['id'],respuesta='No').count()
@@ -855,8 +848,7 @@ def resultadocampania(request,campania,examen):
 
 		for i in range(len(preg)):
 
-			print preg[i]['pregunta'] 
-
+			
 			preg[i]['respsi']=Calificacion.objects.filter(campania_id=campania,preg_exam__examen=examen,preg_exam_id=preg[i]['id'],respuesta='Si').count()
 			preg[i]['respno']=Calificacion.objects.filter(campania_id=campania,preg_exam__examen=examen,preg_exam_id=preg[i]['id'],respuesta='No').count()
 
@@ -875,7 +867,6 @@ def botonexterno(request):
 
 			data = json.loads(request.body)
 
-			print data
 			#{u'agente': u'14', u'done': False, u'boton': 18, u'cliente': {u'status': u'1', u'orden': None, u'resultado': 5, u'status_d': None, u'campania__nombre': u'Pastillas LSD', u'status_h': u'SCORE C', u'status_g': u'NUEVO', u'status_f': u'LIMA', u'id_cliente': None, u'resultado__name': u'Acuerdo con fecha de pago', u'status_c': None, u'status_b': None, u'status_a': None, u'id': 2, u'status_e': None, u'tiniciollamada': u'2016-04-13 23:34:34 UTC', u'telefono': None, u'cliente': None}}
 
 			resultado = data['boton']
@@ -922,7 +913,6 @@ def agendar(request):
 	
 			fecha = datetime.strptime(str(fechaag),fmt)-timedelta(hours=5)
 
-			print fecha,type(fecha)
 
 			Agendados(base_id=base,fecha=fecha,agente_id=agente).save()
 
@@ -1061,7 +1051,6 @@ def agregarcartera(request):
 		data= json.loads(request.body)['dato']
 		user=json.loads(request.body)['user']
 
-		print data
 		id_user = user['id']
 		id_supervisor=Supervisor.objects.get(user_id=id_user).id
 		id_caem=data['id']
@@ -1084,7 +1073,7 @@ def gestion(request):
 		id_agente =json.loads(request.body)['agente']
 		word =json.loads(request.body)['word']
 
-		print type(fecha),fecha
+		
 		fmt = '%Y-%m-%dT%H:%M:%S.%fZ'
 	
 		fecha = datetime.strptime(str(fecha),fmt)
@@ -1093,7 +1082,7 @@ def gestion(request):
 
 		fecha= fecha-timedelta(hours=10)
 
-		print fecha
+	
 
 		agente = Agentes.objects.filter(id=id_agente)
 		
@@ -1141,13 +1130,11 @@ def gestionupdate(request):
 		agente = json.loads(request.body)['agente']
 		cliente = json.loads(request.body)['cliente']['id']
 
-		print 'agente',agente
+
 
 		comentario = gestion['comentario']
 
-		print 'gestion',gestion
-
-		print len(gestion)
+	
 
 		if len(gestion)>1:
 
@@ -1264,25 +1251,25 @@ def agregarfiltro(request):
 
 		for i in range(len(resultado)):
 
-			print resultado[i]['name']
+			
 
 			resultadot = resultadot  + resultado[i]['name'] +'/'
 
 		for i in range(len(ciudad)):
 
-			print ciudad[i]['status_f']
+			
 
 			ciudadt = ciudadt  + ciudad[i]['status_f'] +'/'
 
 		for i in range(len(grupo)):
 
-			print grupo[i]['status_g']
+			
 
 			grupot = grupot  + grupo[i]['status_g'] +'/'
 
 		for i in range(len(segmento)):
 
-			print segmento[i]['status_h']
+			
 
 			segmentot = segmentot  + segmento[i]['status_h'] +'/'
 
@@ -1303,7 +1290,7 @@ def eliminarfiltro(request):
 
 		Filtro.objects.get(id=id_filtro).delete()
 
-		print dato
+	
 
 		return HttpResponse(id_filtro, content_type="application/json")
 
@@ -1395,7 +1382,7 @@ def getanexo(request,nivel):
 			
 				anexo.insert(0,i)
 
-			print anexo
+			
 
 			users = AuthUser.objects.all()
 
@@ -1403,7 +1390,7 @@ def getanexo(request,nivel):
 
 			for u in users:
 
-				print u.anexo
+			
 
 				if u.anexo > 0:
 
@@ -1415,12 +1402,12 @@ def getanexo(request,nivel):
 
 				if i in anexouso:
 
-					print 'haha',i
+					pass
 				else:
 
 					libres.insert(0,i)
 
-			print libres
+			
 
 
 			anexo = json.dumps(libres)
@@ -1433,15 +1420,13 @@ def getanexo(request,nivel):
 			
 				anexo.insert(0,i)
 
-			print anexo
+			
 
 			users = AuthUser.objects.all()
 
 			anexouso = []
 
 			for u in users:
-
-				print u.anexo
 
 				if u.anexo > 0:
 
@@ -1453,7 +1438,7 @@ def getanexo(request,nivel):
 
 				if i in anexouso:
 
-					print 'haha',i
+					pass
 				else:
 
 					libres.insert(0,i)
@@ -1489,7 +1474,7 @@ def resultado(request,campania):
 
 			lista.append(x.resultado_id)
 
-		print lista
+		
 
 		data = Resultado.objects.filter(id__in =lista).values('id','name','tipo','codigo').order_by('-id')
 
@@ -1534,10 +1519,10 @@ def lanzallamada(request,id_agente,id_base):
 
 		if mascara == 'Mascara Interna':
 
-			print 'interna'
+			pass
 
 
-		print agente.id
+	
 
 		user = agente.user.username
 		agente.estado_id = 3
@@ -1696,8 +1681,12 @@ def pausa(request,id_agente):
 def reportecsv(request,cartera,campania):
 
 	response = HttpResponse(content_type='text/csv')
-	
-	response['Content-Disposition'] = 'attachment; filename="somefilename.csv"'
+
+	ncartera=Cartera.objects.get(id=cartera).nombre
+	ncampania = Campania.objects.get(id=campania).nombre
+	fecha= datetime.now()
+
+	response['Content-Disposition'] = 'attachment; filename="Reporte_Cartera_'+str(ncartera)+'_Campania_'+str(ncampania)+'_Fecha_'+str(fecha)[0:19]+'.csv'
 
 	writer = csv.writer(response)
 
@@ -1734,7 +1723,7 @@ def reportecsv(request,cartera,campania):
 @login_required(login_url="/ingresar")
 def getcampanias(request,cartera):
 
-		print 'cartera',cartera
+		
 
 		carteras = Campania.objects.filter(cartera_id=cartera).values('id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name').order_by('-id')
 	
@@ -1861,8 +1850,7 @@ def carteras(request):
 
 		if tipo == 'Edit':
 
-			print data
-
+			
 			id_cartera = data['id']
 			cartera = Carteraempresa.objects.get(id=id_cartera).cartera.id
 			cartera = Cartera.objects.get(id=cartera)
@@ -1873,7 +1861,7 @@ def carteras(request):
 
 		if tipo == 'Eliminar':
 
-			print data
+			
 
 			id_cartera = data['id']
 			cartera = Carteraempresa.objects.get(id=id_cartera)
@@ -1896,7 +1884,7 @@ def listafiltros(request,id_campania):
 
 	for i in range(len(data)):
 
-		print data[i]['id']
+	
 
 		filtro = Filtro.objects.get(id=data[i]['id'])
 
@@ -1957,14 +1945,11 @@ def activafiltro(request,id_filtro,id_campania):
 
 	for i in range(len(data)):
 
-		print data[i]['id']
 
 		filtro = Filtro.objects.get(id=data[i]['id'])
 
 		
 
-
-		print 'status',filtro.status
 		filtro.status = 1
 		filtro.save() 
 
@@ -2007,7 +1992,7 @@ def desactivafiltro(request,id_filtro,id_campania):
 
 	for i in range(len(data)):
 
-		print data[i]['id']
+
 
 		filtro = Filtro.objects.get(id=data[i]['id'])
 
@@ -2061,11 +2046,7 @@ def agentenosupervisor(request,id_user):
 
 		lista.append(x.supervisor.id)
 
-	print lista
 
-	print 'agentenosup', Supervisor.objects.filter(user__empresa__id=empresa).values('id','user__first_name')
-
-	
 	data = Supervisor.objects.filter(user__empresa__id=empresa).exclude(id__in=lista).values('id','user__first_name').order_by('-id')
 
 	data_dict = ValuesQuerySetToDict(data)
@@ -2157,7 +2138,7 @@ def quitarsupervisor(request):
 	agente = json.loads(request.body)['agente']
 	supervisor = json.loads(request.body)['supervisor']
 
-	print supervisor
+
 
 	user = agente['id']
 
@@ -2165,7 +2146,6 @@ def quitarsupervisor(request):
 
 	supervisor = supervisor['supervisor']
 
-	print 'lllllll',agente,supervisor
 
 	Agentesupervisor.objects.get(agente_id=agente,supervisor_id=supervisor).delete()
 
@@ -2189,7 +2169,7 @@ def carteranosupervisor(request,id_user):
 
 		lista.append(x.cartera.id)
 
-	print lista
+
 
 	
 
@@ -2233,7 +2213,6 @@ def reasignarsupervisor(request):
 
 		data= json.loads(request.body)['dato']
 
-		print 'data..............',data
 
 	
 		id_supervisor = data['supervisor']
@@ -2297,28 +2276,26 @@ def agentegrafico(request):
 		age = json.loads(request.body)['agentes']
 		campania = json.loads(request.body)['campania']
 
-		print type(age),len(age)
 
 		lista1 = []
 
 
 		for i in range(len(age)):
 
-			print age[i]['agente']
-
+			
 			s =  age[i]['seleccionar']
 
-			print age[i]
+			
 
 			if s == True:
 
 				lista1.append(age[i]['agente'])
 
-		print 'Lista',lista1
+	
 
 		agentes = Agentescampanias.objects.filter(campania_id=campania).values('id','agente__user__first_name','campania','agente')
 
-		print 'contador',agentes.count
+		
 
 		for i in range(len(agentes)):
 
@@ -2413,7 +2390,7 @@ def botoneragraph(request,campania):
 
                data_string = json.dumps(data)
 
-               print 
+               
 
        else:
 
@@ -2565,7 +2542,7 @@ def uploadCampania(request):
 
 		for rx in range(sh.nrows):
 
-			print 'rx',rx
+			
 
 			if rx == 0:
 
@@ -2690,7 +2667,7 @@ def campanias(request):
 
 		data= json.loads(request.body)['dato']
 
-		print data['id']
+		
 
 		Campania.objects.get(id=data['id']).delete()
 
@@ -2807,7 +2784,7 @@ def agentesdisponibles(request,id_campania):
 
 	agentes = Agentes.objects.filter(id__in=lista1).exclude(id__in=lista2).values('id')
 
-	print 'agentes en campania',agentes
+
 
 
 	for i in range(len(agentes)):
@@ -2853,7 +2830,7 @@ def agregaragente(request):
 
 		campania = json.loads(request.body)['campania'] 
 
-		print data
+		
 
 		for data in data:
 
@@ -2957,8 +2934,7 @@ def usuarios(request):
 
 		data = json.loads(request.body)['dato']
 
-		print 'data',data
-
+		
 		telefono = None
 
 		supi = False
@@ -2991,7 +2967,7 @@ def usuarios(request):
 			else:
 				empresa = empresa.id
 
-			print empresa
+			
 		
 			nivel = data['nivel']
 			password = data['password']
@@ -3010,8 +2986,7 @@ def usuarios(request):
 					info = username +' este usuario ya existe, escoja otro pofavor'
 					e = 0
 
-			print 'e',e
-
+			
 			if e == 1:
 
 				
@@ -3055,7 +3030,7 @@ def usuarios(request):
 					agente.atendidas = 0
 					agente.contactadas =0
 
-					print 'Save anexo....',data['anexo']
+				
 					agente.anexo = data['anexo']
 					agente.estado_id = 1
 					#agente.tiempo = datetime.strptime("00:00:00", "%H:%M:%S")
@@ -3067,7 +3042,7 @@ def usuarios(request):
 
 						for i in data['supervisor']:
 
-							print 'supervisor', i['user__first_name']
+							
 
 							supervisor = Supervisor.objects.get(user__first_name=i['user__first_name']).id
 
@@ -3081,7 +3056,7 @@ def usuarios(request):
 
 			id= data['id']
 
-			print 'Anexo :',data
+			
 
 			user = AuthUser.objects.get(id=id)
 			user.username =data['username']
@@ -3150,8 +3125,6 @@ def empresas(request):
 
 		data = json.loads(request.body)['dato']
 
-		print 'data',json.loads(request.body)
-
 		if tipo == "New":
 
 			nombre = data['nombre']
@@ -3166,7 +3139,7 @@ def empresas(request):
 			telefono = data['telefono']
 			mascara = data['mascara']
 
-			print mascara
+	
 
 			Empresa(mascaras_id=mascara,nombre=nombre,contacto=contacto,mail=mail,licencias=licencias,telefono=telefono,url=url).save()
 
@@ -3177,7 +3150,7 @@ def empresas(request):
 
 			id= data['id']
 
-			print data
+	
 
 			empresa = Empresa.objects.get(id=id)
 			empresa.nombre =data['nombre']
@@ -3198,7 +3171,7 @@ def empresas(request):
 
 			id= data['id']
 
-			print Empresa.objects.get(id=id).delete()
+	
 
 
 		return HttpResponse(data['nombre'], content_type="application/json")
