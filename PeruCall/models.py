@@ -104,6 +104,7 @@ class Agentes(models.Model):
     tinicioespera = models.DateTimeField(blank=True, null=True)
     tfinespera = models.DateTimeField(blank=True, null=True)
     tiniciotipeo = models.DateTimeField(blank=True, null=True)
+    tiniciopausa = models.DateTimeField(blank=True, null=True)
     wordstipeo = models.IntegerField(blank=True, null=True)
 
     class Meta:
