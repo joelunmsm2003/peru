@@ -30,25 +30,28 @@
         console.log(msg)
 
         resp = msg.slice(0,4)
-       
+
+        
 
         console.log('respuesta',resp)
+
+         if(resp == 'Noti'){
+ 
+            console.log('Entorooooo')
+                
+            swal({ title:  msg.slice(4,100),   type: "success",   confirmButtonColor: "#B71C1C",   confirmButtonText: "Cerrar",   }, function(){   });
+        
+        }
 
         if(msg=='llamada'){
 
           window.location.href = "/teleoperador/"+agente
         }
 
-        if(resp == 'Noti'){
-
-            msg = msg.slice(4,100000)
-
-            swal({   title: "Notificación",   text: msg ,   timer: 1000,   showConfirmButton: false });
-    
-        }
+       
         if(resp=='Cali'){
 
-           swal({   title: "Calificacion",   text: msg ,   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "OK",   }, function(){   });
+           swal({   title: "Calificacion",   text: msg ,   type: "success",   confirmButtonColor: "#B71C1C",   confirmButtonText: "OK",   }, function(){   });
   
 
         }
