@@ -1507,6 +1507,7 @@ def agente(request,id_agente):
 		media = 0
 	else:
 		media=float(acuerdos)*100/float(atendidas)
+		media = round(media,2)
 
 	data = {'data':data,'atendidas':atendidas,'acuerdos':acuerdos,'media':media}
 
@@ -1527,7 +1528,7 @@ def lanzallamada(request,id_agente,id_base):
 
 		user = agente.user.username
 		agente.estado_id = 3
-		agente.est_ag_predictivo_id=0
+		agente.est_ag_predictivo = 0
 		agente.tiniciollamada = datetime.now()-timedelta(hours=5)
 		agente.save()
 
