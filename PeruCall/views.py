@@ -279,9 +279,8 @@ def examenes(request):
 @login_required(login_url="/ingresar")
 def accionmonitor(request,sup,anexo):
 
-
-
-	cmd = ('curl "https://localhost/xien/PROC_MONITOR.php?sup=%s&anx=%s" ' %(sup, anexo))
+	cmd = ('curl "http://localhost/xien/PROC_MONITOR.php?sup=%s&anx=%s" ' %(sup, anexo))
+#	cmd = ('curl "https://localhost/xien/PROC_MONITOR.php?sup=%s&anx=%s" ' %(sup, anexo))
 	os.system(cmd)
 
 	return HttpResponse(' Monitor Activado', content_type="application/json")
@@ -291,8 +290,8 @@ def accionmonitor(request,sup,anexo):
 @login_required(login_url="/ingresar")
 def accionsusurro(request,sup,anexo):
 
-
-	cmd = ('curl "https://localhost/xien/PROC_SUSURRO.php?sup=%s&anx=%s" ' %(sup, anexo))
+	cmd = ('curl "http://localhost/xien/PROC_SUSURRO.php?sup=%s&anx=%s" ' %(sup, anexo))
+#	cmd = ('curl "https://localhost/xien/PROC_SUSURRO.php?sup=%s&anx=%s" ' %(sup, anexo))
 	os.system(cmd)
 
 	return HttpResponse('Susurro Activado', content_type="application/json")
@@ -729,7 +728,7 @@ def agentes(request,id_campania):
 
 		if Base.objects.filter(status=1,agente_id=user[i]['agente']):
 
-			user[i]['fono'] =  str(Base.objects.filter(status=1,agente_id=user[i]['agente']).values('telefono')[:0])
+			user[i]['fono'] =  str(Base.objects.filter(status=1,agente_id=user[i]['agente']).values('telefono')[:1]).replace("[{'telefono':",'').replace('L}]','')
 
 		if agente.estado.id == 2:
 
@@ -874,6 +873,16 @@ def botonexterno(request):
 
 			resultado = data['boton']
 			base = data['cliente']['id']
+			agente = data['agente']
+
+			age = Agentes.objects.get(id=agente)
+
+			print 'Checa',age.checa
+
+			if int(age.checa) == 1:
+
+				age.estado_id = 5
+				age.save()
 
 			b = Base.objects.get(id=base)
 			b.resultado_id = resultado
@@ -1538,12 +1547,9 @@ def lanzallamada(request,id_agente,id_base):
 
 			pass
 
-
-	
-
 		user = agente.user.username
 		agente.estado_id = 3
-
+		agente.est_ag_predictivo = 0
 		agente.tiniciollamada = datetime.now()-timedelta(hours=5)
 		agente.save()
 
@@ -1578,7 +1584,9 @@ def finllamada(request,id_agente):
 
 
 		user = agente.user.username
-		agente.estado_id = 6
+		
+		if int(agente.estado_id) == 3:
+			agente.estado_id = 6
 		agente.tiniciogestion = datetime.now()-timedelta(hours=5)
 		agente.save()
 
@@ -1589,9 +1597,6 @@ def finllamada(request,id_agente):
 
 		redis_publisher.publish_message(message)
 
-	
-		
-	
 
 		return HttpResponse('fin llamada', content_type="application/json")
 
@@ -1688,9 +1693,11 @@ def pausa(request,id_agente):
 
 
 		agente = Agentes.objects.get(id=id_agente)
-		agente.checa = 1
 
-		
+		if agente.estado.id== 2:
+			agente.estado_id = 5
+				
+		agente.checa = 1
 		agente.tiniciopausa = datetime.now()-timedelta(hours=5)
 		
 		agente.save()
@@ -2613,18 +2620,18 @@ def uploadCampania(request):
 
 					a[col] = a[col].replace("'","")
 
-				telefono = a[0]
+				telefono = a[0].replace('.0','')
 				orden = a[1]
 				cliente = a[2]
 				id_cliente = a[3]
-				status_a = a[4]
-				status_b = a[5]
-				status_c = a[6]
-				status_d =a[7]
+				status_a = a[4].replace('.0','')
+				status_b = a[5].replace('.0','')
+				status_c = a[6].replace('.0','')
+				status_d =a[7].replace('.0','')
 				status_e= a[8].replace(".0","")
-				status_f=a[9]
-				status_g= a[10]
-				status_h = a[11]
+				status_f=a[9].replace('.0','')
+				status_g= a[10].replace('.0','')
+				status_h = a[11].replace('.0','')
 
 				Base(campania_id=id_campania,telefono=telefono,orden=orden,cliente=cliente,id_cliente=id_cliente,status_a=status_a,status_b=status_b,status_c=status_c,status_d=status_d,status_e=status_e,status_f=status_f,status_g=status_g,status_h=status_h).save()
 

@@ -1,5 +1,31 @@
 
+    <div class='izquierda ' >
+    
+    <div  class='itemvertical1'  ng-click='agente()' onmouseover='comenzar()'>
 
+ 
+      
+    <div class='iconvertical1'><i class='fa fa-user-secret'></i></div>
+
+    </div>
+
+<<<<<<< HEAD
+
+    <div  class='itemvertical2' ng-click= 'monitor()' onmouseover='mbase()'>
+      
+      <div class='iconvertical2'><i class='fa fa-bar-chart'></i></div>
+    </div>
+    <div  class='itemvertical3' onclick= 'filtro()' onmouseover='mlote()'>
+ 
+      <div class='iconvertical3'><i class='fa fa-filter'></i></div>
+    
+    </div>
+
+
+
+    </div>
+=======
+>>>>>>> 3d288451dac3e878599754ca885c697a6fdcaa16
 <!--
   
     <div class="sidebar-nav" ng-if="user.nivel == 1 || user.nivel == 2 || user.nivel == 4 ">
@@ -15,16 +41,26 @@
         </div>
         <div class="navbar-collapse collapse sidebar-navbar-collapse">
           <ul class="nav navbar-nav">
+<<<<<<< HEAD
+            <li id="adminCampania" class="active"><a href="/adminCampania/{{campania.id}}"><i class="fa fa-paper-plane-o"></i> Agentes </a></li>
+            <li id="monitoreo"><a href="/monitoreo/{{campania.id}}"><i class="fa fa-database"></i> Monitoreo </a></li>
+            <li id="filtros"><a href="/filtros/{{campania.id}}"><i class="fa fa-filter"></i> Filtros </a></li>
+            
+=======
             <li id="adminCampania" class="active"><a href="/adminCampania/{{campania.id}}"><i class="fa fa-user"></i> Agentes </a></li>
           
             <li id="filtros"><a href="/filtros/{{campania.id}}"><i class="fa fa-filter"></i> Filtros </a></li>
               <li id="monitoreo"><a href="/monitoreo/{{campania.id}}"><i class="fa fa-desktop"></i> Monitoreo </a></li>
 
        
+>>>>>>> 3d288451dac3e878599754ca885c697a6fdcaa16
          
           </ul>
         </div>
       </div>
+<<<<<<< HEAD
+    </div>-->
+=======
     </div>
  
 
@@ -82,20 +118,14 @@
         margin-left: 38px;
 
   }
-
-}
-
-@media (min-width: 768px)
-.navbar {
-    border-radius: 0px;
-}
+>>>>>>> 3d288451dac3e878599754ca885c697a6fdcaa16
 
 
 
-
-</style>
 
 <script type="text/javascript">
+<<<<<<< HEAD
+=======
 
   $( "li" ).removeClass( "active" )
 
@@ -127,51 +157,23 @@
   i=0
 
   $('.vertical').css( "display","block");
+>>>>>>> 3d288451dac3e878599754ca885c697a6fdcaa16
   
-  function ocultarmenu(){
+  function agente(){
 
-    console.log('holaalal')
-    i=i+1
+    console.log('ssss')
 
-    if (i%2 == 0){
-
-        //$('.vertical').css( "display","block");
-
-    }
-    else{
-
-     // $('.vertical').css( "display","none");
-
-    
-
-    }
-
-      
-
-   
-
-
-    console.log(i)
-
-    
-  }
-  
-   function vertical(){
-
-   $('.vertical').css( "display","block");
-
-
-    
+    window.location('/adminCampania/{{campania.id}}')
   }
 
-  function container(){
+  function monitor(){
 
-    $('.vertical').css( "display","none");
+  }
+
+  function filtro(){
 
 
-    
   }
 
 </script>
-
 

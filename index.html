@@ -1,0 +1,293 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+
+<title>Responsive Navigation | Examples of Navigation in Responsive Design</title>
+
+<meta charset="utf-8">
+<META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
+<META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="index,follow" />
+<meta name="copyright" content="2014" />
+<meta name="description" content="Tutorials on navigation patterns in responsive web design. Includes code examples of how to handle menus on responsive websites."/>
+
+<link href="assets/favicon.ico" rel="shortcut icon">
+<link href="assets/apple-touch-icon.png" rel="apple-touch-icon">
+
+<script type="text/javascript">
+  document.documentElement.className = 'js';
+</script>
+
+<link rel="author" href="https://plus.google.com/u/0/106346024917683751854/posts">
+
+<link rel='stylesheet' href='assets/css/style.css'>
+<link rel='stylesheet' href='Build/assets/css/style.css'>
+
+<script src='assets/js/jquery-1.9.1.min.js'></script>
+<script src='Build/assets/js/jquery-1.9.1.min.js'></script>
+<script src='assets/js/app.js'></script>
+<script src='Build/assets/js/app.js'></script>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-32288724-9', 'responsivenavigation.net');
+  ga('send', 'pageview');
+
+</script>
+
+</head>
+<body class="home nav-collapsed">
+
+
+<div class="page-frame">
+<div class="page">
+
+<nav class="offcanvas" role="navigation">
+  
+    <ul>
+      
+      <li class='current'><a class='current' href="index.html"><i class="icon-home"></i> Home</a></li>
+      
+      <li>
+        <a class="moveleft" href="#">Examples:</a>
+        <ul>
+          <li><a href="examples/simple-padding/index.html"><i class="icon-code"></i> Do Nothing Approach</a></li>
+          <li><a href="examples/footer-list/index.html"><i class="icon-code"></i> Footer Navigation</a></li>
+          <li><a href="examples/select-menu/index.html"><i class="icon-code"></i> Select Menu</a></li>
+          <li><a href="examples/simple-toggle/index.html"><i class="icon-code"></i> Menu Overlay</a></li>
+          <li><a href="examples/multi-toggle/index.html"><i class="icon-code"></i> Multi Toggle</a></li>
+          <li><a href="examples/off-canvas-slide/index.html"><i class="icon-code"></i> Off Canvas</a></li>
+          <li><a href="examples/off-canvas-slide/always-off-canvas.html"><i class="icon-code"></i> Always Off Canvas</a></li>
+          <li><a href="examples/clean-grid/index.html"><i class="icon-code"></i> Grid Based</a></li>
+          <li><a href="examples/the-flip/index.html"><i class="icon-code"></i> Backside Menu Flip</a></li>
+        </ul>
+      </li>
+    
+    </ul>
+
+</nav>
+
+<div class="content-frame">
+
+	<header class="header">
+	  
+	  <a class="menu-toggle toggle-me" href="#"><span class="icon-reorder"></span></a>
+		
+		<div class="container">
+			
+			<div class="row">
+			  
+			  <div class="span-12">
+			  
+				  <h1 class="heavy"><span>Adventures in </span>Responsive Navigation</h1>
+				  
+				  <div id="carbonads-container">
+  <div class="carbonad">
+    <div id="azcarbon"></div>
+    <script type="text/javascript">var z = document.createElement("script"); z.type = "text/javascript"; z.async = true; z.src = "http://engine.carbonads.com/z/48258/azcarbon_2_1_0_HORIZ"; var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(z, s);</script>
+  </div>
+</div>
+	      
+			  </div>
+			  
+			</div>
+		
+		</div>
+
+	</header>
+
+
+<div class="special">
+
+	<p id="curr_size"></p>
+	
+</div>
+    
+<div class="container" id="wrap">
+
+	<div class="row">
+			
+		<div class="span-9 margin-bottom">
+			
+			<h2 class="headline">Responsive Navigation...</h2>
+
+			<p>Navigation patterns in responsive web design can be tricky to tackle - especially while keeping a consistent look, feel, and experience on your site. Your website's navigation is how users get around on your website and discover all that you have to offer. So when your responsive site is viewed on smaller screens - make sure it's still easy to navigate. I've put together a list of popular methods of dealing with navigation on a responsive website. I've included code samples as well. Check out the source code for how each method is achieved.</p>
+			
+			<p>I've written a few tips on how to structure your menu to help you <a href="build-a-better-menu.html">build a better desktop menu and mobile menu</a>. I've also written a blog article about <a href="http://erickar.be/blog/my-experience-with-navigation-in-responsive-design" title="My thoughts on navigation in responsive design">my thoughts on responsive navigation</a> with a few helpful things to think about before building your site's navigation.</p>
+
+		</div><!-- span-9 -->
+
+		<div class="span-3 padding-top">
+			
+			<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://www.responsivenavigation.net/" data-text="Check out responsivenavigation.net - a simple responsive resource for navigation in #rwd" data-via="erickarbe">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+
+			<p class="callout">If you have any questions or want to chat, hit me up on <a href="https://plus.google.com/106346024917683751854/posts/DJxpEwkfzon">Google+</a></p>
+
+		
+			
+			
+
+		</div><!-- END .span-3 -->
+			
+	</div><!-- END .row -->
+	
+	<div class="row">
+		
+		<h2 class="headline">The Examples</h2>
+		
+	</div>
+	
+	<div class="row">
+	
+  	<div class="span-4">
+  		<div class="box">
+  			<h3>Do Nothing Approach</h3>
+  			<p>This involves just adding a little padding to your links to optimize them for touch enabled devices.</p>
+  			<a href="examples/simple-padding/index.html" class="button green">View Example</a>
+  		</div>
+  	</div>
+  	
+  	<div class="span-4">
+  		<div class="box">
+  			<h3>Footer Navigation</h3>
+  			<p>A link in your header will take the user to your navigation list in the footer of your site.</p>
+  			<a href="examples/footer-list/index.html" class="button green">View Example</a>
+  		</div>
+  	</div>
+  	
+  	<div class="span-4">
+  		<div class="box">
+  			<h3>Select Menu</h3>
+  			<p>This technique takes your menu list and turns them into a &lt;select&gt; element through the power of JavaScript.</p>
+  			<a href="examples/select-menu/index.html" class="button green">View Example</a>
+  		</div>
+  	</div>
+
+  </div><!-- END .row -->
+  
+	<div class="row">
+	
+  	<div class="span-4">
+  		<div class="box">
+  			<h3>Menu Overlay</h3>
+  			<p>This simple technique turns your menu into a simple one column overlay drop-down.</p>
+  			<a href="examples/simple-toggle/index.html" class="button green">View Example</a>
+  		</div>
+  	</div>
+		
+		<div class="span-4">
+			<div class="box">
+				<h3>Multi Toggle</h3>
+				<p>This technique turns your menu into an accordion style list. Great for large menus and very versatile.</p>
+				<a href="examples/multi-toggle/index.html" class="button green">View Example</a>
+			</div>
+		</div>
+		
+		<div class="span-4">
+			<div class="box">
+				<h3>Off Canvas</h3>
+				<p>Hide your navigation "off canvas" and reveal it when your menu toggle button is clicked. Popularized by Facebook.</p>
+				<a href="examples/off-canvas-slide/index.html" class="button green">View Example</a>
+			</div>
+		</div>
+		
+	</div><!-- END .row -->
+
+	<div class="row">
+		
+		<div class="span-4">
+			<div class="box">
+				<h3>Grid Based</h3>
+				<p>This is a really nice way to present your menu at the top or bottom of your page. Just a clean grid based method.</p>
+				<a href="examples/clean-grid/index.html" class="button green">View Example</a>
+			</div>
+		</div>
+		
+		<div class="span-4">	
+			<div class="box">
+				<h3>The Flip Method</h3>
+				<p>This is a "neat" way to hide your nav, but maybe only good for vanity's sake right now.</p>
+				<a href="examples/the-flip/index.html" class="button green">View Example</a>
+			</div>
+		</div>
+
+		<div class="span-4">	
+			<div class="box">
+				<h3>Always Off Canvas</h3>
+				<p>This is a very cool way to use off canvas all the time + it's touch enabled!</p>
+				<a href="examples/off-canvas-slide/always-off-canvas.html" class="button green">View Example</a>
+			</div>
+		</div>
+		
+	</div><!-- END .row -->
+
+	<div class="row">
+		
+		<h2 class="headline">Further Reading + Links</h2>
+		
+		<div class="span-12">
+			
+			<h4>One Page, Fixed Navigation</h4>
+
+			<p>One page scrolling websites are quite popular these days. They give you just the amount of content without having to build out an entire website. Using a fixed navigation pattern, users can easily navigate the website. Now this might become a little tricky on smaller screens since your screen real estate becomes smaller. Well, Viljami wrote a nice little JS plugin for the world to use: <a href="https://github.com/adtile/fixed-nav">find it on Github</a>. There is a also a nice little article about it here: <a href="http://blog.adtile.me/2014/03/03/responsive-fixed-one-page-navigation/">on Adtile's website</a>.</p>
+
+			<h4>Creative Sidebar Transitions</h4>
+
+			<p>This article showcases some really interesting ways to bring your menu to life. If you're looking to add that extra bit of delight to your user's experience, then maybe add one of these transitions to your website's menu. The examples come courtesy of CoDrops and <a href="http://tympanus.net/Development/SidebarTransitions/">can be found here</a>.</p>
+
+			<h4>Follow Google's Lead</h4>
+
+			<p>Google always seems to be on top of their game. They make no exception when it comes to the websites they build for their products or companies. Check out the navigation patterns on both of the websites below - very unique and interesting.</p>
+
+			<ul>
+				<li><a href="http://www.gv.com/">Google Ventures</a> - Once you dig into the site you'll see their navigation stays off canvas with some icons to boot.</li>
+				<li><a href="http://www.google.com/intl/all/nexus/">Google Nexus</a> - This navigation patterns offers some fun hover techniques and an interesting fly-out menu.</li>
+			</ul>
+
+			<h4>Scroll to Top</h4>
+
+			<p>A little alternative to the footer menu has often been a button that appears in the bottom of the user's screen that scrolls them back to the top. I recently ran across an article that suggests a new way to do this. Instead of scrolling the user back to the top, a new menu is presented when that button is clicked. Take a look at <a href="http://codyhouse.co/gem/smart-fixed-navigation/" rel="external">the example</a>. While I am not a huge fan of <code>position: fixed</code> when it comes to navigation, this could possibly serve a purpose for some projects.</p>
+
+		</div>
+
+	</div>
+
+</div><!-- END .container -->
+
+<footer class="footer">
+	<div class="container">
+		<div class="row">
+
+			<div class="span-6">
+			
+				<p class="copyright">Copyright &copy; 2014 | <a href="http://erickar.be">Erick Arbe</a> | Site Design Credit: <a href="http://cmagruder.me/">Christopher Magruder</a></p>
+				
+			</div>
+			
+			<div class="span-6 socials">
+			  
+			  <p>
+			  <a href="https://plus.google.com/106346024917683751854?rel=author" title="Find me on Google Plus"><i class="icon-google-plus"></i></a>
+			  <a href="http://twitter.com/erickarbe" title="Find me on Twitter"><i class="icon-twitter2"></i></a>
+			  </p>
+			  
+			</div>
+			
+		</div><!-- END .row -->
+	</div><!-- END .container -->
+</footer>
+
+</div><!-- END .content-frame -->
+</div><!-- END .page -->
+</div><!-- END .page-frame -->
+
+</body>
+</html>

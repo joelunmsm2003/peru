@@ -1,0 +1,111 @@
+
+
+
+.content-frame {
+
+
+  height: 100%;
+  position: relative;
+  padding: 0;
+  background-color: #fff;
+  -ms-transform: translate(250px, 0);
+  -moz-transform: translate(250px, 0);
+  -webkit-transform: translate3d(250px, 0, 0);
+  transform: translate(250px, 0);
+  -ms-transition: -ms-transform 0.28s ease-in-out;
+  -moz-transition: -moz-transform 0.28s ease-in-out;
+  -webkit-transition: -webkit-transform 0.28s ease-in-out;
+  transition: transform 0.28s ease-in-out;
+  border-top: 1px solid transparent;
+  min-height: 1600px;
+  z-index: 10000;
+
+   }
+
+.nav-collapsed .content-frame {
+  -ms-transform: translate(0px, 0);
+  -moz-transform: translate(0px, 0);
+  -webkit-transform: translate3d(0px, 0, 0);
+  transform: translate(0px, 0); }
+
+/* ==  Header
+================================================= */
+
+
+
+.offcanvas {
+
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 300px;
+  overflow: hidden;
+  cursor: default;
+  color: #c8c8c8;
+  background: #222;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -moz-transition: width ease-in-out 0.28s, background linear 0.1s;
+  -webkit-transition: width ease-in-out 0.28s, background linear 0.1s;
+  -o-transition: width ease-in-out 0.28s, background linear 0.1s;
+  transition: width ease-in-out 0.28s, background linear 0.1s;
+  -ms-transform: translate(0px, 0);
+  -moz-transform: translate(0px, 0);
+  /*-webkit-transform: translate3d(0px, 0, 0);*/
+  transform: translate(0px, 0);
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none; }
+
+.offcanvas.open {
+  -webkit-transform: translateX(0px);
+  -moz-transform: translateX(0px);
+  transform: translateX(0px);
+  width: 300px; }
+
+
+.offcanvas ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-weight: 300; }
+
+.offcanvas li {
+  display: block; }
+
+.offcanvas a {
+  display: block;
+  height: 100%;
+  width: 100%;
+  color: #fff;
+  text-decoration: none;
+  cursor: pointer;
+  border-bottom: 1px solid #353434;
+  padding: 13px 10px;
+  transition: 0.3s ease all; 
+  padding-left: 12px;
+  
+
+}
+
+.offcanvas a:hover {
+  background-color: #111; }
+
+.offcanvas a i {
+
+  float: left;
+  padding: 0 28px 0 4px;}
+
+.offcanvas a.moveleft {
+  padding-left: 53px; }
+
+
+
+
+@media all and (min-width: 640px) {
+  body {
+    padding-left: 50px; }

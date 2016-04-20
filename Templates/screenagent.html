@@ -358,6 +358,7 @@
 
   <div class='row animate' ng-if="datoagente.estado__nombre == 'En Pausa'">
 
+
   <center><img src="https://s-media-cache-ak0.pinimg.com/originals/44/a0/e6/44a0e61b7fa6e8f1ad0df4789751f088.gif"></center>
 
   </div>
@@ -532,19 +533,19 @@
 
 
       <!--Lanzar Gestion-->
-          
-        <button class="btn btn-primary " data-toggle="modal" data-target="#agendar" ><i class="fa fa-calendar-check-o"></i> Agendar</button>
+
+<!--        <button class="btn btn-primary " data-toggle="modal" data-target="#agendar" ><i class="fa fa-calendar-check-o"></i> Agendar</button> -->
         <div class="col-md-6">
         <form ng-submit="gestionlanza(gestion)">
         <div class="form-group">
         <label for="">Comentario</label>
 
-        <textarea ng-change='tipeo()' required = "" ng-model='gestion.comentario' class="form-control" ></textarea>
+        <textarea ng-change='tipeo()' required = "" ng-model='gestion.comentario' class="form-control form-age" ></textarea>
         </div>
 
         <button type="submit" class="btn btn-primary">Guardar</button>
 
-
+        <button class="btn btn-primary " data-toggle="modal" data-target="#agendar" ><i class="fa fa-calendar-check-o"></i> Agendar</button>
         </div>
 
         <div class="col-md-6 gestionfecha">
