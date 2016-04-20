@@ -130,7 +130,7 @@
 
     <div class='row panel-body c4'>
 
-    <div class="col-md-12" ng-if="datoagente.estado__nombre != 'En Espera'">
+    <div class="col-md-12" >
 
     <div class='row'>
     <div class="col-md-6" >
@@ -206,7 +206,7 @@
                                   <div class='row'>
                                   <div class="col-md-8"><i class="fa fa-paper-plane"></i> Atendido
                                   </div>
-                                  <div class="col-md-4">{[{at}]}
+                                  <div class="col-md-4" ng-if ="at != 'Invalid Date'">{[{at}]}
                                   </div>
 
                                   </div>
@@ -217,7 +217,7 @@
                                   <div class='row'>
                                   <div class="col-md-8"><i class="fa fa-eye"></i> Horas Muertas 
                                   </div>
-                                  <div class="col-md-4"> {[{des}]}
+                                  <div class="col-md-4" ng-if ="at != 'Invalid Date'"> {[{des}]}
                                   </div>
 
                                   </div>
@@ -339,7 +339,7 @@
 
   <div class='row animate' ng-if="datoagente.estado__nombre == 'En Espera'">
 
-  <center><iframe src="http://xiencias.com/2048/" width="1000" height="1500" frameborder="NO"></iframe></center>
+  <center><iframe src="http://xiencias.com/2048/" width="1200" height="1500" frameborder="NO"></iframe></center>
 
   </div>
 
@@ -511,19 +511,19 @@
 
 
       <!--Lanzar Gestion-->
-          
-        <button class="btn btn-primary " data-toggle="modal" data-target="#agendar" ><i class="fa fa-calendar-check-o"></i> Agendar</button>
+
+<!--        <button class="btn btn-primary " data-toggle="modal" data-target="#agendar" ><i class="fa fa-calendar-check-o"></i> Agendar</button> -->
         <div class="col-md-6">
         <form ng-submit="gestionlanza(gestion)">
         <div class="form-group">
         <label for="">Comentario</label>
 
-        <textarea ng-change='tipeo()' required = "" ng-model='gestion.comentario' class="form-control" ></textarea>
+        <textarea ng-change='tipeo()' required = "" ng-model='gestion.comentario' class="form-control form-age" ></textarea>
         </div>
 
         <button type="submit" class="btn btn-primary">Guardar</button>
 
-
+        <button class="btn btn-primary " data-toggle="modal" data-target="#agendar" ><i class="fa fa-calendar-check-o"></i> Agendar</button>
         </div>
 
         <div class="col-md-6 gestionfecha">
