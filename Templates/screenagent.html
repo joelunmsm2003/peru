@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html ng-app="App" ng-controller="Controller">
 <head>
-  <title> {[{datoagente.estado__nombre}]}</title>
+  <title> {[{datoagente.estado__nombre}]} {[{cliente.campania__nombre}]}</title>
   {% include "head.html" %}
   <script src="/static/js/teleoperador.js"></script>
 
@@ -218,7 +218,8 @@
                               <div class="col-md-12">
 
                                   <div class='row'>
-                                  <div class="col-md-8"><i class="fa fa-eye"></i> Horas Muertas 
+                                  <div class="col-md-8"><i class="fa fa-eye"></i> Horas Muertas {[{cliente.campania__hombreobjetivo}]}%
+
                                   </div>
                                   <div class="col-md-4" ng-if ="at != 'Invalid Date'"> {[{des}]}
                                   </div>
@@ -266,9 +267,9 @@
       <div class="col-md-12">
 
       <div class='row'>
-      <div class="col-md-8"><i class="fa fa-percent"></i> Media  
+      <div class="col-md-8"><i class="fa fa-percent"></i> Media   {[{cliente.campania__mxllamada}]}' x ges
       </div>
-      <div class="col-md-4"> {[{agente.media}]} %
+      <div class="col-md-4"> {[{agente.media}]} % 
       </div>
 
       </div>

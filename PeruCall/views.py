@@ -1612,7 +1612,7 @@ def cliente(request,id_agente):
 
 		redis_publisher.publish_message(message)
 
-		base = Base.objects.filter(agente_id=id_agente,status=1).order_by('-id').values('id','telefono','orden','cliente','id_cliente','status_a','status_b','status_c','status_d','status_e','status_f','status_g','status_h','status','campania__nombre','resultado__name','resultado')
+		base = Base.objects.filter(agente_id=id_agente,status=1).order_by('-id').values('id','telefono','orden','cliente','id_cliente','status_a','status_b','status_c','status_d','status_e','status_f','status_g','status_h','status','campania__nombre','resultado__name','resultado','campania__mxllamada','campania__mxllamada','campania__hombreobjetivo')
 
 		fmt = '%Y-%m-%d %H:%M:%S %Z'
 
