@@ -218,7 +218,7 @@
                               <div class="col-md-12">
 
                                   <div class='row'>
-                                  <div class="col-md-8"><i class="fa fa-eye"></i> Horas Muertas {[{cliente.campania__hombreobjetivo}]}%
+                                  <div class="col-md-8"><i class="fa fa-eye"></i> Horas Muertas <span ng-if="datoagente.estado__nombre == 'En Llamada' || datoagente.estado__nombre == 'En gestion' ">{[{cliente.campania__hombreobjetivo}]}%</span>
 
                                   </div>
                                   <div class="col-md-4" ng-if ="at != 'Invalid Date'"> {[{des}]}
@@ -267,7 +267,7 @@
       <div class="col-md-12">
 
       <div class='row'>
-      <div class="col-md-8"><i class="fa fa-percent"></i> Media   {[{cliente.campania__mxllamada}]}' x ges
+      <div class="col-md-8"><i class="fa fa-percent"></i> Media  <span ng-if="datoagente.estado__nombre == 'En Llamada' || datoagente.estado__nombre == 'En gestion' "> {[{cliente.campania__mxllamada}]}' x ges</span>
       </div>
       <div class="col-md-4"> {[{agente.media}]} % 
       </div>

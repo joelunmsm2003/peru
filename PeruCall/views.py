@@ -877,16 +877,16 @@ def botonexterno(request):
 
 			age = Agentes.objects.get(id=agente)
 
-			print 'Checa',age.checa
-
 			if int(age.checa) == 1:
 
 				age.estado_id = 5
 				age.save()
 
+			print 'resultado....',resultado,base
+
 			b = Base.objects.get(id=base)
 			b.resultado_id = resultado
-			b.save
+			b.save()
 
 
 		data_dict = ValuesQuerySetToDict(data)
@@ -2384,7 +2384,6 @@ def botoneragraph(request,campania):
                data = {
 
                		 'total':total,
-
                		 'fallecido':fallecido,
                		 'consultatramite':consultatramite,
                		 'contactosinpromesa':contactosinpromesa,
