@@ -877,10 +877,14 @@ def botonexterno(request):
 
 			age = Agentes.objects.get(id=agente)
 
-			if int(age.checa) == 1:
+			print 'Checaaaaaaaaaaaaaaa.....',age.checa,resultado
 
-				age.estado_id = 5
-				age.save()
+			if age.checa:
+
+				if int(age.checa) == 1:
+
+					age.estado_id = 5
+					age.save()
 
 			print 'resultado....',resultado,base
 
@@ -2445,6 +2449,8 @@ def botonera(request):
 		id_resultado= json.loads(request.body)['resultado']['id']
 		agente= json.loads(request.body)['agente']
 		id_base= json.loads(request.body)['cliente']['id']
+
+		print 'Botonera.....',id_resultado,agente,id_base
 
 		resultado = Resultado.objects.get(id=id_resultado).name
 

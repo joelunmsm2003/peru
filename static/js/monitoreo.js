@@ -12,266 +12,6 @@ campania = window.location.href.split("monitoreo/")[1].split("/")[0]
 
 $(function () {
     // Create the chart
-    $('#graph1').highcharts({
-        chart: {
-            type: 'column',
-             events: {
-                        load: function () {
-
-                                serie1 = this.series
-
-                                  var updateChart = function() {
-
-                                $.getJSON("/botoneragraph/"+campania, function (result) {
-
-                                    console.log('botoro llam',result)
-
-       
-
-                                    serie1[0].points[0].update(result['pPromesa'])
-                                    serie1[0].points[1].update(result['pDirecto'])
-                                    serie1[0].points[2].update(result['pIndirecto'])
-                                    serie1[0].points[3].update(result['pNocontacto'])
-                                    serie1[0].points[4].update(result['pAsterisk'])
-                                    serie1[0].points[5].update(result['pPendiente'])
-                                   
-
-                          
-
-                                   
-                           
-                                });
-
-                            }
-
-                        setInterval(function(){updateChart()},1000);
-
-                            }
-                        }
-        },
-        title: {
-            text: 'Cobertura Campaña'
-        },
-     
-        xAxis: {
-
-
-            categories: [
-                'Promesa',
-                'Contacto Directo',
-                'Contacto Indirecto',
-                'No Contacto',
-                'Asterisk',
-                'Pendiente'
-           
-            ],
-            crosshair: true
-        },
-        yAxis: {
-            title: {
-                text: 'Porcentaje'
-            }
-
-        },
-        legend: {
-            enabled: false
-        },
-        plotOptions: {
-            series: {
-                borderWidth: 0,
-                dataLabels: {
-                    enabled: true,
-                    format: '{point.y:.1f}%'
-                }
-            }
-        },
-
-        tooltip: {
-            headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
-            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
-        },
-
-        series: [{
-            name: 'Llamadas',
-            colorByPoint: true,
-            data: [{
-                name: 'Promesa',
-                y: 56.33,
-                drilldown: 'Promesa'
-            }, {
-                name: 'Directo',
-                y: 24.03,
-                drilldown: 'Directo'
-            }, {
-                name: 'Indirecto',
-                y: 10.38,
-                drilldown: 'Indirecto'
-            }, {
-                name: 'No Contacto',
-                y: 4.77,
-                drilldown: 'No Contacto'
-            },
-            {
-                name: 'Asterik',
-                y: 4.77,
-                drilldown: 'Asterik'
-            },
-
-            {
-                name: 'Pendiente',
-                y: 4.77,
-                drilldown: 'Pendiente'
-            }]
-        }],
-        drilldown: {
-            series: [{
-                name: 'Promesa',
-                id: 'Promesa',
-                data: [3
-            
-                ]
-            }, {
-                name: 'Directo',
-                id: 'Directo',
-                data: [
-                    [
-                        'v40.0',
-                        5
-                    ],
-                    [
-                        'v41.0',
-                        4.32
-                    ],
-                    [
-                        'v42.0',
-                        3.68
-                    ],
-                    [
-                        'v39.0',
-                        2.96
-                    ],
-                    [
-                        'v36.0',
-                        2.53
-                    ],
-                    [
-                        'v43.0',
-                        1.45
-                    ],
-                    [
-                        'v31.0',
-                        1.24
-                    ],
-                    [
-                        'v35.0',
-                        0.85
-                    ],
-                    [
-                        'v38.0',
-                        0.6
-                    ],
-                    [
-                        'v32.0',
-                        0.55
-                    ],
-                    [
-                        'v37.0',
-                        0.38
-                    ],
-                    [
-                        'v33.0',
-                        0.19
-                    ],
-                    [
-                        'v34.0',
-                        0.14
-                    ],
-                    [
-                        'v30.0',
-                        0.14
-                    ]
-                ]
-            }, {
-                name: 'Indirecto',
-                id: 'Indirecto',
-                data: [
-                    [
-                        'v35',
-                        2.76
-                    ],
-                    [
-                        'v36',
-                        2.32
-                    ],
-                    [
-                        'v37',
-                        2.31
-                    ],
-                    [
-                        'v34',
-                        1.27
-                    ],
-                    [
-                        'v38',
-                        1.02
-                    ],
-                    [
-                        'v31',
-                        0.33
-                    ],
-                    [
-                        'v33',
-                        0.22
-                    ],
-                    [
-                        'v32',
-                        0.15
-                    ]
-                ]
-            }, {
-                name: 'No Contacto',
-                id: 'No Contacto',
-                data: [
-                    [
-                        'v8.0',
-                        2.56
-                    ],
-                    [
-                        'v7.1',
-                        0.77
-                    ],
-                    [
-                        'v5.1',
-                        0.42
-                    ],
-                    [
-                        'v5.0',
-                        0.3
-                    ],
-                    [
-                        'v6.1',
-                        0.29
-                    ],
-                    [
-                        'v7.0',
-                        0.26
-                    ],
-                    [
-                        'v6.2',
-                        0.17
-                    ]
-                ]
-            }]
-        }
-    });
-});
-
-
-//-----
-
-
-$(function () {
-    // Create the chart
     $('#graph2').highcharts({
         chart: {
             type: 'column',
@@ -284,14 +24,14 @@ $(function () {
 
                                 $.getJSON("/botoneragraph/"+campania, function (result) {
 
-                                    console.log('botoro llam',result)
+                                    console.log('botoro llam',result['Contacto Indirecto'])
 
        
 
                                     serie1[0].points[0].update(result['Promesa'])
                                     serie1[0].points[1].update(result['Contacto Directo'])
                                     serie1[0].points[2].update(result['Contacto Indirecto'])
-                                    serie1[0].points[3].update(result['No Contacto'])
+                                    serie1[0].points[4].update(result['No Contacto'])
                            
 
      
@@ -354,21 +94,21 @@ $(function () {
             colorByPoint: true,
             data: [{
                 name: 'Promesa',
-                y: 56.33,
+                y: 0,
                 drilldown: 'Promesa'
             }, {
                 name: 'Directo',
-                y: 24.03,
+                y: 0,
                 drilldown: 'Directo'
             }, {
                 name: 'Indirecto',
-                y: 10.38,
+                y: 0,
                 drilldown: 'Indirecto'
             },
 
             , {
                 name: 'No Contacto',
-                y: 10.38,
+                y: 80,
                 drilldown: 'No Contacto'
             }
 
@@ -555,6 +295,7 @@ $(function () {
                                     seriei[0].points[13].update(result['desconocidomudado'])
                                     seriei[0].points[14].update(result['novivelabora'])
                                     seriei[0].points[15].update(result['sivivelabora'])
+                                    seriei[0].points[16].update(result['sivivelabora'])
 
      
                            
@@ -585,12 +326,13 @@ $(function () {
                 'Dificultad de Pago',
                 'Acuerdo con fecha de pago',
                 'Reclamo Institucion',
+                '-',
                 'Refinancia/Convenio',
                 'Renuente/Rehuye',
-                'Ya pago con boucher',
+                'Ya Pago con voucher',
                 'Tit.desconocido/ Mudado',
                 'Msj Tercero(No vive/labora)',
-                'Msj Tercero(Si vive/labora)'
+                'Msj Tercero(No vive/labora)'
 
             ],
             crosshair: true
@@ -648,8 +390,6 @@ $(function () {
                 drilldown: 'Consulta en tramit'
             },
 
-
-
             {
                 name: 'Contacto sin promesa',
                 y: 0,
@@ -703,6 +443,17 @@ $(function () {
             },
             {
                 name: 'Msj Tercero(Si vive/labora)',
+                y: 0,
+                drilldown: 'Msj Tercero(Si vive/labora)'
+            },
+            {
+                name: 'Msj Ter)',
+                y: 0,
+                drilldown: 'Msj Tercero(Si vive/labora)'
+            },
+
+            {
+                name: 'Msj Ter)',
                 y: 0,
                 drilldown: 'Msj Tercero(Si vive/labora)'
             }]
@@ -1116,7 +867,7 @@ $(function () {
                                     serie[0].points[2].update(result['Contacto Indirecto'])
                                     serie[0].points[3].update(result['No Contacto'])
                                     serie[0].points[4].update(result['Marcador'])
-                                    serie[0].points[4].update(result['Sin Gestion'])
+                                    serie[0].points[5].update(result['Sin Gestion'])
 
                           
                                 });
@@ -1404,7 +1155,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
     $http.get("/botoneragraph/"+campania).success(function(response) {
 
-        console.log('total',response['total'])
+
 
 
         $scope.pendiente = response['pendiente']
