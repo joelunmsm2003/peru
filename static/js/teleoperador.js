@@ -10,6 +10,8 @@ $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
 function Controller($scope,$http,$cookies,$filter,$interval,$location) {
 
     agente = window.location.href.split("teleoperador/")[1].split("/")[0]
+
+    console.log('Agente',agente)
     
     $http.get("/resultadototal").success(function(response) {$scope.resultado = response;
               
@@ -242,7 +244,9 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
     }
 
     $scope.botonexterno = function(data) 
-    {
+
+
+    {       console.log('Btn Externo',data)
 
             var todo={
 

@@ -779,7 +779,16 @@ $(function () {
 
 }
 
+    /*
 
+                                    serie1[0].points[0].update(result['Promesa'])
+                                    serie1[0].points[1].update(result['Directo'])
+                                    serie1[0].points[2].update(result['Indirecto'])
+                                    serie1[0].points[3].update(result['No Contacto'])
+                                    serie1[0].points[4].update(result['Asterisk'])
+                                    serie1[0].points[5].update(result['Pendiente'])
+                                    
+                                    */
 
         $(function () {
     // Create the chart
@@ -789,34 +798,32 @@ $(function () {
              events: {
                         load: function () {
 
-                                serie1 = this.series
-
+                                serie1x = this.series
 
                                   var updateChart = function() {
 
                                 $.getJSON("/botoneragraph/"+campania, function (result) {
 
-                                    console.log('botoro llam',result)
+                                    console.log('botoro llam',result['Contacto Indirecto'])
 
        
 
-                                    serie1[0].points[0].update(result['pPromesa'])
-                                    serie1[0].points[1].update(result['pDirecto'])
-                                    serie1[0].points[2].update(result['pIndirecto'])
-                                    serie1[0].points[3].update(result['pNocontacto'])
-                                    serie1[0].points[4].update(result['pAsterisk'])
-                                    serie1[0].points[5].update(result['pPendiente'])
+                                  
+                                    serie1x[0].points[0].update(result['Promesa'])
+                                    serie1x[0].points[1].update(result['Contacto Directo'])
+                                    serie1x[0].points[2].update(result['Contacto Indirecto'])
+                                    serie1x[0].points[3].update(result['No Contacto'])
+                                    serie1x[0].points[4].update(result['Asterisk'])
+                                    serie1x[0].points[5].update(result['Pendiente'])
                                    
 
-                          
-
-                                   
+     
                            
                                 });
 
                             }
 
-                        setTimeout(function(){updateChart()},1000);
+                        setInterval(function(){updateChart()},1000);
 
                             }
                         }
@@ -833,9 +840,10 @@ $(function () {
                 'Contacto Directo',
                 'Contacto Indirecto',
                 'No Contacto',
-                'Asterisk',
-                'Pendiente'
-           
+                'Asterisk'
+               
+              
+
             ],
             crosshair: true
         },
@@ -863,178 +871,46 @@ $(function () {
             pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
         },
 
+         
+
+
         series: [{
             name: 'Llamadas',
             colorByPoint: true,
             data: [{
                 name: 'Promesa',
-                y: 56.33,
+                y: 0,
                 drilldown: 'Promesa'
             }, {
                 name: 'Directo',
-                y: 24.03,
+                y: 0,
                 drilldown: 'Directo'
             }, {
                 name: 'Indirecto',
-                y: 10.38,
+                y: 0,
                 drilldown: 'Indirecto'
             }, {
                 name: 'No Contacto',
-                y: 4.77,
+                y: 80,
                 drilldown: 'No Contacto'
+            }
+            , {
+                name: 'Asterisk',
+                y: 80,
+                drilldown: 'Asterisk'
             },
-            {
-                name: 'Asterik',
-                y: 4.77,
-                drilldown: 'Asterik'
-            },
-
-            {
+             {
                 name: 'Pendiente',
-                y: 4.77,
+                y: 80,
                 drilldown: 'Pendiente'
-            }]
-        }],
-        drilldown: {
-            series: [{
-                name: 'Promesa',
-                id: 'Promesa',
-                data: [3
-            
-                ]
-            }, {
-                name: 'Directo',
-                id: 'Directo',
-                data: [
-                    [
-                        'v40.0',
-                        5
-                    ],
-                    [
-                        'v41.0',
-                        4.32
-                    ],
-                    [
-                        'v42.0',
-                        3.68
-                    ],
-                    [
-                        'v39.0',
-                        2.96
-                    ],
-                    [
-                        'v36.0',
-                        2.53
-                    ],
-                    [
-                        'v43.0',
-                        1.45
-                    ],
-                    [
-                        'v31.0',
-                        1.24
-                    ],
-                    [
-                        'v35.0',
-                        0.85
-                    ],
-                    [
-                        'v38.0',
-                        0.6
-                    ],
-                    [
-                        'v32.0',
-                        0.55
-                    ],
-                    [
-                        'v37.0',
-                        0.38
-                    ],
-                    [
-                        'v33.0',
-                        0.19
-                    ],
-                    [
-                        'v34.0',
-                        0.14
-                    ],
-                    [
-                        'v30.0',
-                        0.14
-                    ]
-                ]
-            }, {
-                name: 'Indirecto',
-                id: 'Indirecto',
-                data: [
-                    [
-                        'v35',
-                        2.76
-                    ],
-                    [
-                        'v36',
-                        2.32
-                    ],
-                    [
-                        'v37',
-                        2.31
-                    ],
-                    [
-                        'v34',
-                        1.27
-                    ],
-                    [
-                        'v38',
-                        1.02
-                    ],
-                    [
-                        'v31',
-                        0.33
-                    ],
-                    [
-                        'v33',
-                        0.22
-                    ],
-                    [
-                        'v32',
-                        0.15
-                    ]
-                ]
-            }, {
-                name: 'No Contacto',
-                id: 'No Contacto',
-                data: [
-                    [
-                        'v8.0',
-                        2.56
-                    ],
-                    [
-                        'v7.1',
-                        0.77
-                    ],
-                    [
-                        'v5.1',
-                        0.42
-                    ],
-                    [
-                        'v5.0',
-                        0.3
-                    ],
-                    [
-                        'v6.1',
-                        0.29
-                    ],
-                    [
-                        'v7.0',
-                        0.26
-                    ],
-                    [
-                        'v6.2',
-                        0.17
-                    ]
-                ]
-            }]
-        }
+            }
+
+
+
+
+        ]
+        }]
+        
     });
 });
 
@@ -1063,7 +939,7 @@ $(function () {
                                     console.log('botoro Pie chart',response)
 
                                     nocontacto = response['No Contacto']
-                                    directo = response['Contacto Indirecto']
+                                    directo = response['Contacto Directo']
                                     indirecto = response['Contacto Indirecto']
                                     promesa = response['Promesa']
 
@@ -1078,7 +954,7 @@ $(function () {
                             }
 
 
-                        setTimeout(function(){updateChartpie()},1000);
+                        setInterval(function(){updateChartpie()},1000);
 
                        
 

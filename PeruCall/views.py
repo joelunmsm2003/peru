@@ -869,11 +869,19 @@ def botonexterno(request):
 
 			data = json.loads(request.body)
 
+			print 'data',data
+
 			#{u'agente': u'14', u'done': False, u'boton': 18, u'cliente': {u'status': u'1', u'orden': None, u'resultado': 5, u'status_d': None, u'campania__nombre': u'Pastillas LSD', u'status_h': u'SCORE C', u'status_g': u'NUEVO', u'status_f': u'LIMA', u'id_cliente': None, u'resultado__name': u'Acuerdo con fecha de pago', u'status_c': None, u'status_b': None, u'status_a': None, u'id': 2, u'status_e': None, u'tiniciollamada': u'2016-04-13 23:34:34 UTC', u'telefono': None, u'cliente': None}}
 
 			resultado = data['boton']
 			base = data['cliente']['id']
 			agente = data['agente']
+
+			rbase = Base.objects.get(id=base)
+
+			rbase.fecha = datetime.now()-timedelta(hours=5)
+			rbase.tfingestion = datetime.now()-timedelta(hours=5)
+			rbase.save()
 
 			age = Agentes.objects.get(id=agente)
 
@@ -1573,7 +1581,7 @@ def lanzallamada(request,id_agente,id_base):
 		base = Base.objects.get(id=id_base)
 		base.agente_id = id_agente
 		base.status = 1
-		base.tiniciollamada = datetime.now()
+		base.tiniciogestion = datetime.now()-timedelta(hours=5)
 
 		base.save()
 
@@ -1622,7 +1630,10 @@ def cliente(request,id_agente):
 
 		for i in range(len(base)):
 
-			base[i]['tiniciollamada'] = Base.objects.get(id=base[i]['id']).tiniciollamada.strftime(fmt)
+			if Base.objects.get(id=base[i]['id']).tiniciollamada == None:
+				base[i]['tiniciollamada'] = ''
+			else:
+				base[i]['tiniciollamada'] = Base.objects.get(id=base[i]['id']).tiniciollamada.strftime(fmt)
 
 		data_dict = ValuesQuerySetToDict(base)
 
@@ -1754,7 +1765,17 @@ def reportecsv(request,cartera,campania):
 
 			resultado = ''
 
-		writer.writerow([x.id,x.telefono,x.orden,x.cliente,x.id_cliente,x.campania.cartera.nombre,x.campania.nombre,agente,x.duracion,x.monto,x.fecha,x.status_a,x.status_b,x.status_c,x.status_d,x.status_e,x.status_f,x.status_g,x.status_h,resultado,'Observacion','Fecha de Pago','Importe de Pago'])
+		duracion = ''
+
+		if x.tiniciogestion and x.tfingestion :
+
+			inicio = x.tiniciogestion
+			fin = x.tfingestion
+			fmt = '%M:%S'
+
+			duracion = str(fin-inicio)[2:8]
+
+		writer.writerow([x.id,x.telefono,x.orden,x.cliente,x.id_cliente,x.campania.cartera.nombre,x.campania.nombre,agente,duracion,x.monto,x.fecha,x.status_a,x.status_b,x.status_c,x.status_d,x.status_e,x.status_f,x.status_g,x.status_h,resultado,'Observacion','Fecha de Pago','Importe de Pago'])
 
 
 	return response
