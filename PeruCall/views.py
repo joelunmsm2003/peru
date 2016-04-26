@@ -1979,7 +1979,6 @@ def listafiltros(request,id_campania):
 	data = Filtro.objects.filter(campania_id=id_campania).values('id','ciudad','segmento','grupo','resultado','status').order_by('-id')
 
 
-
 	for i in range(len(data)):
 
 	
@@ -1988,13 +1987,21 @@ def listafiltros(request,id_campania):
 
 		if data[i]['status']==1:
 
-			data[i]['color'] = '#A7DBFA'
-			data[i]['colort'] = '#000'
+
+			data[i]['color'] = '#FAF8F8'
+			
+			data[i]['colort'] = '#564D4D'
+
+		
+			data[i]['statusname'] = 'Apagado'
 
 		
 		else:
 
-			data[i]['color'] = '#FAF8F8'
+			data[i]['color'] = '#228FFD'
+			data[i]['colort'] = '#fff'
+
+			data[i]['statusname'] = 'Activado'
 
 
 
@@ -2046,9 +2053,8 @@ def activafiltro(request,id_filtro,id_campania):
 
 		filtro = Filtro.objects.get(id=data[i]['id'])
 
-		
-
-		filtro.status = 1
+	
+		filtro.status = 0
 		filtro.save() 
 
 		resultado = filtro.resultado
@@ -2094,7 +2100,7 @@ def desactivafiltro(request,id_filtro,id_campania):
 
 		filtro = Filtro.objects.get(id=data[i]['id'])
 
-		filtro.status = 0
+		filtro.status = 1
 		filtro.save() 
 
 		resultado = filtro.resultado
