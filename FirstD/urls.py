@@ -58,6 +58,7 @@ urlpatterns = patterns('',
     url(r'^lanzaespera/$','PeruCall.views.lanzaespera'),
     url(r'^agentegrafico/$','PeruCall.views.agentegrafico'),
     url(r'^getanexo/(\w+)/$','PeruCall.views.getanexo'),
+    url(r'^pausarcampania/(\w+)/$','PeruCall.views.pausarcampania'),
 
 
 
@@ -133,6 +134,9 @@ urlpatterns = patterns('',
     url(r'^monitorcpu/$', 'PeruCall.views.monitorcpu'),
     url(r'^graphcpu/$', 'PeruCall.views.graphcpu'),
     url(r'^botonexterno/$', 'PeruCall.views.botonexterno'),
+    url(r'^getestado/(\w+)/$', 'PeruCall.views.getestado'),
+    url(r'^activarcampania/(\w+)/$', 'PeruCall.views.activarcampania'),
+
 
 
 )

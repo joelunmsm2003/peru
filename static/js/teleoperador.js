@@ -83,6 +83,8 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
     $http.get("/tgestion/"+agente).success(function(response) {
 
     $scope.tgestion = response;
+
+
   
 
     });
@@ -175,6 +177,38 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
 
     $scope.pausax=false
     $scope.playx=true
+
+    $http.get("/getestado/"+agente).success(function(response) {
+
+
+    console.log('Get estado',response)
+
+    $scope.rosa=true
+
+    if(response == 2){
+
+        $scope.datatime = 30
+
+        setInterval(function(){
+
+            $scope.datatime = $scope.datatime-1
+            console.log('conteo',$scope.datatime)
+
+            if ($scope.datatime==0){
+
+                $scope.rosa = false
+            }
+
+
+        },1000);
+
+
+
+
+    }
+
+   
+    });
     
 
 
@@ -278,7 +312,7 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
             }).
             success(function(data) {
 
-                //window.location.href = '/teleoperador/'+agente;
+                window.location.href = '/teleoperador/'+agente;
 
 
 

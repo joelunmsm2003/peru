@@ -13,7 +13,7 @@
 {% include "header.html" %}
 
 
-
+<!--si, debe tener celeste cuando esta lanzando, naranja cuando termino la campaña y blando apagado-->
 
 
 <div id="edit" class="modal fade" role="dialog">
@@ -193,9 +193,43 @@
 
       <div class='row'>
       <div class="col-md-2">  <button ng-if="user.nivel == 1 || user.nivel == 2" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Crear Campaña</button></div>
-      <div class="col-md-8"><input placeholder="Buscar" ng-change="search()"  type="text" ng-model="tipo" class="form-control" ></div>
+      <div class="col-md-4"><input placeholder="Buscar" ng-change="search()"  type="text" ng-model="tipo" class="form-control" ></div>
 
+      
+<style>
+/* basic positioning */
+.legend { list-style: none; 
+padding-top: 0px;
+}
+.legend li { float: left; margin-right: 10px;   width: 82px;}
+.legend span { border: 1px solid #ccc; float: left; width: 12px; height: 12px; margin: 2px; }
+/* your colors */
+.legend .apagado { background-color: #E8E8E8; }
+.legend .activado { background-color: #228FFD; }
+.legend .finalizado { background-color: #F58C48; }
+.legend .sinfiltros { background-color: #3EBE84; }
+
+
+
+
+
+</style>
+
+
+      <div class="col-md-4"> 
+      <ul class="legend">
+          <li><span class="apagado"></span> Apagado</li>
+          <li><span class="activado"></span> Activado</li><br>
+          <li><span class="finalizado"></span> Finalizado</li>
+          
+          <li><span class="sinfiltros"></span> Sin Filtros</li>
+        
+      </ul>
+
+      </div>
       <div class="col-md-2"> Cantidad de Registros {[{contador}]}</div>
+
+
     </div>
     <br></br>
 
@@ -260,9 +294,14 @@
 
                 <td  style='background:{[{contact.color}]}; color:{[{contact.font}]};'>
                 
-                <button ng-if="user.nivel == 1" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#reasignar" ng-click='Reasignar(contact)'><i class="fa fa-edit"></i></button>
+               
              
-                <button ng-if="user.nivel == 1 || user.nivel == 2" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#stop" ng-click='Reasignar(contact)'><i class="fa fa-stop"></i></button>
+                <button ng-if=" contact.estado=='Activado'" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#pararcampania" ng-click='Reasignar(contact)'><i class="fa fa-stop"></i></button>
+
+                <button ng-if="contact.estado=='Apagado'" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#activarcampania" ng-click='Reasignar(contact)' ><i class="fa fa-play"></i></button>
+
+                 <button ng-if="user.nivel == 1" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#reasignar" ng-click='Reasignar(contact)'><i class="fa fa-edit"></i></button>
+
                 <button ng-if="user.nivel == 1 || user.nivel == 2" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#eliminar" ng-click='Reasignar(contact)'><i class="fa fa-trash"></i></button>
                 <button class="btn btn-primary btn-sm" ng-click='Admin(contact)'> Administrar <i class="fa fa-chevron-right"></i></button>
                
@@ -489,6 +528,70 @@
     </div>
 
 </div>
+
+
+<!--Model Stop Campania-->
+
+
+
+  <div class="modal fade" id="pararcampania" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Parar Campaña {[{model.nombre}]} </h4>
+        </div>
+        <div class="modal-body">
+
+
+      
+
+      
+          <h4>Desea parar esta campaña</h4>
+
+
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button class="btn btn-primary" type="submit" ng-click="parar(model)">Detener</button>
+  
+          
+        </div>
+      </div>
+    </div>
+
+</div>
+
+  <div class="modal fade" id="activarcampania" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Activar Campaña {[{model.nombre}]} </h4>
+        </div>
+        <div class="modal-body">
+
+
+      
+
+      
+          <h4>Desea activar esta campaña</h4>
+
+
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button class="btn btn-primary" type="submit" ng-click="activar(model)">Activar</button>
+  
+          
+        </div>
+      </div>
+    </div>
+
+</div>
+
 
 <style type="text/css">
   

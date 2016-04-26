@@ -25,6 +25,54 @@ function Controller($scope,$http,$cookies,$filter) {
 
     $scope.discado = false
 
+    
+
+
+    $scope.parar = function(data) 
+    {
+        console.log('Parar',data)
+
+                  $('#pararcampania').modal('hide')
+        $('.modal-backdrop').remove();
+
+        $http.get("/pausarcampania/"+data.id).success(function(response) {
+     
+                $http.get("/campanias").success(function(response) {$scope.clientes = response;
+
+                    $scope.search();
+                   
+                });
+
+                swal({   title: 'Campaña '+data.nombre+' detenida',   type: "success",  timer: 1000,   showConfirmButton: false });
+
+       
+    });
+
+    }
+
+        $scope.activar = function(data) 
+    {
+
+                  $('#activarcampania').modal('hide')
+        $('.modal-backdrop').remove();
+        console.log('Parar',data)
+
+        $http.get("/activarcampania/"+data.id).success(function(response) {
+     
+                $http.get("/campanias").success(function(response) {$scope.clientes = response;
+
+                    $scope.search();
+                   
+                });
+
+                swal({   title: 'Campaña '+data.nombre+' activada',   type: "success",  timer: 1000,   showConfirmButton: false });
+
+       
+    });
+
+    }
+
+
     $scope.discadoget = function(data) 
     {
 
@@ -41,6 +89,7 @@ function Controller($scope,$http,$cookies,$filter) {
     }
 
     $scope.color='#333'
+
 
 
 

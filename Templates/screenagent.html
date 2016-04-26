@@ -303,7 +303,7 @@
       <div class="col-md-3 col-sm-3 panel panel-default btna" ng-click='colgar()'>
 
       <div class=' panel-body btnb'>
-      COLGAR <i class="fa fa-plug"></i> 
+      BREAK <i class="fa fa-coffee" aria-hidden="true"></i>
 
       </div>
 
@@ -330,7 +330,7 @@
       <div class="col-md-3 col-sm-3 panel panel-default btna">
 
       <div class=' panel-body btnb '>
-      TRANSFERIR <i class="fa fa-exchange"></i>
+      SERVICIOS <i class="fa fa-bomb" aria-hidden="true"></i>
 
       </div>
 
@@ -359,7 +359,7 @@
 
   <div class='row animate' ng-if="datoagente.estado__nombre == 'En Pausa'">
 
-
+ <center><span class='espere' ng-show='rosa'> Porfavor espere {[{datatime}]} seg </span></center><br>
   <center><img src="https://s-media-cache-ak0.pinimg.com/originals/44/a0/e6/44a0e61b7fa6e8f1ad0df4789751f088.gif"></center>
 
   </div>
@@ -677,6 +677,13 @@ body {
   color: #101010;
 }
 
+.espere{
+
+  font-size: 17px;
+  text-align: center;
+  font-weight: bold;
+}
+
 
 
 
@@ -690,7 +697,7 @@ body {
   margin-top: -14px;
   font-size: 19px;
   padding-top: 4px;
-  transition: .6s;
+  /*transition: .6s;*/
   width: 313px;
 }
 
@@ -711,7 +718,7 @@ text-align: center;
   font-weight: bold;
   margin-left: 4px;
   font-size: 14px;
-  transition: .5s;
+  /*transition: .5s;*/
   width: 23em;
 
 }

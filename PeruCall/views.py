@@ -309,6 +309,35 @@ def passcampania(request,campania):
 
 	return HttpResponse(data, content_type="application/json")
 
+
+
+
+@login_required(login_url="/ingresar")
+def pausarcampania(request,campania):
+
+	filtros = Filtro.objects.filter(campania_id=campania)
+
+	for f in filtros:
+
+		f.status = 1
+		f.save()
+
+	return HttpResponse('campania stop', content_type="application/json")
+
+@login_required(login_url="/ingresar")
+def activarcampania(request,campania):
+
+	filtros = Filtro.objects.filter(campania_id=campania)
+
+	for f in filtros:
+
+		f.status = 0
+		f.save()
+
+	return HttpResponse('campania stop', content_type="application/json")
+
+
+
 @login_required(login_url="/ingresar")
 def infocampania(request,campania):
 
@@ -804,6 +833,13 @@ def agentescalifica(request,agente):
 		data_dict = ValuesQuerySetToDict(data)
 
 		data = simplejson.dumps(data_dict)
+
+		return HttpResponse(data, content_type="application/json")
+
+@login_required(login_url="/ingresar")
+def getestado(request,agente):
+
+		data = Agentes.objects.get(id=agente).estado.id
 
 		return HttpResponse(data, content_type="application/json")
 
@@ -2713,15 +2749,32 @@ def campanias(request):
 			data[i]['barridos'] = Base.objects.filter(campania_id=data[i]['id'],status=1).count()
 			data[i]['errados'] = Base.objects.filter(campania_id=data[i]['id'],status=2).count()
 
-			if data[i]['cargados'] == data[i]['barridos']:
+			total = Filtro.objects.filter(campania_id=data[i]['id']).count()
+	
+			apagado = Filtro.objects.filter(campania_id=data[i]['id'],status=1).count()
+			activado = Filtro.objects.filter(campania_id=data[i]['id'],status=0).count()
+			
+			#0 Iniciado
+			#1 Apagado
 
-				data[i]['color'] = 'gainsboro'
-				##F2CA95
-				data[i]['font'] = '#000'
 
-			else:
-				data[i]['color'] = '#fff'
-				data[i]['font'] = '#000'
+			if activado > 0:
+				data[i]['estado'] = 'Activado'
+				data[i]['color'] = '#228FFD'
+				data[i]['font'] = '#E3E4E7'
+
+			if apagado == total:
+				data[i]['estado'] = 'Apagado'
+				data[i]['color'] = '#E8E8E8'
+				data[i]['font'] = '#564D4D'
+
+			if total == 0:
+				data[i]['estado'] = 'Sin Filtros'
+				data[i]['color'] = '#3EBE84'
+				data[i]['font'] = '#fff'
+
+			#Apagado = F58C48
+
 
 
 		data_dict = ValuesQuerySetToDict(data)
