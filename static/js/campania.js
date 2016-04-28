@@ -97,9 +97,149 @@ function Controller($scope,$http,$cookies,$filter) {
     
     $http.get("/campanias").success(function(response) {$scope.clientes = response;
 
+    	console.log('Clientes 1',$scope.clientes)
+    	
+
+    	$scope.dato = response[0]
+
+    	
+
+    	console.log('Clientes',$scope.clientes)
+
         $scope.search();
        
     });
+
+
+
+    $scope.filtros = function(data) 
+    {
+
+    	
+
+
+    	
+ 
+    	$http.get("/filtroscampania/"+data.id).success(function(response) {
+
+
+    	if (parseInt(ObjectLength(response))==0){
+
+    		swal({   title: 'La campaña '+data.nombre +' no tiene filtros',   timer: 1000,   showConfirmButton: false });
+         
+
+
+    	}
+    	else{
+
+    		data.a = false
+    		data.b = true
+
+
+    	}
+
+		for( var key in response ) {
+
+				id = response[key].id
+				campania_id = response[key].campania
+				name = response[key].campania__nombre
+				status = response[key].status
+				resultado = response[key].resultado
+				estadoname = response[key].estadoname
+				ciudad = response[key].ciudad
+				segmento = response[key].segmento
+				grupo = response[key].grupo
+
+
+				if(status ==1){
+
+					$scope.clientes.push({ciudad:ciudad,segmento:segmento,grupo:grupo,campania:campania_id,id:id,filtro:'0',nombre:name+' Filtro',estado:status,estadoname:estadoname,color:'#FAF8F8',font:'#564D4D'})
+			
+				}
+
+				else{
+					$scope.clientes.push({ciudad:ciudad,segmento:segmento,grupo:grupo,campania:campania_id,id:id,filtro:'0',nombre:name+' Filtro',estado:status,estadoname:estadoname,color:'#228FFD',font:'#fff'})
+			
+
+
+				}
+
+				}
+
+			$scope.search();
+
+        });
+
+
+    	
+
+    	
+       
+
+    }
+
+      $scope.ocultafiltros = function(data) 
+    {
+
+    	data.a = true
+    	data.b = false
+
+    	
+ 		$http.get("/campanias").success(function(response) {$scope.clientes = response;
+
+                    $scope.search();
+                   
+                });
+
+    	
+       
+
+    }
+
+        $scope.activafiltro = function(contact,index) 
+
+
+
+    {
+
+    	console.log('Contact------',contact)
+    	contact.estado = 0
+    	contact.estadoname="Activado"
+    	contact.color="#228FFD"
+    	contact.font ="#fff"
+
+
+
+        $http.get("/activafiltro/"+contact.id+'/'+contact.campania).success(function(response) {
+
+
+
+
+    });
+
+    }
+
+
+    $scope.desactivafiltro = function(contact,index) 
+
+    {
+    	 contact.estado = 1
+         contact.estadoname="Apagado"
+         contact.color="#FAF8F8"
+    	contact.font ="#564D4D"
+
+         
+
+         $http.get("/desactivafiltro/"+contact.id+'/'+contact.campania).success(function(response) {
+
+    });
+
+
+    }
+
+
+
+
 
     $http.get("/empresas").success(function(response) {$scope.empresas = response[0];
 

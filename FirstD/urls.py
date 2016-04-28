@@ -59,6 +59,7 @@ urlpatterns = patterns('',
     url(r'^agentegrafico/$','PeruCall.views.agentegrafico'),
     url(r'^getanexo/(\w+)/$','PeruCall.views.getanexo'),
     url(r'^pausarcampania/(\w+)/$','PeruCall.views.pausarcampania'),
+    url(r'^filtroscampania/(\w+)/$','PeruCall.views.filtroscampania'),
 
 
 

@@ -2607,6 +2607,32 @@ def detalleagente(request,user):
 	return HttpResponse(data, content_type="application/json")
 
 @login_required(login_url="/ingresar")
+def filtroscampania(request,campania):
+
+	filtros = Filtro.objects.filter(campania_id=campania).values('campania','id','resultado','campania__nombre','ciudad','segmento','grupo','status')
+
+	for i in range(len(filtros)):
+
+		if filtros[i]['status']==1:
+
+			filtros[i]['estadoname'] = 'Apagado'
+
+		if filtros[i]['status']==0:
+
+			filtros[i]['estadoname'] = 'Activado'
+
+
+
+
+
+	data_dict = ValuesQuerySetToDict(filtros)
+
+	data = simplejson.dumps(data_dict)
+
+	return HttpResponse(data, content_type="application/json")
+
+
+@login_required(login_url="/ingresar")
 def uploadCampania(request):
 
 	if request.method == 'POST':
@@ -2754,6 +2780,11 @@ def campanias(request):
 			data[i]['cargados'] = Base.objects.filter(campania_id=data[i]['id']).count()
 			data[i]['barridos'] = Base.objects.filter(campania_id=data[i]['id'],status=1).count()
 			data[i]['errados'] = Base.objects.filter(campania_id=data[i]['id'],status=2).count()
+			data[i]['filtro'] = '1'
+			data[i]['a'] = True
+			data[i]['b'] = False
+
+
 
 			total = Filtro.objects.filter(campania_id=data[i]['id']).count()
 	
@@ -2766,23 +2797,26 @@ def campanias(request):
 
 			if activado > 0:
 				data[i]['estado'] = 'Activado'
-				data[i]['color'] = '#228FFD'
-				data[i]['font'] = '#E3E4E7'
+				data[i]['color'] = '#fff'
+				data[i]['font'] = '#564D4D'
 
 			if apagado == total:
 				data[i]['estado'] = 'Apagado'
-				data[i]['color'] = '#E8E8E8'
+				data[i]['color'] = '#fff'
 				data[i]['font'] = '#564D4D'
+
+			
 
 			if total == 0:
 				data[i]['estado'] = 'Sin Filtros'
-				data[i]['color'] = '#3EBE84'
-				data[i]['font'] = '#fff'
+				data[i]['color'] = '#fff'
+				data[i]['font'] = '#564D4D'
+
+			
 
 			#Apagado = F58C48
 
-
-
+	
 		data_dict = ValuesQuerySetToDict(data)
 
 		data = simplejson.dumps(data_dict)

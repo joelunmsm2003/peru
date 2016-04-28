@@ -219,10 +219,10 @@ padding-top: 0px;
       <div class="col-md-4"> 
       <ul class="legend">
           <li><span class="apagado"></span> Apagado</li>
-          <li><span class="activado"></span> Activado</li><br>
+          <li><span class="activado"></span> Activado</li>
           <li><span class="finalizado"></span> Finalizado</li>
           
-          <li><span class="sinfiltros"></span> Sin Filtros</li>
+          <!--<li><span class="sinfiltros"></span> Sin Filtros</li>-->
         
       </ul>
 
@@ -232,6 +232,9 @@ padding-top: 0px;
 
     </div>
     <br></br>
+
+ 
+
 
     <table class="table table-condensed table-hover ">
     
@@ -272,39 +275,68 @@ padding-top: 0px;
                 </tfoot>
 
 
-              <tr   ng-repeat="contact in pagedItems[currentPage]  " ts-repeat>
+         
+
+              <tr   ng-repeat="contact in clientes| orderBy:'nombre' " ts-repeat>
+
+
 
                 <td style='background:{[{contact.color}]}; color:{[{contact.font}]};'>{[{contact.id}]} </td>
+
+        
                 <td style='background:{[{contact.color}]}; color:{[{contact.font}]};'>{[{contact.nombre}]} </td>
                 
-                <td style='background:{[{contact.color}]}; color:{[{contact.font}]};' ng-if="user.nivel == 4" >{[{contact.supervisor__user__empresa__nombre}]} </td>
+                <td style='background:{[{contact.color}]}; color:{[{contact.font}]};'ng-if="user.nivel == 4" >{[{contact.supervisor__user__empresa__nombre}]} </td>
+
                 <td style='background:{[{contact.color}]}; color:{[{contact.font}]};'> {[{contact.cartera__nombre}]}</td>
-                <td style='background:{[{contact.color}]}; color:{[{contact.font}]};'> {[{contact.estado}]}</td>
-                
-               
-                <td  style='background:{[{contact.color}]}; color:{[{contact.font}]};'>{[{contact.cargados}]} | {[{contact.barridos}]}  | {[{contact.errados}]}  </td>
 
-               
+                <td ng-if="contact.filtro=='1'" style='background:{[{contact.color}]}; color:{[{contact.font}]};'> {[{contact.estado}]}</td>
 
-                <td style='background:{[{contact.color}]}; color:{[{contact.font}]};' >{[{contact.totalagentes}]} | {[{contact.conectados}]}</td>
-                <td style='background:{[{contact.color}]}; color:{[{contact.font}]};'>{[{contact.fecha_cargada}]}</td>
+
+                <td ng-if="contact.filtro=='0'"  style='background:{[{contact.color}]}; color:{[{contact.font}]};'> {[{contact.estadoname}]}</td>
+
+                <td ng-if="contact.filtro=='1'" style='background:{[{contact.color}]}; color:{[{contact.font}]};'>{[{contact.cargados}]} | {[{contact.barridos}]}  | {[{contact.errados}]}  </td>
+
+                <td ng-if="contact.filtro=='0'" style='background:{[{contact.color}]}; color:{[{contact.font}]};'>{[{contact.ciudad | limitTo: 30}]}  </td>
+
+                <td ng-if="contact.filtro=='1'" style='background:{[{contact.color}]}; color:{[{contact.font}]};' >{[{contact.totalagentes}]} | {[{contact.conectados}]}</td>
+
+                <td ng-if="contact.filtro=='0'" style='background:{[{contact.color}]}; color:{[{contact.font}]};' >{[{contact.segmento}]} </td>
+
+                <td ng-if="contact.filtro=='1'" style='background:{[{contact.color}]}; color:{[{contact.font}]};'>{[{contact.fecha_cargada}]}</td>
+
+                <td ng-if="contact.filtro=='0'" style='background:{[{contact.color}]}; color:{[{contact.font}]};'>{[{contact.grupo}]}</td>
                 
                 <td style='background:{[{contact.color}]}; color:{[{contact.font}]};'>{[{contact.supervisor__user__first_name}]}</td>
-                <td style='background:{[{contact.color}]}; color:{[{contact.font}]};' ng-if="user.nivel == 1">{[{contact.password}]}</td>
+                <td style='background:{[{contact.color}]}; color:{[{contact.font}]};'ng-if="user.nivel == 1">{[{contact.password}]}</td>
 
-                <td  style='background:{[{contact.color}]}; color:{[{contact.font}]};'>
+
+                <td ng-if="contact.filtro=='1'">
                 
                
              
-                <button ng-if=" contact.estado=='Activado'" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#pararcampania" ng-click='Reasignar(contact)'><i class="fa fa-stop"></i></button>
+                <button ng-show="contact.a" class="btn btn-primary btn-sm" ng-click='filtros(contact)'><i class="fa fa-plus"></i></button>
+                <button ng-show="contact.b" class="btn btn-primary btn-sm" ng-click='ocultafiltros(contact)'><i class="fa fa-minus"></i></button>
 
-                <button ng-if="contact.estado=='Apagado'" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#activarcampania" ng-click='Reasignar(contact)' ><i class="fa fa-play"></i></button>
+
 
                  <button ng-if="user.nivel == 1" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#reasignar" ng-click='Reasignar(contact)'><i class="fa fa-edit"></i></button>
 
                 <button ng-if="user.nivel == 1 || user.nivel == 2" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#eliminar" ng-click='Reasignar(contact)'><i class="fa fa-trash"></i></button>
                 <button class="btn btn-primary btn-sm" ng-click='Admin(contact)'> Administrar <i class="fa fa-chevron-right"></i></button>
-               
+
+            
+   
+
+                </td>
+
+                <td  ng-if="contact.filtro=='0'">
+
+                  <a ng-click="desactivafiltro(contact,$index)" ng-if="contact.estado == 0" class="btn btn-primary" ><center><i class="fa fa-stop"></i></center></a>
+
+
+                  <a ng-click="activafiltro(contact,$index)" ng-if="contact.estado == 1" class="btn btn-primary"  ><center><i class="fa fa-play"></i></center> </a>
+
 
                 </td>
 
