@@ -2856,7 +2856,7 @@ def nivel(request):
 
 	if nivel == 4: #Manager
 
-		nivel = Nivel.objects.all().exclude(id__in=[2,3,4]).values('id','nombre')
+		nivel = Nivel.objects.all().exclude(id__in=[2,3]).values('id','nombre')
 
 
 	if nivel == 2: #Supervisores
