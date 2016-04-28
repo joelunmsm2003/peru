@@ -248,8 +248,7 @@ padding-top: 0px;
                     <th>Nombre <a ng-click="sort_by('nombre',currentPage)"><i class="icon-sort"></i></a></th>
                     <th ng-if="user.nivel == 4">Empresa <a ng-click="sort_by('supervisor__user__empresa__nombre',currentPage)"><i class="icon-sort"></i></a></th>
                   <th>Cartera <a ng-click="sort_by('cartera__nombre',currentPage)"><i class="icon-sort"></i></a></th>
-                  <th>Estado <a ng-click="sort_by('status',currentPage)"><i class="icon-sort"></i></a></th>
-                 
+                  
                   
                   <th>Cargados| Barridos | Errados <a ng-click="sort_by('empresa',currentPage)"><i class="icon-sort"></i></a></th>
                   <th>Agentes | Conectados <a ng-click="sort_by('nivel',currentPage)"><i class="icon-sort"></i></a></th>
@@ -290,10 +289,6 @@ padding-top: 0px;
 
                 <td style='background:{[{contact.color}]}; color:{[{contact.font}]};'> {[{contact.cartera__nombre}]}</td>
 
-                <td ng-if="contact.filtro=='1'" style='background:{[{contact.color}]}; color:{[{contact.font}]};'> {[{contact.estado}]}</td>
-
-
-                <td ng-if="contact.filtro=='0'"  style='background:{[{contact.color}]}; color:{[{contact.font}]};'> {[{contact.estadoname}]}</td>
 
                 <td ng-if="contact.filtro=='1'" style='background:{[{contact.color}]}; color:{[{contact.font}]};'>{[{contact.cargados}]} | {[{contact.barridos}]}  | {[{contact.errados}]}  </td>
 

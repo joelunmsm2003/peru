@@ -2796,19 +2796,19 @@ def campanias(request):
 
 
 			if activado > 0:
-				data[i]['estado'] = 'Activado'
+				data[i]['estado'] = ''
 				data[i]['color'] = '#fff'
 				data[i]['font'] = '#564D4D'
 
 			if apagado == total:
-				data[i]['estado'] = 'Apagado'
+				data[i]['estado'] = ''
 				data[i]['color'] = '#fff'
 				data[i]['font'] = '#564D4D'
 
 			
 
 			if total == 0:
-				data[i]['estado'] = 'Sin Filtros'
+				data[i]['estado'] = ''
 				data[i]['color'] = '#fff'
 				data[i]['font'] = '#564D4D'
 
