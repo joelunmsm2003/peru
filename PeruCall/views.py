@@ -684,6 +684,13 @@ def cartera(request):
 	
 	return render(request, 'cartera.html',{})
 
+
+@login_required(login_url="/ingresar")
+def reportedetallado(request):
+	
+	return render(request, 'reportedetallado.html',{})
+
+
 @login_required(login_url="/ingresar")
 def reporteg(request,campania):
 	
@@ -2798,19 +2805,19 @@ def campanias(request):
 			if activado > 0:
 				data[i]['estado'] = ''
 				data[i]['color'] = '#fff'
-				data[i]['font'] = '#564D4D'
+				data[i]['font'] = '#4F4242'
 
 			if apagado == total:
 				data[i]['estado'] = ''
 				data[i]['color'] = '#fff'
-				data[i]['font'] = '#564D4D'
+				data[i]['font'] = '#4F4242'
 
 			
 
 			if total == 0:
 				data[i]['estado'] = ''
 				data[i]['color'] = '#fff'
-				data[i]['font'] = '#564D4D'
+				data[i]['font'] = '#4F4242'
 
 			
 

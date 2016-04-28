@@ -73,6 +73,18 @@ function Controller($scope,$http,$cookies,$filter) {
     }
 
 
+    $scope.eliminar = function(data,index) 
+
+    {
+
+    $scope.model = data
+    $scope.model.index = index
+
+    console.log('index',index)
+    
+    };
+
+
     $scope.discadoget = function(data) 
     {
 
@@ -111,11 +123,76 @@ function Controller($scope,$http,$cookies,$filter) {
     });
 
 
+      $scope.eliminarfiltro = function(data) 
+
+    {
+        $('#eliminarfiltro').modal('hide')
+        $('.modal-backdrop').remove();
+
+        $('#eliminar').modal('hide')
+        $('.modal-backdrop').remove();
+
+        console.log('data',data)
+
+      
+        
+
+        var todo={
+
+            dato: data,
+            done:false
+        }
+
+        
+
+        $http({
+
+        url: "/eliminarfiltro/",
+        data: todo,
+        method: 'POST',
+        headers: {
+        'X-CSRFToken': $cookies['csrftoken']
+        }
+        }).
+        success(function(r) {
+
+            swal({      title: 'Filtro eliminado :(',   timer: 1500,   showConfirmButton: false });
+
+            $http.get("/campanias").success(function(response) {
+
+                $scope.clientes = response;
+                $scope.search();
+
+
+            })
+
+
+            
+          
+
+
+            
+
+        
+
+
+
+
+    
+    
+        })
+        
+
+    
+    };
+
+
 
     $scope.filtros = function(data) 
     {
 
     	
+
 
 
     	
@@ -153,7 +230,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
 				if(status ==1){
 
-					$scope.clientes.push({ciudad:ciudad,segmento:segmento,grupo:grupo,campania:campania_id,id:id,filtro:'0',nombre:name+' Filtro',estado:status,estadoname:estadoname,color:'#FAF8F8',font:'#564D4D'})
+					$scope.clientes.push({ciudad:ciudad,segmento:segmento,grupo:grupo,campania:campania_id,id:id,filtro:'0',nombre:name+' Filtro',estado:status,estadoname:estadoname,color:'#E8E8E8',font:'#564D4D'})
 			
 				}
 
@@ -225,7 +302,7 @@ function Controller($scope,$http,$cookies,$filter) {
     {
     	 contact.estado = 1
          contact.estadoname="Apagado"
-         contact.color="#FAF8F8"
+         contact.color="#E8E8E8"
     	contact.font ="#564D4D"
 
          
@@ -288,7 +365,7 @@ function Controller($scope,$http,$cookies,$filter) {
     }
     else{
 
-        window.location="/adminCampania/"+contact.id
+        window.location="/filtros/"+contact.id
 
     }
 

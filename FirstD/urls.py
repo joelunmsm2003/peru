@@ -60,6 +60,7 @@ urlpatterns = patterns('',
     url(r'^getanexo/(\w+)/$','PeruCall.views.getanexo'),
     url(r'^pausarcampania/(\w+)/$','PeruCall.views.pausarcampania'),
     url(r'^filtroscampania/(\w+)/$','PeruCall.views.filtroscampania'),
+    url(r'^reportedetallado/$','PeruCall.views.reportedetallado'),
 
 
 
@@ -81,7 +82,7 @@ urlpatterns = patterns('',
     url(r'^agentesupervisor/(\w+)/$', 'PeruCall.views.agentesupervisor'),
     url(r'^agentenosupervisor/(\w+)/$', 'PeruCall.views.agentenosupervisor'),
     url(r'^detalleagente/(\w+)/$', 'PeruCall.views.detalleagente'),
-    url(r'^supervisordetalle/(\w+)/$', 'PeruCall.views.supervisordetalle'),
+
 
     url(r'^agregarsupervisor/', 'PeruCall.views.agregarsupervisor'),
     url(r'^quitarsupervisor/', 'PeruCall.views.quitarsupervisor'),
