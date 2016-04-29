@@ -273,26 +273,19 @@ padding-top: 0px;
                     </td>
                 </tfoot>
 
-
-         
-
-              <tr   ng-repeat="contact in clientes| orderBy:['-id','-id_filtro'] " ts-repeat>
-
-
+                <tr ng-repeat="contact in clientes| orderBy:['-id','-id_filtro'] " ts-repeat>
 
                 <td style='background:{[{contact.color}]}; color:{[{contact.font}]};'>{[{contact.id}]} </td>
 
-        
                 <td style='background:{[{contact.color}]}; color:{[{contact.font}]};'>{[{contact.nombre}]} </td>
                 
                 <td style='background:{[{contact.color}]}; color:{[{contact.font}]};' ng-if="user.nivel == 4" >{[{contact.supervisor__user__empresa__nombre}]} </td>
 
                 <td style='background:{[{contact.color}]}; color:{[{contact.font}]};'> {[{contact.cartera__nombre}]}</td>
 
-
                 <td ng-if="contact.filtro=='1'" style='background:{[{contact.color}]}; color:{[{contact.font}]};'>{[{contact.cargados}]} | {[{contact.barridos}]}  | {[{contact.errados}]}  </td>
 
-                <td ng-if="contact.filtro=='0'" style='background:{[{contact.color}]}; color:{[{contact.font}]};'>{[{contact.ciudad | limitTo: 30}]}  </td>
+                <td ng-if="contact.filtro=='0'" style='background:{[{contact.color}]}; color:{[{contact.font}]};'>{[{contact.ciudad | limitTo: 30}]} </td>
 
                 <td ng-if="contact.filtro=='1'" style='background:{[{contact.color}]}; color:{[{contact.font}]};' >{[{contact.totalagentes}]} | {[{contact.conectados}]}</td>
 
@@ -308,24 +301,17 @@ padding-top: 0px;
 
                 <td ng-if="contact.filtro=='1'">
                 
-               
-             
                 <button ng-show="contact.a" class="btn btn-primary btn-sm" ng-click='filtros(contact)'><i class="fa fa-plus"></i></button>
                 <button ng-show="contact.b" class="btn btn-primary btn-sm" ng-click='ocultafiltros(contact)'><i class="fa fa-minus"></i></button>
 
-
-
-                 <button ng-if="user.nivel == 1" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#reasignar" ng-click='Reasignar(contact)'><i class="fa fa-edit"></i></button>
+                <button ng-if="user.nivel == 1" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#reasignar" ng-click='Reasignar(contact)'><i class="fa fa-edit"></i></button>
 
                 <button ng-if="user.nivel == 1 || user.nivel == 2" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#eliminar" ng-click='Reasignar(contact)'><i class="fa fa-trash"></i></button>
                 <button class="btn btn-primary btn-sm" ng-click='Admin(contact)'> Administrar <i class="fa fa-chevron-right"></i></button>
 
-            
-   
-
                 </td>
 
-                <td  ng-if="contact.filtro=='0'">
+                <td ng-if="contact.filtro=='0'">
 
                   <a ng-click="eliminar(contact,$index)" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#eliminarfiltro"><i class="icon-trash"></i> </a>
 
@@ -334,13 +320,9 @@ padding-top: 0px;
 
                   <a ng-click="activafiltro(contact,$index)" ng-if="contact.estado == 1" class="btn btn-primary btn-sm"  ><center><i class="fa fa-play"></i></center> </a>
 
-
                 </td>
 
-
-
-
-              </tr>
+                </tr>
 
 
         </tbody>
@@ -420,7 +402,7 @@ padding-top: 0px;
           <div class="col-md-4">
           <div class="form-group">
           <label>Cantidad de Canales</label>
-          <input type="number"  name = 'canales' class="form-control" placeholder="Canales" required ="">
+          <input type="number"  ng-model ='canal' ng-change='cantcanal(canal)' name = 'canales' class="form-control" placeholder="Canales" required ="">
           </div>
           </div>
 

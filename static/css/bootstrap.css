@@ -3350,7 +3350,6 @@ select[multiple].input-group-sm>.form-control, select[multiple].input-group-sm>.
 }.navbar-default {
     background-color: #b71c1c ;
     border-color: #b71c1c ;
-    opacity: .88;
     font-weight: bold;
 }
 .navbar-default .navbar-brand {
@@ -4528,9 +4527,12 @@ button.close {
     opacity: .5;
 }
 .modal-header {
-    min-height: 16.43px;
-    padding: 15px;
-    border-bottom: 1px solid #e5e5e5;
+  min-height: 16.43px;
+  padding: 15px;
+  border-bottom: 1px solid #e5e5e5;
+  background: #B71C1C;
+  color: #fff;
+  opacity: .9;
 }
 .modal-header .close {
     margin-top: -2px;

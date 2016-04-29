@@ -1903,11 +1903,13 @@ def carteras(request):
 	nivel = AuthUser.objects.get(id=id).nivel.id
 	empresa = AuthUser.objects.get(id=id).empresa.id
 
+	print 'empresa',empresa
+
 	if request.method == 'GET':
 
 		if nivel == 1:
 
-			data = Carteraempresa.objects.filter(empresa_id=empresa).values('id','cartera__nombre','empresa__nombre','cartera_id').order_by('-id')
+			data = Carteraempresa.objects.filter(empresa_id=empresa).values('id','cartera__nombre','empresa__nombre','cartera_id','user__first_name').order_by('-id')
 
 		if nivel == 2:
 
@@ -1916,16 +1918,24 @@ def carteras(request):
 
 		if nivel == 3:
 
-			data = Carteraempresa.objects.filter(empresa_id=empresa).values('id','cartera__nombre','empresa__nombre','cartera_id').order_by('-id')
+			data = Carteraempresa.objects.filter(empresa_id=empresa).values('id','cartera__nombre','empresa__nombre','cartera_id','user__first_name').order_by('-id')
 
 		if nivel == 4:
 
-			data = Carteraempresa.objects.all().values('id','cartera__nombre','empresa__nombre','cartera_id').order_by('-id')
+			data = Carteraempresa.objects.all().values('id','cartera__nombre','empresa__nombre','cartera_id','user__first_name').order_by('-id')
 
 		if nivel == 5:
 
-			data = Carteraempresa.objects.filter(empresa_id=empresa).values('id','cartera__nombre','empresa__nombre','cartera_id').order_by('-id')
+			data = Carteraempresa.objects.filter(empresa_id=empresa).values('id','cartera__nombre','empresa__nombre','cartera_id','user__first_name').order_by('-id')
 
+
+		
+		fmt = '%Y-%m-%d %H:%M:%S %Z'
+
+		for i in range(len(data)):
+
+			data[i]['fecha'] = Carteraempresa.objects.get(id=data[i]['id']).fecha.strftime(fmt)
+		
 
 
 
@@ -1946,8 +1956,7 @@ def carteras(request):
 
 			id_cartera = Cartera.objects.all().values('id').order_by('-id')[0]['id']
 
-
-			Carteraempresa(cartera_id=id_cartera,empresa_id=empresa).save()
+			Carteraempresa(cartera_id=id_cartera,empresa_id=empresa,user_id=id).save()
 
 			data = Cartera.objects.get(id=id_cartera)
 

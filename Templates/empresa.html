@@ -17,10 +17,6 @@
 
 
 
-
-
-
-
   <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
@@ -53,7 +49,7 @@
           <div class="col-md-6">
           <div class="form-group">
           <label>Licencias</label>
-          <input type="number" ng-model="agregar.licencias" class="form-control" placeholder="Licencias" required ="" >
+          <input type="number" ng-model="agregar.licencias" ng-change="canal(agregar.licencias)" class="form-control" placeholder="Licencias" required ="" >
           </div>
           </div>
 

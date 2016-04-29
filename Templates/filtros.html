@@ -227,7 +227,7 @@
 
                       <thead>
                           <tr>
-                          
+                          <th >ID </th>
                           <th >Estado </th>
                           <th >Botonera </th>
                           <th >{[{header.statusf}]} </th>
@@ -241,7 +241,7 @@
                       </thead>
                        
                       <tr  ng-repeat="resultado in listafiltros " class='active' ts-repeat>
-                          
+                      <td style='background:{[{resultado.color}]}; color:{[{resultado.colort}]}'>{[{resultado.id}]}</td> 
                       <td style='background:{[{resultado.color}]}; color:{[{resultado.colort}]}'>{[{resultado.statusname}]}</td> 
                       <td style='background:{[{resultado.color}]}; color:{[{resultado.colort}]}'>{[{resultado.resultado}]}</td> 
                       <td style='background:{[{resultado.color}]}; color:{[{resultado.colort}]}'>{[{resultado.ciudad}]}</td>

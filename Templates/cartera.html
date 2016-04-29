@@ -118,6 +118,10 @@
                   <th>Cartera <a ng-click="sort_by('cartera__nombre',currentPage)"><i class="icon-sort"></i></a></th>
 
                   <th ng-if="user.nivel == 4">Empresa <a ng-click="sort_by('empresa__nombre',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th>Creador <a ng-click="sort_by('cartera__nombre',currentPage)"><i class="icon-sort"></i></a></th>
+                   <th>Fecha de Creacion <a ng-click="sort_by('cartera__nombre',currentPage)"><i class="icon-sort"></i></a></th>
+
+
            
                   <th></th>
         
@@ -140,7 +144,9 @@
                 <td>{[{contact.id}]} </td>
                 <td>{[{contact.cartera__nombre}]} </td>
                 <td ng-if="user.nivel == 4">{[{contact.empresa__nombre}]}</td>
-      
+                <td>{[{contact.user__first_name}]} </td>
+                <td>{[{contact.fecha}]} </td>
+        
                 <td><center>
 
 

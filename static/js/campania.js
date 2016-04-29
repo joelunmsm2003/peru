@@ -163,6 +163,18 @@ function Controller($scope,$http,$cookies,$filter) {
     };
 
 
+    $scope.cantcanal = function(data) 
+    {
+
+        console.log(data)
+        if(data < 1){
+
+            $scope.canal =1
+        }
+
+    }
+
+
 
     $scope.filtros = function(data) 
     {

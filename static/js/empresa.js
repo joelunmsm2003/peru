@@ -18,6 +18,18 @@ function Controller($scope,$http,$cookies,$filter) {
     $scope.pagedItems = [];
     $scope.currentPage = 0;
 
+        $scope.canal = function(data) 
+    {
+
+        console.log(data)
+        if(data < 1){
+
+            $scope.agregar.licencias =1
+        }
+
+    }
+
+
 
     
     $http.get("/empresas").success(function(response) {$scope.clientes = response;

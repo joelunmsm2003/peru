@@ -496,6 +496,9 @@ class Carteraempresa(models.Model):
     cartera = models.ForeignKey(Cartera, db_column='cartera')
     empresa = models.ForeignKey('Empresa', db_column='empresa')
     privilegio = models.IntegerField(blank=True, null=True)
+    fecha =models.TimeField(blank=True, null=True)
+    user = models.ForeignKey('AuthUser', db_column='user')
+
 
     class Meta:
         managed = False
