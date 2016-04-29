@@ -25,9 +25,6 @@ function Controller($scope,$http,$cookies,$filter) {
 
     $scope.discado = false
 
-    
-
-
     $scope.parar = function(data) 
     {
         console.log('Parar',data)
@@ -44,7 +41,6 @@ function Controller($scope,$http,$cookies,$filter) {
                 });
 
                 swal({   title: 'Campaña '+data.nombre+' detenida',   type: "success",  timer: 1000,   showConfirmButton: false });
-
        
     });
 
@@ -111,10 +107,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
     	console.log('Clientes 1',$scope.clientes)
     	
-
     	$scope.dato = response[0]
-
-    	
 
     	console.log('Clientes',$scope.clientes)
 
@@ -163,27 +156,10 @@ function Controller($scope,$http,$cookies,$filter) {
                 $scope.clientes = response;
                 $scope.search();
 
-
             })
-
-
-            
-          
-
-
-            
-
-        
-
-
-
-
-    
     
         })
         
-
-    
     };
 
 
@@ -191,12 +167,6 @@ function Controller($scope,$http,$cookies,$filter) {
     $scope.filtros = function(data) 
     {
 
-    	
-
-
-
-    	
- 
     	$http.get("/filtroscampania/"+data.id).success(function(response) {
 
 
@@ -204,14 +174,11 @@ function Controller($scope,$http,$cookies,$filter) {
 
     		swal({   title: 'La campaña '+data.nombre +' no tiene filtros',   timer: 1000,   showConfirmButton: false });
          
-
-
     	}
     	else{
 
     		data.a = false
     		data.b = true
-
 
     	}
 
@@ -230,12 +197,13 @@ function Controller($scope,$http,$cookies,$filter) {
 
 				if(status ==1){
 
-					$scope.clientes.push({ciudad:ciudad,segmento:segmento,grupo:grupo,campania:campania_id,id:id,filtro:'0',nombre:name+' Filtro',estado:status,estadoname:estadoname,color:'#E8E8E8',font:'#564D4D'})
+					$scope.clientes.push({ciudad:ciudad,segmento:segmento,grupo:grupo,campania:campania_id,id:campania_id,filtro:'0',nombre:name,estado:status,estadoname:estadoname,color:'#E8E8E8',font:'#564D4D',id_filtro:id})
 			
 				}
 
 				else{
-					$scope.clientes.push({ciudad:ciudad,segmento:segmento,grupo:grupo,campania:campania_id,id:id,filtro:'0',nombre:name+' Filtro',estado:status,estadoname:estadoname,color:'#228FFD',font:'#fff'})
+
+					$scope.clientes.push({ciudad:ciudad,segmento:segmento,grupo:grupo,campania:campania_id,id:campania_id,filtro:'0',nombre:name,estado:status,estadoname:estadoname,color:'#228FFD',font:'#fff',id_filtro:id})
 			
 
 
@@ -287,7 +255,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
 
 
-        $http.get("/activafiltro/"+contact.id+'/'+contact.campania).success(function(response) {
+        $http.get("/activafiltro/"+contact.id_filtro+'/'+contact.campania).success(function(response) {
 
 
 
@@ -307,7 +275,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
          
 
-         $http.get("/desactivafiltro/"+contact.id+'/'+contact.campania).success(function(response) {
+         $http.get("/desactivafiltro/"+contact.id_filtro+'/'+contact.campania).success(function(response) {
 
     });
 
@@ -457,10 +425,6 @@ function Controller($scope,$http,$cookies,$filter) {
 
     $scope.addNew=function(agregar){
 
-      
-
-
-
         var todo={
 
             add: "New",
@@ -479,13 +443,10 @@ function Controller($scope,$http,$cookies,$filter) {
         success(function(data) {
 
        swal({    title: "Empresa "+data +" agregado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Cerrar",   }, function(){   window.location.href = "/empresa" });
-
          
          $scope.agregar=""
 
-
         })
-
 
     };
 
@@ -577,8 +538,8 @@ function Controller($scope,$http,$cookies,$filter) {
 
 
             swal({ 
-                title: "Ingrese clave secreta",   
-                   
+
+                title: "Ingrese clave secreta",      
                 type: "input",   
                 confirmButtonColor: "#b71c1c",
                 showCancelButton: true,   
@@ -657,11 +618,6 @@ function Controller($scope,$http,$cookies,$filter) {
 
         }
 
-            
-
-
-
-
     };
 
     $http.get("/getempresa").success(function(response) {
@@ -684,17 +640,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
     $scope.sort_by = function(newSortingOrder,currentPage) {
 
-
         
-        function sortByKey(array, key) {
-            return array.sort(function(a, b) {
-            var x = a[key]; var y = b[key];
-            return ((x < y) ? -1 : ((x > y) ? 1 : 0));
-            });
-        }
-
-    
-
         function sortByKey(array, key) {
             return array.sort(function(a, b) {
             var x = a[key]; var y = b[key];
@@ -707,7 +653,6 @@ function Controller($scope,$http,$cookies,$filter) {
             $scope.reverse = !$scope.reverse;
 
         $scope.sortingOrder = newSortingOrder;
-
 
         people = sortByKey($scope.clientes, newSortingOrder);
 
@@ -724,9 +669,6 @@ function Controller($scope,$http,$cookies,$filter) {
         $scope.search()
 
 
-
-
-
         // icon setup
         $('th i').each(function(){
             // icon reset
@@ -740,9 +682,7 @@ function Controller($scope,$http,$cookies,$filter) {
     };
 
     $scope.search = function () {
-
         
-        console.log('search')
 
         String.prototype.capitalizeFirstLetter = function() {
 

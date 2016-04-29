@@ -1361,7 +1361,7 @@ def eliminarfiltro(request):
 
 	if request.method == 'POST':
 
-		id_filtro= json.loads(request.body)['dato']['id']
+		id_filtro= json.loads(request.body)['dato']['id_filtro']
 
 		Filtro.objects.get(id=id_filtro).delete()
 
@@ -2616,7 +2616,7 @@ def detalleagente(request,user):
 @login_required(login_url="/ingresar")
 def filtroscampania(request,campania):
 
-	filtros = Filtro.objects.filter(campania_id=campania).values('campania','id','resultado','campania__nombre','ciudad','segmento','grupo','status')
+	filtros = Filtro.objects.filter(campania_id=campania).values('campania','id','resultado','campania__nombre','ciudad','segmento','grupo','status').order_by('-id')
 
 	for i in range(len(filtros)):
 

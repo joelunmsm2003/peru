@@ -276,7 +276,7 @@ padding-top: 0px;
 
          
 
-              <tr   ng-repeat="contact in clientes| orderBy:'nombre' " ts-repeat>
+              <tr   ng-repeat="contact in clientes| orderBy:['-id','-id_filtro'] " ts-repeat>
 
 
 
