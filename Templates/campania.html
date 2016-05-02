@@ -313,14 +313,16 @@ padding-top: 0px;
 
                 <td ng-if="contact.filtro=='0'">
 
-                  <a ng-click="eliminar(contact,$index)" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#eliminarfiltro"><i class="icon-trash"></i> </a>
+                  <a ng-if="contact.ciudad != 'Filtro 1'" ng-click="eliminar(contact,$index)" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#eliminarfiltro"><i class="icon-trash"></i> </a>
 
-                  <a ng-click="desactivafiltro(contact,$index)" ng-if="contact.estado == 0" class="btn btn-primary btn-sm" ><center><i class="fa fa-stop"></i></center></a>
+                  <a ng-if="contact.ciudad != 'Filtro 1'" ng-click="desactivafiltro(contact,$index)" ng-if="contact.estado == 0" class="btn btn-primary btn-sm" ><center><i class="fa fa-stop"></i></center></a>
 
 
-                  <a ng-click="activafiltro(contact,$index)" ng-if="contact.estado == 1" class="btn btn-primary btn-sm"  ><center><i class="fa fa-play"></i></center> </a>
+                  <a ng-if="contact.ciudad != 'Filtro 1'" ng-click="activafiltro(contact,$index)" ng-if="contact.estado == 1" class="btn btn-primary btn-sm"  ><center><i class="fa fa-play"></i></center> </a>
 
                 </td>
+
+              
 
                 </tr>
 
