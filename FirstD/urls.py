@@ -61,7 +61,7 @@ urlpatterns = patterns('',
     url(r'^pausarcampania/(\w+)/$','PeruCall.views.pausarcampania'),
     url(r'^filtroscampania/(\w+)/$','PeruCall.views.filtroscampania'),
     url(r'^reportedetallado/$','PeruCall.views.reportedetallado'),
-
+    url(r'^agesup/(\w+)/$','PeruCall.views.agesup'),
 
 
     url(r'^agentescalifica/(\w+)/$','PeruCall.views.agentescalifica'),

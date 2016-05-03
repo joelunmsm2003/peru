@@ -234,6 +234,12 @@ function Controller($scope,$http,$cookies,$filter) {
 
     });
 
+     $http.get("/supervisores").success(function(response) {$scope.supervisores = response;
+
+      
+       
+    });
+
 
     $http.get("/nivel").success(function(response) {$scope.nivel = response;
 
@@ -299,6 +305,29 @@ function Controller($scope,$http,$cookies,$filter) {
 
         location.href = "/dashboard/"+data.agente.id+'/'+data.examen.id
 
+
+
+    }
+    $scope.getagentes = function(data) 
+
+    {
+
+        console.log(data)
+
+
+         $http.get("/agesup/"+data.supervisor.user).success(function(response) {
+
+
+            console.log('agentes',response)
+
+
+            $scope.agentes = response;
+
+      
+       
+            });
+
+     
 
 
     }

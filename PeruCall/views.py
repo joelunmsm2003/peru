@@ -2204,13 +2204,28 @@ def header(request,id_campania):
 		data[i]['statusg'] = data[i]['statusg'].title()
 		data[i]['statush'] = data[i]['statush'].title()
 
-
 	data_dict = ValuesQuerySetToDict(data)
 
 	data = simplejson.dumps(data_dict)
 
 	return HttpResponse(data, content_type="application/json")
 
+@login_required(login_url="/ingresar")
+def agesup(request,id_user):
+
+	data = Agentesupervisor.objects.filter(supervisor__user__id=id_user).values('id','supervisor__user__first_name','supervisor','agente__user__first_name','agente')
+	
+
+	for i in range(len(data)):
+
+		data[i]['id'] = data[i]['agente']
+	
+
+	data_dict = ValuesQuerySetToDict(data)
+
+	data = simplejson.dumps(data_dict)
+
+	return HttpResponse(data, content_type="application/json")
 
 
 @login_required(login_url="/ingresar")
@@ -3049,19 +3064,19 @@ def supervisores(request):
 
 	if nivel == 2:
 
-		supervisores = Supervisor.objects.filter(user=id).values('id','user__first_name')
+		supervisores = Supervisor.objects.filter(user=id).values('id','user__first_name','user')
 
 	if nivel == 1:
 
-		supervisores = Supervisor.objects.filter(user__empresa__id=empresa).values('id','user__first_name')
+		supervisores = Supervisor.objects.filter(user__empresa__id=empresa).values('id','user__first_name','user')
 
 	if nivel == 4:
 
-		supervisores = Supervisor.objects.all().values('id','user__first_name')
+		supervisores = Supervisor.objects.all().values('id','user__first_name','user')
 
 	if nivel == 5:
 
-		supervisores = Supervisor.objects.filter(user__empresa__id=empresa).values('id','user__first_name')
+		supervisores = Supervisor.objects.filter(user__empresa__id=empresa).values('id','user__first_name','user')
 
 
 	data = json.dumps(ValuesQuerySetToDict(supervisores))

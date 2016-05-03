@@ -96,10 +96,19 @@ jQuery(document).ready(function($) {
 
 
 <div class='row'>
+
+<div class="col-sm-2">
+
+Supervisor:
+    <select  ng-options="item as item.user__first_name for item in supervisores track by item.id" type="text" class="form-control" ng-model="model.supervisor" ng-change="getagentes(model)" required =""  ></select>
+
+</div>
+
+
 <div class="col-sm-2">
 
 Agente:
-    <select  ng-options="item as item.user__first_name for item in agentes track by item.id" type="text" class="form-control" ng-model="model.agente" required =""  ></select>
+    <select  ng-options="item as item.agente__user__first_name for item in agentes track by item.id" type="text" class="form-control" ng-model="model.agente" required =""  ></select>
 
 </div>
 

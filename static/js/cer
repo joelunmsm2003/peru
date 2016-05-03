@@ -1,0 +1,13 @@
+Please refer attached files(~.java, ~.jks)
+======================================================
+
+dilootu.com.cer
+
+1. openssl s_client -connect dilootu.com:443
+
+2. copy CERTIFICATE text
+
+3. keytool -importcert -file dilootu.com.cer -keystore dilootu.com.jks -alias "lge"
+
+4. generate keystore password : lg.com40
+
