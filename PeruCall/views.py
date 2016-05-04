@@ -764,7 +764,7 @@ def agentes(request,id_campania):
 
 		if Base.objects.filter(status=1,agente_id=user[i]['agente']):
 
-			user[i]['fono'] =  str(Base.objects.filter(status=1,agente_id=user[i]['agente']).values('telefono')[:1]).replace("[{'telefono':",'').replace('L}]','')
+			user[i]['fono'] =  str(Base.objects.filter(status=1,agente_id=user[i]['agente']).values('telefono')[:1]).replace("[{'telefono':",'').replace('L}]','').replace("None}]",'')
 
 		if agente.estado.id == 2:
 
@@ -782,7 +782,18 @@ def agentes(request,id_campania):
 
 			ti = agente.tiniciopausa
 
+		if agente.estado.id == 8:
+
+			ti = agente.tiniciobreak
+
+		if agente.estado.id == 9:
+
+			ti = agente.tinicioservicio
+
 		if agente.estado.id > 1:
+
+
+			print 'Ti....',ti,agente.id
 
 			ti= str(ti)[0:19]
 			ti = datetime.strptime(ti,fmt1)
@@ -819,12 +830,9 @@ def agentes(request,id_campania):
 
 			user[i]['performance'] =  (user[i]['agente__contactadas']*100/user[i]['agente__atendidas'])
 
-
 		else:
 
 			user[i]['performance'] = 0
-
-
 
 	data_dict = ValuesQuerySetToDict(user)
 
@@ -854,8 +862,6 @@ def getestado(request,agente):
 def agentesall(request,empresa):
 
 		data = Agentes.objects.filter(user__empresa_id=empresa).values('id','user__first_name','user__empresa__nombre').order_by('-id')
-
-		
 
 		data_dict = ValuesQuerySetToDict(data)
 
@@ -1273,6 +1279,13 @@ def tgestion(request,id_agente):
 
 		if agente.estado.id ==6:
 			fecha = agente.tiniciogestion
+
+		if agente.estado.id ==5:
+			fecha = agente.tiniciopausa
+		if agente.estado.id ==8:
+			fecha = agente.tiniciobreak
+		if agente.estado.id ==9:
+			fecha = agente.tinicioservicio
 
 	
 
@@ -1773,13 +1786,16 @@ def pausa(request,id_agente):
 			agente.checabreak = 0
 			agente.checa = 0
 
+		if agente.estado.id == 9:
+			agente.estado_id = 5
+			agente.checabreak = 0
+			agente.checa = 0
+
+
 		if agente.estado.id == 3:
 			agente.checa = 1
 
 
-
-				
-		
 		agente.tiniciopausa = datetime.now()-timedelta(hours=5)
 		
 		agente.save()
@@ -1798,21 +1814,69 @@ def receso(request,id_agente):
 
 			agente.estado_id = 8
 			agente.checabreak = 0
+			agente.checaser = 0
 			agente.checa = 0
 
 		if agente.estado.id== 5:
 
 			agente.estado_id = 8
 			agente.checabreak = 0
+			agente.checaser = 0
+			agente.checa = 0
+
+		if agente.estado.id== 9:
+
+			agente.estado_id = 8
+			agente.checabreak = 0
+			agente.checaser = 0
 			agente.checa = 0
 
 		if agente.estado.id== 3:
 
 			agente.checabreak = 1
 
+		agente.tiniciobreak = datetime.now()-timedelta(hours=5)
+
+		agente.save()
+
+		return HttpResponseRedirect("/teleoperador/"+id_agente)
 
 
-		
+
+@login_required(login_url="/ingresar")
+def sshh(request,id_agente):
+
+		agente = Agentes.objects.get(id=id_agente)
+
+		print 'Receso...',agente
+
+		if agente.estado.id== 2:
+
+			agente.estado_id = 9
+			agente.checabreak = 0
+			agente.checaser = 0
+			agente.checa = 0
+
+		if agente.estado.id== 5:
+
+			agente.estado_id = 9
+			agente.checabreak = 0
+			agente.checaser = 0
+			agente.checa = 0
+
+		if agente.estado.id== 8:
+
+			agente.estado_id = 9
+			agente.checabreak = 0
+			agente.checaser = 0
+			agente.checa = 0
+
+		if agente.estado.id== 3:
+
+			agente.checaser = 1
+
+		agente.tinicioservicio = datetime.now()-timedelta(hours=5)
+
 		agente.save()
 
 		return HttpResponseRedirect("/teleoperador/"+id_agente)

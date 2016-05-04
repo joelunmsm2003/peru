@@ -172,9 +172,43 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
 
     $scope.break = function() 
     {
+
+        $http.get("/tgestion/"+agente).success(function(response) {
+
+            $scope.tgestion = response;
+
+
+            });
    
             $scope.datatime = 30
-        $http.get("/receso/"+agente).success(function(response) {
+            $http.get("/receso/"+agente).success(function(response) {
+
+                $http.get("/agente/"+agente).success(function(response) {$scope.agente = response;
+
+                data = JSON.parse($scope.agente['data'])
+
+                $scope.datoagente =data[0] 
+
+                });
+
+              
+        });
+
+    }
+
+        $scope.servicios = function() 
+    {
+
+        $http.get("/tgestion/"+agente).success(function(response) {
+
+            $scope.tgestion = response;
+
+
+            });
+   
+        $scope.datatime = 30
+        
+        $http.get("/sshh/"+agente).success(function(response) {
 
                 $http.get("/agente/"+agente).success(function(response) {$scope.agente = response;
 
@@ -193,36 +227,42 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
 
 
     {
+            $http.get("/tgestion/"+agente).success(function(response) {
+
+            $scope.tgestion = response;
+
+
+            });
 
         $scope.datatime = 30
 
-    $scope.pausax=false
-    $scope.playx=true
+        $scope.pausax=false
+        $scope.playx=true
 
-    $http.get("/getestado/"+agente).success(function(response) {
-
-
-    console.log('Get estado',response)
-
-    $scope.rosa=true
-
-    if(response == 2){
-
-        $scope.datatime = 30
-
-        setInterval(function(){
-
-            $scope.datatime = $scope.datatime-1
-            console.log('conteo',$scope.datatime)
-
-            if ($scope.datatime==0){
-
-                $scope.rosa = false
-                 $scope.datatime = 30
-            }
+        $http.get("/getestado/"+agente).success(function(response) {
 
 
-        },1000);
+        console.log('Get estado',response)
+
+        $scope.rosa=true
+
+        if(response == 2){
+
+            $scope.datatime = 30
+
+            setInterval(function(){
+
+                $scope.datatime = $scope.datatime-1
+                console.log('conteo',$scope.datatime)
+
+                if ($scope.datatime==0){
+
+                    $scope.rosa = false
+                     $scope.datatime = 30
+                }
+
+
+            },1000);
 
 
 
@@ -258,6 +298,12 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
     $scope.play = function() 
 
     {
+        $http.get("/tgestion/"+agente).success(function(response) {
+
+            $scope.tgestion = response;
+
+
+            });
 
         $scope.playx=false
         $scope.pausax=true
@@ -334,7 +380,23 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
             }).
             success(function(data) {
 
-                window.location.href = '/teleoperador/'+agente;
+            $http.get("/tgestion/"+agente).success(function(response) {
+
+            $scope.tgestion = response;
+
+            
+                    $http.get("/agente/"+agente).success(function(response) {$scope.agente = response;
+
+                    data = JSON.parse($scope.agente['data'])
+
+                    $scope.datoagente =data[0] 
+
+                    });
+
+
+            });
+
+
 
 
 
@@ -382,7 +444,7 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
     {
 
             $('#agendar').modal('hide')
-        $('.modal-backdrop').remove();
+            $('.modal-backdrop').remove();
       
 
           var todo={
