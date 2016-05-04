@@ -930,6 +930,13 @@ def botonexterno(request):
 
 			print 'Checaaaaaaaaaaaaaaa.....',age.checa,resultado
 
+			if age.checabreak:
+
+				if int(age.checabreak) == 1:
+
+					age.estado_id = 8
+					age.save()
+
 			if age.checa:
 
 				if int(age.checa) == 1:
@@ -937,12 +944,7 @@ def botonexterno(request):
 					age.estado_id = 5
 					age.save()
 
-			if age.checabreak:
 
-				if int(age.checabreak) == 1:
-
-					age.estado_id = 8
-					age.save()
 
 
 			print 'resultado....',resultado,base
@@ -1804,9 +1806,11 @@ def receso(request,id_agente):
 			agente.checabreak = 0
 			agente.checa = 0
 
-		if agente.estado.id== 5:
+		if agente.estado.id== 3:
 
 			agente.checabreak = 1
+
+
 
 		
 		agente.save()
