@@ -170,10 +170,31 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
 
     }
 
+    $scope.break = function() 
+    {
+   
+            $scope.datatime = 30
+        $http.get("/receso/"+agente).success(function(response) {
+
+                $http.get("/agente/"+agente).success(function(response) {$scope.agente = response;
+
+                data = JSON.parse($scope.agente['data'])
+
+                $scope.datoagente =data[0] 
+
+                });
+
+              
+        });
+
+    }
+
      $scope.pausa = function() 
 
 
     {
+
+        $scope.datatime = 30
 
     $scope.pausax=false
     $scope.playx=true
@@ -197,6 +218,7 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
             if ($scope.datatime==0){
 
                 $scope.rosa = false
+                 $scope.datatime = 30
             }
 
 

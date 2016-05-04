@@ -4285,7 +4285,7 @@ a.list-group-item-danger.active, a.list-group-item-danger.active:focus, a.list-g
     border-bottom: 1px solid #ddd;
 }
 .panel-default {
-    border-color: #6C5D5D;
+    border-color: #ECE1E1;
 }
 .panel-default>.panel-heading {
     color: #454E58;

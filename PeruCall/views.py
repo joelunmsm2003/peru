@@ -937,6 +937,14 @@ def botonexterno(request):
 					age.estado_id = 5
 					age.save()
 
+			if age.checabreak:
+
+				if int(age.checabreak) == 1:
+
+					age.estado_id = 8
+					age.save()
+
+
 			print 'resultado....',resultado,base
 
 			b = Base.objects.get(id=base)
@@ -1204,6 +1212,7 @@ def gestionupdate(request):
 
 			age.estado = 5
 			age.save()
+
 
 
 
@@ -1752,16 +1761,58 @@ def pausa(request,id_agente):
 
 		agente = Agentes.objects.get(id=id_agente)
 
-		if agente.estado.id== 2:
+		if agente.estado.id == 2:
 			agente.estado_id = 5
+			agente.checabreak = 0
+			agente.checa = 0
+
+		if agente.estado.id == 8:
+			agente.estado_id = 5
+			agente.checabreak = 0
+			agente.checa = 0
+
+		if agente.estado.id == 3:
+			agente.checa = 1
+
+
+
 				
-		agente.checa = 1
+		
 		agente.tiniciopausa = datetime.now()-timedelta(hours=5)
 		
 		agente.save()
 
 
 		return HttpResponseRedirect("/teleoperador/"+id_agente)
+
+@login_required(login_url="/ingresar")
+def receso(request,id_agente):
+
+		agente = Agentes.objects.get(id=id_agente)
+
+		print 'Receso...',agente
+
+		if agente.estado.id== 2:
+
+			agente.estado_id = 8
+			agente.checabreak = 0
+			agente.checa = 0
+
+		if agente.estado.id== 5:
+
+			agente.estado_id = 8
+			agente.checabreak = 0
+			agente.checa = 0
+
+		if agente.estado.id== 5:
+
+			agente.checabreak = 1
+
+		
+		agente.save()
+
+		return HttpResponseRedirect("/teleoperador/"+id_agente)
+
 
 
 @login_required(login_url="/ingresar")
@@ -3247,16 +3298,23 @@ def usuarios(request):
 
 			id= data['id']
 
+			print 'Editt....',nivel
+
+
 			
 
 			user = AuthUser.objects.get(id=id)
+
+			nivelid = user.nivel.id
 			user.username =data['username']
 			user.first_name =data['first_name']
 			user.telefono = data['telefono']
 			user.anexo = data['anexo']
 			user.save()
 
-			if nivel == 3:
+			if nivelid == 3:
+
+				print 'Agente....Edit'
 
 				agente = Agentes.objects.get(user_id=id)
 				agente.anexo = data['anexo']

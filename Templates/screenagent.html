@@ -300,7 +300,9 @@
 
 <!--botoneras de accion-->
 
-      <div class="col-md-3 col-sm-3 panel panel-default btna" ng-click='colgar()'>
+
+
+      <div class="col-md-3 col-sm-3 panel panel-default btna" ng-click='break()'>
 
       <div class=' panel-body btnb'>
       BREAK <i class="fa fa-coffee" aria-hidden="true"></i>
@@ -309,7 +311,7 @@
 
       </div>
 
-      <div class="col-md-3 col-sm-3 panel panel-default btna" ng-click='play()' ng-show="playx">
+      <div class="col-md-3 col-sm-3 panel panel-default btna" ng-click='play()' ng-if="datoagente.estado__nombre == 'En Pausa'">
 
       <div class=' panel-body btnb'>
       PLAY <i class="fa fa-play"></i> 
@@ -318,7 +320,7 @@
 
       </div>
 
-       <div class="col-md-3 col-sm-3 panel panel-default btna" ng-click='pausa()' ng-show="pausax">
+       <div class="col-md-3 col-sm-3 panel panel-default btna" ng-click='pausa()' ng-if="datoagente.estado__nombre != 'En Pausa'">
 
       <div class=' panel-body btnb'>
       PAUSE <i class="fa fa-pause"></i> 
@@ -352,15 +354,26 @@
 
   <div class='row animate' ng-if="datoagente.estado__nombre == 'En Espera'">
 
-  <center><iframe src="http://192.168.100.26/2048/" width="1200" height="1500" frameborder="NO"></iframe></center>
+  <center><iframe src="http://xiencias.com/2048/" width="1200" height="1500" frameborder="NO"></iframe></center>
 
   </div>
+
+   <div class='row animate' ng-if="datoagente.estado__nombre == 'Break'">
+
+  <center><h4>
+<img src="http://www.current-observations.com/currentobs/wp-content/uploads/2013/11/44-a-break.gif" height="500px">
+  </h4></center>
+
+  </div>
+
+
+ 
 
 
   <div class='row animate' ng-if="datoagente.estado__nombre == 'En Pausa'">
 
  <center><span class='espere' ng-show='rosa'> Porfavor espere {[{datatime}]} seg </span></center><br>
-  <center><img src="https://s-media-cache-ak0.pinimg.com/originals/44/a0/e6/44a0e61b7fa6e8f1ad0df4789751f088.gif"></center>
+  <center><img src="https://assets.entrepreneur.com/content/16x9/822/pausa.jpg"></center>
 
   </div>
 

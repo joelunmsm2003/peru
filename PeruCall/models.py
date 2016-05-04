@@ -107,6 +107,7 @@ class Agentes(models.Model):
     tiniciopausa = models.DateTimeField(blank=True, null=True)
     wordstipeo = models.IntegerField(blank=True, null=True)
     checa = models.CharField(max_length=100, blank=True)
+    checabreak = models.CharField(max_length=100, blank=True)
 
     class Meta:
         managed = False
