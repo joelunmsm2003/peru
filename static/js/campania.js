@@ -196,6 +196,8 @@ function Controller($scope,$http,$cookies,$filter) {
 
 		for( var key in response ) {
 
+                console.log('Key...',key)
+
 				id = response[key].id
 				campania_id = response[key].campania
 				name = response[key].campania__nombre
@@ -206,7 +208,7 @@ function Controller($scope,$http,$cookies,$filter) {
 				segmento = response[key].segmento
 				grupo = response[key].grupo
 
-                if(key==1){
+                if(key==0){
 
                     $scope.clientes.push({ciudad:'Filtro 1',segmento:'Filtro 2',grupo:'Filtro 3',campania:campania_id,id:campania_id,filtro:'0',nombre:'Estado',estado:status,estadoname:'Estado',color:'#BF3737',font:'#fff',id_filtro:100000000})
             
