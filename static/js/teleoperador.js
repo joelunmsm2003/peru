@@ -246,14 +246,14 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
 
         $scope.rosa=true
 
-        if(response == 2){
+        if(response == 2 || response == 8 || response== 9 ){
 
             $scope.datatime = 30
 
             setInterval(function(){
 
                 $scope.datatime = $scope.datatime-1
-                console.log('conteo',$scope.datatime)
+               
 
                 if ($scope.datatime==0){
 
@@ -384,7 +384,7 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
 
             $scope.tgestion = response;
 
-            
+
                     $http.get("/agente/"+agente).success(function(response) {$scope.agente = response;
 
                     data = JSON.parse($scope.agente['data'])
@@ -433,7 +433,7 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
             }).
             success(function(data) {
 
-                window.location.href = '/teleoperador/'+agente;
+                
 
             })
    
