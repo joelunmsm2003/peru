@@ -2656,6 +2656,46 @@ def botoneragraph(request,campania):
 
        return HttpResponse(data_string, content_type="application/json")
 
+@login_required(login_url="/ingresar")
+def busqueda(request):
+
+	if request.method == 'POST':
+
+		data = json.loads(request.body)
+
+		#{u'telefono': u'434', u'campania': 127, u'cartera': 43, u'inicio': u'2016-05-06', u'fin': u'2016-05-06', u'cliente': u'34343'}
+
+		telefono =''
+		campania = ''
+		cartera = ''
+		inicio = ''
+		fin = ''
+		cliente = ''
+
+		for i in data:
+
+			if i == 'telefono':
+				telefono = data['telefono']
+			if i == 'campania':
+				campania = data['campania']
+			if i == 'cartera':
+				cartera = data['cartera']
+			if i== 'inicio':
+				inicio = data['inicio']
+			if i == 'fin':
+				fin = data['fin']
+			if i=='cliente':
+				cliente = data['cliente']
+
+		print telefono,campania,cartera,inicio,fin,cliente
+
+
+
+		data_dict = ValuesQuerySetToDict('troncal')
+
+		data = simplejson.dumps(data_dict)
+
+		return HttpResponse(data, content_type="application/json")
 
 
 

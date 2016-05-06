@@ -86,12 +86,12 @@ function Controller($scope,$http,$cookies,$filter) {
 
         console.log('data',data)
         if( data==1){
-            $scope.discado = true
+            $scope.discado = false
 
         }
         else{
 
-            $scope.discado = false
+            $scope.discado = true
         }
 
     }

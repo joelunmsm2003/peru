@@ -64,6 +64,7 @@ urlpatterns = patterns('',
     url(r'^agesup/(\w+)/$','PeruCall.views.agesup'),
     url(r'^receso/(\w+)/$','PeruCall.views.receso'),
     url(r'^sshh/(\w+)/$','PeruCall.views.sshh'),
+    url(r'^busqueda/$','PeruCall.views.busqueda'),
 
 
     url(r'^agentescalifica/(\w+)/$','PeruCall.views.agentescalifica'),
