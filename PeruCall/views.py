@@ -2133,7 +2133,7 @@ def listafiltros(request,id_campania):
 		
 		else:
 
-			data[i]['color'] = '#228FFD'
+			data[i]['color'] = '#3AAED8'
 			data[i]['colort'] = '#fff'
 
 			data[i]['statusname'] = 'Activado'
@@ -2947,8 +2947,8 @@ def campanias(request):
 
 			if activado > 0:
 				data[i]['estado'] = ''
-				data[i]['color'] = '#fff'
-				data[i]['font'] = '#4F4242'
+				data[i]['color'] = '#3AAED8'
+				data[i]['font'] = '#fff'
 
 			if apagado == total:
 				data[i]['estado'] = ''

@@ -49,7 +49,7 @@ function Controller($scope,$http,$cookies,$filter) {
         $scope.activar = function(data) 
     {
 
-                  $('#activarcampania').modal('hide')
+        $('#activarcampania').modal('hide')
         $('.modal-backdrop').remove();
         console.log('Parar',data)
 
@@ -223,7 +223,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
 				else{
 
-					$scope.clientes.push({ciudad:ciudad,segmento:segmento,grupo:grupo,campania:campania_id,id:campania_id,filtro:'0',nombre:estadoname,estado:status,estadoname:estadoname,color:'#228FFD',font:'#fff',id_filtro:id})
+					$scope.clientes.push({ciudad:ciudad,segmento:segmento,grupo:grupo,campania:campania_id,id:campania_id,filtro:'0',nombre:estadoname,estado:status,estadoname:estadoname,color:'#3AAED8',font:'#fff',id_filtro:id})
 			
 
 
