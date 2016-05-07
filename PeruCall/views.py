@@ -1373,7 +1373,7 @@ def agregarfiltro(request):
 			segmentot = segmentot  + segmento[i]['status_h'] +'/'
 
   	
-		Filtro(resultado = resultadot,ciudad=ciudadt,grupo=grupot,segmento=segmentot,campania_id=campania,status=0).save()
+		Filtro(resultado = resultadot,ciudad=ciudadt,grupo=grupot,segmento=segmentot,campania_id=campania,status=1).save()
 
 
 
@@ -2406,6 +2406,31 @@ def quitarsupervisor(request):
 	return HttpResponse('data', content_type="application/json")
 
 
+@login_required(login_url="/ingresar")
+def duracionagente(request,agente):
+
+	
+	duracion = AjxProLla.objects.filter(age_codigo=agente).values('age_codigo').annotate(total=Sum('duration'))
+	bill = AjxProLla.objects.filter(age_codigo=agente).values('age_codigo').annotate(total=Sum('bill'))
+
+	for b in bill:
+
+		bill = b['total']
+
+	for b in duracion:
+
+		duracion = b['total']
+
+	print bill,duracion
+
+	t = int(duracion)-int(bill)
+
+	data = simplejson.dumps(t)
+
+
+	return HttpResponse(data, content_type="application/json")
+
+
 
 @login_required(login_url="/ingresar")
 def carteranosupervisor(request,id_user):
@@ -2730,13 +2755,15 @@ def generacsv(request,cartera,campania,inicio,fin,telefono,cliente):
 
 	if cliente!='undefined':
 
-		filtro['cliente']=cliente
+		filtro['id_cliente']=cliente
 
 	response = HttpResponse(content_type='text/csv')
 
 	response['Content-Disposition'] = 'attachment; filename="Reporte_General.csv'
 
 	writer = csv.writer(response)
+
+	print 'Filtro',filtro
 
 	base = Base.objects.filter(**filtro)
 
@@ -3073,7 +3100,7 @@ def campanias(request):
 
 			if activado > 0:
 				data[i]['estado'] = ''
-				data[i]['color'] = '#3AAED8'
+				data[i]['color'] = '#5C93B5'
 				data[i]['font'] = '#fff'
 
 			if apagado == total:

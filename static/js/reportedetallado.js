@@ -416,7 +416,7 @@ $('.container').fadeToggle("slow")
 
      
 
-        window.location.href = "/generacsv/"+data.cartera+'/'+data.campania+'/'+data.inicio+'/'+data.fin+'/'+data.cliente+'/'+data.telefono
+        window.location.href = "/generacsv/"+data.cartera+'/'+data.campania+'/'+data.inicio+'/'+data.fin+'/'+data.telefono+'/'+data.cliente
 
 
 

@@ -210,7 +210,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
                 if(key==0){
 
-                    $scope.clientes.push({ciudad:'Filtro 1',segmento:'Filtro 2',grupo:'Filtro 3',campania:campania_id,id:campania_id,filtro:'0',nombre:'Estado',estado:status,estadoname:'Estado',color:'#BF3737',font:'#fff',id_filtro:100000000})
+                    $scope.clientes.push({ciudad:'Filtro 1',segmento:'Filtro 2',grupo:'Filtro 3',campania:campania_id,id:campania_id,filtro:'0',nombre:'Estado',estado:status,estadoname:'Estado',color:'gray',font:'#fff',id_filtro:100000000})
             
                 }
 
@@ -223,7 +223,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
 				else{
 
-					$scope.clientes.push({ciudad:ciudad,segmento:segmento,grupo:grupo,campania:campania_id,id:campania_id,filtro:'0',nombre:estadoname,estado:status,estadoname:estadoname,color:'#3AAED8',font:'#fff',id_filtro:id})
+					$scope.clientes.push({ciudad:ciudad,segmento:segmento,grupo:grupo,campania:campania_id,id:campania_id,filtro:'0',nombre:estadoname,estado:status,estadoname:estadoname,color:'#A9E09D',font:'#4F4444',id_filtro:id})
 			
 
 
@@ -270,8 +270,8 @@ function Controller($scope,$http,$cookies,$filter) {
     	console.log('Contact------',contact)
     	contact.estado = 0
     	contact.estadoname="Activado"
-    	contact.color="#228FFD"
-    	contact.font ="#fff"
+    	contact.color="#A9E09D"
+    	contact.font ="#4F4444"
 
 
 
@@ -286,6 +286,12 @@ function Controller($scope,$http,$cookies,$filter) {
     });
 
     }
+
+
+      $http.get("/carteras").success(function(response) {$scope.carteras = response;
+
+    });
+
 
 
     $scope.desactivafiltro = function(contact,index) 

@@ -71,15 +71,8 @@ jQuery(document).ready(function($) {
       <div class="col-sm-4"><h4><i class="fa fa-cube"></i> Campaña {[{rcampania.nombre}]} </h4>
       </div>
 
-    
-
-
-     
-
-
     </div>
-    
-   
+
   </div>
 </div>
 
@@ -95,10 +88,20 @@ jQuery(document).ready(function($) {
 
 
 <div class='row'>
+
+<div class="col-sm-2">
+
+Carteras:
+
+    <select ng-model="model.cartera" class="form-control" ng-change="getcampi(model)" ng-options="cliente.cartera_id as cliente.cartera__nombre for cliente in carteras"></select>
+
+</div>
+
+
 <div class="col-sm-2">
 
 Campañas:
-    <select  ng-options="item as item.nombre for item in campanias track by item.id" type="text" class="form-control" ng-model="model.campania" required =""  ></select>
+    <select  ng-options="item as item.nombre for item in campaniasx track by item.id" type="text" class="form-control" ng-model="model.campania" required =""  ></select>
 
 </div>
 

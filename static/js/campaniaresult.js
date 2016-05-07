@@ -182,6 +182,38 @@ function Controller($scope,$http,$cookies,$filter) {
 
 
     
+    $http.get("/carteras").success(function(response) {$scope.carteras = response;
+
+    
+    });
+
+        $scope.getcampi = function(data) 
+
+    {
+
+        console.log('Get campania',data)
+
+
+        $http.get("/getcampanias/"+data.cartera).success(function(response) {
+
+        $scope.campaniasx = response;
+
+        console.log('C....',response[0])
+
+        if(response[0]==undefined){
+
+            swal({   title: 'No hay campañas para esta cartera :(',   type: "success",  timer: 1000,   showConfirmButton: false });
+        }
+
+        });
+
+   
+   
+
+
+    }
+
+
 
 
     $http.get("/preguntas/1").success(function(response) {$scope.preguntas = response;
