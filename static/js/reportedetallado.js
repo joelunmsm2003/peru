@@ -404,24 +404,20 @@ $('.container').fadeToggle("slow")
 
         console.log(data)
 
+        if (data.inicio && data.fin){
+               data.inicio = data.inicio.replace("-", "")
+        data.fin = data.fin.replace("-", "")
+        data.inicio = data.inicio.replace("-", "")
+        data.fin = data.fin.replace("-", "")
 
-        $http({
-        url: "/busqueda/",
-        data: data,
-        method: 'POST',
-        headers: {
-        'X-CSRFToken': $cookies['csrftoken']
+
+            
         }
-        }).
-        success(function(data) {
 
-   
-           
-   
+     
 
+        window.location.href = "/generacsv/"+data.cartera+'/'+data.campania+'/'+data.inicio+'/'+data.fin+'/'+data.cliente+'/'+data.telefono
 
-
-     });
 
 
 

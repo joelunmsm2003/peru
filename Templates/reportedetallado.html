@@ -30,7 +30,7 @@
         <div class="col-md-2">
         <div class="form-group">
         <label>Cartera</label>
-        <select  ng-model="model.cartera" class="form-control"  ng-options="cliente.id as cliente.cartera__nombre for cliente in carteras"></select>
+        <select  ng-model="model.cartera" class="form-control" ng-change="campanias(model)" ng-options="cliente.id as cliente.cartera__nombre for cliente in carteras"></select>
         </div>
         </div>
 

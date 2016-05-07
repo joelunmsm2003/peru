@@ -2663,41 +2663,127 @@ def busqueda(request):
 
 		data = json.loads(request.body)
 
-		#{u'telefono': u'434', u'campania': 127, u'cartera': 43, u'inicio': u'2016-05-06', u'fin': u'2016-05-06', u'cliente': u'34343'}
-
-		telefono =''
-		campania = ''
-		cartera = ''
-		inicio = ''
-		fin = ''
-		cliente = ''
+		filtro = {}
 
 		for i in data:
 
 			if i == 'telefono':
-				telefono = data['telefono']
+			
+				filtro['telefono']  = data['telefono']
+
 			if i == 'campania':
-				campania = data['campania']
+
+				filtro['campania']  = data['campania']
+
 			if i == 'cartera':
-				cartera = data['cartera']
+
+				filtro['cartera']  = data['cartera']
+
 			if i== 'inicio':
-				inicio = data['inicio']
+
+				filtro['inicio']  = data['inicio']
+
 			if i == 'fin':
-				fin = data['fin']
+
+				filtro['fin']  = data['fin']
+
 			if i=='cliente':
-				cliente = data['cliente']
 
-		print telefono,campania,cartera,inicio,fin,cliente
+				filtro['cliente']  = data['cliente']
 
+	
 
-
-		data_dict = ValuesQuerySetToDict('troncal')
-
-		data = simplejson.dumps(data_dict)
-
-		return HttpResponse(data, content_type="application/json")
+	#base = Base.objects.filter(**filtro)
 
 
+	
+	return 'response'
+
+
+def generacsv(request,cartera,campania,inicio,fin,telefono,cliente):
+
+	print 'data....',cartera,campania,inicio,fin,telefono,cliente
+
+	filtro = {}
+
+	if cartera!='undefined':
+
+		filtro['campania__cartera']=cartera
+	if campania!='undefined':
+
+		filtro['campania']=campania
+	if inicio!='undefined':
+
+		inicio = datetime.strptime(inicio,'%Y%m%d')
+
+		filtro['fecha__lte'] =inicio
+
+	if fin!='undefined':
+
+		fin = datetime.strptime(fin,'%Y%m%d')
+
+		filtro['fecha__lte'] =fin
+
+	if telefono!='undefined':
+
+		filtro['telefono']=telefono
+
+	if cliente!='undefined':
+
+		filtro['cliente']=cliente
+
+	response = HttpResponse(content_type='text/csv')
+
+	response['Content-Disposition'] = 'attachment; filename="Reporte_General.csv'
+
+	writer = csv.writer(response)
+
+	base = Base.objects.filter(**filtro)
+
+	
+	writer.writerow(['Id','Telefono','Orden','Cliente','ID Cliente','Cartera','Campania','Agente','Duracion','Monto','Fecha Gestion','Status A','Status B','Status C','Status D','Status E','Status F','Status G','Status H','Botonera','Observacion','Fecha de Pago','Importe de Pago'])
+
+
+	for x in base:
+
+		x.campania.nombre = x.campania.nombre.encode('ascii','ignore')
+
+		x.campania.nombre = x.campania.nombre.encode('ascii','replace')
+
+		x.monto = x.monto.encode('ascii','ignore')
+
+		x.monto = x.monto.encode('ascii','replace')
+
+		if x.agente:
+
+			agente = x.agente.user.first_name
+
+		else:
+
+			agente = ''
+
+		if x.resultado:
+
+			resultado = x.resultado.name
+
+		else:
+
+			resultado = ''
+
+		duracion = ''
+
+		if x.tiniciogestion and x.tfingestion :
+
+			inicio = x.tiniciogestion
+			fin = x.tfingestion
+			fmt = '%M:%S'
+
+			duracion = str(fin-inicio)[2:8]
+
+		writer.writerow([x.id,x.telefono,x.orden,x.cliente,x.id_cliente,x.campania.cartera.nombre,x.campania.nombre,agente,duracion,x.monto,x.fecha,x.status_a,x.status_b,x.status_c,x.status_d,x.status_e,x.status_f,x.status_g,x.status_h,resultado,'Observacion','Fecha de Pago','Importe de Pago'])
+
+
+	return response
 
 
 @login_required(login_url="/ingresar")
