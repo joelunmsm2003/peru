@@ -321,7 +321,7 @@ $('.container').fadeToggle("slow")
 
     {
 
-        console.log(data)
+        console.log('Get campania',data)
 
 
         $http.get("/getcampanias/"+data.cartera).success(function(response) {
