@@ -7,20 +7,19 @@
 
 
 </head>
-<body class="container" >
+<body class="container-full" >
 
 <div  id ='cliente' class='container-fluid'>
 
 <script type="text/javascript">
 
-    var ws4redis = WS4Redis({
+     var ws4redis = WS4Redis({
       uri: '{{ WEBSOCKET_URI }}foobar?subscribe-user',
       receive_message: receiveMessage,
       heartbeat_msg: {{ WS4REDIS_HEARTBEAT }}
     });
 
-
-  function receiveMessage(msg) {
+    function receiveMessage(msg) {
 
         console.log(msg)
 
@@ -38,7 +37,9 @@
 
         if(msg=='llamada'){
 
-          window.location.href = "/teleoperador/"+agente
+          //window.location.href = "/teleoperador/"+agente
+//
+          //console.log('Llamada')
         }
 
        
@@ -345,13 +346,15 @@
 <!--En Espera-->
 
 
-  <div class=' row animate ' ng-if="datoagente.estado__nombre == 'En Espera'">
+  <div class=' row  ' ng-if="datoagente.estado__nombre == 'En Espera'">
 
   <center class=''><iframe src="http://xiencias.com/2048/" width="1200" height="1500" frameborder="NO"></iframe></center>
 
   </div>
 
-    <div class='row animate' ng-if="datoagente.estado__nombre == 'Servicios'">
+    <div class='row ' ng-if="datoagente.estado__nombre == 'Servicios'">
+
+     <center><span class='espere' ng-show='rosa'> Porfavor espere {[{datatime}]} seg </span></center><br>
 
    <center><h4>
 <img src="https://image.freepik.com/vector-gratis/resto-simbolos-sala-de-vector-y-el-icono_62147505416.jpg" height="500px">
@@ -360,7 +363,9 @@
   
   </div>
 
-   <div class='row animate' ng-if="datoagente.estado__nombre == 'Break'">
+   <div class='row ' ng-if="datoagente.estado__nombre == 'Break'">
+
+    <center><span class='espere' ng-show='rosa'> Porfavor espere {[{datatime}]} seg </span></center><br>
 
   <center><h4>
 <img src="http://www.current-observations.com/currentobs/wp-content/uploads/2013/11/44-a-break.gif" height="500px">
@@ -372,7 +377,7 @@
  
 
 
-  <div class='row animate' ng-if="datoagente.estado__nombre == 'En Pausa'">
+  <div class='row ' ng-if="datoagente.estado__nombre == 'En Pausa'">
 
  <center><span class='espere' ng-show='rosa'> Porfavor espere {[{datatime}]} seg </span></center><br>
   <center><img src="https://assets.entrepreneur.com/content/16x9/822/pausa.jpg"></center>
@@ -381,7 +386,7 @@
 
   
 
-<div class='row' ng-if="datoagente.estado__nombre == 'En Llamada' || datoagente.estado__nombre == 'En gestion' ">
+<div class='row ' ng-if="datoagente.estado__nombre == 'En Llamada' || datoagente.estado__nombre == 'En gestion' ">
 
 
       <div ng-if="datoagente.user__empresa__mascaras__tipo == 'Interna'">
@@ -703,17 +708,17 @@ body {
 
 
 .btna {
-  text-align: center;
+text-align: center;
   height: 42px;
   background: #EF5350;
   color: #FFF;
   font-weight: bold;
-  margin-left: 3px;
+  /* margin-left: 3px; */
   margin-top: -14px;
   font-size: 19px;
   padding-top: 4px;
-  /*transition: .6s;*/
-  width: 313px;
+  /* transition: .6s; */
+  /* width: 313px; */
 }
 
 .btna:hover{
@@ -731,10 +736,10 @@ text-align: center;
   background: #EF5350;
   color: #FFF;
   font-weight: bold;
-  margin-left: 4px;
+  /* margin-left: 4px; */
   font-size: 14px;
-  /*transition: .5s;*/
-  width: 23em;
+  /* transition: .5s; */
+  /* width: 23em; */
 
 }
 
@@ -842,6 +847,10 @@ padding: 15px;
 /*background-color: #D4D8F2;*/
 color: #284058;
 /*font-weight: bold;*/
+}
+.container-full{
+
+  padding: 11px;
 }
 
 </style>

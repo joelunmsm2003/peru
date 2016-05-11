@@ -7,7 +7,12 @@ $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
 
 
 
+    /////
+
+
 function Controller($scope,$http,$cookies,$filter,$interval,$location) {
+
+
 
     agente = window.location.href.split("teleoperador/")[1].split("/")[0]
 
@@ -70,13 +75,11 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
     });
 
     $http.get("/atendida/"+agente).success(function(response) {$scope.atendida = response;
-
        
         $scope.fechaa = new Date($scope.atendida)
         $scope.atendida = $scope.fechaa.getSeconds()
         $scope.at =formatSeconds($scope.atendida)
 
-        
     });
 
 
@@ -99,6 +102,13 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
    
 
       var tick = function() {
+
+        $http.get("/tgestion/"+agente).success(function(response) {
+
+            $scope.tgestion = response;
+
+
+            });
 
         
         login = new Date($scope.last_login)
@@ -123,8 +133,6 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
 
         $scope.conteo = sec
 
-
-
         if (sec<30 && sec>0){
 
             $scope.color="#81C784"
@@ -135,15 +143,48 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
             $scope.color="#2196F3"
         }
 
-
         if (sec>55){
 
             $scope.color="#EF5350"
             
         }
 
+         
+
+        $http.get("/cliente/"+agente).success(function(response) {
+
+        $scope.cliente = response[0];
+
+        console.log('Reg base',$scope.cliente)
+
+        $scope.id_campania = $scope.cliente.id
+
+       
+
+        $http.get("/header/"+$scope.id_campania).success(function(response) {$scope.header = response[0];
+                  
+        });
+
+        $http.get("/listafiltros/"+$scope.id_campania).success(function(response) {$scope.filtros = response[0];
+                     
+        });
+
+        $scope.iniciollamada = new Date($scope.cliente.tiniciollamada)
+             
+        });
+
+        $http.get("/agente/"+agente).success(function(response) {$scope.agente = response;
+
+        data = JSON.parse($scope.agente['data'])
+
+        $scope.datoagente =data[0] 
+
+        });
+
       }
+      
       tick();
+
       $interval(tick, 1000);
 
  
@@ -173,14 +214,36 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
     $scope.break = function() 
     {
 
+        
+   
+
         $http.get("/tgestion/"+agente).success(function(response) {
 
             $scope.tgestion = response;
 
+            tick()
+
 
             });
+
+
    
             $scope.datatime = 30
+            $scope.rosa=true
+         $scope.datatime = 30
+
+            setInterval(function(){
+
+                $scope.datatime = $scope.datatime-1
+               
+                if ($scope.datatime==0){
+
+                    $scope.rosa = false
+                     $scope.datatime = 30
+                }
+
+
+            },1000);
             $http.get("/receso/"+agente).success(function(response) {
 
                 $http.get("/agente/"+agente).success(function(response) {$scope.agente = response;
@@ -194,10 +257,16 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
               
         });
 
+
+     swal({   title: "Break",    timer: 1000,   showConfirmButton: false });
+
     }
 
         $scope.servicios = function() 
     {
+
+    
+   
 
         $http.get("/tgestion/"+agente).success(function(response) {
 
@@ -205,8 +274,25 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
 
 
             });
+
+
    
-        $scope.datatime = 30
+
+        $scope.rosa=true
+         $scope.datatime = 30
+
+            setInterval(function(){
+
+                $scope.datatime = $scope.datatime-1
+               
+                if ($scope.datatime==0){
+
+                    $scope.rosa = false
+                     $scope.datatime = 30
+                }
+
+
+            },1000);
         
         $http.get("/sshh/"+agente).success(function(response) {
 
@@ -221,12 +307,19 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
               
         });
 
+
+     swal({   title: "Servicios",     timer: 1000,   showConfirmButton: false });
+
     }
 
      $scope.pausa = function() 
 
 
     {
+
+     
+   
+
             $http.get("/tgestion/"+agente).success(function(response) {
 
             $scope.tgestion = response;
@@ -235,9 +328,6 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
             });
 
         $scope.datatime = 30
-
-        $scope.pausax=false
-        $scope.playx=true
 
         $http.get("/getestado/"+agente).success(function(response) {
 
@@ -277,17 +367,22 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
     console.log('hshshshs')
     $http.get("/pausa/"+agente).success(function(response) {
 
-    $http.get("/agente/"+agente).success(function(response) {$scope.agente = response;
+        $http.get("/agente/"+agente).success(function(response) {$scope.agente = response;
 
-    data = JSON.parse($scope.agente['data'])
+        data = JSON.parse($scope.agente['data'])
 
-    $scope.datoagente =data[0] 
+        $scope.datoagente =data[0] 
 
-    });
+        });
+
+
 
     
               
-        });
+    });
+
+     swal({   title: "Pausa",   timer: 1000,   showConfirmButton: false });
+
 
 
     }
@@ -298,6 +393,14 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
     $scope.play = function() 
 
     {
+        $http.get("/tgestion/"+agente).success(function(response) {
+
+            $scope.tgestion = response;
+
+
+            });
+   
+
         $http.get("/tgestion/"+agente).success(function(response) {
 
             $scope.tgestion = response;
@@ -334,6 +437,9 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
 
 
         })
+
+
+     swal({   title: "Play",   timer: 1000,   showConfirmButton: false });
 
     }
 
@@ -466,7 +572,7 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
             success(function(data) {
 
        
-            swal({   title: "Agenda",   text: 'Llamada agendada',   timer: 2000,   showConfirmButton: false });
+            swal({   title: "Agenda",   text: 'Llamada agendada',   timer: 1000,   showConfirmButton: false });
 
             })
 

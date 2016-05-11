@@ -1781,7 +1781,7 @@ function Controller($scope,$http,$cookies,$filter) {
         $scope.sortingOrder = newSortingOrder;
 
 
-        people = sortByKey($scope.clientes, newSortingOrder);
+        people = sortByKey($scope.agentes, newSortingOrder);
 
         if ($scope.reverse){
 
@@ -1791,7 +1791,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }
   
 
-        $scope.clientes = people
+        $scope.agentes = people
 
         $scope.search()
 

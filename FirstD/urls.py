@@ -66,6 +66,8 @@ urlpatterns = patterns('',
     url(r'^sshh/(\w+)/$','PeruCall.views.sshh'),
     url(r'^busqueda/$','PeruCall.views.busqueda'),
     url(r'^duracionagente/(\w+)/$','PeruCall.views.duracionagente'),
+    url(r'^conteofilas/$','PeruCall.views.conteofilas'),
+    url(r'^nregistrosbase/$','PeruCall.views.nregistrosbase'),
     url(r'^generacsv/(\w+)/(\w+)/(\w+)/(\w+)/(\w+)/(\w+)/$','PeruCall.views.generacsv'),
 
 

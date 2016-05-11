@@ -13,6 +13,7 @@
 {% include "header.html" %}
 
 
+
 <!--si, debe tener celeste cuando esta lanzando, naranja cuando termino la campaña y blando apagado-->
 
 
@@ -364,10 +365,61 @@ padding-top: 0px;
         <div class="modal-body">
 
 
-       
+<div class="preloader loading">
+  <span class="slice"></span>
+  <span class="slice"></span>
+  <span class="slice"></span>
+  <span class="slice"></span>
+  <span class="slice"></span>
+  <span class="slice"></span>
+</div>
+
+
+
           <div class="row">
 
-                    <form action="/uploadCampania/" method="post"  role="form" enctype="multipart/form-data">
+          <div class="col-md-12 xxx">
+          <div class="form-group">
+          
+          <center><p class='contc'><i class="fa fa-cloud-upload" aria-hidden="true"></i> Total de Registros : {[{contadorc}]}</p></center>
+
+
+          <center><p class='contc'><i class="fa fa-cloud-download" aria-hidden="true"></i> Registros Cargados : {[{avanza}]}</p></center>
+
+          </div>
+          </div>
+
+          <style type="text/css">
+
+          .contc{
+
+            font-size: 18px;
+            color: #B71C1C;
+            font-weight: bold;
+
+
+          }
+
+
+          .xxx{
+
+             margin-top: -5px;
+
+          }
+
+        p {
+        margin: 18px 0 10px;
+        }
+
+
+
+          </style>
+
+
+          <form action="/uploadCampania/" method="post" id='upcampania' role="form" enctype="multipart/form-data">
+
+
+
 
           {% csrf_token %}
 

@@ -6,13 +6,113 @@ $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
 });
 
 
-function Controller($scope,$http,$cookies,$filter) {
+function Controller($scope,$http,$cookies,$filter,$interval) {
 
+       $('.contc').hide()
+
+    $(function(){
+
+
+        $("#upcampania").on("submit", function(e){
+
+            $('#upcampania').hide()
+
+            $('.loading').show()
+            $('.contc').show()
+   
+            e.preventDefault();
+            var f = $(this);
+            var formData = new FormData(document.getElementById("upcampania"));
+            console.log('formdata',formData)
+            formData.append("dato", "valor");
+        
+            $.ajax({
+                url: "/conteofilas/",
+                type: "post",
+                dataType: "html",
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false
+            })
+                .done(function(res){
+
+                    console.log('conteo de filas',res)
+
+                    $scope.contadorc = res
+
+                    tick()
+
+                    $interval(tick, 1000);
+                                    
+                });
+        });
+
+        $("#upcampania").on("submit", function(e){
+
+            $('#upcampania').hide()
+
+            $('.loading').show()
+   
+            e.preventDefault();
+            var f = $(this);
+            var formData = new FormData(document.getElementById("upcampania"));
+            console.log('formdata',formData)
+            formData.append("dato", "valor");
+        
+            $.ajax({
+                url: "/uploadCampania/",
+                type: "post",
+                dataType: "html",
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false
+            })
+                .done(function(res){
+
+                    console.log('nooooooooooooooooo')
+
+                    $('.loading').hide()
+
+                    $('#myModal').modal('hide')
+                    $('.modal-backdrop').remove();
+
+                   
+                    window.location="/filtros/"+res
+
+
+                    
+                });
+        });
+
+
+
+    });
 
 
     $scope.a = false
     $scope.b = false
 
+    $scope.avanza=12
+    $scope.avanzac='#234'
+
+    $('.loading').hide()
+
+    
+
+     var tick = function() {
+
+    $http.get("/nregistrosbase").success(function(response) {$scope.avanza = response;
+
+ 
+       
+    });
+
+     }
+
+
+    
 
     var sortingOrder ='-id';
     $scope.sortingOrder = sortingOrder;
@@ -29,7 +129,7 @@ function Controller($scope,$http,$cookies,$filter) {
     {
         console.log('Parar',data)
 
-                  $('#pararcampania').modal('hide')
+        $('#pararcampania').modal('hide')
         $('.modal-backdrop').remove();
 
         $http.get("/pausarcampania/"+data.id).success(function(response) {
@@ -99,6 +199,7 @@ function Controller($scope,$http,$cookies,$filter) {
     $scope.color='#333'
 
 
+ 
 
 
 

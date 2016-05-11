@@ -27,13 +27,13 @@ a {
 }
 
 a:hover, a:focus {
-  color: #FF4E69;
+  color: #322;
 }
 
 /* Header */
 .codrops-header {
   color: #e5e4eb;
-  background: #383845;
+  background: #147;
   text-align: center;
   padding: 2em 10px;
 }
@@ -156,7 +156,7 @@ a:hover, a:focus {
 }
 
 body #cdawrap .carbon-text {
-  color: #f9f9f9;
+  color: #125;
 }
 
 body #cdawrap a.carbon-poweredby {

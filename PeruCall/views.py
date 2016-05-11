@@ -246,13 +246,10 @@ def empresa(request):
 @login_required(login_url="/ingresar")
 def dashboard(request,agente,examen):
 
-
-
 	return render(request, 'dashboard.html')
 
 @login_required(login_url="/ingresar")
 def campaniaresult(request,campania,examen):
-
 
 	return render(request, 'campaniaresult.html')
 
@@ -265,7 +262,6 @@ def monitorcpu(request):
 
 @login_required(login_url="/ingresar")
 def examenes(request):
-
 
 	base = Examen.objects.all().values('id','nombre')
 
@@ -742,7 +738,7 @@ def agentes(request,id_campania):
 
 	tges = Campania.objects.get(id=id_campania).tgestion
 
-	user = Agentescampanias.objects.filter(campania=id_campania).values('id','agente__wordstipeo','agente','agente__user__username','agente__user__first_name','agente__fono','agente__anexo','agente__atendidas','agente__contactadas','agente__estado','agente__estado__nombre','campania__supervisor__user__anexo')
+	user = Agentescampanias.objects.filter(campania=id_campania).values('id','agente__wordstipeo','agente','agente__user__username','agente__user__first_name','agente__fono','agente__anexo','agente__atendidas','agente__contactadas','agente__estado','agente__estado__nombre','campania__supervisor__user__anexo').order_by('agente__user__first_name','agente__anexo','agente__estado__nombre')
 
 	fmt = '%Y-%m-%d %H:%M:%S %Z'
 	fmt1 = '%Y-%m-%d %H:%M:%S'
@@ -950,6 +946,12 @@ def botonexterno(request):
 					age.estado_id = 5
 					age.save()
 
+			if age.checaser:
+
+				if int(age.checaser) == 1:
+
+					age.estado_id = 9
+					age.save()
 
 
 
@@ -1780,21 +1782,34 @@ def pausa(request,id_agente):
 			agente.estado_id = 5
 			agente.checabreak = 0
 			agente.checa = 0
+			agente.checaser = 0
 
 		if agente.estado.id == 8:
 			agente.estado_id = 5
 			agente.checabreak = 0
 			agente.checa = 0
+			agente.checaser = 0
 
 		if agente.estado.id == 9:
 			agente.estado_id = 5
 			agente.checabreak = 0
 			agente.checa = 0
+			agente.checaser = 0
+
+
+		if agente.estado.id == 5:
+			agente.estado_id = 2
+			agente.checabreak = 0
+			agente.checa = 0
+			agente.checaser = 0
+
 
 
 		if agente.estado.id == 3:
-			agente.checa = 1
 
+			agente.checaser = 0
+			agente.checa = 1
+			agente.checabreak = 0
 
 		agente.tiniciopausa = datetime.now()-timedelta(hours=5)
 		
@@ -1831,9 +1846,19 @@ def receso(request,id_agente):
 			agente.checaser = 0
 			agente.checa = 0
 
+		if agente.estado.id== 8:
+
+			agente.estado_id = 2
+			agente.checabreak = 0
+			agente.checaser = 0
+			agente.checa = 0
+
 		if agente.estado.id== 3:
 
 			agente.checabreak = 1
+			agente.checa = 0
+			agente.checaser = 0
+
 
 		agente.tiniciobreak = datetime.now()-timedelta(hours=5)
 
@@ -1874,6 +1899,14 @@ def sshh(request,id_agente):
 		if agente.estado.id== 3:
 
 			agente.checaser = 1
+			agente.checa = 0
+			agente.checabreak = 0
+
+		if agente.estado.id== 9:
+
+			agente.checaser = 2
+			agente.checa = 0
+			agente.checabreak = 0
 
 		agente.tinicioservicio = datetime.now()-timedelta(hours=5)
 
@@ -2934,6 +2967,51 @@ def filtroscampania(request,campania):
 
 	return HttpResponse(data, content_type="application/json")
 
+@login_required(login_url="/ingresar")
+def nregistrosbase(request):
+
+	id_campania = Campania.objects.all().values('id').order_by('-id')[0]['id']
+	base = Base.objects.filter(campania_id=id_campania).count()
+	data = simplejson.dumps(base)
+
+	return HttpResponse(data, content_type="application/json")
+
+
+
+
+@login_required(login_url="/ingresar")
+def conteofilas(request):
+
+	if request.method == 'POST':
+
+		filex = request.FILES['process_file']
+
+		print 'Archivo',filex
+
+		Excel(archivo=filex).save()
+
+		id_excel = Excel.objects.all().values('id').order_by('-id')[0]['id']
+
+		archivo = Excel.objects.get(id=id_excel).archivo
+
+		ruta = '/var/www/html/'+str(archivo)
+
+		print 'Ruta',ruta
+
+		book = xlrd.open_workbook(ruta)
+
+		sh = book.sheet_by_index(0)
+		
+		date =datetime.now()
+
+		print 'columnas....',sh.nrows
+
+
+		data = simplejson.dumps(sh.nrows)
+
+		return HttpResponse(data, content_type="application/json")
+
+
 
 @login_required(login_url="/ingresar")
 def uploadCampania(request):
@@ -2978,9 +3056,9 @@ def uploadCampania(request):
 		
 		date =datetime.now()
 
-		for rx in range(sh.nrows):
+		print 'columnas....',sh.ncols
 
-			
+		for rx in range(sh.nrows):
 
 			if rx == 0:
 
@@ -3040,7 +3118,9 @@ def uploadCampania(request):
 
 				Base(campania_id=id_campania,telefono=telefono,orden=orden,cliente=cliente,id_cliente=id_cliente,status_a=status_a,status_b=status_b,status_c=status_c,status_d=status_d,status_e=status_e,status_f=status_f,status_g=status_g,status_h=status_h).save()
 
-	return HttpResponseRedirect("/adminCampania/"+str(id_campania))
+		data = simplejson.dumps(id_campania)
+
+		return HttpResponse(data, content_type="application/json")
 
 
 @login_required(login_url="/ingresar")
