@@ -45,19 +45,13 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
 
         console.log('Reg base',$scope.cliente)
 
-
-
-
         $scope.id_campania = $scope.cliente.id
 
         $http.get("/header/"+$scope.id_campania).success(function(response) {$scope.header = response[0];
     
-              
         });
 
-
         $http.get("/listafiltros/"+$scope.id_campania).success(function(response) {$scope.filtros = response[0];
-       
               
         });
 
@@ -103,12 +97,16 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
 
       var tick = function() {
 
+        
+
         $http.get("/tgestion/"+agente).success(function(response) {
 
             $scope.tgestion = response;
 
 
             });
+
+
 
         
         login = new Date($scope.last_login)
@@ -149,7 +147,7 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
             
         }
 
-         
+         /*
 
         $http.get("/cliente/"+agente).success(function(response) {
 
@@ -181,8 +179,10 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
 
         });
 
+        */
+
       }
-      
+
       tick();
 
       $interval(tick, 1000);
