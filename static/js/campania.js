@@ -94,7 +94,7 @@ function Controller($scope,$http,$cookies,$filter,$interval) {
     $scope.a = false
     $scope.b = false
 
-    $scope.avanza=12
+    $scope.avanza=0
     $scope.avanzac='#234'
 
     $('.loading').hide()
@@ -108,6 +108,8 @@ function Controller($scope,$http,$cookies,$filter,$interval) {
  
        
     });
+
+    $scope.porcentaje = parseInt($scope.avanza*100/$scope.contadorc)
 
      }
 
