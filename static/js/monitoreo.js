@@ -1717,17 +1717,12 @@ function Controller($scope,$http,$cookies,$filter) {
 
     $scope.notificar = function (contact,user) {
 
-
-        
         $('#notificacion').modal('hide')
         $('.modal-backdrop').remove();
-
-
 
         msj = contact
 
         username = user.agente__user__username
-
 
         var todo={
 
@@ -1747,7 +1742,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-            swal({      title: "Agente "+user.agente__user__first_name +" notificado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Cerrar",   }, function(){   });
+            swal({ title: "Agente "+user.agente__user__first_name +" notificado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Cerrar",   }, function(){   });
             $scope.notificacion=""
     
         })

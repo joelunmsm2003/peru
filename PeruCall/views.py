@@ -569,12 +569,13 @@ def notificar(request):
 
 		user=json.loads(request.body)['username']
 
+		name = AuthUser.objects.get(id=request.user.id).first_name
 
 		redis_publisher = RedisPublisher(facility='foobar', users=[user])
 
 		msj = msj.encode('utf-8')
 
-		message = RedisMessage('Noti'+msj)
+		message = RedisMessage('Noti'+name+ ' dice: '+msj)
 
 		redis_publisher.publish_message(message)
 
@@ -2996,21 +2997,15 @@ def conteofilas(request):
 
 		ruta = '/var/www/html/'+str(archivo)
 
-		print 'Ruta',ruta
-
 		book = xlrd.open_workbook(ruta)
 
 		sh = book.sheet_by_index(0)
 		
 		date =datetime.now()
 
-		print 'columnas....',sh.nrows
-
-
 		data = simplejson.dumps(sh.nrows)
 
 		return HttpResponse(data, content_type="application/json")
-
 
 
 @login_required(login_url="/ingresar")
@@ -3021,7 +3016,6 @@ def uploadCampania(request):
 		id = request.user.id
 		nivel = AuthUser.objects.get(id=id).nivel.id
 		empresa = AuthUser.objects.get(id=id).empresa
-
 		data = request.POST
 		canales = data['canales']
 		cartera = data['cartera']
