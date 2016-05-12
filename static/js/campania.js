@@ -27,6 +27,8 @@ function Controller($scope,$http,$cookies,$filter,$interval) {
             var formData = new FormData(document.getElementById("upcampania"));
             console.log('formdata',formData)
             formData.append("dato", "valor");
+
+            /*
         
             $.ajax({
                 url: "/conteofilas/",
@@ -48,6 +50,8 @@ function Controller($scope,$http,$cookies,$filter,$interval) {
                     $interval(tick, 1000);
                                     
                 });
+
+            */
         });
 
         $("#upcampania").on("submit", function(e){
@@ -55,6 +59,9 @@ function Controller($scope,$http,$cookies,$filter,$interval) {
             $('#upcampania').hide()
 
             $('.loading').show()
+
+            $interval(tick, 1000);
+
    
             e.preventDefault();
             var f = $(this);
@@ -111,7 +118,7 @@ function Controller($scope,$http,$cookies,$filter,$interval) {
        
     });
 
-    $scope.porcentaje = parseInt($scope.avanza*100/$scope.contadorc)
+    //$scope.porcentaje = parseInt($scope.avanza*100/$scope.contadorc)
 
      }
 
