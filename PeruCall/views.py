@@ -3097,6 +3097,21 @@ def uploadCampania(request):
 
 					a[col] = a[col].replace("'","")
 
+				telefono = a[0]
+				orden = a[1]
+				cliente = a[2]
+				id_cliente = a[3]
+				status_a = a[4]
+				status_b = a[5]
+				status_c = a[6]
+				status_d =a[7]
+				status_e= a[8]
+				status_f=a[9]
+				status_g= a[10]
+				status_h = a[11]
+
+				'''
+
 				telefono = a[0].replace('.0','')
 				orden = a[1]
 				cliente = a[2]
@@ -3109,6 +3124,7 @@ def uploadCampania(request):
 				status_f=a[9].replace('.0','')
 				status_g= a[10].replace('.0','')
 				status_h = a[11].replace('.0','')
+				'''
 
 				Base(campania_id=id_campania,telefono=telefono,orden=orden,cliente=cliente,id_cliente=id_cliente,status_a=status_a,status_b=status_b,status_c=status_c,status_d=status_d,status_e=status_e,status_f=status_f,status_g=status_g,status_h=status_h).save()
 

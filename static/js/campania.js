@@ -19,6 +19,8 @@ function Controller($scope,$http,$cookies,$filter,$interval) {
 
             $('.loading').show()
             $('.contc').show()
+            $('.modal-footer').hide()
+            
    
             e.preventDefault();
             var f = $(this);
