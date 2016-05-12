@@ -46,6 +46,91 @@ from ws4redis.redis_store import RedisMessage
 from datetime import datetime,timedelta
 
 
+
+def audio(request):
+    return render(request, 'audio.html')
+
+@login_required(login_url="/ingresar")
+def audios(request):
+
+    id = request.user.id
+
+    nivel = AuthUser.objects.get(id=id).nivel.id
+
+    if nivel == 4:
+
+	empresas = Empresa.objects.all().values('id','nombre','licencias','mascaras__tipo','telefono','contacto','mail','url').order_by('-id')
+
+    else:
+
+	empresa = AuthUser.objects.get(id=id).empresa.id
+
+	empresas = Empresa.objects.filter(id=empresa).values('id','nombre','licencias','mascaras__tipo','telefono','contacto','mail','url').order_by('-id')
+
+    data = json.dumps(ValuesQuerySetToDict(empresas))
+
+    if request.method == 'POST':
+
+	tipo = json.loads(request.body)['add']
+
+	data = json.loads(request.body)['dato']
+
+	if tipo == "New":
+
+	    nombre = data['nombre']
+	    contacto = data['contacto']
+	    mail = data['mail']
+	    licencias = data['licencias']
+	    if data['mascara']==2:
+		url =data['url']
+	    else:
+		url=""
+	    
+	    telefono = data['telefono']
+	    mascara = data['mascara']
+
+    
+
+	    Empresa(mascaras_id=mascara,nombre=nombre,contacto=contacto,mail=mail,licencias=licencias,telefono=telefono,url=url).save()
+
+	    return HttpResponse(nombre, content_type="application/json")
+
+
+	if tipo=="Edit":
+
+	    id= data['id']
+
+    
+
+	    empresa = Empresa.objects.get(id=id)
+	    empresa.nombre =data['nombre']
+	    empresa.contacto =data['contacto']
+	    empresa.mail =data['mail']
+	    empresa.licencias =data['licencias']
+	    empresa.mascaras_id =data['mascaras__tipo']
+	    if data['mascaras__tipo']==2:
+		empresa.url =data['url']
+
+	    
+
+	    empresa.telefono =data['telefono']
+	    empresa.save()
+
+
+	if tipo=="Eliminar":
+
+	    id= data['id']
+
+    
+
+
+	return HttpResponse(data['nombre'], content_type="application/json")
+
+
+    return HttpResponse(data, content_type="application/json")
+
+
+
 @login_required(login_url="/ingresar")
 def changepass(request):
 
@@ -3128,7 +3213,7 @@ def uploadCampania(request):
 
 				Base(campania_id=id_campania,telefono=telefono,orden=orden,cliente=cliente,id_cliente=id_cliente,status_a=status_a,status_b=status_b,status_c=status_c,status_d=status_d,status_e=status_e,status_f=status_f,status_g=status_g,status_h=status_h).save()
 
-				time.sleep(.001)
+				time.sleep(.002)
 		
 		data = simplejson.dumps(id_campania)
 
