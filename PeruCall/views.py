@@ -26,7 +26,7 @@ from ws4redis.publisher import RedisPublisher
 from django.db.models import Count, Min, Sum, Avg
 import collections
 import random
-
+import time
 import xlrd
 import json 
 import csv
@@ -3128,6 +3128,8 @@ def uploadCampania(request):
 
 				Base(campania_id=id_campania,telefono=telefono,orden=orden,cliente=cliente,id_cliente=id_cliente,status_a=status_a,status_b=status_b,status_c=status_c,status_d=status_d,status_e=status_e,status_f=status_f,status_g=status_g,status_h=status_h).save()
 
+				time.sleep(.500)
+		
 		data = simplejson.dumps(id_campania)
 
 		return HttpResponse(data, content_type="application/json")
