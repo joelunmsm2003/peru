@@ -28,8 +28,7 @@ function Controller($scope,$http,$cookies,$filter,$interval) {
             console.log('formdata',formData)
             formData.append("dato", "valor");
 
-            /*
-        
+            
             $.ajax({
                 url: "/conteofilas/",
                 type: "post",
@@ -51,7 +50,7 @@ function Controller($scope,$http,$cookies,$filter,$interval) {
                                     
                 });
 
-            */
+            
         });
 
         $("#upcampania").on("submit", function(e){
@@ -60,7 +59,6 @@ function Controller($scope,$http,$cookies,$filter,$interval) {
 
             $('.loading').show()
 
-            $interval(tick, 1000);
 
    
             e.preventDefault();

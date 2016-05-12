@@ -147,7 +147,7 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
             
         }
 
-         /*
+         
 
         $http.get("/cliente/"+agente).success(function(response) {
 
@@ -179,7 +179,7 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
 
         });
 
-        */
+        
 
       }
 
