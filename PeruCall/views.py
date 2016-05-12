@@ -2025,15 +2025,15 @@ def resultadofiltro(request,id_filtro):
 
 		resultado =  resultado.split('/')
 
-		status_f = filtro.ciudad
+		status_f = filtro.status_f
 
 		status_f =  status_f.split('/')
 		
-		status_h = filtro.segmento
+		status_h = filtro.status_h
 
 		status_h =  status_h.split('/')
 
-		status_g = filtro.grupo
+		status_g = filtro.status_g
 
 		status_g =  status_g.split('/')
 		
@@ -2145,7 +2145,7 @@ def carteras(request):
 def listafiltros(request,id_campania):
 
 
-	data = Filtro.objects.filter(campania_id=id_campania).values('id','ciudad','segmento','grupo','resultado','status').order_by('-id')
+	data = Filtro.objects.filter(campania_id=id_campania).values('id','status_f','status_h','status_g','resultado','status').order_by('-id')
 
 
 	for i in range(len(data)):
@@ -2181,15 +2181,15 @@ def listafiltros(request,id_campania):
 
 		resultado =  resultado.split('/')
 
-		status_f = filtro.ciudad
+		status_f = filtro.status_f
 
 		status_f =  status_f.split('/')
 
-		status_h = filtro.segmento
+		status_h = filtro.status_h
 
 		status_h =  status_h.split('/')
 
-		status_g = filtro.grupo
+		status_g = filtro.status_g
 
 		status_g =  status_g.split('/')
 
@@ -2215,7 +2215,7 @@ def listafiltros(request,id_campania):
 def activafiltro(request,id_filtro,id_campania):
 
 
-	data = Filtro.objects.filter(id=id_filtro).values('id','ciudad','segmento','grupo','resultado').order_by('-id')
+	data = Filtro.objects.filter(id=id_filtro).values('id','status_f','status_h','status_g','resultado').order_by('-id')
 
 	for i in range(len(data)):
 
@@ -2230,15 +2230,15 @@ def activafiltro(request,id_filtro,id_campania):
 
 		resultado =  resultado.split('/')
 
-		status_f = filtro.ciudad
+		status_f = filtro.status_f
 
 		status_f =  status_f.split('/')
 
-		status_h = filtro.segmento
+		status_h = filtro.status_h
 
 		status_h =  status_h.split('/')
 
-		status_g = filtro.grupo
+		status_g = filtro.status_g
 
 		status_g =  status_g.split('/')
 
@@ -2261,7 +2261,7 @@ def activafiltro(request,id_filtro,id_campania):
 def desactivafiltro(request,id_filtro,id_campania):
 
 
-	data = Filtro.objects.filter(id=id_filtro).values('id','ciudad','segmento','grupo','resultado').order_by('-id')
+	data = Filtro.objects.filter(id=id_filtro).values('id','status_f','status_h','status_g','resultado').order_by('-id')
 
 	for i in range(len(data)):
 
@@ -2946,7 +2946,7 @@ def detalleagente(request,user):
 @login_required(login_url="/ingresar")
 def filtroscampania(request,campania):
 
-	filtros = Filtro.objects.filter(campania_id=campania).values('campania','id','resultado','campania__nombre','ciudad','segmento','grupo','status').order_by('-id')
+	filtros = Filtro.objects.filter(campania_id=campania).values('campania','id','resultado','campania__nombre','status_f','status_h','status_g','status').order_by('-id')
 
 	for i in range(len(filtros)):
 
