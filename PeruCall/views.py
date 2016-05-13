@@ -1344,8 +1344,6 @@ def agregarfiltro(request):
 
 				resultado = data['resultado']
 
-
-
 		ciudadt = ""
 		grupot = ""
 		segmentot = ""
@@ -1353,32 +1351,22 @@ def agregarfiltro(request):
 
 		for i in range(len(resultado)):
 
-			
-
 			resultadot = resultadot  + resultado[i]['name'] +'/'
 
 		for i in range(len(ciudad)):
-
-			
 
 			ciudadt = ciudadt  + ciudad[i]['status_f'] +'/'
 
 		for i in range(len(grupo)):
 
-			
-
 			grupot = grupot  + grupo[i]['status_g'] +'/'
 
 		for i in range(len(segmento)):
 
-			
-
 			segmentot = segmentot  + segmento[i]['status_h'] +'/'
-
   	
-		Filtro(resultado = resultadot,ciudad=ciudadt,grupo=grupot,segmento=segmentot,campania_id=campania,status=1).save()
 
-
+		Filtro(resultado = resultadot,status_f=ciudadt,status_g=grupot,status_h=segmentot,campania_id=campania,status=1).save()
 
 	
 		return HttpResponse('data', content_type="application/json")
