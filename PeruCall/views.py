@@ -46,6 +46,91 @@ from ws4redis.redis_store import RedisMessage
 from datetime import datetime,timedelta
 
 
+
+def audio(request):
+    return render(request, 'audio.html')
+
+@login_required(login_url="/ingresar")
+def audios(request):
+
+    id = request.user.id
+
+    nivel = AuthUser.objects.get(id=id).nivel.id
+
+    if nivel == 4:
+
+	empresas = Empresa.objects.all().values('id','nombre','licencias','mascaras__tipo','telefono','contacto','mail','url').order_by('-id')
+
+    else:
+
+	empresa = AuthUser.objects.get(id=id).empresa.id
+
+	empresas = Empresa.objects.filter(id=empresa).values('id','nombre','licencias','mascaras__tipo','telefono','contacto','mail','url').order_by('-id')
+
+    data = json.dumps(ValuesQuerySetToDict(empresas))
+
+    if request.method == 'POST':
+
+	tipo = json.loads(request.body)['add']
+
+	data = json.loads(request.body)['dato']
+
+	if tipo == "New":
+
+	    nombre = data['nombre']
+	    contacto = data['contacto']
+	    mail = data['mail']
+	    licencias = data['licencias']
+	    if data['mascara']==2:
+		url =data['url']
+	    else:
+		url=""
+	    
+	    telefono = data['telefono']
+	    mascara = data['mascara']
+
+    
+
+	    Empresa(mascaras_id=mascara,nombre=nombre,contacto=contacto,mail=mail,licencias=licencias,telefono=telefono,url=url).save()
+
+	    return HttpResponse(nombre, content_type="application/json")
+
+
+	if tipo=="Edit":
+
+	    id= data['id']
+
+    
+
+	    empresa = Empresa.objects.get(id=id)
+	    empresa.nombre =data['nombre']
+	    empresa.contacto =data['contacto']
+	    empresa.mail =data['mail']
+	    empresa.licencias =data['licencias']
+	    empresa.mascaras_id =data['mascaras__tipo']
+	    if data['mascaras__tipo']==2:
+		empresa.url =data['url']
+
+	    
+
+	    empresa.telefono =data['telefono']
+	    empresa.save()
+
+
+	if tipo=="Eliminar":
+
+	    id= data['id']
+
+    
+
+
+	return HttpResponse(data['nombre'], content_type="application/json")
+
+
+    return HttpResponse(data, content_type="application/json")
+
+
+
 @login_required(login_url="/ingresar")
 def changepass(request):
 
@@ -306,6 +391,54 @@ def passcampania(request,campania):
 	return HttpResponse(data, content_type="application/json")
 
 
+@login_required(login_url="/ingresar")
+def getaudios(request):
+
+	if request.method == 'POST':
+
+		data= json.loads(request.body)
+
+		print data
+
+		filtro = {}
+
+		for i in data:
+
+			if i == 'origen':
+			
+				filtro['anexo'] =  data['origen']
+
+			if i == 'destino':
+
+				filtro['llam_numero']  = data['destino']
+
+			if i == 'campania':
+
+				filtro['cam_codigo']  = data['campania']
+
+			if i == 'fecha':
+
+				filtro['f_origen']  = data['fecha']
+
+
+
+		#{u'origen': 123, u'fecha': u'2016-05-13', u'destino': 123, u'campania': 193, u'cartera': 19}
+
+		data = AjxProLla.objects.filter(**filtro).values('id_ori_llamadas','anexo','llam_numero','cam_codigo').order_by('-id_ori_llamadas')
+
+		fmt = '%Y-%m-%d %H:%M:%S %Z'
+
+		for i in range(len(data)):
+
+			data[i]['fecha'] = AjxProLla.objects.get(id_ori_llamadas=data[i]['id_ori_llamadas']).f_origen.strftime(fmt)
+		
+
+	
+	data_dict = ValuesQuerySetToDict(data)
+
+	data = simplejson.dumps(data_dict)
+
+	return HttpResponse(data, content_type="application/json")
 
 
 @login_required(login_url="/ingresar")

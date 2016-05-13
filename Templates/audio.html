@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+
+<html lang="en" ng-app="App" ng-controller="Controller">
+
+{% include "head.html" %}
+
+<script src="/static/js/audio.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css">
+
+<body >
+
+
+<div class="container" >
+
+{% include "header.html" %}
+
+<h4> Audios </h4>
+
+
+        <form ng-submit="getaudios(model)">
+
+        <div class='row'>
+
+
+     
+
+        <div class="col-md-2" >
+        <div class="form-group">
+        <label>Campaña</label>
+        <select  ng-model="model.campania" class="form-control" ng-options="cliente.id as cliente.nombre for cliente in campanias"></select>
+        </div>
+        </div>
+
+        <div class="col-md-2">
+        <div class="form-group">
+        <label>Fecha</label>
+        <input type="date" class="form-control" ng-model="model.fecha" >
+        </div>
+        </div>
+
+        <div class="col-md-2" >
+        <div class="form-group">
+        <label>Origen</label>
+         <input  type='number' value = "" ng-model="model.origen" class="form-control"></input>
+        </div>
+        </div>
+
+        <div class="col-md-2" >
+        <div class="form-group">
+        <label>Destino</label>
+        <input  type='number'  value = "" ng-model="model.destino" class="form-control"></input>
+        </div>
+        </div>
+
+<p>
+            <button type="submit" class="btn btn-primary">Buscar</button>
+</p>
+      </div>
+
+      </form>
+
+
+    <table class="table table-hover ">
+
+        <tbody>
+
+            <thead>
+
+            <tr>
+                  <th class="id" >Id <a ng-click="sort_by('id',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th class="fecha">Fecha <a ng-click="sort_by('fecha',currentPage)"><i class="icon-sort"></i></a></th>
+           
+                  <th class="agente__anexo" >Origen <a ng-click="sort_by('agente__anexo_',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th class="telefono">Destino <a ng-click="sort_by('telefono',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th class="audio">Audio <a ng-click="sort_by('audio',currentPage)"><i class="icon-sort"></i></a></th>
+                  <th></th>
+
+            </tr>
+
+            </thead>
+
+
+              <tfoot>
+                    <td colspan="12">
+                      <ul class="pagination" ng-repeat="n in toto">
+                      <li ng-class="{active: n-1 == currentPage}"><a href="#" ng-click="setPage()">{[{n}]}</a></li>
+                      </ul>
+                    </td>
+              </tfoot>
+
+
+
+              <tr   ng-repeat="contact in audiospe  " ts-repeat>
+
+                <td >{[{contact.id_ori_llamadas}]} </td>
+                <td >{[{contact.fecha}]} </td>
+         
+                <td >{[{contact.anexo}]} </td>
+                <td >{[{contact.llam_numero}]}</td>
+               
+                <td style="float:left;"><center>
+
+
+                        <button   type="button" class="btn btn-primary btn-sm" ng-click="descargaudio(contact)"  data-toggle="modal" ><i class="fa fa-download"></i></button>
+
+                        </center>
+
+              </td>
+
+              </tr>
+
+        </tbody>
+
+        </table>
+
+        <button type="submit" class="btn btn-primary"><i class="fa fa-download"></i> Descargar</button>
+
+</body>
