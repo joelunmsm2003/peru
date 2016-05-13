@@ -104,13 +104,13 @@ class Agentes(models.Model):
     tinicioespera = models.DateTimeField(blank=True, null=True)
     tfinespera = models.DateTimeField(blank=True, null=True)
     tiniciotipeo = models.DateTimeField(blank=True, null=True)
-    tiniciopausa = models.DateTimeField(blank=True, null=True)
-    tiniciobreak = models.DateTimeField(blank=True, null=True)
-    tinicioservicio = models.DateTimeField(blank=True, null=True)
     wordstipeo = models.IntegerField(blank=True, null=True)
+    tiniciopausa = models.DateTimeField(blank=True, null=True)
     checa = models.CharField(max_length=100, blank=True)
     checabreak = models.CharField(max_length=100, blank=True)
+    tiniciobreak = models.DateTimeField(blank=True, null=True)
     checaser = models.CharField(max_length=100, blank=True)
+    tinicioservicio = models.DateTimeField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -121,6 +121,8 @@ class Agentescampanias(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
     agente = models.ForeignKey(Agentes, db_column='agente', blank=True, null=True)
     campania = models.ForeignKey('Campania', db_column='campania', blank=True, null=True)
+    anexo = models.IntegerField(blank=True, null=True)
+    discado = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -129,8 +131,8 @@ class Agentescampanias(models.Model):
 
 class Agentesupervisor(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
-    agente = models.ForeignKey(Agentes, db_column='agente', blank=True, null=True)
-    supervisor = models.ForeignKey('Supervisor', db_column='supervisor', blank=True, null=True)
+    agente = models.IntegerField(blank=True, null=True)
+    supervisor = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -267,48 +269,52 @@ class AjxProLla(models.Model):
     llam_flag = models.IntegerField(blank=True, null=True)
     llam_uniqueid = models.CharField(max_length=45, blank=True)
     tipo = models.IntegerField(blank=True, null=True)
-    f_origen = models.DateTimeField()
+    f_origen = models.DateTimeField(blank=True, null=True)
     canal1 = models.CharField(max_length=50, blank=True)
     canal2 = models.CharField(max_length=50, blank=True)
+    channel = models.CharField(max_length=200, blank=True)
+    dstchannel = models.CharField(max_length=200, blank=True)
     flagfin = models.IntegerField(db_column='flagFIN', blank=True, null=True)  # Field name made lowercase.
     v_tring = models.IntegerField(blank=True, null=True)
     v_retry = models.IntegerField(blank=True, null=True)
     ring = models.IntegerField(blank=True, null=True)
     duration = models.IntegerField(blank=True, null=True)
     bill = models.IntegerField(blank=True, null=True)
-    tregistro = models.IntegerField()
+    tregistro = models.IntegerField(blank=True, null=True)
     gestion_editid1 = models.CharField(max_length=100, blank=True)
     gestion_editid2 = models.CharField(max_length=100, blank=True)
     gestion_editid3 = models.CharField(max_length=100, blank=True)
-    f_llam_fin = models.DateTimeField()
-    f_llam_discador = models.DateTimeField()
-    f_llam_resuelve = models.DateTimeField()
-    id_ori_campana = models.IntegerField()
-    f_fingestion = models.DateTimeField()
-    id_cliente = models.IntegerField(db_column='ID_Cliente')  # Field name made lowercase.
-    coderr = models.IntegerField(db_column='CodErr')  # Field name made lowercase.
-    audio = models.CharField(max_length=200)
-    audio2 = models.CharField(max_length=200)
+    f_llam_fin = models.DateTimeField(blank=True, null=True)
+    f_llam_discador = models.DateTimeField(blank=True, null=True)
+    f_llam_resuelve = models.DateTimeField(blank=True, null=True)
+    id_ori_campana = models.IntegerField(blank=True, null=True)
+    f_fingestion = models.DateTimeField(blank=True, null=True)
+    id_cliente = models.IntegerField(db_column='ID_Cliente', blank=True, null=True)  # Field name made lowercase.
+    coderr = models.IntegerField(db_column='CodErr', blank=True, null=True)  # Field name made lowercase.
+    coderr1 = models.IntegerField(db_column='CodErr1', blank=True, null=True)  # Field name made lowercase.
+    audio = models.CharField(max_length=200, blank=True)
+    audio2 = models.CharField(max_length=200, blank=True)
     sql = models.IntegerField()
-    gestion_editid4 = models.CharField(max_length=100)
-    gestion_editid5 = models.CharField(max_length=100)
-    gestion_editid6 = models.CharField(max_length=100)
-    gestion_editid7 = models.CharField(max_length=100)
-    gestion_editid8 = models.CharField(max_length=100)
-    gestion_editid9 = models.CharField(max_length=100)
+    gestion_editid4 = models.CharField(max_length=100, blank=True)
+    gestion_editid5 = models.CharField(max_length=100, blank=True)
+    gestion_editid6 = models.CharField(max_length=100, blank=True)
+    gestion_editid7 = models.CharField(max_length=100, blank=True)
+    gestion_editid8 = models.CharField(max_length=100, blank=True)
+    gestion_editid9 = models.CharField(max_length=100, blank=True)
     gestion_editid10 = models.CharField(max_length=100)
-    gestion_editid11 = models.CharField(max_length=100)
-    id_ori_seg_cola = models.IntegerField()
-    age_nombre = models.CharField(max_length=100)
-    anexo = models.IntegerField()
-    espera = models.IntegerField()
-    troncal = models.CharField(max_length=50)
-    timbrado1 = models.IntegerField()
-    timbrado2 = models.IntegerField()
-    prefijo = models.CharField(max_length=20)
-    grabacion = models.IntegerField()
-    in_id = models.IntegerField(db_column='IN_ID')  # Field name made lowercase.
-    v_tipbusc = models.IntegerField()
+    dialstatus = models.CharField(max_length=100, blank=True)
+    dialstatus1 = models.CharField(max_length=100, blank=True)
+    id_ori_seg_cola = models.IntegerField(blank=True, null=True)
+    age_nombre = models.CharField(max_length=100, blank=True)
+    anexo = models.IntegerField(blank=True, null=True)
+    espera = models.IntegerField(blank=True, null=True)
+    troncal = models.CharField(max_length=50, blank=True)
+    timbrado1 = models.CharField(max_length=2, blank=True)
+    timbrado2 = models.CharField(max_length=2, blank=True)
+    prefijo = models.CharField(max_length=20, blank=True)
+    grabacion = models.CharField(max_length=2, blank=True)
+    in_id = models.CharField(db_column='IN_ID', max_length=11, blank=True)  # Field name made lowercase.
+    v_tipbusc = models.CharField(max_length=11, blank=True)
 
     class Meta:
         managed = False
@@ -413,6 +419,7 @@ class Base(models.Model):
     status = models.CharField(max_length=100, blank=True)
     campania = models.ForeignKey('Campania', db_column='campania', blank=True, null=True)
     resultado = models.ForeignKey('Resultado', db_column='resultado', blank=True, null=True)
+    flag_resul = models.IntegerField(blank=True, null=True)
     telefonomarcado2 = models.IntegerField(db_column='TelefonoMarcado2', blank=True, null=True)  # Field name made lowercase.
     proflag = models.IntegerField(db_column='ProFlag', blank=True, null=True)  # Field name made lowercase.
     proestado = models.IntegerField(db_column='ProEstado', blank=True, null=True)  # Field name made lowercase.
@@ -436,12 +443,12 @@ class Base(models.Model):
 
 class Calificacion(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
-    preg_exam = models.ForeignKey('PregExam', db_column='preg_exam')
-    agente = models.ForeignKey(Agentes, db_column='agente')
-    campania = models.ForeignKey('Campania', db_column='campania')
+    preg_exam = models.ForeignKey('PregExam', db_column='preg_exam', blank=True, null=True)
+    agente = models.ForeignKey(Agentes, db_column='agente', blank=True, null=True)
+    campania = models.ForeignKey('Campania', db_column='campania', blank=True, null=True)
     empresa = models.ForeignKey('Empresa', db_column='empresa', blank=True, null=True)
     respuesta = models.CharField(max_length=1000, blank=True)
-    llamada = models.ForeignKey(AjxProLla, db_column='llamada')
+    llamada = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -499,10 +506,9 @@ class Carteraempresa(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
     cartera = models.ForeignKey(Cartera, db_column='cartera')
     empresa = models.ForeignKey('Empresa', db_column='empresa')
+    user = models.ForeignKey(AuthUser, db_column='user', blank=True, null=True)
     privilegio = models.IntegerField(blank=True, null=True)
-    fecha =models.TimeField(blank=True, null=True)
-    user = models.ForeignKey('AuthUser', db_column='user')
-
+    fecha = models.DateTimeField()
 
     class Meta:
         managed = False
@@ -631,9 +637,9 @@ class Excel(models.Model):
 class Filtro(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
     campania = models.ForeignKey(Campania, db_column='campania', blank=True, null=True)
-    ciudad = models.CharField(max_length=1000, blank=True)
-    segmento = models.CharField(max_length=1000, blank=True)
-    grupo = models.CharField(max_length=1000, blank=True)
+    status_f = models.CharField(max_length=1000, blank=True)
+    status_h = models.CharField(max_length=1000, blank=True)
+    status_g = models.CharField(max_length=1000, blank=True)
     resultado = models.CharField(max_length=1000, blank=True)
     status = models.IntegerField(blank=True, null=True)
 
@@ -736,6 +742,7 @@ class PregExam(models.Model):
 class Resultado(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
     name = models.CharField(max_length=100, blank=True)
+    flag_call = models.IntegerField(blank=True, null=True)
     codigo = models.CharField(max_length=100, blank=True)
     tipo = models.CharField(max_length=100, blank=True)
     mascara = models.ForeignKey(Mascara, db_column='mascara', blank=True, null=True)
