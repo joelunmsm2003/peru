@@ -404,7 +404,7 @@ class AuthUserUserPermissions(models.Model):
 
 class Base(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
-    telefono = models.CharField(max_length=100, blank=True)
+    telefono = models.IntegerField(blank=True, null=True)
     orden = models.CharField(max_length=100, blank=True)
     cliente = models.CharField(max_length=100, blank=True)
     id_cliente = models.CharField(max_length=100, blank=True)
