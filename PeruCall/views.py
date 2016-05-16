@@ -2051,7 +2051,9 @@ def reportecsv(request,cartera,campania):
 
 	writer = csv.writer(response)
 
-	base = Base.objects.filter(campania_id=campania)
+	resultado = Base.objects.filter(campania_id=campania).values('resultado').order_by('-resultado').annotate(total=Count('resultado'))[0]['resultado']
+
+	base = Base.objects.filter(campania_id=campania,resultado_id=resultado)
 
 	writer.writerow(['Id','Telefono','Orden','Cliente','ID Cliente','Cartera','Campania','Agente','Duracion','Monto','Fecha Gestion','Status A','Status B','Status C','Status D','Status E','Status F','Status G','Status H','Botonera','Observacion','Fecha de Pago','Importe de Pago'])
 
@@ -3218,7 +3220,7 @@ def uploadCampania(request):
 
 					a[col] = a[col].replace("'","")
 
-				telefono = a[0]
+				telefono = int(a[0].replace('.0',''))
 				orden = a[1]
 				cliente = a[2]
 				id_cliente = a[3]

@@ -216,6 +216,50 @@
 
     <a class='btn btn-primary'ng-href='/monitoreo/{[{camp}]}'> <i class="fa fa-video-camera"></i> Monitor </a>
 
+   <button class="btn btn-primary " data-toggle="modal" data-target="#reasignar" 
+   ><i class="fa fa-edit"></i>Actualizar base</button>
+
+
+   <div id="reasignar" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Editar Campaña {[{model.nombre}]}</h4>
+      </div>
+        <div class="modal-body" ng-if="user.nivel == 1">
+
+
+         <form action="/uploadCampania/" method="post" id='upcampania' role="form" enctype="multipart/form-data">
+
+
+          <div class="form-group">
+          <label>Archivo</label>
+          <input type="file" required=""  name="process_file">
+          </div>
+          
+
+
+        <br></br>
+
+
+        <button class="btn" data-dismiss="modal">Cerrar</button>
+        <button type="submit" class="btn btn-primary">Aceptar</button>
+        </form>
+
+       
+      
+      
+        </div>
+
+     
+
+
+    </div>
+
+  </div>
+</div>
 
              
                 <div class="col-sm-12">
