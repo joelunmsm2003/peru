@@ -12,8 +12,6 @@ $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
 
 function Controller($scope,$http,$cookies,$filter,$interval,$location) {
 
-
-
     agente = window.location.href.split("teleoperador/")[1].split("/")[0]
 
     console.log('Agente',agente)
@@ -23,7 +21,6 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
     });
     $http.get("/empresas").success(function(response) {$scope.empresas = response[0];
    
-       
     });
 
      $http.get("/getempresa").success(function(response) {
@@ -81,9 +78,6 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
 
     $scope.tgestion = response;
 
-
-  
-
     });
 
     function formatSeconds(seconds)
@@ -95,22 +89,19 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
 
    
 
-      var tick = function() {
-
-        
+    var tick = function() {
 
         $http.get("/tgestion/"+agente).success(function(response) {
 
-            $scope.tgestion = response;
+        $scope.tgestion = response;
+
+        });
 
 
-            });
-
-
-
-        
         login = new Date($scope.last_login)
         d1 = new Date(); 
+
+        console.log(d1,d2)
         d2 = new Date($scope.tgestion)  
 
         $scope.desfase = $scope.conectado-$scope.atendida
@@ -118,12 +109,12 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
         $scope.diff = Math.abs(d1-d2);  
 
         $scope.conectado = parseInt(Math.abs(d1-login)/1000)
+
         $scope.con = formatSeconds($scope.conectado)
 
         $scope.tllamada = parseInt(Math.abs(d1-d2)/1000)
 
         $scope.tllamada = formatSeconds($scope.tllamada)
-
 
         sec = $scope.diff/1000
 
