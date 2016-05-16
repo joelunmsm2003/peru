@@ -3319,14 +3319,14 @@ def campanias(request):
 			if apagado == total:
 				data[i]['estado'] = ''
 				data[i]['color'] = '#fff'
-				data[i]['font'] = '#4F4242'
+				data[i]['font'] = '#000'
 
 			
 
 			if total == 0:
 				data[i]['estado'] = ''
 				data[i]['color'] = '#fff'
-				data[i]['font'] = '#4F4242'
+				data[i]['font'] = '#000'
 
 			
 
