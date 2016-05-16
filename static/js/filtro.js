@@ -8,6 +8,45 @@ $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
 function Controller($scope,$http,$cookies,$filter) {
 
 
+    $("#uplista").on("submit", function(e){
+
+            $('#upcampania').hide()
+
+            $('.loading').show()
+
+            e.preventDefault();
+            var f = $(this);
+            var formData = new FormData(document.getElementById("upcampania"));
+            console.log('formdata',formData)
+            formData.append("dato", "valor");
+        
+            $.ajax({
+                url: "/uploadCampania/",
+                type: "post",
+                dataType: "html",
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false
+            })
+                .done(function(res){
+
+                    console.log('nooooooooooooooooo')
+
+                    $('.loading').hide()
+
+                    $('#myModal').modal('hide')
+                    $('.modal-backdrop').remove();
+
+                   
+                    window.location="/filtros/"+res
+
+
+                    
+                });
+        });
+
+
     campania = window.location.href.split("filtros/")[1].split("/")[0]
     $scope.camp = campania
     $scope.camp = campania

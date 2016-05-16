@@ -59,8 +59,6 @@ function Controller($scope,$http,$cookies,$filter,$interval) {
 
             $('.loading').show()
 
-
-   
             e.preventDefault();
             var f = $(this);
             var formData = new FormData(document.getElementById("upcampania"));
@@ -93,6 +91,7 @@ function Controller($scope,$http,$cookies,$filter,$interval) {
                 });
         });
 
+        
 
 
     });

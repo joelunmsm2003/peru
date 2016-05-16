@@ -2994,6 +2994,29 @@ def botonera(request):
 
 
 @login_required(login_url="/ingresar")
+def listanegra(request):
+
+	if request.method == 'POST':
+
+		id = request.user.id
+
+		id_resultado= json.loads(request.body)['resultado']['id']
+		agente= json.loads(request.body)['agente']
+		id_base= json.loads(request.body)['cliente']['id']
+
+		print 'Botonera.....',id_resultado,agente,id_base
+
+		resultado = Resultado.objects.get(id=id_resultado).name
+
+		base = Base.objects.get(id=id_base)
+		base.resultado_id = id_resultado
+		base.save()
+
+	
+	return HttpResponse(resultado, content_type="application/json")
+
+
+@login_required(login_url="/ingresar")
 def calificar(request):
 
 	if request.method == 'POST':

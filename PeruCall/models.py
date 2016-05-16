@@ -138,6 +138,16 @@ class Agentesupervisor(models.Model):
         managed = False
         db_table = 'agentesupervisor'
 
+class Listanegra(models.Model):
+    id = models.IntegerField(primary_key=True)  # AutoField?
+    dni = models.IntegerField(blank=True, null=True)
+    campania = models.ForeignKey('Campania', db_column='campania', blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'listanegra'
+
+
 
 class AjxProAcd(models.Model):
     id_ori_acd = models.IntegerField(primary_key=True)

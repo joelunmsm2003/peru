@@ -14,7 +14,7 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
 
     agente = window.location.href.split("teleoperador/")[1].split("/")[0]
 
-    console.log('Agente',agente)
+
     
     $http.get("/resultadototal").success(function(response) {$scope.resultado = response;
               
@@ -101,7 +101,6 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
         login = new Date($scope.last_login)
         d1 = new Date(); 
 
-        console.log(d1,d2)
         d2 = new Date($scope.tgestion)  
 
         $scope.desfase = $scope.conectado-$scope.atendida
