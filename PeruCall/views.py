@@ -3052,7 +3052,7 @@ def colas(request,campania):
 
 	f = datetime.now().date()
 
-	data = AjxProLla.objects.filter(id_ori_seg_cola=campania,f_origen__gte=f).values('age_ip','llam_numero','llam_estado')[:20]
+	data = AjxProLla.objects.filter(id_ori_seg_cola=campania,f_origen__gte=f).values('age_ip','llam_numero','llam_estado').order_by('-id_ori_llamadas')[:12]
 
 	data_dict = ValuesQuerySetToDict(data)
 
