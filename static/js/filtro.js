@@ -8,9 +8,13 @@ $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
 function Controller($scope,$http,$cookies,$filter) {
 
 
+
+    campania = window.location.href.split("filtros/")[1].split("/")[0]
+
+    $scope.campi = campania
     $("#uplista").on("submit", function(e){
 
-            $('#upcampania').hide()
+            $('#uplista').hide()
 
             $('.loading').show()
 
@@ -18,10 +22,12 @@ function Controller($scope,$http,$cookies,$filter) {
             var f = $(this);
             var formData = new FormData(document.getElementById("upcampania"));
             console.log('formdata',formData)
-            formData.append("dato", "valor");
+            formData.append("campania", campania);
+
+            console.log('formdata',formData)
         
             $.ajax({
-                url: "/uploadCampania/",
+                url: "/listanegra/",
                 type: "post",
                 dataType: "html",
                 data: formData,
@@ -32,22 +38,15 @@ function Controller($scope,$http,$cookies,$filter) {
                 .done(function(res){
 
                     console.log('nooooooooooooooooo')
-
                     $('.loading').hide()
-
                     $('#myModal').modal('hide')
                     $('.modal-backdrop').remove();
 
-                   
-                    window.location="/filtros/"+res
-
-
                     
                 });
+
         });
 
-
-    campania = window.location.href.split("filtros/")[1].split("/")[0]
     $scope.camp = campania
     $scope.camp = campania
     var sortingOrder ='-id';

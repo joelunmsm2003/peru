@@ -2993,27 +2993,63 @@ def botonera(request):
 	return HttpResponse(resultado, content_type="application/json")
 
 
+
 @login_required(login_url="/ingresar")
 def listanegra(request):
 
 	if request.method == 'POST':
 
-		id = request.user.id
+		campania =  request.POST['campania']
 
-		id_resultado= json.loads(request.body)['resultado']['id']
-		agente= json.loads(request.body)['agente']
-		id_base= json.loads(request.body)['cliente']['id']
+		filex = request.FILES['process_file']
 
-		print 'Botonera.....',id_resultado,agente,id_base
+		Excel(archivo=filex).save()
 
-		resultado = Resultado.objects.get(id=id_resultado).name
+		id_excel = Excel.objects.all().values('id').order_by('-id')[0]['id']
 
-		base = Base.objects.get(id=id_base)
-		base.resultado_id = id_resultado
-		base.save()
+		archivo = Excel.objects.get(id=id_excel).archivo
+
+		ruta = '/var/www/html/'+str(archivo)
+
+		print 'ruta',ruta
+
+		book = xlrd.open_workbook(ruta)
+
+		sh = book.sheet_by_index(0)
+
+		u=[]
+
+		for rx in range(sh.nrows):
+
+			for col in range(sh.ncols):
+
+				x = str(sh.row(rx)[col]).replace('text:u','').replace('number:','').replace("'","").replace('.0','')
+				
+				u.append(x)
+				
+				Listanegra(campania_id=campania,dni=x).save()
+			
+		print '-',u
+
+		return HttpResponseRedirect("/filtros/"+campania)
 
 	
-	return HttpResponse(resultado, content_type="application/json")
+
+
+
+@login_required(login_url="/ingresar")
+def colas(request,campania):
+
+	print datetime.now().date()
+
+	data = AjxProLla.objects.filter(id_ori_seg_cola=141,f_origen__gte='2016-05-11').values('age_ip','llam_numero','llam_estado')[:50]
+
+	data_dict = ValuesQuerySetToDict(data)
+
+	data = simplejson.dumps(data_dict)
+
+	return HttpResponse(data, content_type="application/json")
+
 
 
 @login_required(login_url="/ingresar")

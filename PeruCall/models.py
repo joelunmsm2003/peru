@@ -131,9 +131,9 @@ class Agentescampanias(models.Model):
 
 class Agentesupervisor(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
-    agente = models.IntegerField(blank=True, null=True)
-    supervisor = models.IntegerField(blank=True, null=True)
-
+    agente = models.ForeignKey(Agentes, db_column='agente', blank=True, null=True)
+    supervisor = models.ForeignKey('Supervisor', db_column='supervisor', blank=True, null=True)
+    
     class Meta:
         managed = False
         db_table = 'agentesupervisor'

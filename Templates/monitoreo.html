@@ -124,8 +124,14 @@ padding-top: 8px;
 <a href='#arriba' ng-click="mon()" class="btn btn-primary" ng-show='bb'>Ver Graficas <i class="fa fa-line-chart"></i></a>
 <a  ng-click="ocultarmon()" class="btn btn-primary" ng-show='bbi'>Ocultar Graficas <i class="fa fa-line-chart"></i></a>
 
+<a ng-click="consumo()" class="btn btn-primary" ng-show='cola'>Ver Consumo <i class="fa fa-paper-plane" aria-hidden="true"></i></a>
+<a  ng-click="ocultarconsumo()" class="btn btn-primary" ng-show='colai'>Ocultar Consumo <i class="fa fa-paper-plane" aria-hidden="true"></i></a>
 
           <br></br>
+
+          <div class="flex-container">
+
+              <div class="flex-item ">
 
           <table class="table table-hover">
             <thead>
@@ -234,6 +240,77 @@ padding-top: 8px;
               </tbody>
             </table>
 
+                </div>
+
+                <div class="flex-item1 animated bounceInRight">
+
+                <table class="table table-hover">
+              <thead>
+                <tr>
+                 
+                  <th style="text-align:center; ">Origen</th>
+                  <th style="text-align:center; ">Destino</th>
+                  <th style="text-align:center; ">Estado</th>
+               
+                 
+                </tr>
+              </thead>
+              <tbody>
+                <tr  ng-repeat="contact in colas " class='active' ts-repeat>
+
+                  
+                  <td>{[{contact.age_ip}]}</td>
+                  <td> {[{contact.llam_numero}]}</td>
+                  <td ng-if='contact.llam_estado==0'> NA</td>
+                  <td ng-if='contact.llam_estado==1'> Procesando</td>
+                  <td ng-if='contact.llam_estado==2'> Ocupado</td>
+                  <td ng-if='contact.llam_estado==3'> No Contesta</td>
+                  <td ng-if='contact.llam_estado==4'> Contesto</td>
+                  <td ng-if='contact.llam_estado==5'> Buzon</td>
+                    
+
+
+                </tr>
+              </tbody>
+            </table>
+                  
+
+
+                </div>
+
+
+            </div>
+
+
+
+            <style> 
+            .flex-container {
+                display: -webkit-flex;
+                display: flex;
+                width: 100%;
+                z-index: 100000;
+               
+              
+               
+            }
+
+            .flex-item {
+                
+                width: 100%;
+                transition: opacity 2s;
+               
+                
+            }
+
+            .flex-item-1 {
+                
+                width: 20%;
+                transition: opacity 2s;
+           
+              
+            }
+            </style>
+
 
 
 
@@ -265,8 +342,6 @@ padding-top: 8px;
 <div id="graph3"  style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 
 </div>
-
-
 
 </div>
 

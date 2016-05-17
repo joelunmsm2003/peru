@@ -1163,6 +1163,13 @@ function Controller($scope,$http,$cookies,$filter) {
         $scope.procesado = $scope.total2 - $scope.pendiente
 
     });
+
+
+    $http.get("/colas/"+campania).success(function(response) {$scope.colas = response;
+
+        console.log('colas',$scope.colas)
+
+    });
     
 
     }, 1000);
@@ -1497,10 +1504,38 @@ function Controller($scope,$http,$cookies,$filter) {
 
     {
 
-
     $('.monixxx').hide()
     $scope.bb = 'True'
     $scope.bbi = 'False'
+
+    };
+
+    $('.flex-item1').hide()
+    $scope.colai = 'False'
+    $scope.cola = 'True'
+
+    $scope.consumo = function() 
+
+    {
+
+
+    $('.flex-item1').show()
+    $('.flex-item' ).css( "width", "87%" );
+    $scope.cola = 'False'
+    $scope.colai = 'True'
+
+    };
+
+
+    $scope.ocultarconsumo = function() 
+
+    {
+
+
+    $('.flex-item1').hide()
+    $('.flex-item' ).css( "width", "100%" );
+    $scope.cola = 'True'
+    $scope.colai= 'False'
 
 
     };
