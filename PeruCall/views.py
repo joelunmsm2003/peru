@@ -2048,9 +2048,9 @@ def reportecsv(request,cartera,campania):
 
 	writer = csv.writer(response)
 
-	resultado = Base.objects.filter(campania_id=campania).values('resultado').order_by('-resultado').annotate(total=Count('resultado'))[0]['resultado']
+	#resultado = Base.objects.filter(campania_id=campania).values('resultado').order_by('-resultado').annotate(total=Count('resultado'))[0]['resultado']
 
-	base = Base.objects.filter(campania_id=campania,resultado_id=resultado)
+	base = Base.objects.filter(campania_id=campania)
 
 	writer.writerow(['Id','Telefono','Orden','Cliente','ID Cliente','Cartera','Campania','Agente','Duracion','Monto','Fecha Gestion','Status A','Status B','Status C','Status D','Status E','Status F','Status G','Status H','Botonera','Observacion','Fecha de Pago','Importe de Pago'])
 
@@ -2205,9 +2205,9 @@ def carteras(request):
 		
 		fmt = '%Y-%m-%d %H:%M:%S %Z'
 
-		for i in range(len(data)):
+		#for i in range(len(data)):
 
-			data[i]['fecha'] = Carteraempresa.objects.get(id=data[i]['id']).fecha.strftime(fmt)
+			#data[i]['fecha'] = Carteraempresa.objects.get(id=data[i]['id']).fecha.strftime(fmt)
 		
 
 
@@ -3026,17 +3026,17 @@ def listanegra(request):
 				
 				Listanegra(campania_id=campania,dni=x).save()
 
-				lista = Listanegra.objects.all().values('id').order_by('-id')[0]['id']
+		lista = Listanegra.objects.filter(campania_id=campania)
 
-				base = Base.objects.filter(campania_id=campania)
+		for l in lista:
 
-				for b in base:
+			base = Base.objects.filter(id_cliente=l.dni)
+			
+			for b in base:
 
-					b.blacklist = 1
-					b.save()
+				b.blacklist = 1
+				b.save()
 
-
-		print '-',u
 
 		return HttpResponseRedirect("/filtros/"+campania)
 
