@@ -878,8 +878,6 @@ def agentes(request,id_campania):
 	fmt1 = '%Y-%m-%d %H:%M:%S'
 	fmt2='%H:%M:%S'
 
-
-
 	for i in range(len(user)):
 
 		agente = Agentes.objects.get(id=user[i]['agente'])
@@ -894,7 +892,7 @@ def agentes(request,id_campania):
 
 		if Base.objects.filter(status=1,agente_id=user[i]['agente']):
 
-			user[i]['fono'] =  str(Base.objects.filter(status=1,agente_id=user[i]['agente']).values('telefono')[:1]).replace("[{'telefono':",'').replace('L}]','').replace("None}]",'')
+			user[i]['fono'] =  str(Base.objects.filter(status=1,agente_id=user[i]['agente']).values('telefono')[:1]).replace("[{'telefono':",'').replace('L}]','').replace("None}]",'').replace("u'",'').replace("'}]",'')
 
 		if agente.estado.id == 2:
 
@@ -921,7 +919,6 @@ def agentes(request,id_campania):
 			ti = agente.tinicioservicio
 
 		if agente.estado.id > 1:
-
 
 			print 'Ti....',ti,agente.id
 
