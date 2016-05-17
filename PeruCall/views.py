@@ -3028,7 +3028,17 @@ def listanegra(request):
 				u.append(x)
 				
 				Listanegra(campania_id=campania,dni=x).save()
-			
+
+				lista = Listanegra.objects.all().values('id').order_by('-id')[0]['id']
+
+				base = Base.objects.filter(campania_id=campania)
+
+				for b in base:
+
+					b.blacklist = 1
+					b.save()
+
+
 		print '-',u
 
 		return HttpResponseRedirect("/filtros/"+campania)
@@ -3040,9 +3050,9 @@ def listanegra(request):
 @login_required(login_url="/ingresar")
 def colas(request,campania):
 
-	print datetime.now().date()
+	f = datetime.now().date()
 
-	data = AjxProLla.objects.filter(id_ori_seg_cola=141,f_origen__gte='2016-05-11').values('age_ip','llam_numero','llam_estado')[:50]
+	data = AjxProLla.objects.filter(id_ori_seg_cola=campania,f_origen__gte=f).values('age_ip','llam_numero','llam_estado')[:20]
 
 	data_dict = ValuesQuerySetToDict(data)
 
