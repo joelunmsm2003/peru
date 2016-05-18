@@ -3282,12 +3282,12 @@ def uploadCampania(request):
 
 					a[col]= a[col][1][0:150]
 
-					a[col] = a[col].replace("u'","")
+					a[col] = a[col].replace("u","").replace('"','').replace("'","")
 
-					a[col] = a[col].replace("'","")
+
 
 				telefono = int(a[0].replace('.0',''))
-				orden = a[1]
+				orden = int(a[1].replace('.0',''))
 				cliente = a[2]
 				id_cliente = a[3]
 				status_a = a[4]
@@ -3315,7 +3315,7 @@ def uploadCampania(request):
 				status_h = a[11].replace('.0','')
 				'''
 
-				Base(campania_id=id_campania,telefono=telefono,orden=orden,cliente=cliente,id_cliente=id_cliente,status_a=status_a,status_b=status_b,status_c=status_c,status_d=status_d,status_e=status_e,status_f=status_f,status_g=status_g,status_h=status_h).save()
+				Base(campania_id=id_campania,telefono=telefono,orden=orden,cliente=cliente,id_cliente=id_cliente,status_a=status_a,status_b=status_b,status_c=status_c,status_d=status_d,status_e=status_e,status_f=status_f,status_g=status_g,status_h=status_h,blacklist=0).save()
 
 				time.sleep(.002)
 		

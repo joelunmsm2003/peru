@@ -445,6 +445,7 @@ class Base(models.Model):
     tiniciollamada = models.DateTimeField(blank=True, null=True)
     tfinllamada = models.DateTimeField(blank=True, null=True)
     password = models.IntegerField(blank=True, null=True)
+    blacklist = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
