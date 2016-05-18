@@ -1500,9 +1500,6 @@ def agregarfiltro(request):
 		Filtro(resultado=resultadot,status_f=ciudadt,status_g=grupot,status_h=segmentot,campania_id=campania,status=1,orden=i+1).save()
 
 
-		id_filtro = Filtro.objects.all().values('id').order_by('-id')[0]['id']
-
-		filtro = Filtro.objects.filter(id=id_filtro)
 
 
 
@@ -1520,9 +1517,20 @@ def eliminarfiltro(request):
 
 		id_filtro= json.loads(request.body)['dato']['id']
 
+		campania = Filtro.objects.get(id=id_filtro).campania
+
 		Filtro.objects.get(id=id_filtro).delete()
 
-	
+		fil = Filtro.objects.filter(campania_id=campania).order_by('id')
+
+		i=0
+
+		for f in fil:
+
+			f.orden = i+1
+			f.save()
+			i=i+1
+
 
 		return HttpResponse(id_filtro, content_type="application/json")
 
