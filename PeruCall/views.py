@@ -1494,19 +1494,31 @@ def agregarfiltro(request):
 		for i in range(len(segmento)):
 
 			segmentot = segmentot  + segmento[i]['status_h'] +'/'
-  	
 
-		Filtro(resultado = resultadot,status_f=ciudadt,status_g=grupot,status_h=segmentot,campania_id=campania,status=1).save()
+		i = Filtro.objects.filter(campania_id=campania).count()
 
-	
+		Filtro(resultado=resultadot,status_f=ciudadt,status_g=grupot,status_h=segmentot,campania_id=campania,status=1,orden=i+1).save()
+
+
+		id_filtro = Filtro.objects.all().values('id').order_by('-id')[0]['id']
+
+		filtro = Filtro.objects.filter(id=id_filtro)
+
+
+
 		return HttpResponse('data', content_type="application/json")
+
 
 @login_required(login_url="/ingresar")
 def eliminarfiltro(request):
 
 	if request.method == 'POST':
 
-		id_filtro= json.loads(request.body)['dato']['id_filtro']
+		#id {u'dato': {u'status': 1, u'index': 0, u'resultado': u'', u'status_h': u'BASE/', u'status_g': u'ORIENTE/', u'status_f': u'PENDIENTE/', u'id': 146, u'color': u'#FAF8F8', u'fonosporbarrer': 0, u'colort': u'#564D4D', u'statusname': u'Apagado', u'total': 0, u'fonosin
+
+		print 'id',json.loads(request.body)
+
+		id_filtro= json.loads(request.body)['dato']['id']
 
 		Filtro.objects.get(id=id_filtro).delete()
 

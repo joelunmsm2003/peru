@@ -653,6 +653,7 @@ class Filtro(models.Model):
     status_g = models.CharField(max_length=1000, blank=True)
     resultado = models.CharField(max_length=1000, blank=True)
     status = models.IntegerField(blank=True, null=True)
+    orden = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
