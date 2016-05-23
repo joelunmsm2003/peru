@@ -1354,12 +1354,7 @@ def gestionupdate(request):
 			age.estado = 5
 			age.save()
 
-
-
-
 		comentario = gestion['comentario']
-
-	
 
 		if len(gestion)>1:
 
@@ -1375,6 +1370,17 @@ def gestionupdate(request):
 				base.facuerdo = fecha
 				base.macuerdo = monto
 				base.save()
+
+			bax = Base.objects.get(id=cliente)
+
+			print 'Gestion Update',bax
+			bax.detalle = comentario
+			bax.monto = monto
+			bax.fecha = fecha
+			bax.tfingestion = datetime.now()-timedelta(hours=5)
+			bax.save()
+
+
 
 		user = Agentes.objects.get(id=agente).user.username
 		
@@ -2070,12 +2076,46 @@ def reportecsv(request,cartera,campania):
 
 	#resultado = Base.objects.filter(campania_id=campania).values('resultado').order_by('-resultado').annotate(total=Count('resultado'))[0]['resultado']
 
-	base = Base.objects.filter(campania_id=campania)
+	base = Base.objects.filter(campania_id=campania).order_by('-id_cliente')
 
-	writer.writerow(['Id','Telefono','Orden','Cliente','ID Cliente','Cartera','Campania','Agente','Duracion','Monto','Fecha Gestion','Status A','Status B','Status C','Status D','Status E','Status F','Status G','Status H','Botonera','Observacion','Fecha de Pago','Importe de Pago'])
+	writer.writerow(['Id','Telefono','Orden','Cliente','ID Cliente','Cartera','Campania','Status A','Status B','Status C','Status D','Status E','Status F','Status G','Status H','Mejor Gestion','Fecha','Telefono','Agente','Intentos','Botonera','Observacion','Fecha de Pago','Importe de Pago','Duracion','Fecha de Gestion'])
 
+	dniant = '2222'
+
+	mejorgestion = ''
 
 	for x in base:
+
+		dniact = x.id_cliente
+		status_b = x.status_b.replace('u"','').replace('"','')
+
+		print 'dni...',x.id_cliente
+
+		if dniact == dniant:
+
+			telefono = x.telefono
+
+			intentos = AjxProLla.objects.filter(llam_numero=telefono).count()
+			
+			if x.status_f == 'NO CONTACTO':
+
+				mejorgestion = 'NO CONTACTO'
+
+			if x.status_f == 'PROMESA':
+
+				mejorgestion = 'PROMESA'
+
+			if x.status_f == 'CONTACTO':
+
+				mejorgestion = 'CONTACTO'
+
+		else:
+
+			mejorgestion = x.status_f
+
+			telefono = x.telefono
+
+			intentos = AjxProLla.objects.filter(llam_numero=telefono).count()
 
 		x.campania.nombre = x.campania.nombre.encode('ascii','ignore')
 
@@ -2111,8 +2151,11 @@ def reportecsv(request,cartera,campania):
 
 			duracion = str(fin-inicio)[2:8]
 
-		writer.writerow([x.id,x.telefono,x.orden,x.cliente,x.id_cliente,x.campania.cartera.nombre,x.campania.nombre,agente,duracion,x.monto,x.fecha,x.status_a,x.status_b,x.status_c,x.status_d,x.status_e,x.status_f,x.status_g,x.status_h,resultado,'Observacion','Fecha de Pago','Importe de Pago'])
+		#writer.writerow(['Id','Telefono','Orden','Cliente','ID Cliente','Cartera','Campania','Status A','Status B','Status C','Status D','Status E','Status F','Status G','Status H','Mejor Gestion','Fecha','Telefono','Agente','Intentos','Botonera','Observacion','Fecha de Pago','Importe de Pago','Duracion','Fecha de Gestion'])
 
+		writer.writerow([x.id,x.telefono,x.orden,x.cliente,x.id_cliente,x.campania.cartera.nombre,x.campania.nombre,x.status_a,x.status_b,x.status_c,x.status_d,x.status_e,x.status_f,x.status_g,x.status_h,mejorgestion,x.fecha,x.telefono,agente,intentos,resultado,x.detalle,x.fecha,x.monto,duracion,x.tfingestion])
+
+		dniant = x.id_cliente
 
 	return response
 

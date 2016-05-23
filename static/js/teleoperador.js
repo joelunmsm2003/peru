@@ -625,7 +625,7 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
        
         console.log(contact)
 
-        if(contact['id']==11){
+        if(contact['id']==15 || contact['id']==5){
 
             $('.gestionfecha').show()
 
