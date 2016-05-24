@@ -1350,10 +1350,26 @@ def gestionupdate(request):
 		cliente = json.loads(request.body)['cliente']['id']
 
 		age = Agentes.objects.get(id=agente)
+		age.estado_id = 2
+		age.save()
 
-		if age.checa == 1:
+		age = Agentes.objects.get(id=agente)
 
-			age.estado = 5
+		if int(age.checa) == 1:
+
+			age.estado_id = 5
+			age.save()
+
+		if int(age.checaser) == 1:
+
+			print 'Gestion Update......'
+
+			age.estado_id = 9
+			age.save()
+
+		if int(age.checabreak) == 1:
+
+			age.estado_id = 8
 			age.save()
 
 		comentario = gestion['comentario']
@@ -1410,7 +1426,6 @@ def gestionupdate(request):
 		redis_publisher.publish_message(message)
 
 		agente = Agentes.objects.get(id=agente)
-		agente.estado_id = 2
 		agente.wordstipeo = 0
 		agente.tinicioespera = datetime.now()-timedelta(hours=5)
 		agente.save() 
@@ -2070,6 +2085,7 @@ def sshh(request,id_agente):
 
 		if agente.estado.id== 9:
 
+			agente.estado_id = 2
 			agente.checaser = 2
 			agente.checa = 0
 			agente.checabreak = 0
