@@ -2138,49 +2138,30 @@ def reportecsv(request,cartera,campania):
 
 				resultado = x.resultado.name
 
-				if resultado == 'ERRADO':
+		
+				if resultado == 'Msj Tercero (No vive)':
 
-					mejorgestion = 'ERRADO'
+					mejorgestion = 'Msj Tercero (No vive)'
 
-				if resultado == 'NO EXISTE':
+				if resultado == 'Msj Tercero (Si vive)':
 
-					mejorgestion = 'NO EXISTE'
+					mejorgestion = 'Msj Tercero (Si vive)'
 
-				if resultado == 'APAGADO':
+				if resultado == 'Contacto Indirecto':
 
-					mejorgestion = 'NO CONTACTO'
+					mejorgestion = 'Contacto Indirecto'
 
-				if resultado == 'NO CONTACTO':
+				if resultado == 'Contacto Directo':
 
-					mejorgestion = 'NO CONTACTO'
+					mejorgestion = 'Contacto Directo'
 
-				if resultado == 'BUZON DE VOZ':
+				if resultado == 'Promesa':
 
-					mejorgestion = 'BUZON DE VOZ'
-
-				if resultado == 'OCUPADO':
-
-					mejorgestion = 'OCUPADO'
-
-				if resultado == 'NO VIVE':
-
-					mejorgestion = 'NO VIVE'
-
-				if resultado == 'SI VIVE':
-
-					mejorgestion = 'SI VIVE'
-
-				if resultado == 'DIRECTO':
-
-					mejorgestion = 'DIRECTO'
-
-				if resultado == 'PROMESA':
-
-					mejorgestion = 'PROMESA'
+					mejorgestion = 'Promesa'
 			
 		else:
 
-			mejorgestion = 'SIN GESTION'
+			mejorgestion = 'Sin Gestion'
 
 			telefono = x.telefono
 
@@ -2208,7 +2189,7 @@ def reportecsv(request,cartera,campania):
 
 		else:
 
-			resultado = 'SIN GESTION'
+			resultado = 'Sin Gestion'
 
 		duracion = ''
 
