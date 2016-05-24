@@ -418,8 +418,11 @@ def getaudios(request):
 
 			if i == 'fecha':
 
-				filtro['f_origen']  = data['fecha']
+				filtro['f_origen__gte']  = data['fecha']
 
+			if i == 'fechafin':
+
+				filtro['f_origen__lte']  = data['fechafin']
 
 
 		#{u'origen': 123, u'fecha': u'2016-05-13', u'destino': 123, u'campania': 193, u'cartera': 19}
@@ -432,7 +435,6 @@ def getaudios(request):
 
 			data[i]['fecha'] = AjxProLla.objects.get(id_ori_llamadas=data[i]['id_ori_llamadas']).f_origen.strftime(fmt)
 		
-
 	
 	data_dict = ValuesQuerySetToDict(data)
 
@@ -1373,12 +1375,31 @@ def gestionupdate(request):
 
 			bax = Base.objects.get(id=cliente)
 
+			resultado = bax.resultado_id
+
+			flag_call = Resultado.objects.get(id=resultado).flag_call
+			dni = bax.id_cliente
+
+			if flag_call == 0:
+
+				base = Base.objects.filter(id_cliente=dni)
+				
+				for b in base:
+					b.bloqueocliente = 0
+					b.save()
+
+			if flag_call == 1:
+				pass
+
+
 			print 'Gestion Update',bax
 			bax.detalle = comentario
 			bax.monto = monto
 			bax.fecha = fecha
 			bax.tfingestion = datetime.now()-timedelta(hours=5)
 			bax.save()
+
+
 
 
 
@@ -2070,7 +2091,7 @@ def reportecsv(request,cartera,campania):
 	ncampania = Campania.objects.get(id=campania).nombre
 	fecha= datetime.now()
 
-	response['Content-Disposition'] = 'attachment; filename="Reporte_Cartera_'+str(ncartera)+'_Campania_'+str(ncampania)+'_Fecha_'+str(fecha)[0:19]+'.csv'
+	response['Content-Disposition'] = 'attachment; filename="RG_'+str(ncartera)+'_'+str(ncampania)+'_'+str(fecha)[0:19]+'.csv'
 
 	writer = csv.writer(response)
 
@@ -2078,7 +2099,7 @@ def reportecsv(request,cartera,campania):
 
 	base = Base.objects.filter(campania_id=campania).order_by('-id_cliente')
 
-	writer.writerow(['Id','Telefono','Orden','Cliente','ID Cliente','Cartera','Campania','Status A','Status B','Status C','Status D','Status E','Status F','Status G','Status H','Mejor Gestion','Fecha','Telefono','Agente','Intentos','Botonera','Observacion','Fecha de Pago','Importe de Pago','Duracion','Fecha de Gestion'])
+	writer.writerow(['Telefono','Orden','Cliente','ID Cliente','Cartera','Campania','Status A','Status B','Status C','Status D','Status E','Status F','Status G','Status H','Mejor Gestion','Fecha','Telefono','Agente','Intentos','Botonera','Observacion','Fecha de Pago','Importe de Pago','Duracion','Fecha de Gestion'])
 
 	dniant = '2222'
 
@@ -2096,22 +2117,54 @@ def reportecsv(request,cartera,campania):
 			telefono = x.telefono
 
 			intentos = AjxProLla.objects.filter(llam_numero=telefono).count()
+
+			if x.resultado:
+
+				resultado = x.resultado.name
+
+				if resultado == 'ERRADO':
+
+					mejorgestion = 'ERRADO'
+
+				if resultado == 'NO EXISTE':
+
+					mejorgestion = 'NO EXISTE'
+
+				if resultado == 'APAGADO':
+
+					mejorgestion = 'NO CONTACTO'
+
+				if resultado == 'NO CONTACTO':
+
+					mejorgestion = 'NO CONTACTO'
+
+				if resultado == 'BUZON DE VOZ':
+
+					mejorgestion = 'BUZON DE VOZ'
+
+				if resultado == 'OCUPADO':
+
+					mejorgestion = 'OCUPADO'
+
+				if resultado == 'NO VIVE':
+
+					mejorgestion = 'NO VIVE'
+
+				if resultado == 'SI VIVE':
+
+					mejorgestion = 'SI VIVE'
+
+				if resultado == 'DIRECTO':
+
+					mejorgestion = 'DIRECTO'
+
+				if resultado == 'PROMESA':
+
+					mejorgestion = 'PROMESA'
 			
-			if x.status_f == 'NO CONTACTO':
-
-				mejorgestion = 'NO CONTACTO'
-
-			if x.status_f == 'PROMESA':
-
-				mejorgestion = 'PROMESA'
-
-			if x.status_f == 'CONTACTO':
-
-				mejorgestion = 'CONTACTO'
-
 		else:
 
-			mejorgestion = x.status_f
+			mejorgestion = 'SIN GESTION'
 
 			telefono = x.telefono
 
@@ -2139,7 +2192,7 @@ def reportecsv(request,cartera,campania):
 
 		else:
 
-			resultado = ''
+			resultado = 'SIN GESTION'
 
 		duracion = ''
 
@@ -2153,7 +2206,7 @@ def reportecsv(request,cartera,campania):
 
 		#writer.writerow(['Id','Telefono','Orden','Cliente','ID Cliente','Cartera','Campania','Status A','Status B','Status C','Status D','Status E','Status F','Status G','Status H','Mejor Gestion','Fecha','Telefono','Agente','Intentos','Botonera','Observacion','Fecha de Pago','Importe de Pago','Duracion','Fecha de Gestion'])
 
-		writer.writerow([x.id,x.telefono,x.orden,x.cliente,x.id_cliente,x.campania.cartera.nombre,x.campania.nombre,x.status_a,x.status_b,x.status_c,x.status_d,x.status_e,x.status_f,x.status_g,x.status_h,mejorgestion,x.fecha,x.telefono,agente,intentos,resultado,x.detalle,x.fecha,x.monto,duracion,x.tfingestion])
+		writer.writerow([x.telefono,x.orden,x.cliente,x.id_cliente,x.campania.cartera.nombre,x.campania.nombre,x.status_a,x.status_b,x.status_c,x.status_d,x.status_e,x.status_f,x.status_g,x.status_h,mejorgestion,x.fecha,x.telefono,agente,intentos,resultado,x.detalle,x.fecha,x.monto,duracion,x.tfingestion])
 
 		dniant = x.id_cliente
 
@@ -2251,7 +2304,6 @@ def carteras(request):
 
 			data =Supervisorcartera.objects.filter(supervisor__user__id=id).values('id','cartera__nombre','cartera_id')
 
-
 		if nivel == 3:
 
 			data = Carteraempresa.objects.filter(empresa_id=empresa).values('id','cartera__nombre','empresa__nombre','cartera_id','user__first_name').order_by('-id')
@@ -2264,7 +2316,6 @@ def carteras(request):
 
 			data = Carteraempresa.objects.filter(empresa_id=empresa).values('id','cartera__nombre','empresa__nombre','cartera_id','user__first_name').order_by('-id')
 
-
 		
 		fmt = '%Y-%m-%d %H:%M:%S %Z'
 
@@ -2272,9 +2323,6 @@ def carteras(request):
 
 			#data[i]['fecha'] = Carteraempresa.objects.get(id=data[i]['id']).fecha.strftime(fmt)
 		
-
-
-
 		data_dict = ValuesQuerySetToDict(data)
 
 		data = simplejson.dumps(data_dict)

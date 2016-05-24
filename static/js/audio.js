@@ -105,7 +105,9 @@ function Controller($scope,$http,$cookies,$filter) {
     $http.get("/carteras").success(function(response) { $scope.carteras = response; });
 
 
-    $http.get("/user").success(function(response) {$scope.user = response;
+    $http.get("/user").success(function(response) {
+
+        $scope.user = response;
 
         $scope.user = $scope.user[0]
 
@@ -208,7 +210,7 @@ $('.container').fadeToggle("slow")
         });
 
 
-    $scope.campanias = function(data) 
+    $scope.traecampanias = function(data) 
 
     {
 
