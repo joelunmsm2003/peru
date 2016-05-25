@@ -2124,49 +2124,61 @@ def reportecsv(request,cartera,campania):
 	for x in base:
 
 		dniact = x.id_cliente
+
 		status_b = x.status_b.replace('u"','').replace('"','')
 
-		print 'dni...',x.id_cliente
+		telefono = x.telefono
 
-		if dniact == dniant:
+		intentos = AjxProLla.objects.filter(llam_numero=telefono).count()
 
-			telefono = x.telefono
+		resultado = 'Sin Gestion'
 
-			intentos = AjxProLla.objects.filter(llam_numero=telefono).count()
+		bx =Base.objects.filter(id_cliente=dniact)
+		pant =0
 
-			if x.resultado:
+		for r in bx:
 
-				resultado = x.resultado.name
 
+
+			if r.resultado:
+
+				resultado = r.resultado.name
 		
 				if resultado == 'Msj Tercero (No vive)':
 
-					mejorgestion = 'Msj Tercero (No vive)'
+					p =1
+
+					if p>pant:
+
+						mejorgestion = 'Msj Tercero (No vive)'
 
 				if resultado == 'Msj Tercero (Si vive)':
 
-					mejorgestion = 'Msj Tercero (Si vive)'
+					p = 2
+
+					if p>pant:
+
+						mejorgestion = 'Msj Tercero (Si vive)'
 
 				if resultado == 'Contacto Indirecto':
+					p=3
 
-					mejorgestion = 'Contacto Indirecto'
+					if p>pant:
+
+						mejorgestion = 'Contacto Indirecto'
 
 				if resultado == 'Contacto Directo':
-
-					mejorgestion = 'Contacto Directo'
+					p=4
+					if p>pant:
+						mejorgestion = 'Contacto Directo'
 
 				if resultado == 'Promesa':
+					p=5
+					if p>pant:
+						mejorgestion = 'Promesa'
 
-					mejorgestion = 'Promesa'
+				pant = p
 			
-		else:
-
-			mejorgestion = 'Sin Gestion'
-
-			telefono = x.telefono
-
-			intentos = AjxProLla.objects.filter(llam_numero=telefono).count()
-
 		x.campania.nombre = x.campania.nombre.encode('ascii','ignore')
 
 		x.campania.nombre = x.campania.nombre.encode('ascii','replace')
@@ -2182,14 +2194,6 @@ def reportecsv(request,cartera,campania):
 		else:
 
 			agente = ''
-
-		if x.resultado:
-
-			resultado = x.resultado.name
-
-		else:
-
-			resultado = 'Sin Gestion'
 
 		duracion = ''
 
