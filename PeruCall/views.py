@@ -2129,7 +2129,7 @@ def reportecsv(request,cartera,campania):
 
 		telefono = x.telefono
 
-		intentos = AjxProLla.objects.filter(llam_numero=telefono).count()
+		intentos = AjxProLla.objects.filter(llam_numero=telefono,cam_codigo=campania).count()
 
 		resultado = 'Sin Gestion'
 
