@@ -2103,7 +2103,7 @@ def reportecsv(request,cartera,campania):
 
 	response = HttpResponse(content_type='text/csv')
 
-	ncartera=Cartera.objects.get(id=cartera).nombre
+	ncartera=Campania.objects.get(id=campania).cartera.nombre
 	ncampania = Campania.objects.get(id=campania).nombre
 	fecha= datetime.now()
 
@@ -2135,10 +2135,9 @@ def reportecsv(request,cartera,campania):
 
 		bx =Base.objects.filter(id_cliente=dniact)
 		pant =0
+		mejorgestion = 'Sin Gestion'
 
 		for r in bx:
-
-
 
 			if r.resultado:
 
