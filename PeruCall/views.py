@@ -3844,8 +3844,6 @@ def usuarios(request):
 			
 			if e == 1:
 
-				
-
 				user = User.objects.create_user(username=username,password=password)
 
 				user.save()
@@ -3872,7 +3870,10 @@ def usuarios(request):
 
 						for i in data['cartera']:
 
-							id_cartera = Carteraempresa.objects.get(cartera__nombre=i['cartera__nombre'],empresa_id=empresa).id
+							print 'Carteras....',i['cartera__nombre']
+
+
+							id_cartera = Carteraempresa.objects.get(cartera__nombre=i['cartera__nombre'],empresa_id=empresa).cartera.id
 
 							Supervisorcartera(cartera_id=id_cartera,supervisor_id=id_sup).save()
 
