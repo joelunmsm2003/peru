@@ -2103,7 +2103,7 @@ def reportecsv(request,cartera,campania):
 
 	response = HttpResponse(content_type='text/csv')
 
-	ncartera=Cartera.objects.get(id=cartera).nombre
+	ncartera=Campania.objects.get(id=campania).cartera.nombre
 	ncampania = Campania.objects.get(id=campania).nombre
 	fecha= datetime.now()
 
@@ -2135,10 +2135,9 @@ def reportecsv(request,cartera,campania):
 
 		bx =Base.objects.filter(id_cliente=dniact)
 		pant =0
+		mejorgestion = 'Sin Gestion'
 
 		for r in bx:
-
-
 
 			if r.resultado:
 
@@ -3845,8 +3844,6 @@ def usuarios(request):
 			
 			if e == 1:
 
-				
-
 				user = User.objects.create_user(username=username,password=password)
 
 				user.save()
@@ -3873,7 +3870,10 @@ def usuarios(request):
 
 						for i in data['cartera']:
 
-							id_cartera = Carteraempresa.objects.get(cartera__nombre=i['cartera__nombre'],empresa_id=empresa).id
+							print 'Carteras....',i['cartera__nombre']
+
+
+							id_cartera = Carteraempresa.objects.get(cartera__nombre=i['cartera__nombre'],empresa_id=empresa).cartera.id
 
 							Supervisorcartera(cartera_id=id_cartera,supervisor_id=id_sup).save()
 
