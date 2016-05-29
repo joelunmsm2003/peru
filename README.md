@@ -1,5 +1,6 @@
 Peru Call
 ==========
+sudo sysctl -n -w fs.inotify.max_user_watches=16384
 
 Call Center System
 
