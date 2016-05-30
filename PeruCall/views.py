@@ -611,6 +611,8 @@ def kpi(request,agente):
 
 		base[i]['fecha'] = Estadocambio.objects.get(id=base[i]['id']).fecha.strftime(fmt)
 
+	print 'Base....',base
+
 	horainicio = float(base[0]['fecha'].split(':')[0]) + float(base[0]['fecha'].split(':')[1])/60
 
 	now = datetime.now()
