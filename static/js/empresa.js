@@ -239,7 +239,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-       swal({   title: "Empresa "+data +" editado",  type: "success",  timer: 1000,   showConfirmButton: false });
+       swal({   title: "Empresa "+data +" eliminado",  type: "success",  timer: 1000,   showConfirmButton: false });
        
        $http.get("/empresas").success(function(response) {$scope.clientes = response;
 

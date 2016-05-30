@@ -4147,6 +4147,10 @@ def empresas(request):
 
 			id= data['id']
 
+			print 'Empresa id',id
+
+			Empresa.objects.get(id=id).delete()
+
 	
 
 
