@@ -74,6 +74,7 @@ urlpatterns = patterns('',
     url(r'^generacsv/(\w+)/(\w+)/(\w+)/(\w+)/(\w+)/(\w+)/$','PeruCall.views.generacsv'),
     url(r'^listanegra/$','PeruCall.views.listanegra'),
     url(r'^colas/(\d+)/$','PeruCall.views.colas'),
+    url(r'^kpi/(\d+)/$','PeruCall.views.kpi'),
 
 
     url(r'^agentescalifica/(\w+)/$','PeruCall.views.agentescalifica'),

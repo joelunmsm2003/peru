@@ -64,6 +64,7 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
         $scope.last_login = $scope.user.last_login
 
     });
+    /*
 
     $http.get("/atendida/"+agente).success(function(response) {$scope.atendida = response;
        
@@ -71,7 +72,11 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
         $scope.atendida = $scope.fechaa.getSeconds()
         $scope.at =formatSeconds($scope.atendida)
 
+        console.log('fecha',$scope.at)
+
     });
+
+*/
 
 
     $http.get("/tgestion/"+agente).success(function(response) {
@@ -97,6 +102,31 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
 
         });
 
+        $http.get("/atendida/"+agente).success(function(response) {$scope.atendida = response;
+       
+        /*$scope.fechaa = new Date($scope.atendida)
+        $scope.atendida = $scope.fechaa.getSeconds()
+        
+        $scope.at =formatSeconds($scope.atendida)
+        */
+
+        
+        $scope.at =formatSeconds($scope.atendida)
+
+        console.log('fecha',$scope.atendida)
+
+        });
+
+
+        $http.get("/kpi/"+agente).success(function(response) {
+
+        $scope.kpi = response;
+        console.log('kpi',response.kpicolor)
+        $scope.kpib = response.kpicolor
+        $scope.kpic = response.kpic
+
+        });
+
 
         login = new Date($scope.last_login)
         d1 = new Date(); 
@@ -108,6 +138,8 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
         $scope.diff = Math.abs(d1-d2);  
 
         $scope.conectado = parseInt(Math.abs(d1-login)/1000)
+
+        console.log('conectado....',$scope.desfase)
 
         $scope.con = formatSeconds($scope.conectado)
 
@@ -146,8 +178,6 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
         console.log('Reg base',$scope.cliente)
 
         $scope.id_campania = $scope.cliente.id
-
-       
 
         $http.get("/header/"+$scope.id_campania).success(function(response) {$scope.header = response[0];
                   

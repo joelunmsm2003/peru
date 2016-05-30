@@ -207,7 +207,7 @@ def ingresar(request):
 					
 					nivel = AuthUser.objects.get(username=user).nivel.id
 
-					
+					Estadocambio(user_id=request.user.id,estado_id=2).save()
 
 
 					if nivel == 1:
@@ -591,6 +591,82 @@ def uploaduser(request):
 	
 	return HttpResponseRedirect("/usuario")
 
+
+@login_required(login_url="/ingresar")
+def kpi(request,agente):
+
+	today = datetime.now()
+
+	user = Agentes.objects.get(id=agente).user.id
+
+	fmt1 = '%Y-%m-%d'
+
+	today =  today.strftime(fmt1)
+
+	base = Estadocambio.objects.filter(fecha__gte=today,user_id=user,estado_id=2).values('id','estado__nombre','user__first_name','user').order_by('id')[:1]
+
+	fmt = '%H:%M'
+
+	for i in range(len(base)):
+
+		base[i]['fecha'] = Estadocambio.objects.get(id=base[i]['id']).fecha.strftime(fmt)
+
+	horainicio = float(base[0]['fecha'].split(':')[0]) + float(base[0]['fecha'].split(':')[1])/60
+
+	now = datetime.now()
+
+	fmt2='%H:%M'
+
+	now = now.strftime(fmt2)
+
+	horafin = float(now.split(':')[0]) + float(base[0]['fecha'].split(':')[1])/60
+
+	print horafin
+
+	a = (horafin-horainicio)*80/100
+
+	print 'a',a
+
+	ajax = AjxProLla.objects.filter(age_codigo=agente).order_by('-id_ori_llamadas')
+
+	print 'contador',ajax.count()
+
+	t=0
+
+	for i in ajax:
+
+		if str(i.f_origen).split(" ")[0] == today:
+
+			t = t + i.duration 
+		#t = int(ajax.duration) + t
+
+	b = float(t)/3600
+
+	print 'bbbb',b
+
+	kpi =0
+
+	if b>0:
+
+		kpi = b*100/a
+
+	print kpi
+	#kpicolor='red'
+
+	if kpi <= 65:
+		kpicolor = 'rgb(239, 83, 80)'
+		kpic = '#fff'
+	if kpi>65 and kpi<=85:
+		kpicolor = 'rgb(244, 242, 54)'
+		kpic = '#284058'
+	if kpi>85:
+		kpicolor = 'rgb(136, 229, 66)'
+		kpic = '#284058'
+
+	data = {'kpicolor':kpicolor,'kpi':kpi,'kpic':kpic}
+	data = simplejson.dumps(data)
+
+	return HttpResponse(data, content_type="application/json")
 
 
 
@@ -1895,10 +1971,29 @@ def cliente(request,id_agente):
 @login_required(login_url="/ingresar")
 def atendida(request,id_agente):
 		
-		tiempo = Agentes.objects.get(id=id_agente).tiempo
 
-		
-		return HttpResponse(tiempo, content_type="application/json")
+		today = datetime.now()
+
+		fmt1 = '%Y-%m-%d'
+
+		today =  today.strftime(fmt1)
+
+		ajax = AjxProLla.objects.filter(age_codigo=id_agente).order_by('-id_ori_llamadas')
+
+		print 'contador',ajax.count()
+
+		t=0
+
+		for i in ajax:
+
+			if str(i.f_origen).split(" ")[0] == today:
+
+				print 'hshshshs',i.duration
+
+				t = t + i.duration 
+
+
+		return HttpResponse(t, content_type="application/json")
 
 
 @login_required(login_url="/ingresar")
@@ -1958,24 +2053,29 @@ def pausa(request,id_agente):
 
 
 		agente = Agentes.objects.get(id=id_agente)
+		user = agente.user.id
 
 		if agente.estado.id == 2:
 			agente.estado_id = 5
 			agente.checabreak = 0
 			agente.checa = 0
 			agente.checaser = 0
+			Estadocambio(user_id=user,estado_id=5).save()
 
 		if agente.estado.id == 8:
 			agente.estado_id = 5
 			agente.checabreak = 0
 			agente.checa = 0
 			agente.checaser = 0
+			Estadocambio(user_id=user,estado_id=5).save()
+
 
 		if agente.estado.id == 9:
 			agente.estado_id = 5
 			agente.checabreak = 0
 			agente.checa = 0
 			agente.checaser = 0
+			Estadocambio(user_id=user,estado_id=5).save()
 
 
 		if agente.estado.id == 5:
@@ -1983,6 +2083,7 @@ def pausa(request,id_agente):
 			agente.checabreak = 0
 			agente.checa = 0
 			agente.checaser = 0
+			Estadocambio(user_id=user,estado_id=2).save()
 
 
 
@@ -1991,6 +2092,7 @@ def pausa(request,id_agente):
 			agente.checaser = 0
 			agente.checa = 1
 			agente.checabreak = 0
+			
 
 		agente.tiniciopausa = datetime.now()-timedelta(hours=5)
 		
@@ -2003,6 +2105,7 @@ def pausa(request,id_agente):
 def receso(request,id_agente):
 
 		agente = Agentes.objects.get(id=id_agente)
+		user = agente.user.id
 
 		print 'Receso...',agente
 
@@ -2012,6 +2115,7 @@ def receso(request,id_agente):
 			agente.checabreak = 0
 			agente.checaser = 0
 			agente.checa = 0
+			Estadocambio(user_id=user,estado_id=8).save()
 
 		if agente.estado.id== 5:
 
@@ -2019,6 +2123,7 @@ def receso(request,id_agente):
 			agente.checabreak = 0
 			agente.checaser = 0
 			agente.checa = 0
+			Estadocambio(user_id=user,estado_id=8).save()
 
 		if agente.estado.id== 9:
 
@@ -2026,6 +2131,7 @@ def receso(request,id_agente):
 			agente.checabreak = 0
 			agente.checaser = 0
 			agente.checa = 0
+			Estadocambio(user_id=user,estado_id=8).save()
 
 		if agente.estado.id== 8:
 
@@ -2053,6 +2159,7 @@ def receso(request,id_agente):
 def sshh(request,id_agente):
 
 		agente = Agentes.objects.get(id=id_agente)
+		user = agente.user.id
 
 		print 'Receso...',agente
 
@@ -2062,6 +2169,7 @@ def sshh(request,id_agente):
 			agente.checabreak = 0
 			agente.checaser = 0
 			agente.checa = 0
+			Estadocambio(user_id=user,estado_id=9).save()
 
 		if agente.estado.id== 5:
 
@@ -2069,6 +2177,7 @@ def sshh(request,id_agente):
 			agente.checabreak = 0
 			agente.checaser = 0
 			agente.checa = 0
+			Estadocambio(user_id=user,estado_id=9).save()
 
 		if agente.estado.id== 8:
 
@@ -2076,6 +2185,7 @@ def sshh(request,id_agente):
 			agente.checabreak = 0
 			agente.checaser = 0
 			agente.checa = 0
+			Estadocambio(user_id=user,estado_id=9).save()
 
 		if agente.estado.id== 3:
 
@@ -2089,6 +2199,7 @@ def sshh(request,id_agente):
 			agente.checaser = 2
 			agente.checa = 0
 			agente.checabreak = 0
+			Estadocambio(user_id=user,estado_id=2).save()
 
 		agente.tinicioservicio = datetime.now()-timedelta(hours=5)
 
@@ -4054,6 +4165,7 @@ def salir(request):
 		agente = Agentes.objects.get(user=id)
 		agente.estado_id=1
 		agente.save()
+		Estadocambio(user_id=id,estado_id=1).save()
 
 	logout(request)
 	
