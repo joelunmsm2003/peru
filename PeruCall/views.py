@@ -99,9 +99,6 @@ def audios(request):
 	if tipo=="Edit":
 
 	    id= data['id']
-
-    
-
 	    empresa = Empresa.objects.get(id=id)
 	    empresa.nombre =data['nombre']
 	    empresa.contacto =data['contacto']
@@ -615,19 +612,25 @@ def kpi(request,agente):
 
 	horainicio = float(base[0]['fecha'].split(':')[0]) + float(base[0]['fecha'].split(':')[1])/60
 
+	print 'hora inicio',horainicio
+
 	now = datetime.now()
 
 	fmt2='%H:%M'
 
 	now = now.strftime(fmt2)
 
-	horafin = float(now.split(':')[0]) + float(base[0]['fecha'].split(':')[1])/60
+	horafin = float(now.split(':')[0]) + float(now.split(':')[1])/60
 
-	print horafin
+	print 'horafin',horafin
 
 	a = (horafin-horainicio)*80/100
 
 	print 'a',a
+
+	today1 = datetime.now()
+
+	print 'agente',agente
 
 	ajax = AjxProLla.objects.filter(age_codigo=agente).order_by('-id_ori_llamadas')
 
@@ -641,6 +644,8 @@ def kpi(request,agente):
 
 			t = t + i.duration 
 		#t = int(ajax.duration) + t
+
+	print 'Duracion',t
 
 	b = float(t)/3600
 
