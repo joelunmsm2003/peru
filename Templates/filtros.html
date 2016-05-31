@@ -217,7 +217,8 @@
     <a class='btn btn-primary'ng-href='/monitoreo/{[{camp}]}'> <i class="fa fa-video-camera"></i> Monitor </a>
 
    <button class="btn btn-primary " data-toggle="modal" data-target="#actualizar" 
-   ><i class="fa fa-edit"></i>Actualizar base</button>
+   >
+   <i class="fa fa-edit"></i>Actualizar base</button>
 
 
    <div id="actualizar" class="modal fade" role="dialog">
@@ -238,9 +239,14 @@
           <label>Archivo</label>
           <input type="file" required=""  name="process_file">
           </div>
-          
+          <a class='btn btn-primary btn-sm' href='http://xiencias.com/html/files/Actualizar_.xlsx'>Plantilla <i class="fa fa-file-excel-o"></i></a>
           <input type="text" required="" style="visibility:hidden" name="campania" ng-model='campi'>
-          
+
+<!--      <div class="col-md-12">
+          <div class="form-group">
+          <a class='btn btn-primary btn-sm' href='http://xiencias.com/html/files/Actualizar_.xlsx'>Plantilla <i class="fa fa-file-excel-o"></i></a>
+          </div>
+          </div> -->
 
 
         <br></br>

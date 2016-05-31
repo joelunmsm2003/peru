@@ -649,13 +649,13 @@ def kpi(request,agente):
 
 	b = float(t)/3600
 
-	print 'bbbb',b
+	print 'ajax duration hours',b
 
 	kpi =0
 
 	if b>0:
 
-		kpi = b*100/a
+		kpi = (b*100)/a
 
 	print kpi
 	#kpicolor='red'
