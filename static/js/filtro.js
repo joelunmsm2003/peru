@@ -74,6 +74,16 @@ function Controller($scope,$http,$cookies,$filter) {
        
     });
 
+     $http.get("/estllamada").success(function(response) {
+
+        $scope.estllamada = response
+
+        console.log(response)
+       
+    });
+
+     
+
     $http.get("/infocampania/"+campania).success(function(response) {
 
        console.log('info',response)
