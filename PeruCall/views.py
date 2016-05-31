@@ -600,8 +600,12 @@ def kpi(request,agente):
 
 	today =  today.strftime(fmt1)
 
+	print today
+
 	base = Estadocambio.objects.filter(fecha__gte=today,user_id=user,estado_id=2).values('id','estado__nombre','user__first_name','user').order_by('id')[:1]
 
+	print base
+		
 	fmt = '%H:%M'
 
 	for i in range(len(base)):
@@ -657,6 +661,9 @@ def kpi(request,agente):
 
 		kpi = (b*100)/a
 
+
+
+
 	print kpi
 	#kpicolor='red'
 
@@ -669,6 +676,8 @@ def kpi(request,agente):
 	if kpi>85:
 		kpicolor = 'rgb(136, 229, 66)'
 		kpic = '#284058'
+
+	kpi = str(format(kpi, '.2f'))
 
 	data = {'kpicolor':kpicolor,'kpi':kpi,'kpic':kpic}
 	data = simplejson.dumps(data)
@@ -3591,8 +3600,8 @@ def campanias(request):
 			data[i]['totalagentes'] = Agentescampanias.objects.filter(campania_id=data[i]['id']).count()
 			data[i]['conectados'] = Agentescampanias.objects.filter(campania_id=data[i]['id']).exclude(agente__estado=1).count()
 			data[i]['cargados'] = Base.objects.filter(campania_id=data[i]['id']).count()
-			data[i]['barridos'] = Base.objects.filter(campania_id=data[i]['id'],status=1).count()
-			data[i]['errados'] = Base.objects.filter(campania_id=data[i]['id'],status=2).count()
+			data[i]['barridos'] = AjxProLla.objects.filter(cam_codigo=data[i]['id'],llam_estado=1).count()
+			data[i]['errados'] = AjxProLla.objects.filter(cam_codigo=data[i]['id'],llam_estado=2).count()
 			data[i]['filtro'] = '1'
 			data[i]['a'] = True
 			data[i]['b'] = False
