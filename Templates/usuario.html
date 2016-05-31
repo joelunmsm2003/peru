@@ -425,8 +425,6 @@
 
 
 
-                    
-
                         <div class="col-md-6" ng-if="user.nivel == 4 ">
                         <div class="form-group">
                         <label>Empresa</label>
@@ -439,7 +437,7 @@
                         <div class="col-md-6">
                         <div class="form-group">
                         <label>Telefono</label>
-                        <input type="number" ng-model="agregar.telefono"  value = '1' class="form-control" placeholder="Telefono"  >
+                        <input type="number" ng-model="agregar.telefono"  value = '1' class="form-control" placeholder="Telefono" required ="" >
                         </div>
                         </div>
 
@@ -455,35 +453,26 @@
                         <label>Anexo</label>
                         <select required ="" ng-model="agregar.anexo" class="form-control" ng-options="a for a in anexos"></select>
 
-
                         </div>
                         </div>
-
-                       
 
 
                          <div class="col-md-6" ng-show="nivelagente">
                           <div class="form-group">
                            <label>Supervisores Disponibles</label>
 
-                      
                                   <div class="col-md-12">
 
                                         <select  class="form-control" id="myselection" multiple="true" ng-model="agregar.supervisor" ng-options="c.user__first_name for c in supervisores" name="sup"></select>
                                         <div class="form-group">
-                           
-                                         
+
                                         <span  ng-repeat="contact in agregar.supervisor">
                                            | {[{contact.user__first_name}]}
                                         </span>
 
                                   </div>
 
-                                 
-
-                      
                               </div>
-                            
                           </div>
 
                           </div>
