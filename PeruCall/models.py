@@ -800,3 +800,14 @@ class Troncalesagentes(models.Model):
     class Meta:
         managed = False
         db_table = 'troncalesagentes'
+
+
+class Estadocambio(models.Model):
+    id = models.IntegerField(primary_key=True)
+    user = models.ForeignKey(AuthUser, db_column='user')
+    estado = models.ForeignKey(Estado, db_column='estado')
+    fecha = models.DateTimeField()
+
+    class Meta:
+        managed = False
+        db_table = 'estadocambio'
