@@ -178,7 +178,6 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
         $scope.id_cli_mascara = $scope.cliente.id_cliente
 
 
-
         console.log('Reg base',$scope.cliente)
 
         $scope.id_campania = $scope.cliente.id

@@ -1891,7 +1891,7 @@ def agente(request,id_agente):
 	return HttpResponse(data, content_type="application/json")
 
 
-def lanzallamada(request,id_agente,id_base,id_cliente):
+def lanzallamada(request,id_agente,id_base):
 
 		agente = Agentes.objects.get(id=id_agente)
 
