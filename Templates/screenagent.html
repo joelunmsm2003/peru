@@ -678,9 +678,10 @@
       <div ng-if="datoagente.user__empresa__mascaras__tipo == 'Externa'">
 
 
-    <ul> {[{id_cli_mascara}]} </ul>
+{{url}}{{dni}}
 
-   <iframe   src="{{url}}+{[{id_cli_mascara}]}"  width="100%" height="500" frameborder="0">
+   <iframe  src="{{url}}{{dni}}" width="100%" height="500" frameborder="0">
+
    </iframe>
 
 

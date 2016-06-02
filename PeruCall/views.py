@@ -302,6 +302,15 @@ def teleoperador(request,id_agente):
 
 	id=request.user.id
 
+	base = Base.objects.filter(agente_id=id_agente).order_by('-id').values('id','telefono','orden','cliente','id_cliente','status_a','status_b','status_c','status_d','status_e','status_f','status_g','status_h','status','campania__nombre','resultado__name','resultado','campania__mxllamada','campania__mxllamada','campania__hombreobjetivo','campania__cartera__nombre')
+
+	print 'base................',base
+
+	dni = ''
+
+
+
+	dni = base[0]['id_cliente']
 
 	id_user = Agentes.objects.get(id=id_agente).user.id
 
@@ -309,11 +318,12 @@ def teleoperador(request,id_agente):
 
 	if id==id_user:
 
-		return render(request, 'screenagent.html',{'url':url})
+		return render(request, 'screenagent.html',{'url':url,'dni':dni})
 
 	else:
 
 		return HttpResponseRedirect("/")
+
 
 @login_required(login_url="/ingresar")
 def game(request):
@@ -1891,7 +1901,7 @@ def agente(request,id_agente):
 	return HttpResponse(data, content_type="application/json")
 
 
-def lanzallamada(request,id_agente,id_base):
+def lanzallamada(request,id_agente,id_base,id_cliente):
 
 		agente = Agentes.objects.get(id=id_agente)
 
