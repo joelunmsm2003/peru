@@ -1155,9 +1155,6 @@ function Controller($scope,$http,$cookies,$filter) {
 
     $http.get("/botoneragraph/"+campania).success(function(response) {
 
-
-
-
         $scope.pendiente = response['pendiente']
         $scope.total2 = response['total']
         $scope.procesado = $scope.total2 - $scope.pendiente
@@ -1220,25 +1217,17 @@ function Controller($scope,$http,$cookies,$filter) {
 
         if($scope.user.empresa__mascaras__tipo == 'Interna'){
 
-
             $scope.minterna = true
             $scope.mexterna = false
-
-
         }
+
         else{
 
              $scope.minterna = false
              $scope.mexterna = true
-
-
         }
 
         console.log($scope.minterna,$scope.mexterna)
-
-
-        
-
 
     });
 
@@ -1354,6 +1343,8 @@ function Controller($scope,$http,$cookies,$filter) {
   
 
         $scope.pregunta = data
+
+
 
 
    

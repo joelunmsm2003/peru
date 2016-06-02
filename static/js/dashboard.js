@@ -16,7 +16,7 @@ $(function () {
     $('#calidadagente').highcharts({
 
         title: {
-        text: 'Resultados'
+        text: 'Resultados.'
         },
         chart: {
             type: 'column',
@@ -26,6 +26,8 @@ $(function () {
                                 serie = this.series
 
                                 $.getJSON("/resultadoagente/"+agente+"/"+examen, function (result) {
+
+                                    console.log('Result Agente',result)
 
                                     serie[0].points[0].update(result[0]['respno'])
                                     serie[1].points[0].update(result[0]['respsi'])

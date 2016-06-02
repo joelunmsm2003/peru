@@ -3314,13 +3314,15 @@ def calificar(request):
 		
 		data =json.loads(request.body)
 
+		print 'Calificando........',data
+
 		campania = data['campania']
 		agente = data['user']['agente']
 		llamada = data['user']['idllamada']
 		pregunta = data['pregunta']['id']
 		respuesta = data['respuesta']
 
-		if Calificacion.objects.filter(campania_id=campania,agente_id=agente,llamada_id=llamada,preg_exam_id=pregunta):
+		if Calificacion.objects.filter(campania_id=campania,agente_id=agente,llamada=llamada,preg_exam_id=pregunta):
 
 			'''
 			c = Calificacion.objects.get(llamada_id=llamada)
@@ -3329,11 +3331,11 @@ def calificar(request):
 			'''
 			pass
 			
-		
-
 		else:
 
-			Calificacion(preg_exam_id=pregunta,agente_id=agente,campania_id=campania,respuesta=respuesta,llamada_id=llamada).save()
+			pass
+
+		Calificacion(preg_exam_id=pregunta,agente_id=agente,campania_id=campania,respuesta=respuesta,llamada=llamada).save()
 
 		return HttpResponse('resultado', content_type="application/json")
 
