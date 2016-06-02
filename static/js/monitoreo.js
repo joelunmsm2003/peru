@@ -1340,19 +1340,12 @@ function Controller($scope,$http,$cookies,$filter) {
 
     {
 
-  
-
         $scope.pregunta = data
-
-
-
-
-   
         $scope.pregunta.estadosi= true
         $scope.pregunta.estadono= false
 
         $scope.model.campania = campania
-        $scope.model.user = $scope.user
+        $scope.model.user = $scope.userxp
         $scope.model.pregunta = data
         $scope.model.respuesta = 'Si'
         $scope.model.agente =   $scope.agente
@@ -1385,7 +1378,7 @@ function Controller($scope,$http,$cookies,$filter) {
         $scope.pregunta.estadosi= false
 
         $scope.model.campania = campania
-        $scope.model.user = $scope.user
+        $scope.model.user = $scope.userxp
         $scope.model.pregunta = data
         $scope.model.respuesta = 'No'
 
@@ -1547,15 +1540,6 @@ function Controller($scope,$http,$cookies,$filter) {
 
     });
 
-
-
-
-
-    
-
-
-   
-
     $http.get("/examen").success(function(response) {$scope.examen = response;
 
         $scope.primer = response[0]
@@ -1572,7 +1556,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
     console.log('nota',nota)
 
-    $scope.user = nota
+    $scope.userxp = nota
     
     };
 
