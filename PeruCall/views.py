@@ -3325,11 +3325,17 @@ def listanegra(request):
 
 			for col in range(sh.ncols):
 
-				x = str(sh.row(rx)[col]).replace('text:u','').replace('number:','').replace("'","").replace('.0','')
-				
-				u.append(x)
-				
-				Listanegra(campania_id=campania,dni=x).save()
+				print 'rx',rx
+
+				if rx > 0:
+
+					x = str(sh.row(rx)[col]).replace('text:u','').replace('number:','').replace("'","").replace('.0','').replace('"','')
+					
+					u.append(x)
+
+					print 'x....',x
+					
+					Listanegra(campania_id=campania,dni=int(x)).save()
 
 		lista = Listanegra.objects.filter(campania_id=campania)
 

@@ -1732,6 +1732,8 @@ function Controller($scope,$http,$cookies,$filter) {
 
         msj = contact
 
+        console.log('Notifica......',user)
+
         username = user.agente__user__username
 
         var todo={
