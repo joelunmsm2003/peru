@@ -168,7 +168,10 @@ def ingresar(request):
 		
 		id =request.user.id
 		nivel = AuthUser.objects.get(id=id).nivel.id
-			
+	
+
+		
+
 		if nivel == 1:
 			return HttpResponseRedirect("/campania")
 		if nivel == 2:
