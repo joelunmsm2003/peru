@@ -200,8 +200,7 @@ def ingresar(request):
 				if user.is_active:
 
 					login(request, user)
-
-					
+		
 					nivel = AuthUser.objects.get(username=user).nivel.id
 
 					Estadocambio(user_id=request.user.id,estado_id=2).save()
@@ -212,11 +211,9 @@ def ingresar(request):
 
 					licencias = Empresa.objects.get(id=empresa).licencias
 
-					print 'licencias..',licencias
-
 					nl = 0
 
-					ageactivos = Agentes.objects.all()
+					ageactivos = Agentes.objects.filter(user__empresa_id=empresa)
 
 					for a in ageactivos:
 
@@ -225,18 +222,18 @@ def ingresar(request):
 						if a.estado_id > 1:
 
 							nl =nl+1
-
-					print 'nl',nl
-
-					
-
+				
 					print 'ageactivos',ageactivos
 
-					if nl >= licencias:
+					if int(nl) > int(licencias):
 
 						print nl
 
-						send_mail('Licencias','La empresa ' +str(nameempresa)+' requiere mas licencias, Numero de licencias actual :'+licencias,'andyjo@xiencias.org', ['joelunmsm@gmail.com'], fail_silently=False)
+						f = open('/var/www/html/licencias.txt', 'a')
+						f.write('Numero de licencias excedido ' +str(nameempresa)+'-'+str(nl)+'-'+str(licencias)+'\n')
+						f.close()
+
+						send_mail('Licencias','La empresa ' +str(nameempresa)+' requiere mas licencias, Numero de licencias actual : '+licencias,'andyjo@xiencias.org', ['ginorel@gmail.com','panelcontrol7@gmail.com','panelcontrol6@gmail.com'], fail_silently=False)
 
 					if nivel == 1:
 
@@ -255,9 +252,16 @@ def ingresar(request):
 						agente.tinicioespera = datetime.now()-timedelta(hours=5)
 						agente.save()
 
-		
+						
+						if int(nl) > int(licencias):
 
-						return HttpResponseRedirect("/teleoperador/"+str(id_agente))
+							data = simplejson.dumps('No tiene Licencias')
+
+							return HttpResponse(data, content_type="application/json")	
+						
+						else:
+
+							return HttpResponseRedirect("/teleoperador/"+str(id_agente))
 
 					if nivel == 4:
 
