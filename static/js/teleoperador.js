@@ -137,17 +137,17 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
         $scope.des = formatSeconds($scope.desfase)
         $scope.diff = Math.abs(d1-d2);  
 
-        $scope.conectado = parseInt(Math.abs(d1-login)/1000)
+        $scope.conectado = parseInt(Math.abs(d1-login)/100000)
 
         console.log('conectado....',$scope.desfase)
 
         $scope.con = formatSeconds($scope.conectado)
 
-        $scope.tllamada = parseInt(Math.abs(d1-d2)/1000)
+        $scope.tllamada = parseInt(Math.abs(d1-d2)/100000)
 
         $scope.tllamada = formatSeconds($scope.tllamada)
 
-        sec = $scope.diff/1000
+        sec = $scope.diff/100000
 
         $scope.secgestion = sec*4
 
@@ -208,7 +208,7 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
 
       tick();
 
-      $interval(tick, 1000);
+      $interval(tick, 100000);
 
  
 
@@ -266,7 +266,7 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
                 }
 
 
-            },1000);
+            },100000);
             $http.get("/receso/"+agente).success(function(response) {
 
                 $http.get("/agente/"+agente).success(function(response) {$scope.agente = response;
@@ -281,7 +281,7 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
         });
 
 
-     swal({   title: "Break",    timer: 1000,   showConfirmButton: false });
+     swal({   title: "Break",    timer: 100000,   showConfirmButton: false });
 
     }
 
@@ -315,7 +315,7 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
                 }
 
 
-            },1000);
+            },100000);
         
         $http.get("/sshh/"+agente).success(function(response) {
 
@@ -331,7 +331,7 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
         });
 
 
-     swal({   title: "Servicios",     timer: 1000,   showConfirmButton: false });
+     swal({   title: "Servicios",     timer: 100000,   showConfirmButton: false });
 
     }
 
@@ -375,7 +375,7 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
                 }
 
 
-            },1000);
+            },100000);
 
 
 
@@ -404,7 +404,7 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
               
     });
 
-     swal({   title: "Pausa",   timer: 1000,   showConfirmButton: false });
+     swal({   title: "Pausa",   timer: 100000,   showConfirmButton: false });
 
 
 
@@ -462,7 +462,7 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
         })
 
 
-     swal({   title: "Play",   timer: 1000,   showConfirmButton: false });
+     swal({   title: "Play",   timer: 100000,   showConfirmButton: false });
 
     }
 
@@ -595,7 +595,7 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
             success(function(data) {
 
        
-            swal({   title: "Agenda",   text: 'Llamada agendada',   timer: 1000,   showConfirmButton: false });
+            swal({   title: "Agenda",   text: 'Llamada agendada',   timer: 100000,   showConfirmButton: false });
 
             })
 

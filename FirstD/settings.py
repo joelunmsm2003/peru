@@ -126,6 +126,13 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'ws4redis.context_processors.default',
 )
 
+EMAIL_HOST = 'evop20.areserver.net'
+EMAIL_HOST_USER = 'andyjo@xiencias.org'
+EMAIL_HOST_PASSWORD = '02190144'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+
 
 
 # Static files (CSS, JavaScript, Images)

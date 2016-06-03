@@ -141,7 +141,7 @@ function Controller($scope,$http,$cookies,$filter) {
      $scope.getcampania = function(cartera) 
 
 
-    {       console.log('cartera',cartera)
+    {       console.log('cartera...........',cartera)
 
             console.log($scope.user.nivel)
 
