@@ -2354,15 +2354,34 @@ def reportecsv(request,cartera,campania):
 @login_required(login_url="/ingresar")
 def getcampanias(request,cartera):
 
+
+	print 'getcampanias....',cartera
+	id = request.user.id
+	nivel = AuthUser.objects.get(id=id).nivel.id
+
+	if nivel == 4: #Manager
+
+		pass
+	if nivel == 2: #Supervisores
 		
+		pass
+	if nivel == 1: #Admin
 
-		carteras = Campania.objects.filter(cartera_id=cartera).values('id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name').order_by('-id')
+		pass
+
+	if nivel == 5: #Monitor
+
+		cartera = Carteraempresa.objects.get(id=cartera).cartera.id
+
+	print 'cartera....',cartera
 	
-		data_dict = ValuesQuerySetToDict(carteras)
+	campanias = Campania.objects.filter(cartera_id=cartera).values('id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name').order_by('-id')
 
-		data = simplejson.dumps(data_dict)
+	data_dict = ValuesQuerySetToDict(campanias)
 
-		return HttpResponse(data, content_type="application/json")
+	data = simplejson.dumps(data_dict)
+
+	return HttpResponse(data, content_type="application/json")
 
 @login_required(login_url="/ingresar")
 def traercampania(request,campania):

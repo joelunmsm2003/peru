@@ -38,8 +38,8 @@
           <i class="fa fa-area-chart"></i> Reportes <span class="caret"></span></a>
           <ul class="dropdown-menu">
 
-            <li id="dashboard"><a href="/reporteg/2"> <i class="fa fa-area-chart"></i> General</a></li>
-            <li id="dashboard"><a href="/reportedetallado"><i class="fa fa-area-chart"></i> Detallado </a></li>
+            <li id="dashboard"><a href="/reporteg/2"> <i class="fa fa-cube" aria-hidden="true"></i> General</a></li>
+            <li id="dashboard"><a href="/reportedetallado"><i class="fa fa-cubes" aria-hidden="true"></i> Detallado </a></li>
 	    <li id="dashboard"><a href="/audio"><i class="fa fa-file-audio-o"></i>  Audios </a></li>
 
           </ul>
@@ -49,7 +49,7 @@
 
           <li id='licencia'><a ng-if="user.nivel == 1" href="/licencia">Licencias <i class="fa fa-credit-card-alt"></i></a></li>
 
-          <li id='licencia'><a ng-if="user.nivel == 4" href="/monitorcpu">Server Monitor <i class="fa fa-laptop"></i></a></li>
+          <li id='licencia'><a ng-if="user.nivel == 4 || user.nivel == 5" href="/monitorcpu">Server Monitor <i class="fa fa-laptop"></i></a></li>
 
           
 
