@@ -168,6 +168,7 @@ def ingresar(request):
 		
 		id =request.user.id
 		nivel = AuthUser.objects.get(id=id).nivel.id
+
 			
 		if nivel == 1:
 			return HttpResponseRedirect("/campania")
@@ -206,6 +207,37 @@ def ingresar(request):
 
 					Estadocambio(user_id=request.user.id,estado_id=2).save()
 
+					empresa = AuthUser.objects.get(id=request.user.id).empresa.id
+
+					nameempresa = AuthUser.objects.get(id=request.user.id).empresa.nombre
+
+					licencias = Empresa.objects.get(id=empresa).licencias
+
+					print 'licencias..',licencias
+
+					nl = 0
+
+					ageactivos = Agentes.objects.all()
+
+					for a in ageactivos:
+
+						print a.estado_id
+
+						if a.estado_id > 1:
+
+							nl =nl+1
+
+					print 'nl',nl
+
+					
+
+					print 'ageactivos',ageactivos
+
+					if nl >= licencias:
+
+						print nl
+
+						#send_mail('Licencias','La empresa ' +str(nameempresa)+' requiere mas licencias, Numero de licencias actual :'+licencias,'andyjo@xiencias.org', ['joelunmsm@gmail.com'], fail_silently=False)
 
 					if nivel == 1:
 
@@ -327,6 +359,9 @@ def teleoperador(request,id_agente):
 
 @login_required(login_url="/ingresar")
 def game(request):
+
+	send_mail('Licencias','La empresa ' +str('nameempresa')+' requiere mas licencias, Numero de licencias actual :'+'licencias','andyjo@xiencias.org', ['joelunmsm@gmail.com'], fail_silently=False)
+
 	return render(request, 'game.html',{})
 	
 
