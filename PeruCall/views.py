@@ -217,7 +217,7 @@ def ingresar(request):
 
 					for a in ageactivos:
 
-						print a.estado_id
+						
 
 						if a.estado_id > 1:
 
@@ -227,7 +227,7 @@ def ingresar(request):
 
 					if int(nl) > int(licencias):
 
-						print nl
+						
 
 						f = open('/var/www/html/licencias.txt', 'a')
 						f.write('Numero de licencias excedido ' +str(nameempresa)+'-'+str(nl)+'-'+str(licencias)+'\n')
@@ -1957,6 +1957,7 @@ def lanzallamada(request,id_agente,id_base,id_cliente):
 
 		baseagente = Base.objects.filter(agente_id=id_agente)
 
+
 		for base in baseagente:
 
 			base.status = 0
@@ -1976,7 +1977,7 @@ def lanzallamada(request,id_agente,id_base,id_cliente):
 		base.save()
 
 
-		return HttpResponse(base.cliente, content_type="application/json")
+		return HttpResponse(str(base.cliente)+str(base.telefono), content_type="application/json")
 
 
 
@@ -1989,6 +1990,8 @@ def finllamada(request,id_agente):
 		
 		if int(agente.estado_id) == 3:
 			agente.estado_id = 6
+			agente.est_ag_predictivo = 0
+
 		agente.tiniciogestion = datetime.now()-timedelta(hours=5)
 		agente.save()
 

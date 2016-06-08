@@ -198,7 +198,13 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
 
         data = JSON.parse($scope.agente['data'])
 
-        $scope.datoagente =data[0] 
+        if(data[0]['estado__nombre'] != 'En Llamada'){
+
+            $scope.datoagente =data[0]
+
+        } 
+
+         
 
         });
 
