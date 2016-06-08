@@ -104,11 +104,6 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
 
         $http.get("/atendida/"+agente).success(function(response) {$scope.atendida = response;
        
-        /*$scope.fechaa = new Date($scope.atendida)
-        $scope.atendida = $scope.fechaa.getSeconds()
-        
-        $scope.at =formatSeconds($scope.atendida)
-        */
 
         
         $scope.at =formatSeconds($scope.atendida)
@@ -227,8 +222,8 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
 
     
 
-            $('#wrapper').fadeToggle("slow")
-            $('.container-full').fadeToggle("slow")
+           // $('#wrapper').fadeToggle("slow")
+            //$('.container-full').fadeToggle("slow")
 
     });
 
