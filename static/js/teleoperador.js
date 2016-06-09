@@ -102,10 +102,10 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
 
         });
 
-        $http.get("/atendida/"+agente).success(function(response) {$scope.atendida = response;
-       
+        $http.get("/atendida/"+agente).success(function(response) {
 
-        
+        $scope.atendida = response;
+       
         $scope.at =formatSeconds($scope.atendida)
 
         console.log('fecha',$scope.atendida)
@@ -121,9 +121,58 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
         $scope.kpic = response.kpic
 
         });
+         
 
+        $http.get("/cliente/"+agente).success(function(response) {
+
+        $scope.cliente = response[0];
+
+        $scope.id_cli_mascara = $scope.cliente.id_cliente
+
+
+        console.log('Reg base',$scope.cliente)
+
+        $scope.id_campania = $scope.cliente.id
+
+        $http.get("/header/"+$scope.id_campania).success(function(response) {$scope.header = response[0];
+                  
+        });
+
+        $http.get("/listafiltros/"+$scope.id_campania).success(function(response) {$scope.filtros = response[0];
+                     
+        });
+
+        $scope.iniciollamada = new Date($scope.cliente.tiniciollamada)
+             
+        });
+
+        $http.get("/agente/"+agente).success(function(response) {$scope.agente = response;
+
+        data = JSON.parse($scope.agente['data'])
+
+        if(data[0]['estado__nombre'] != 'En Llamada'){
+
+            $scope.datoagente =data[0]
+
+        } 
+
+
+            $('#wrapper').fadeToggle("slow")
+            $('.container-full').fadeToggle("slow")
+
+         
+
+        });
+
+        
+
+      }
+
+
+      var timeling = function(){
 
         login = new Date($scope.last_login)
+
         d1 = new Date(); 
 
         d2 = new Date($scope.tgestion)  
@@ -164,52 +213,15 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
             
         }
 
-         
 
-        $http.get("/cliente/"+agente).success(function(response) {
-
-        $scope.cliente = response[0];
-
-        $scope.id_cli_mascara = $scope.cliente.id_cliente
-
-
-        console.log('Reg base',$scope.cliente)
-
-        $scope.id_campania = $scope.cliente.id
-
-        $http.get("/header/"+$scope.id_campania).success(function(response) {$scope.header = response[0];
-                  
-        });
-
-        $http.get("/listafiltros/"+$scope.id_campania).success(function(response) {$scope.filtros = response[0];
-                     
-        });
-
-        $scope.iniciollamada = new Date($scope.cliente.tiniciollamada)
-             
-        });
-
-        $http.get("/agente/"+agente).success(function(response) {$scope.agente = response;
-
-        data = JSON.parse($scope.agente['data'])
-
-        if(data[0]['estado__nombre'] != 'En Llamada'){
-
-            $scope.datoagente =data[0]
-
-        } 
-
-         
-
-        });
-
-        
 
       }
 
+      $interval(timeling, 1000);
+
       tick();
 
-      $interval(tick, 1000);
+
 
  
 
@@ -222,8 +234,6 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
 
     
 
-           // $('#wrapper').fadeToggle("slow")
-            //$('.container-full').fadeToggle("slow")
 
     });
 
