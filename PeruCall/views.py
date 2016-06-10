@@ -405,8 +405,7 @@ def examenes(request):
 @login_required(login_url="/ingresar")
 def accionmonitor(request,sup,anexo):
 
-	cmd = ('curl "http://localhost:81/xien/PROC_MONITOR.php?sup=%s&anx=%s" ' %(sup, anexo))
-#	cmd = ('curl "https://localhost/xien/PROC_MONITOR.php?sup=%s&anx=%s" ' %(sup, anexo))
+	cmd = ('curl "http://localhost:81/xien/PROC_MONITOR.php?sup=%s&anx=%s" &' %(sup, anexo))
 	os.system(cmd)
 
 	return HttpResponse(' Monitor Activado', content_type="application/json")
@@ -416,8 +415,7 @@ def accionmonitor(request,sup,anexo):
 @login_required(login_url="/ingresar")
 def accionsusurro(request,sup,anexo):
 
-	cmd = ('curl "http://localhost:81/xien/PROC_SUSURRO.php?sup=%s&anx=%s" ' %(sup, anexo))
-#	cmd = ('curl "https://localhost/xien/PROC_SUSURRO.php?sup=%s&anx=%s" ' %(sup, anexo))
+	cmd = ('curl "http://localhost:81/xien/PROC_SUSURRO.php?sup=%s&anx=%s" & ' %(sup, anexo))
 	os.system(cmd)
 
 	return HttpResponse('Susurro Activado', content_type="application/json")
