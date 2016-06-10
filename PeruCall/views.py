@@ -443,8 +443,7 @@ def examenes(request):
 @login_required(login_url="/ingresar")
 def accionmonitor(request,sup,anexo):
 
-	cmd = ('curl "http://localhost:81/xien/PROC_MONITOR.php?sup=%s&anx=%s" ' %(sup, anexo))
-#	cmd = ('curl "https://localhost/xien/PROC_MONITOR.php?sup=%s&anx=%s" ' %(sup, anexo))
+	cmd = ('curl "http://localhost:81/xien/PROC_MONITOR.php?sup=%s&anx=%s" &' %(sup, anexo))
 	os.system(cmd)
 
 	return HttpResponse(' Monitor Activado', content_type="application/json")
@@ -454,8 +453,7 @@ def accionmonitor(request,sup,anexo):
 @login_required(login_url="/ingresar")
 def accionsusurro(request,sup,anexo):
 
-	cmd = ('curl "http://localhost:81/xien/PROC_SUSURRO.php?sup=%s&anx=%s" ' %(sup, anexo))
-#	cmd = ('curl "https://localhost/xien/PROC_SUSURRO.php?sup=%s&anx=%s" ' %(sup, anexo))
+	cmd = ('curl "http://localhost:81/xien/PROC_SUSURRO.php?sup=%s&anx=%s" & ' %(sup, anexo))
 	os.system(cmd)
 
 	return HttpResponse('Susurro Activado', content_type="application/json")
@@ -2366,6 +2364,7 @@ def reportecsv(request,cartera,campania):
 		bx =Base.objects.filter(id_cliente=dniact)
 		pant =0
 		mejorgestion = 'Sin Gestion'
+		p=0
 
 		for r in bx:
 
@@ -3273,7 +3272,12 @@ def generacsv(request,cartera,campania,inicio,fin,telefono,cliente):
 
 	response = HttpResponse(content_type='text/csv')
 
-	response['Content-Disposition'] = 'attachment; filename="Reporte_General.csv'
+	ncartera=Campania.objects.get(id=campania).cartera.nombre
+	ncampania = Campania.objects.get(id=campania).nombre
+	fecha= datetime.now()
+
+	response['Content-Disposition'] = 'attachment; filename="RD_'+str(ncartera)+'_'+str(ncampania)+'_'+str(fecha)[0:19]+'.csv'
+
 
 	writer = csv.writer(response)
 
