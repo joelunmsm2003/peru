@@ -2,6 +2,7 @@ from django.shortcuts import *
 from django.template import RequestContext
 from django.contrib.auth import *
 from django.contrib.auth.models import Group, User
+from django.contrib.sessions.models import Session
 from django.core import serializers
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
@@ -11,6 +12,7 @@ from django.db.models import Max,Count
 from django.core.mail import send_mail
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from PeruCall.models import *
+from django.http import HttpRequest
 
 from django.db import transaction
 from django.contrib.auth.hashers import *
@@ -157,9 +159,38 @@ def changepass(request):
 @login_required(login_url="/ingresar")
 def desconectados(request):
 
+	agentes = Estadocambio.objects.all().values('user').annotate(fecha=Max('fecha'))
+
+	t = datetime.now()
+
+	now = datetime.now()
+	request = HttpRequest()
+
+	sessions = Session.objects.filter(expire_date__gt=now)
+	users = dict(User.objects.values_list('id', 'username'))
+	print('Found %d not-expired session(s).' % len(sessions))
+
+	for session in sessions:
+		username = session.get_decoded().get('_auth_user_id')
+		request.session = init_session(session.session_key)
+
+		logout(request)
+		print('    Successfully logout %r user.' % username)
+
+
 	
 
-	return HttpResponse(data, content_type="application/json")
+
+	for i in range(len(agentes)):
+
+		print agentes[i]['user'],t-agentes[i]['fecha']
+
+		
+	data_dict = ValuesQuerySetToDict(agentes)
+
+	data = simplejson.dumps(data_dict)
+
+	return HttpResponse(agentes, content_type="application/json")
 
 
 @receiver(user_logged_in)

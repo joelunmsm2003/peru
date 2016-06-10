@@ -151,6 +151,7 @@ urlpatterns = patterns('',
     url(r'^botonexterno/$', 'PeruCall.views.botonexterno'),
     url(r'^getestado/(\w+)/$', 'PeruCall.views.getestado'),
     url(r'^activarcampania/(\w+)/$', 'PeruCall.views.activarcampania'),
+    url(r'^desconectados/$', 'PeruCall.views.desconectados'),
 
 
 

@@ -157,8 +157,13 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
         } 
 
 
-            $('#wrapper').fadeToggle("slow")
-            $('.container-full').fadeToggle("slow")
+   
+            //$('.container-full').fadeToggle("slow")
+            $('.c4').fadeToggle("slow")
+            $('.c2').fadeToggle("slow")
+            $('.c3').fadeToggle("slow")
+            $('.camp').fadeToggle("slow")
+            $('.c8').fadeToggle("slow")
 
          
 
@@ -232,10 +237,8 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
 
             $scope.datoagente =data[0] 
 
-    
-
-
     });
+
 
      $scope.signout = function(contact) 
     {
@@ -300,14 +303,12 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
     {
 
     
-   
 
         $http.get("/tgestion/"+agente).success(function(response) {
 
             $scope.tgestion = response;
 
-
-            });
+        });
 
 
    
@@ -488,7 +489,16 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
     $scope.botonexterno = function(data) 
 
 
-    {       console.log('Btn Externo',data)
+    {       
+
+            console.log('jsjsjsjsjsjs',$scope.datoagente)
+
+            if ($scope.datoagente.estado__nombre == 'En Llamada'){
+
+                console.log('skjsjsj............sjjsjs')
+            }
+
+            console.log('Btn Externo',data)
 
             var todo={
 
