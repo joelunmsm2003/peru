@@ -405,7 +405,7 @@ def examenes(request):
 @login_required(login_url="/ingresar")
 def accionmonitor(request,sup,anexo):
 
-	cmd = ('curl "http://localhost/xien/PROC_MONITOR.php?sup=%s&anx=%s" ' %(sup, anexo))
+	cmd = ('curl "http://localhost:81/xien/PROC_MONITOR.php?sup=%s&anx=%s" ' %(sup, anexo))
 #	cmd = ('curl "https://localhost/xien/PROC_MONITOR.php?sup=%s&anx=%s" ' %(sup, anexo))
 	os.system(cmd)
 
@@ -416,7 +416,7 @@ def accionmonitor(request,sup,anexo):
 @login_required(login_url="/ingresar")
 def accionsusurro(request,sup,anexo):
 
-	cmd = ('curl "http://localhost/xien/PROC_SUSURRO.php?sup=%s&anx=%s" ' %(sup, anexo))
+	cmd = ('curl "http://localhost:81/xien/PROC_SUSURRO.php?sup=%s&anx=%s" ' %(sup, anexo))
 #	cmd = ('curl "https://localhost/xien/PROC_SUSURRO.php?sup=%s&anx=%s" ' %(sup, anexo))
 	os.system(cmd)
 
@@ -1987,7 +1987,7 @@ def finllamada(request,id_agente):
 
 
 		user = agente.user.username
-		
+		agente.est_ag_predictivo = 0
 		if int(agente.estado_id) == 3:
 			agente.estado_id = 6
 			agente.est_ag_predictivo = 0
