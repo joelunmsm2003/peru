@@ -1922,7 +1922,21 @@ def agente(request,id_agente):
 
 	AjxProLla.objects.filter(age_codigo=id_agente).count()
 
-	atendidas = AjxProLla.objects.filter(age_codigo=id_agente).count()
+	t = datetime.strftime(datetime.now(), '%Y-%m-%d')
+
+	xx = AjxProLla.objects.filter(age_codigo=id_agente,llam_estado=4)
+
+	c = 0
+
+	for x in xx:
+
+		if str(t) == str(x.f_origen)[0:10]:
+
+			c=c+1
+
+	atendidas = c
+
+	print 'atendidas',atendidas
 
 	acuerdos = Base.objects.filter(agente_id=id_agente,resultado_id__in=[15,5]).count()
 

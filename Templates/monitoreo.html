@@ -226,9 +226,23 @@ padding-top: 8px;
                     
                     <a ng-if="contact.agente__estado == '3'"  ng-click="evaluar(contact,$index)" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#eliminar"><i class="fa fa-check"></i></a></td>
 
-                    <td><a ng-if="contact.agente__estado == '3'"  ng-click="monitor(contact,$index)" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#listen"><i class="fa fa-headphones"></i></a></td>
+                    <td>
 
-                    <td><a ng-if="contact.agente__estado == '3'"  ng-click="susurro(contact,$index)" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#listen"><i class="fa fa-phone-square"></i></a></td>
+                    <a ng-if="contact.agente__estado == '3'"  ng-show='monitorbtn' ng-click="monitor(contact,$index)" class=" btn btn-primary btn-sm " data-toggle="modal" data-target="#listen"><i class="fa fa-headphones"></i></a>
+
+                    <a ng-if="contact.agente__estado == '3'"  ng-show='monitorbtnapagado' class=" btn btn-warning btn-sm " data-toggle="modal" data-target="#listen"><i class="fa fa-headphones"></i></a>
+
+                    </td>
+
+                    <td>
+
+                    <a ng-if="contact.agente__estado == '3'"  ng-show='susurrobtn' ng-click="susurro(contact,$index)" class=" btn btn-primary btn-sm" data-toggle="modal" data-target="#listen"><i class="fa fa-phone-square"></i></a>
+
+                    <a ng-if="contact.agente__estado == '3'"  ng-show='susurrobtnapagado'  class=" btn btn-warning btn-sm" data-toggle="modal" data-target="#listen"><i class="fa fa-phone-square"></i></a>
+
+
+
+                    </td>
 
                     
 
