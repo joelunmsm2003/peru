@@ -40,7 +40,7 @@ $(function () {
 
                             }
 
-                        setInterval(function(){updateChart()},10000);
+                        setInterval(function(){updateChart()},1000);
 
                             }
                         }
@@ -641,7 +641,7 @@ $(function () {
                             }
 
 
-                        setInterval(function(){updateChartpie()},10000);
+                        setInterval(function(){updateChartpie()},1000);
 
                        
 
@@ -860,16 +860,32 @@ function Controller($scope,$http,$cookies,$filter) {
 
     $scope.btnpregunta = 'True'
 
+    $scope.monitorbtn = true
+    $scope.monitorbtnapagado = false
+
+    $scope.susurrobtn = true
+    $scope.susurrobtnapagado = false
+
     $scope.monitor = function(data) 
 
     {    
         console.log(data)
+
+        $scope.monitorbtn = false
+        $scope.monitorbtnapagado = true
+
+        $('a.monitor').attr('disabled', true);
         
         $http.get("/accionmonitor/"+data.campania__supervisor__user__anexo+"/"+data.agente__anexo).success(function(response) {
 
-          swal({   title: response,   timer: 1000,   showConfirmButton: false });   
-            
+         swal({   title: 'Escucha Activado :) ',   type: "success",  timer: 1500,   showConfirmButton: false });
+          
         });
+
+        setTimeout(function(){ 
+            $scope.monitorbtn = true
+            $scope.monitorbtnapagado = false
+        }, 30000);
   
     }
 
@@ -877,12 +893,22 @@ function Controller($scope,$http,$cookies,$filter) {
 
     {    
 
-       
+        $scope.susurrobtn = false
+        $scope.susurrobtnapagado = true
+
         $http.get("/accionsusurro/"+data.campania__supervisor__user__anexo+"/"+data.agente__anexo).success(function(response) {
 
-          swal({   title: response,   timer: 1000,   showConfirmButton: false });   
+          swal({   title: 'Susurro Activado :) ',   type: "success",  timer: 1500,   showConfirmButton: false });
+            
             
         });
+
+        setTimeout(function(){ 
+
+            $scope.susurrobtn = true
+            $scope.susurrobtnapagado = false
+
+        }, 30000);
     }
 
 
