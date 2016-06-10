@@ -118,7 +118,7 @@
 
             <div class="col-md-3 col-sm-3 panel panel-default">
 
-            <div class='row panel-body'>
+            <div class='row panel-body c8'>
             <div class="col-md-12">
             <div class='row'>
             <div class="col-md-6"><i class="fa fa-user-secret"></i> Agente :
@@ -333,53 +333,127 @@
       </div> 
 
 <!--botoneras de accion-->
+      
+      <div class ='col-md-12'>
+
+        <div class = 'row'>
+
+        <div class="acciones col-md-4">
+
+                     <div class="col-md-3 col-sm-3 panel panel-default btna" ng-click='break()'>
+
+                      <div class=' panel-body btnb'>
+                      BREAK <i class="fa fa-coffee" aria-hidden="true"></i>
+
+                      </div>
+
+                      </div>
+
+                      <div class="col-md-3 col-sm-3 panel panel-default btna" ng-click='play()' ng-if="datoagente.estado__nombre == 'En Pausa'">
+
+                      <div class=' panel-body btnb'>
+                      PLAY <i class="fa fa-play"></i> 
+
+                      </div>
+
+                      </div>
+
+                       <div class="col-md-3 col-sm-3 panel panel-default btna" ng-click='pausa()' ng-if="datoagente.estado__nombre != 'En Pausa'">
+
+                      <div class=' panel-body btnb'>
+                      PAUSE <i class="fa fa-pause"></i> 
+
+                      </div>
+
+                      </div>
+
+                      <div class="col-md-3 col-sm-3 panel panel-default btna">
+
+                      <div class=' panel-body btnb ' ng-click='servicios()'>
+                      SS.HH <i class="fa fa-fire" aria-hidden="true"></i>
+
+                      </div>
+
+                      </div>
+
+                      <div class="col-md-3 col-sm-3 panel panel-default btna" ng-click='signout()'>
+
+                      <div class=' panel-body btnb'>
+                      SALIR <i class="fa fa-sign-out"></i>
+
+                      </div>
+
+                      </div>
+
+        </div>
+
+        <style type="text/css">
+
+        .btnexterna {
+  margin-top: -11px;
+}
+
+        .acciones {
+  margin-top: 3px;
+}
+
+.btnbd {
+  margin-top: -5px;
+  font-size: 11px;
+}
+
+        </style>
+
+        <div class="btnexterna col-md-8" ng-if="datoagente.user__empresa__mascaras__tipo == 'Externa' && datoagente.estado__nombre == 'En Llamada'">
+              
+                    <div class='row'>
+                    <div class="col-md-3 col-sm-3 panel panel-default btnc" ng-click = 'botonexterno(promesa)'>
+
+                    <div class=' panel-body btnbd '>
+                        Promesa de Pago <br>(Acuerdo con Fecha) 
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-sm-3 panel panel-default btnc" ng-click = 'botonexterno(directo)'>
+
+                    <div class=' panel-body btnbd'>
+                    Contacto Directo <br>(Titular sin Promesa) 
+                    </div>
+
+                    </div>
+
+                    <div class="col-md-3 col-sm-3 panel panel-default btnc" ng-click = 'botonexterno(indirecto)'>
+
+                    <div class=' panel-body  btnbd'>
+                    Contacto Indirecto<br> (Trabaja o pertence al fono) 
+
+                    </div>
+
+                    </div>
+
+                    <div class="col-md-3 col-sm-3 panel panel-default btnc"  ng-click = 'botonexterno(nocontacto)'>
+
+                    <div class=' panel-body btnbd'>
+                    No Contacto<br> ( No Trabaja o Pertence al Fono) 
+                    </div>
+
+                    </div>
+                    </div>
+
+
+        </div>
+
+        </div>
 
 
 
-      <div class="col-md-3 col-sm-3 panel panel-default btna" ng-click='break()'>
 
-      <div class=' panel-body btnb'>
-      BREAK <i class="fa fa-coffee" aria-hidden="true"></i>
 
       </div>
 
-      </div>
 
-      <div class="col-md-3 col-sm-3 panel panel-default btna" ng-click='play()' ng-if="datoagente.estado__nombre == 'En Pausa'">
-
-      <div class=' panel-body btnb'>
-      PLAY <i class="fa fa-play"></i> 
-
-      </div>
-
-      </div>
-
-       <div class="col-md-3 col-sm-3 panel panel-default btna" ng-click='pausa()' ng-if="datoagente.estado__nombre != 'En Pausa'">
-
-      <div class=' panel-body btnb'>
-      PAUSE <i class="fa fa-pause"></i> 
-
-      </div>
-
-      </div>
-
-      <div class="col-md-3 col-sm-3 panel panel-default btna">
-
-      <div class=' panel-body btnb ' ng-click='servicios()'>
-      SS.HH <i class="fa fa-fire" aria-hidden="true"></i>
-
-      </div>
-
-      </div>
-
-      <div class="col-md-3 col-sm-3 panel panel-default btna" ng-click='signout()'>
-
-      <div class=' panel-body btnb'>
-      SALIR <i class="fa fa-sign-out"></i>
-
-      </div>
-
-      </div>
+ 
 
 
 <!--Cuerpo!-->
@@ -683,40 +757,7 @@
    </iframe>
 
 
-      <div class='row'>
-      <div class="col-md-3 col-sm-3 panel panel-default btnc" ng-click = 'botonexterno(promesa)'>
 
-          <div class=' panel-body '>
-          Promesa de Pago <br>(Acuerdo con Fecha) 
-
-          </div>
-      </div>
-
-      <div class="col-md-3 col-sm-3 panel panel-default btnc" ng-click = 'botonexterno(directo)'>
-
-      <div class=' panel-body '>
-      Contacto Directo <br>(Titular sin Promesa) 
-      </div>
-
-      </div>
-
-      <div class="col-md-3 col-sm-3 panel panel-default btnc" ng-click = 'botonexterno(indirecto)'>
-
-      <div class=' panel-body  '>
-      Contacto Indirecto<br> (Trabaja o pertence al fono) 
-
-      </div>
-
-      </div>
-
-      <div class="col-md-3 col-sm-3 panel panel-default btnc"  ng-click = 'botonexterno(nocontacto)'>
-
-      <div class=' panel-body '>
-      No Contacto<br> ( No Trabaja o Pertence al Fono) 
-      </div>
-
-      </div>
-      </div>
 
 
 
@@ -767,6 +808,7 @@ body {
   /* transition: .6s; */
   /* width: 313px; */
   border-radius: 7px;
+  height: 41px;
 }
 
 .panel-body {
@@ -795,6 +837,7 @@ font-size:15px;
   /* transition: .5s; */
   /* width: 23em; */
   border-radius: 6px;
+    height: 42px;
 }
 
 .btnc:hover{
@@ -805,13 +848,15 @@ font-size:13px;
 
 }
 
+.c2,.c3,.c4,.camp,.c8{
+
+    height: 79px;
+}
 
 
 
-.btnb{
-
-
-  padding: 2px;
+.btnb {
+  padding: 6px;
 }
 
 

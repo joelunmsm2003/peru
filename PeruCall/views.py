@@ -154,6 +154,13 @@ def changepass(request):
 
 		return HttpResponse(data, content_type="application/json")
 
+@login_required(login_url="/ingresar")
+def desconectados(request):
+
+	
+
+	return HttpResponse(data, content_type="application/json")
+
 
 @receiver(user_logged_in)
 def my_handler(sender,**kwargs):
