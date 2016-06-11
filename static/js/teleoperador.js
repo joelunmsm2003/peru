@@ -15,6 +15,22 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
     agente = window.location.href.split("teleoperador/")[1].split("/")[0]
 
 
+    var xx =function(){
+
+
+        $http.get("/agente/"+agente).success(function(response) {$scope.agente = response;
+
+        data = JSON.parse($scope.agente['data'])
+
+        $scope.datoagente =data[0]
+
+        });
+
+    }
+
+
+      $interval(xx, 1000);
+
     
     $http.get("/resultadototal").success(function(response) {$scope.resultado = response;
               
@@ -495,7 +511,8 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
 
             if ($scope.datoagente.estado__nombre == 'En Llamada'){
 
-                console.log('skjsjsj............sjjsjs')
+            swal({   title: "Espere se concluya la llamada",    timer: 2000,   showConfirmButton: false });
+
             }
 
             console.log('Btn Externo',data)

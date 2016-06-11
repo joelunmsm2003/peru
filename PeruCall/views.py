@@ -1508,8 +1508,10 @@ def lanzaespera(request):
 		agente = Agentes.objects.get(id=agente_id)
 		agente.tinicioespera = datetime.now()-timedelta(hours=5)
 
-		agente.estado_id= 2
-		agente.save()
+		if agente.estado_id !=3:
+
+			agente.estado_id= 2
+			agente.save()
 
 		return HttpResponse('data', content_type="application/json")
 
@@ -2016,6 +2018,13 @@ def lanzallamada(request,id_agente,id_base,id_cliente):
 		redis_publisher = RedisPublisher(facility='foobar', users=[user])
 
 		message = RedisMessage('llamada')
+
+		redis_publisher.publish_message(message)
+
+
+		redis_publisher = RedisPublisher(facility='foobar', users=[user])
+
+		message = RedisMessage('ll')
 
 		redis_publisher.publish_message(message)
 

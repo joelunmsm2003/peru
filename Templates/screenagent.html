@@ -404,7 +404,7 @@
 
         </style>
 
-        <div class="btnexterna col-md-8" ng-if="datoagente.user__empresa__mascaras__tipo == 'Externa' && datoagente.estado__nombre == 'En Llamada'">
+        <div class="btnexterna col-md-8" ng-if="datoagente.user__empresa__mascaras__tipo == 'Externa' && (datoagente.estado__nombre == 'En Llamada' || datoagente.estado__nombre == 'En gestion')">
               
                     <div class='row'>
                     <div class="col-md-3 col-sm-3 panel panel-default btnc" ng-click = 'botonexterno(promesa)'>
