@@ -669,11 +669,13 @@ $('.container').fadeToggle("slow")
         destino = data['llam_numero']
         fecha = data['fecha'].slice(0,10)
         hora = data['fecha'].slice(11,13)
-        min = data['fecha'].slice(15,17)
-        seg= data['fecha'].slice(18,19)
+        min = data['fecha'].slice(14,16)
+        seg= data['fecha'].slice(17,19)
 
+//  /monitor/pcall/2016/06/13/250/202-941392115-2016-06-13_15-5:-7.gsm
+//  /monitor/pcall/2016/06/13/250/202-941392115-2016-06-13_15-25-37.gsm
 
-        window.location.href = "http://localhost/monitor/pcall/"+anio+"/"+mes+"/"+dia+"/"+campania+"/"+origen+"-"+destino+"-"+fecha+"_"+hora+"-"+min+"-"+seg+".gsm"
+        window.location.href = "http://192.168.50.206:81/monitor/pcall/"+anio+"/"+mes+"/"+dia+"/"+campania+"/"+origen+"-"+destino+"-"+fecha+"_"+hora+"-"+min+"-"+seg+".gsm"
 
     }
 

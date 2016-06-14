@@ -212,6 +212,7 @@ def ingresar(request):
 		if nivel == 2:
 			return HttpResponseRedirect("/campania")
 		if nivel == 3:
+			agente.est_ag_predictivo = 0
 			id_agente = Agentes.objects.get(user_id=id).id
 			return HttpResponseRedirect("/teleoperador/"+str(id_agente))
 		if nivel == 4:
@@ -4324,6 +4325,7 @@ def salir(request):
 	
 	id =request.user.id
 	nivel = AuthUser.objects.get(id=id).nivel.id
+	agente.est_ag_predictivo = 0
 	if nivel == 3:
 		agente = Agentes.objects.get(user=id)
 		agente.estado_id=1
