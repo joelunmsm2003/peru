@@ -672,11 +672,8 @@ $('.container').fadeToggle("slow")
         min = data['fecha'].slice(15,17)
         seg= data['fecha'].slice(18,19)
 
-        //{anexo: 100, llam_numero: "995954964", id_ori_llamadas: 86, fecha: "2016-05-07 11:46:08 UTC", $$hashKey: "008"}
 
-        //150-980729136-2016-05-06_23-59-20
-
-        window.location.href = "http://xiencias.com/monitor/pcall/"+anio+"/"+mes+"/"+dia+"/"+campania+"/"+origen+"-"+destino+"-"+fecha+"_"+hora+"-"+min+"-"+seg+".gsm"
+        window.location.href = "http://localhost/monitor/pcall/"+anio+"/"+mes+"/"+dia+"/"+campania+"/"+origen+"-"+destino+"-"+fecha+"_"+hora+"-"+min+"-"+seg+".gsm"
 
     }
 
