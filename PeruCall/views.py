@@ -3787,7 +3787,7 @@ def campanias(request):
 			data[i]['totalagentes'] = Agentescampanias.objects.filter(campania_id=data[i]['id']).count()
 			data[i]['conectados'] = Agentescampanias.objects.filter(campania_id=data[i]['id']).exclude(agente__estado=1).count()
 			data[i]['cargados'] = Base.objects.filter(campania_id=data[i]['id']).count()
-			data[i]['barridos'] = Base.objects.filter(cam_codigo=data[i]['id'],proflag=1).count()
+			data[i]['barridos'] = Base.objects.filter(campania_id=data[i]['id'],proflag=1).count()
 			data[i]['errados'] = AjxProLla.objects.filter(cam_codigo=data[i]['id'],llam_estado=2).count()
 			data[i]['filtro'] = '1'
 			data[i]['a'] = True
