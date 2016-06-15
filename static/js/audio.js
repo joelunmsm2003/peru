@@ -20,6 +20,26 @@ function Controller($scope,$http,$cookies,$filter) {
     $scope.pagedItems = [];
     $scope.currentPage = 0;
 
+    
+    $scope.btnpregunta = 'True'
+
+
+    $http.get("/preguntas/1").success(function(response) {$scope.preguntas = response;
+
+    });
+
+    $http.get("/examen").success(function(response) {$scope.examen = response;
+
+        $scope.primer = response[0]
+
+        console.log('criterio 1',response[0])
+
+    });
+
+    $http.get("/nota/").success(function(response) {$scope.nota = response;
+
+    });
+
       $scope.Pass = function (model) {
   
         console.log('$scope.model',$scope.model)
@@ -159,23 +179,25 @@ $('.container').fadeToggle("slow")
         console.log('data',data)
 
 
-            /*
 
+
+        
         $scope.pregunta = data
         $scope.pregunta.estadosi= true
         $scope.pregunta.estadono= false
 
-        $scope.model.campania = campania
+        $scope.model.campania = $scope.agente.cam_codigo
         $scope.model.user = $scope.userxp
         $scope.model.pregunta = data
         $scope.model.respuesta = 'Si'
         $scope.model.agente =   $scope.agente
 
-        console.log('Calificar SI',$scope.model)
+        console.log('Si.....',$scope.model)
 
+     
         $http({
 
-        url: "/calificar/",
+        url: "/calificaraudio/",
         data: $scope.model,
         method: 'POST',
         headers: {
@@ -186,7 +208,7 @@ $('.container').fadeToggle("slow")
 
         })
 
-*/
+
 
     }
 
@@ -206,27 +228,66 @@ $('.container').fadeToggle("slow")
 
     });
 
-    
+     $scope.criterio = function(cri) 
+
+    {       
+            $scope.btnpregunta = 'True'
+            $scope.btncalifica = 'False'
+
+
+            if (parseInt(cri.id)<4){
+
+
+                    console.log(cri.id)
+
+                    nucri = parseInt(cri.id)+1
+
+                    $http.get("/examen").success(function(response) {$scope.examen = response;
+
+                    $scope.primer = response[cri.id]
+
+                    });
+
+
+                    $http.get("/preguntas/"+nucri).success(function(response) {
+
+                    $scope.preguntas = response;
+
+
+                    });
+
+            }
+            if (parseInt(cri.id)==3){
+
+                console.log('>5...')
+
+                $scope.btnpregunta = 'False'
+                $scope.btncalifica = 'True'
+
+            }
+    }
+
 
      $scope.calificarno = function(data) 
 
     {
          
-        $scope.pregunta = data
+       $scope.pregunta = data
         $scope.pregunta.estadono= true
         $scope.pregunta.estadosi= false
 
-        $scope.model.campania = campania
+        $scope.model.campania = $scope.agente.cam_codigo
         $scope.model.user = $scope.userxp
         $scope.model.pregunta = data
         $scope.model.respuesta = 'No'
+        $scope.model.agente =   $scope.agente
 
         console.log($scope.model)
 
 
         $http({
 
-        url: "/calificar/",
+        url: "/calificaraudio/",
         data: $scope.model,
         method: 'POST',
         headers: {

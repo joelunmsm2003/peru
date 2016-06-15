@@ -3521,6 +3521,27 @@ def calificar(request):
 
 		return HttpResponse('resultado', content_type="application/json")
 
+@login_required(login_url="/ingresar")
+def calificaraudio(request):
+
+	if request.method == 'POST':
+		
+		data =json.loads(request.body)
+
+		print 'Calificando........',data
+
+	
+		campania = data['campania']
+		agente = data['agente']['cam_codigo']
+		llamada = data['user']['id_ori_llamadas']
+		pregunta = data['pregunta']['id']
+		respuesta = data['respuesta']
+
+
+		Calificacion(preg_exam_id=pregunta,agente_id=agente,campania_id=campania,respuesta=respuesta,llamada=llamada).save()
+
+		return HttpResponse('resultado', content_type="application/json")
+
 
 
 
