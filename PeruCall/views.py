@@ -506,9 +506,14 @@ def getaudios(request):
 				filtro['f_origen__lte']  = data['fechafin']
 
 
+		filtro['llam_estado'] = 4
+
+
+
+
 		#{u'origen': 123, u'fecha': u'2016-05-13', u'destino': 123, u'campania': 193, u'cartera': 19}
 
-		data = AjxProLla.objects.filter(**filtro).values('id_ori_llamadas','anexo','llam_numero','cam_codigo','age_codigo').order_by('-id_ori_llamadas')
+		data = AjxProLla.objects.filter(**filtro).values('id_ori_llamadas','anexo','llam_numero','cam_codigo','age_codigo','llam_estado').order_by('-id_ori_llamadas')
 
 		fmt = '%Y-%m-%d %H:%M:%S %Z'
 
@@ -3192,7 +3197,7 @@ def botoneragraph(request,campania):
        buzon = AjxProLla.objects.filter(cam_codigo=campania,llam_estado=5).count()
        congestiondered = AjxProLla.objects.filter(cam_codigo=campania,llam_estado=2).count()
        asterisk = AjxProLla.objects.filter(cam_codigo=campania,llam_estado__in=[2,3,5]).count()
-       pendiente = Base.objects.filter(campania_id=campania).count()-AjxProLla.objects.filter(cam_codigo=campania).count()
+       pendiente = Base.objects.filter(campania_id=campania).count()-AjxProLla.objects.filter(cam_codigo=campania,llam_flag=1).count()
        
        if int(total) == 0:
 

@@ -762,8 +762,7 @@ $('.container').fadeToggle("slow")
 //  /monitor/pcall/2016/06/13/250/202-941392115-2016-06-13_15-5:-7.gsm
 //  /monitor/pcall/2016/06/13/250/202-941392115-2016-06-13_15-25-37.gsm
 
-        alert("http://192.168.50.206:81/monitor/pcall/"+anio+"/"+mes+"/"+dia+"/"+campania+"/"+origen+"-"+destino+"-"+fecha+"_"+hora+"-"+min+"-"+seg+".gsm")
-
+      
         window.location.href = "http://192.168.50.206:81/monitor/pcall/"+anio+"/"+mes+"/"+dia+"/"+campania+"/"+origen+"-"+destino+"-"+fecha+"_"+hora+"-"+min+"-"+seg+".gsm"
 
     }

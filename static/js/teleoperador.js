@@ -29,6 +29,23 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
     }
 
 
+
+         $http.get("/agenteparametros/"+agente).success(function(response) {$scope.agenteparametros = response;
+
+            console.log('agenteparametros',$scope.agenteparametros)
+            $scope.atendidas = $scope.agenteparametros.atendidas
+
+            $scope.acuerdos = $scope.agenteparametros.acuerdos
+
+
+        });
+
+
+
+ 
+
+
+
       $interval(xx, 1000);
 
     
