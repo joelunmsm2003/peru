@@ -3329,16 +3329,13 @@ def generacsv(request,cartera,campania,inicio,fin,telefono,cliente):
 
 	response['Content-Disposition'] = 'attachment; filename="RD_'+str(ncartera)+'_'+str(ncampania)+'_'+str(fecha)[0:19]+'.csv'
 
-
 	writer = csv.writer(response)
 
 	print 'Filtro',filtro
 
 	base = Base.objects.filter(**filtro)
-
 	
 	writer.writerow(['Id','Telefono','Orden','Cliente','ID Cliente','Cartera','Campania','Agente','Duracion','Monto','Fecha Gestion','Status A','Status B','Status C','Status D','Status E','Status F','Status G','Status H','Botonera','Observacion','Fecha de Pago','Importe de Pago'])
-
 
 	for x in base:
 
@@ -3376,7 +3373,7 @@ def generacsv(request,cartera,campania,inicio,fin,telefono,cliente):
 
 			duracion = str(fin-inicio)[2:8]
 
-		writer.writerow([x.id,x.telefono,x.orden,x.cliente,x.id_cliente,x.campania.cartera.nombre,x.campania.nombre,agente,duracion,x.monto,x.fecha,x.status_a,x.status_b,x.status_c,x.status_d,x.status_e,x.status_f,x.status_g,x.status_h,resultado,'Observacion','Fecha de Pago','Importe de Pago'])
+		writer.writerow([x.id,x.telefono,x.orden,x.cliente,x.id_cliente,x.campania.cartera.nombre,x.campania.nombre,agente,duracion,x.monto,x.fecha,x.status_a,x.status_b,x.status_c,x.status_d,x.status_e,x.status_f,x.status_g,x.status_h,resultado,x.detalle,x.fecha,x.monto])
 
 
 	return response
