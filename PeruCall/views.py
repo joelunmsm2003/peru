@@ -1501,16 +1501,13 @@ def lanzaespera(request):
 	if request.method == 'POST':
 
 		data = json.loads(request.body)
-
-		#{u'agente': u'14', u'done': False, u'boton': 17, u'cliente': {u'status': u'1', u'orden': None, u'resultado': 5, u'status_d': None, u'campania__nombre': u'Pastillas LSD', u'status_h': u'SCORE C', u'status_g': u'NUEVO', u'status_f': u'LIMA', u'id_cliente': None, u'resultado__name': u'Acuerdo con fecha de pago', u'status_c': None, u'status_b': None, u'status_a': None, u'id': 2, u'status_e': None, u'tiniciollamada': u'2016-04-13 23:34:34 UTC', u'telefono': None, u'cliente': None}}
-
 		agente_id = data['agente']
-
 		agente = Agentes.objects.get(id=agente_id)
 		agente.tinicioespera = datetime.now()-timedelta(hours=5)
 
 		if agente.estado_id !=3:
 
+			agente.est_ag_predictivo = 0
 			agente.estado_id= 2
 			agente.save()
 
