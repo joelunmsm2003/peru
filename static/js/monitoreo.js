@@ -424,9 +424,9 @@ function Controller($scope,$http,$cookies,$filter) {
 
     $http.get("/botoneragraph/"+campania).success(function(response) {
 
-        $scope.pendiente = response['pendiente']
+        $scope.pendiente = response['Pendiente']
         $scope.total2 = response['total']
-        $scope.procesado = $scope.total2 - $scope.pendiente
+        $scope.procesado = parseInt($scope.total2) - parseInt($scope.pendiente)
 
     });
 
@@ -438,7 +438,16 @@ function Controller($scope,$http,$cookies,$filter) {
     });
     
 
-    }, 10000);
+    }, 5000);
+
+       $http.get("/botoneragraph/"+campania).success(function(response) {
+
+        $scope.pendiente = response['Pendiente']
+        $scope.total2 = response['total']
+        $scope.procesado = parseInt($scope.total2) - parseInt($scope.pendiente)
+
+    });
+
 
     
 
