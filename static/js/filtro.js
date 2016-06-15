@@ -165,18 +165,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
     });
 
-    setInterval(function(){ 
 
-    $http.get("/listafiltros/"+campania).success(function(response) {
-
-    $scope.listafiltros = response; 
-
-    console.log($scope.listafiltros)
-
-    });
-
-
-    },1000);
 
 
     $http.get("/nivel").success(function(response) {$scope.nivel = response;

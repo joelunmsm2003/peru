@@ -2694,7 +2694,7 @@ def listafiltros(request,id_campania):
 
 			data[i]['color'] = '#FAF8F8'
 			
-			data[i]['colort'] = '#564D4D'
+			data[i]['colort'] = '#000'
 
 		
 			data[i]['statusname'] = 'Apagado'
@@ -2706,10 +2706,6 @@ def listafiltros(request,id_campania):
 			data[i]['colort'] = '#fff'
 
 			data[i]['statusname'] = 'Activado'
-
-
-
-
 		
 
 		resultado = filtro.resultado
@@ -2728,15 +2724,17 @@ def listafiltros(request,id_campania):
 
 		status_g =  status_g.split('/')
 
-		resultadototal = Base.objects.filter(campania_id=id_campania,resultado__name__in=resultado,status_f__in=status_f,status_g__in=status_g,status_h__in=status_h).count()
+		print resultado,status_f,status_g,status_h
 
-		resultadobarrido = Base.objects.filter(campania_id=id_campania,resultado__name__in=resultado,status_f__in=status_f,status_g__in=status_g,status_h__in=status_h,status=1).count()
+		resultadototal = Base.objects.filter(campania_id=id_campania,status_f__in=status_f,status_g__in=status_g,status_h__in=status_h).count()
 
-		fonosinexito = Base.objects.filter(campania_id=id_campania,resultado__name__in=resultado,status_f__in=status_f,status_g__in=status_g,status_h__in=status_h,status=2).count()
+		resultadobarrido = Base.objects.filter(campania_id=id_campania,status_f__in=status_f,status_g__in=status_g,status_h__in=status_h,proflag=1).count()
+
+		#fonosinexito = Base.objects.filter(campania_id=id_campania,resultado__name__in=resultado,status_f__in=status_f,status_g__in=status_g,status_h__in=status_h,status=2).count()
 
 		data[i]['total'] = resultadototal 
-		data[i]['fonosporbarrer'] = resultadototal - resultadobarrido
-		data[i]['fonosinexito'] = fonosinexito
+		data[i]['fonosporbarrer'] = resultadobarrido
+		#data[i]['fonosinexito'] = fonosinexito
 
 
 	data_dict = ValuesQuerySetToDict(data)
