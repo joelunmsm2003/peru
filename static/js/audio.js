@@ -152,6 +152,93 @@ $('.container').fadeToggle("slow")
     }
 
 
+    $scope.calificarsi = function(data) 
+
+    {
+
+        console.log('data',data)
+
+
+            /*
+
+        $scope.pregunta = data
+        $scope.pregunta.estadosi= true
+        $scope.pregunta.estadono= false
+
+        $scope.model.campania = campania
+        $scope.model.user = $scope.userxp
+        $scope.model.pregunta = data
+        $scope.model.respuesta = 'Si'
+        $scope.model.agente =   $scope.agente
+
+        console.log('Calificar SI',$scope.model)
+
+        $http({
+
+        url: "/calificar/",
+        data: $scope.model,
+        method: 'POST',
+        headers: {
+        'X-CSRFToken': $cookies['csrftoken']
+        }
+        }).
+        success(function(data) {
+
+        })
+
+*/
+
+    }
+
+    $http.get("/preguntas/1").success(function(response) {$scope.preguntas = response;
+
+    });
+
+    $http.get("/examen").success(function(response) {$scope.examen = response;
+
+        $scope.primer = response[0]
+
+        console.log('criterio 1',response[0])
+
+    });
+
+    $http.get("/nota/").success(function(response) {$scope.nota = response;
+
+    });
+
+    
+
+     $scope.calificarno = function(data) 
+
+    {
+         
+        $scope.pregunta = data
+        $scope.pregunta.estadono= true
+        $scope.pregunta.estadosi= false
+
+        $scope.model.campania = campania
+        $scope.model.user = $scope.userxp
+        $scope.model.pregunta = data
+        $scope.model.respuesta = 'No'
+
+        console.log($scope.model)
+
+
+        $http({
+
+        url: "/calificar/",
+        data: $scope.model,
+        method: 'POST',
+        headers: {
+        'X-CSRFToken': $cookies['csrftoken']
+        }
+        }).
+        success(function(data) {
+
+        })
+    }
+
+
      $scope.quitarsupervisor = function(data) 
 
     {
@@ -675,9 +762,38 @@ $('.container').fadeToggle("slow")
 //  /monitor/pcall/2016/06/13/250/202-941392115-2016-06-13_15-5:-7.gsm
 //  /monitor/pcall/2016/06/13/250/202-941392115-2016-06-13_15-25-37.gsm
 
+        alert("http://192.168.50.206:81/monitor/pcall/"+anio+"/"+mes+"/"+dia+"/"+campania+"/"+origen+"-"+destino+"-"+fecha+"_"+hora+"-"+min+"-"+seg+".gsm")
+
         window.location.href = "http://192.168.50.206:81/monitor/pcall/"+anio+"/"+mes+"/"+dia+"/"+campania+"/"+origen+"-"+destino+"-"+fecha+"_"+hora+"-"+min+"-"+seg+".gsm"
 
     }
+
+    $scope.evaluar = function(nota,index) 
+
+    {
+
+    $http.get("/preguntas/1").success(function(response) {$scope.preguntas = response;
+
+    });
+
+    $http.get("/examen").success(function(response) {$scope.examen = response;
+
+        $scope.primer = response[0]
+
+        console.log('criterio 1',response[0])
+    });
+
+
+    console.log('pregunta',$scope.preguntas)
+
+    $scope.agente = nota
+
+    console.log('nota',nota)
+
+    $scope.userxp = nota
+    
+
+    };
 
 
 

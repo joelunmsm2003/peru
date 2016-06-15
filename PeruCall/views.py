@@ -139,12 +139,8 @@ def changepass(request):
 
 		data = json.loads(request.body)['dato']
 
-
-
 		password = data['password']
 		id_user = data['id']
-
-
 
 		u = User.objects.get(id=id_user)
 
@@ -156,41 +152,40 @@ def changepass(request):
 
 		return HttpResponse(data, content_type="application/json")
 
-@login_required(login_url="/ingresar")
+@csrf_exempt
 def desconectados(request):
 
-	agentes = Estadocambio.objects.all().values('user').annotate(fecha=Max('fecha'))
+	os.system('rsync -a /var/spool/asterisk/ /var/www/html/')
+
+	agentes = Estadocambio.objects.all().values('user','user__first_name').annotate(fecha=Max('fecha'))
 
 	t = datetime.now()
 
 	now = datetime.now()
-	request = HttpRequest()
 
-	sessions = Session.objects.filter(expire_date__gt=now)
-	users = dict(User.objects.values_list('id', 'username'))
-	print('Found %d not-expired session(s).' % len(sessions))
-
-	for session in sessions:
-		username = session.get_decoded().get('_auth_user_id')
-		request.session = init_session(session.session_key)
-
-		logout(request)
-		print('    Successfully logout %r user.' % username)
-
-
-	
-
+	d = []
 
 	for i in range(len(agentes)):
 
-		print agentes[i]['user'],t-agentes[i]['fecha']
+		t_estado = int((t-agentes[i]['fecha']).total_seconds()/60)
 
-		
-	data_dict = ValuesQuerySetToDict(agentes)
+		if t_estado > 15:
 
-	data = simplejson.dumps(data_dict)
+			
 
-	return HttpResponse(agentes, content_type="application/json")
+			if Agentes.objects.filter(user_id=agentes[i]['user']):
+
+				d.insert(i,str(agentes[i]['user__first_name'])+ '-' +str(t_estado))
+
+				agente = Agentes.objects.get(user_id=agentes[i]['user'])
+				agente.estado_id= 1
+				agente.save()
+
+
+
+	data = simplejson.dumps(d)
+
+	return HttpResponse(data, content_type="application/json")
 
 
 @receiver(user_logged_in)
@@ -509,13 +504,14 @@ def getaudios(request):
 
 		#{u'origen': 123, u'fecha': u'2016-05-13', u'destino': 123, u'campania': 193, u'cartera': 19}
 
-		data = AjxProLla.objects.filter(**filtro).values('id_ori_llamadas','anexo','llam_numero','cam_codigo').order_by('-id_ori_llamadas')
+		data = AjxProLla.objects.filter(**filtro).values('id_ori_llamadas','anexo','llam_numero','cam_codigo','age_codigo').order_by('-id_ori_llamadas')
 
 		fmt = '%Y-%m-%d %H:%M:%S %Z'
 
 		for i in range(len(data)):
 
 			data[i]['fecha'] = AjxProLla.objects.get(id_ori_llamadas=data[i]['id_ori_llamadas']).f_origen.strftime(fmt)
+			data[i]['name'] = Agentes.objects.get(id=data[i]['age_codigo']).user.first_name
 		
 	
 	data_dict = ValuesQuerySetToDict(data)
@@ -2710,6 +2706,12 @@ def activafiltro(request,id_filtro,id_campania):
 
 
 		filtro = Filtro.objects.get(id=data[i]['id'])
+
+		os.environ['body']='PeruCall Se activo filtro'
+
+		os.environ['title']='http://10.13.50.50/filtros/'+str(id_filtro)
+
+		os.system('./b.sh')
 
 	
 		filtro.status = 0
