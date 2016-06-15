@@ -8,7 +8,7 @@ $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
 
 campania = window.location.href.split("monitoreo/")[1].split("/")[0]
 
-
+/*
 
 $(function () {
     // Create the chart
@@ -40,7 +40,7 @@ $(function () {
 
                             }
 
-                        setInterval(function(){updateChart()},1000);
+                        setInterval(function(){updateChart()},10000);
 
                             }
                         }
@@ -257,353 +257,8 @@ $(function () {
     });
 });
 
-
-
-/*
-$(function () {
-    // Create the chart
-    $('#graph3').highcharts({
-        chart: {
-            type: 'column',
-             events: {
-                        load: function () {
-
-                                seriei = this.series
-
-                                  var updateChart = function() {
-
-                                $.getJSON("/botoneragraph/"+campania, function (result) {
-
-                                    console.log('botoro llam',result)
-
-       
-
-                                    seriei[0].points[0].update(result['Promesa'])
-                                    seriei[0].points[1].update(result['Contacto Directo'])
-                                    seriei[0].points[2].update(result['Contacto Indirecto'])
-                                    seriei[0].points[3].update(result['No Contacto'])
-                                    seriei[0].points[4].update(result['fallecido'])
-                                    seriei[0].points[5].update(result['consultatramite'])
-                                    seriei[0].points[6].update(result['contactosinpromesa'])
-                                    seriei[0].points[7].update(result['dificultadpago'])
-                                    seriei[0].points[8].update(result['acuerdoconfecha'])
-                                    seriei[0].points[9].update(result['reclamoinstitucion'])
-                                    seriei[0].points[10].update(result['refinanciaconvenio'])
-                                    seriei[0].points[11].update(result['renuenterehuye'])
-                                    seriei[0].points[12].update(result['pagoboucher'])
-                                    seriei[0].points[13].update(result['desconocidomudado'])
-                                    seriei[0].points[14].update(result['novivelabora'])
-                                    seriei[0].points[15].update(result['sivivelabora'])
-                                    seriei[0].points[16].update(result['sivivelabora'])
-
-     
-                           
-                                });
-
-                            }
-
-                        setInterval(function(){updateChart()},1000);
-
-                            }
-                        }
-        },
-        title: {
-            text: 'Cobertura Campaña'
-        },
-     
-        xAxis: {
-
-
-            categories: [
-                'Promesa',
-                'Contacto Directo',
-                'Contacto Indirecto',
-                'No Contacto',
-                'Fallecido',
-                'Consulta en tramite',
-                'Contacto sin promesa',
-                'Dificultad de Pago',
-                'Acuerdo con fecha de pago',
-                'Reclamo Institucion',
-                '-',
-                'Refinancia/Convenio',
-                'Renuente/Rehuye',
-                'Ya Pago con voucher',
-                'Tit.desconocido/ Mudado',
-                'Msj Tercero(No vive/labora)',
-                'Msj Tercero(No vive/labora)'
-
-            ],
-            crosshair: true
-        },
-        yAxis: {
-            title: {
-                text: 'Porcentaje'
-            }
-
-        },
-        legend: {
-            enabled: false
-        },
-        plotOptions: {
-            series: {
-                borderWidth: 0,
-                dataLabels: {
-                    enabled: true,
-                    format: '{point.y:.1f}%'
-                }
-            }
-        },
-
-        tooltip: {
-            headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
-            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
-        },
-
-         
-
-
-        series: [{
-            name: 'Llamadas',
-            colorByPoint: true,
-            data: [{
-                name: 'Promesa',
-                y: 0,
-                drilldown: 'Promesa'
-            }, {
-                name: 'Directo',
-                y: 0,
-                drilldown: 'Directo'
-            }, {
-                name: 'Indirecto',
-                y: 0,
-                drilldown: 'Indirecto'
-            }, {
-                name: 'Fallecido',
-                y: 0,
-                drilldown: 'Fallecido'
-            },
-            {
-                name: 'Consulta en tramite',
-                y: 0,
-                drilldown: 'Consulta en tramit'
-            },
-
-            {
-                name: 'Contacto sin promesa',
-                y: 0,
-                drilldown: 'Contacto sin promesa'
-            },
-
-            {
-                name: 'Dificultad de Pago',
-                y: 4.77,
-                drilldown: 'Dificultad de Pago'
-            }
-            ,
-            {
-                name: 'Acuerdo con fecha de pago',
-                y: 0,
-                drilldown: 'Acuerdo con fecha de pago'
-            },
-
-            {
-                name: 'Reclamo Institucion',
-                y: 0,
-                drilldown: 'Reclamo Institucion'
-            },
-
-            {
-                name: 'Refinancia/Convenio',
-                y: 0,
-                drilldown: 'Refinancia/Convenio'
-            },
-
-            {
-                name: 'Renuente/Rehuye',
-                y: 0,
-                drilldown: 'Renuente/Rehuye'
-            },
-
-            {
-                name: 'Ya pago con boucher',
-                y: 0,
-                drilldown: 'Ya pago con boucher'
-            },
-            {
-                name: 'Tit.desconocido/ Mudado',
-                y: 0,
-                drilldown: 'Tit.desconocido/ Mudado'
-            },
-            {
-                name: 'Msj Tercero(No vive/labora)',
-                y: 0,
-                drilldown: 'Msj Tercero(No vive/labora)'
-            },
-            {
-                name: 'Msj Tercero(Si vive/labora)',
-                y: 0,
-                drilldown: 'Msj Tercero(Si vive/labora)'
-            },
-            {
-                name: 'Msj Ter)',
-                y: 0,
-                drilldown: 'Msj Tercero(Si vive/labora)'
-            },
-
-            {
-                name: 'Msj Ter)',
-                y: 0,
-                drilldown: 'Msj Tercero(Si vive/labora)'
-            }]
-        }],
-        drilldown: {
-            series: [{
-                name: 'Promesa',
-                id: 'Promesa',
-                data: [3
-            
-                ]
-            }, {
-                name: 'Directo',
-                id: 'Directo',
-                data: [
-                    [
-                        'v40.0',
-                        5
-                    ],
-                    [
-                        'v41.0',
-                        4.32
-                    ],
-                    [
-                        'v42.0',
-                        3.68
-                    ],
-                    [
-                        'v39.0',
-                        2.96
-                    ],
-                    [
-                        'v36.0',
-                        2.53
-                    ],
-                    [
-                        'v43.0',
-                        1.45
-                    ],
-                    [
-                        'v31.0',
-                        1.24
-                    ],
-                    [
-                        'v35.0',
-                        0.85
-                    ],
-                    [
-                        'v38.0',
-                        0.6
-                    ],
-                    [
-                        'v32.0',
-                        0.55
-                    ],
-                    [
-                        'v37.0',
-                        0.38
-                    ],
-                    [
-                        'v33.0',
-                        0.19
-                    ],
-                    [
-                        'v34.0',
-                        0.14
-                    ],
-                    [
-                        'v30.0',
-                        0.14
-                    ]
-                ]
-            }, {
-                name: 'Indirecto',
-                id: 'Indirecto',
-                data: [
-                    [
-                        'v35',
-                        2.76
-                    ],
-                    [
-                        'v36',
-                        2.32
-                    ],
-                    [
-                        'v37',
-                        2.31
-                    ],
-                    [
-                        'v34',
-                        1.27
-                    ],
-                    [
-                        'v38',
-                        1.02
-                    ],
-                    [
-                        'v31',
-                        0.33
-                    ],
-                    [
-                        'v33',
-                        0.22
-                    ],
-                    [
-                        'v32',
-                        0.15
-                    ]
-                ]
-            }, {
-                name: 'No Contacto',
-                id: 'No Contacto',
-                data: [
-                    [
-                        'v8.0',
-                        2.56
-                    ],
-                    [
-                        'v7.1',
-                        0.77
-                    ],
-                    [
-                        'v5.1',
-                        0.42
-                    ],
-                    [
-                        'v5.0',
-                        0.3
-                    ],
-                    [
-                        'v6.1',
-                        0.29
-                    ],
-                    [
-                        'v7.0',
-                        0.26
-                    ],
-                    [
-                        'v6.2',
-                        0.17
-                    ]
-                ]
-            }]
-        }
-    });
-});
-
 */
-
-//---------
-
+/*
 
 
 $(function () {
@@ -641,7 +296,7 @@ $(function () {
                             }
 
 
-                        setInterval(function(){updateChartpie()},1000);
+                        setInterval(function(){updateChartpie()},10000);
 
                        
 
@@ -684,7 +339,7 @@ $(function () {
 
 
 
-
+*/
 
 
 

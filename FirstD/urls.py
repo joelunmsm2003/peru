@@ -114,6 +114,8 @@ urlpatterns = patterns('',
     url(r'^agregarcartera/', 'PeruCall.views.agregarcartera'),
     url(r'^cliente/(\w+)/$', 'PeruCall.views.cliente'),
     url(r'^agente/(\w+)/$', 'PeruCall.views.agente'),
+    url(r'^agenteparametros/(\w+)/$', 'PeruCall.views.agenteparametros'),
+
     url(r'^atendida/(\w+)/$', 'PeruCall.views.atendida'),
     url(r'^desfase/(\w+)/$', 'PeruCall.views.desfase'),
     url(r'^botonera/$', 'PeruCall.views.botonera'),
