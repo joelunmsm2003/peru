@@ -1959,6 +1959,7 @@ def agente(request,id_agente):
 
 	data = simplejson.dumps(data_dict)
 
+	'''
 	AjxProLla.objects.filter(age_codigo=id_agente).count()
 
 	t = datetime.strftime(datetime.now(), '%Y-%m-%d')
@@ -1973,8 +1974,11 @@ def agente(request,id_agente):
 
 			c=c+1
 
-	atendidas = c
+	#atendidas = c
+	'''
 
+	atendidas = 1
+	'''
 	print 'atendidas',atendidas
 
 	acuerdos = Base.objects.filter(agente_id=id_agente,resultado_id__in=[15,5]).count()
@@ -1984,7 +1988,10 @@ def agente(request,id_agente):
 	else:
 		media=float(acuerdos)*100/float(atendidas)
 		media = round(media,2)
-
+	'''
+	acuerdos = 1
+	media = 1
+	
 	data = {'data':data,'atendidas':atendidas,'acuerdos':acuerdos,'media':media}
 
 	data = simplejson.dumps(data)
@@ -4325,10 +4332,11 @@ def salir(request):
 	
 	id =request.user.id
 	nivel = AuthUser.objects.get(id=id).nivel.id
-	agente.est_ag_predictivo = 0
+	
 	if nivel == 3:
 		agente = Agentes.objects.get(user=id)
 		agente.estado_id=1
+		agente.est_ag_predictivo = 0
 		agente.save()
 		Estadocambio(user_id=id,estado_id=1).save()
 
