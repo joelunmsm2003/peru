@@ -823,7 +823,7 @@ $(function () {
 
                             }
 
-                        setInterval(function(){updateChart()},1000);
+                        /*setInterval(function(){updateChart()},1000);*/
 
                             }
                         }
@@ -954,7 +954,7 @@ $(function () {
                             }
 
 
-                        setInterval(function(){updateChartpie()},1000);
+                        /*setInterval(function(){updateChartpie()},1000);*/
 
                        
 
