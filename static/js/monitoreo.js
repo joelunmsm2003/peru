@@ -438,7 +438,7 @@ function Controller($scope,$http,$cookies,$filter) {
     });
     
 
-    }, 1000);
+    }, 10000);
 
     
 
