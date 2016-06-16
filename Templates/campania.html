@@ -288,15 +288,15 @@ padding-top: 0px;
 
                 <td ng-if="contact.filtro=='1'" style='background:{[{contact.color}]}; color:{[{contact.font}]};'>{[{contact.cargados}]} | {[{contact.barridos}]}  | {[{contact.errados}]}  </td>
 
-                <td ng-if="contact.filtro=='0'" style='background:{[{contact.color}]}; color:{[{contact.font}]};'>{[{contact.ciudad | limitTo: 30}]} </td>
+                <td ng-if="contact.filtro=='0'" style='background:{[{contact.color}]}; color:{[{contact.font}]};'>{[{contact.status_f | limitTo: 30}]} </td>
 
                 <td ng-if="contact.filtro=='1'" style='background:{[{contact.color}]}; color:{[{contact.font}]};' >{[{contact.totalagentes}]} | {[{contact.conectados}]}</td>
 
-                <td ng-if="contact.filtro=='0'" style='background:{[{contact.color}]}; color:{[{contact.font}]};' >{[{contact.segmento}]} </td>
+                <td ng-if="contact.filtro=='0'" style='background:{[{contact.color}]}; color:{[{contact.font}]};' >{[{contact.status_h}]} </td>
 
                 <td ng-if="contact.filtro=='1'" style='background:{[{contact.color}]}; color:{[{contact.font}]};'>{[{contact.fecha_cargada  | limitTo: 19}]}</td>
 
-                <td ng-if="contact.filtro=='0'" style='background:{[{contact.color}]}; color:{[{contact.font}]};'>{[{contact.grupo}]}</td>
+                <td ng-if="contact.filtro=='0'" style='background:{[{contact.color}]}; color:{[{contact.font}]};'>{[{contact.status_g}]}</td>
                 
                 <td style='background:{[{contact.color}]}; color:{[{contact.font}]};' ng-if="user.nivel == 1">{[{contact.supervisor__user__first_name}]}</td>
                 <td style='background:{[{contact.color}]}; color:{[{contact.font}]};' ng-if="user.nivel == 1">{[{contact.password}]}</td>
