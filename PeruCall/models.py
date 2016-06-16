@@ -446,6 +446,7 @@ class Base(models.Model):
     tfinllamada = models.DateTimeField(blank=True, null=True)
     password = models.IntegerField(blank=True, null=True)
     blacklist = models.IntegerField(blank=True, null=True)
+    resultadotxt = models.CharField(max_length=100, blank=True)
 
     class Meta:
         managed = False
