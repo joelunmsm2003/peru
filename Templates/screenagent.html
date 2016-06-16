@@ -4,6 +4,14 @@
   <title> {[{datoagente.estado__nombre}]} </title>
   {% include "head.html" %}
   <script src="/static/js/teleoperador.js"></script>
+  <style type="text/css">
+    .c2,.c3,.c4,.camp,.c8{
+
+    height: 79px;
+    display:none;
+
+    }
+  </style>
 
 
 </head>
@@ -21,6 +29,9 @@
 
     function receiveMessage(msg) {
 
+
+
+
         console.log(msg)
 
         resp = msg.slice(0,4)
@@ -36,6 +47,8 @@
         }
 
         if(msg=='llamada'){
+
+
 
           window.location.href = "/teleoperador/"+agente
 
