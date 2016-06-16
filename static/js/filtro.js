@@ -74,13 +74,6 @@ function Controller($scope,$http,$cookies,$filter,$interval) {
        
     });
 
-     $http.get("/estllamada").success(function(response) {
-
-        $scope.estllamada = response
-
-        console.log(response)
-       
-    });
 
      
 
@@ -230,6 +223,8 @@ function Controller($scope,$http,$cookies,$filter,$interval) {
     {
 
 
+
+
     $scope.usuarioscampania.push(contact);
     $scope.usuarios.splice(index,1);
 
@@ -252,7 +247,7 @@ function Controller($scope,$http,$cookies,$filter,$interval) {
         success(function(data) {
 
             swal({      title: data +' agregado',   timer: 2000,   showConfirmButton: false });
-    
+            
     
     
         })
@@ -271,6 +266,8 @@ function Controller($scope,$http,$cookies,$filter,$interval) {
       $scope.filtrado = function(dato) 
 
     {   
+
+            $scope.textfiltro = 'Agregando filtro, porfavor espere...'
 
          $('#filtrop').modal('hide')
         $('.modal-backdrop').remove();
@@ -325,6 +322,7 @@ function Controller($scope,$http,$cookies,$filter,$interval) {
             $http.get("/listafiltros/"+campania).success(function(response) {
 
                     $scope.listafiltros = response; 
+                    $scope.textfiltro = ''
 
                     });
 

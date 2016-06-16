@@ -1706,20 +1706,20 @@ def agregarfiltro(request):
 		segmentot = ""
 		resultadot = ""
 
-		c = []
-
+		
 		for i in range(len(resultado)):
 
 			resultadot = resultadot  + resultado[i]['name'] +'/'
 
 			r = Resultado.objects.get(name=resultado[i]['name'])
 
-			base = Base.objects.filter(resultado_id=r.id)
+			base = Base.objects.filter(resultado_id=r.id,campania_id=campania)
 
 			for base in base:
 				base.proflag = None
 				base.proestado = None
 				base.filtrohdec = None
+				base.status = 0
 				base.save()
 
 		for i in range(len(ciudad)):
@@ -1727,12 +1727,13 @@ def agregarfiltro(request):
 			ciudadt = ciudadt  + ciudad[i]['status_f'] +'/'
 
 
-			base = Base.objects.filter(status_f=ciudad[i]['status_f'])
+			base = Base.objects.filter(status_f=ciudad[i]['status_f'],campania_id=campania)
 
 			for base in base:
 				base.proflag = None
 				base.proestado = None
 				base.filtrohdec = None
+				base.status = 0
 				base.save()
 
 
@@ -1740,38 +1741,31 @@ def agregarfiltro(request):
 
 			grupot = grupot  + grupo[i]['status_g'] +'/'
 
-			base = Base.objects.filter(status_g=grupo[i]['status_g'])
+			base = Base.objects.filter(status_g=grupo[i]['status_g'],campania_id=campania)
 			
 			for base in base:
 				base.proflag = None
 				base.proestado = None
 				base.filtrohdec = None
+				base.status = 0
 				base.save()
 
 		for i in range(len(segmento)):
 
 			segmentot = segmentot  + segmento[i]['status_h'] +'/'
 
-			base = Base.objects.filter(status_h=segmento[i]['status_h'])
+			base = Base.objects.filter(status_h=segmento[i]['status_h'],campania_id=campania)
 
 			for base in base:
 				base.proflag = None
 				base.proestado = None
 				base.filtrohdec = None
+				base.status = 0
 				base.save()
 
 		i = Filtro.objects.filter(campania_id=campania).count()
 
-		b = Base.objects.filter(campania_id=campania)
-		b.status = 0
-		b.save()
-
-
 		Filtro(resultado=resultadot,status_f=ciudadt,status_g=grupot,status_h=segmentot,campania_id=campania,status=1,orden=i+1).save()
-
-
-
-
 
 		return HttpResponse('data', content_type="application/json")
 
