@@ -1237,6 +1237,8 @@ def botonexterno(request):
 
 			rbase = Base.objects.get(id=base)
 
+
+
 			rbase.fecha = datetime.now()-timedelta(hours=5)
 			rbase.tfingestion = datetime.now()-timedelta(hours=5)
 			rbase.save()
@@ -1268,10 +1270,14 @@ def botonexterno(request):
 
 
 
-			
+			resultado_name = Resultado.objects.get(id=resultado).name
+
+		
+	
 
 			b = Base.objects.get(id=base)
 			b.resultado_id = resultado
+			b.resultadotxt = resultado_name
 			b.save()
 
 
