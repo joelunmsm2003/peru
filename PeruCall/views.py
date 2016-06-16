@@ -1706,23 +1706,66 @@ def agregarfiltro(request):
 		segmentot = ""
 		resultadot = ""
 
+		c = []
+
 		for i in range(len(resultado)):
 
 			resultadot = resultadot  + resultado[i]['name'] +'/'
+
+			r = Resultado.objects.get(name=resultado[i]['name'])
+
+			base = Base.objects.filter(resultado_id=r.id)
+
+			for base in base:
+				base.proflag = None
+				base.proestado = None
+				base.filtrohdec = None
+				base.save()
 
 		for i in range(len(ciudad)):
 
 			ciudadt = ciudadt  + ciudad[i]['status_f'] +'/'
 
+
+			base = Base.objects.filter(status_f=ciudad[i]['status_f'])
+
+			for base in base:
+				base.proflag = None
+				base.proestado = None
+				base.filtrohdec = None
+				base.save()
+
+
 		for i in range(len(grupo)):
 
 			grupot = grupot  + grupo[i]['status_g'] +'/'
+
+			base = Base.objects.filter(status_g=grupo[i]['status_g'])
+			
+			for base in base:
+				base.proflag = None
+				base.proestado = None
+				base.filtrohdec = None
+				base.save()
 
 		for i in range(len(segmento)):
 
 			segmentot = segmentot  + segmento[i]['status_h'] +'/'
 
+			base = Base.objects.filter(status_h=segmento[i]['status_h'])
+
+			for base in base:
+				base.proflag = None
+				base.proestado = None
+				base.filtrohdec = None
+				base.save()
+
 		i = Filtro.objects.filter(campania_id=campania).count()
+
+		b = Base.objects.filter(campania_id=campania)
+		b.status = 0
+		b.save()
+
 
 		Filtro(resultado=resultadot,status_f=ciudadt,status_g=grupot,status_h=segmentot,campania_id=campania,status=1,orden=i+1).save()
 
