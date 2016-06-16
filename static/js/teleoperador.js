@@ -15,6 +15,24 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
     agente = window.location.href.split("teleoperador/")[1].split("/")[0]
 
 
+        $http.get("/agente/"+agente).success(function(response) {$scope.agente = response;
+
+        data = JSON.parse($scope.agente['data'])
+
+        $scope.datoagente =data[0]
+
+                    //$('.container-full').fadeToggle("slow")
+            $('.c4').fadeToggle("slow")
+            $('.c2').fadeToggle("slow")
+            $('.c3').fadeToggle("slow")
+            $('.camp').fadeToggle("slow")
+            $('.c8').fadeToggle("slow")
+
+
+
+        });
+
+
     var xx =function(){
 
 
@@ -191,12 +209,7 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
 
 
    
-            //$('.container-full').fadeToggle("slow")
-            $('.c4').fadeToggle("slow")
-            $('.c2').fadeToggle("slow")
-            $('.c3').fadeToggle("slow")
-            $('.camp').fadeToggle("slow")
-            $('.c8').fadeToggle("slow")
+
 
          
 

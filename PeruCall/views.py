@@ -261,7 +261,7 @@ def ingresar(request):
 
 							nl =nl+1
 				
-					print 'ageactivos',ageactivos
+					
 
 					if int(nl) > int(licencias):
 
@@ -377,7 +377,7 @@ def teleoperador(request,id_agente):
 
 	base = Base.objects.filter(agente_id=id_agente,status=1).order_by('-id').values('id','telefono','orden','cliente','id_cliente','status_a','status_b','status_c','status_d','status_e','status_f','status_g','status_h','status','campania__nombre','resultado__name','resultado','campania__mxllamada','campania__mxllamada','campania__hombreobjetivo','campania__cartera__nombre')
 
-	print 'base................',base
+
 
 	dni = ''
 
@@ -479,7 +479,7 @@ def getaudios(request):
 
 		data= json.loads(request.body)
 
-		print data
+		
 
 		filtro = {}
 
@@ -690,11 +690,11 @@ def kpi(request,agente):
 
 	today =  today.strftime(fmt1)
 
-	print today
+	
 
 	base = Estadocambio.objects.filter(fecha__gte=today,user_id=user,estado_id=2).values('id','estado__nombre','user__first_name','user').order_by('id')[:1]
 
-	print base
+	
 		
 	fmt = '%H:%M'
 
@@ -702,11 +702,11 @@ def kpi(request,agente):
 
 		base[i]['fecha'] = Estadocambio.objects.get(id=base[i]['id']).fecha.strftime(fmt)
 
-	print 'Base....',base
+	
 
 	horainicio = float(base[0]['fecha'].split(':')[0]) + float(base[0]['fecha'].split(':')[1])/60
 
-	print 'hora inicio',horainicio
+	
 
 	now = datetime.now()
 
@@ -716,19 +716,19 @@ def kpi(request,agente):
 
 	horafin = float(now.split(':')[0]) + float(now.split(':')[1])/60
 
-	print 'horafin',horafin
+
 
 	a = (horafin-horainicio)*80/100
 
-	print 'a',a
+
 
 	today1 = datetime.now()
 
-	print 'agente',agente
+
 
 	ajax = AjxProLla.objects.filter(age_codigo=agente).order_by('-id_ori_llamadas')
 
-	print 'contador',ajax.count()
+
 
 	t=0
 
@@ -739,11 +739,10 @@ def kpi(request,agente):
 			t = t + i.duration 
 		#t = int(ajax.duration) + t
 
-	print 'Duracion',t
-
+	
 	b = float(t)/3600
 
-	print 'ajax duration hours',b
+
 
 	kpi =0
 
@@ -754,7 +753,6 @@ def kpi(request,agente):
 
 
 
-	print kpi
 	#kpicolor='red'
 
 	if kpi <= 65:
@@ -1104,7 +1102,7 @@ def agentes(request,id_campania):
 
 		if agente.estado.id > 1:
 
-			print 'Ti....',ti,agente.id
+			
 
 			ti= str(ti)[0:19]
 			ti = datetime.strptime(ti,fmt1)
@@ -1229,7 +1227,7 @@ def botonexterno(request):
 
 			data = json.loads(request.body)
 
-			print 'data',data
+			
 
 			#{u'agente': u'14', u'done': False, u'boton': 18, u'cliente': {u'status': u'1', u'orden': None, u'resultado': 5, u'status_d': None, u'campania__nombre': u'Pastillas LSD', u'status_h': u'SCORE C', u'status_g': u'NUEVO', u'status_f': u'LIMA', u'id_cliente': None, u'resultado__name': u'Acuerdo con fecha de pago', u'status_c': None, u'status_b': None, u'status_a': None, u'id': 2, u'status_e': None, u'tiniciollamada': u'2016-04-13 23:34:34 UTC', u'telefono': None, u'cliente': None}}
 
@@ -1245,7 +1243,7 @@ def botonexterno(request):
 
 			age = Agentes.objects.get(id=agente)
 
-			print 'Checaaaaaaaaaaaaaaa.....',age.checa,resultado
+			
 
 			if age.checabreak:
 
@@ -1270,7 +1268,7 @@ def botonexterno(request):
 
 
 
-			print 'resultado....',resultado,base
+			
 
 			b = Base.objects.get(id=base)
 			b.resultado_id = resultado
@@ -1543,7 +1541,7 @@ def gestionupdate(request):
 
 		if int(age.checaser) == 1:
 
-			print 'Gestion Update......'
+			
 
 			age.estado_id = 9
 			age.save()
@@ -1589,7 +1587,7 @@ def gestionupdate(request):
 				pass
 
 
-			print 'Gestion Update',bax
+			
 			bax.detalle = comentario
 			bax.monto = monto
 			bax.fecha = fecha
@@ -1736,7 +1734,7 @@ def eliminarfiltro(request):
 
 		#id {u'dato': {u'status': 1, u'index': 0, u'resultado': u'', u'status_h': u'BASE/', u'status_g': u'ORIENTE/', u'status_f': u'PENDIENTE/', u'id': 146, u'color': u'#FAF8F8', u'fonosporbarrer': 0, u'colort': u'#564D4D', u'statusname': u'Apagado', u'total': 0, u'fonosin
 
-		print 'id',json.loads(request.body)
+		
 
 		id_filtro= json.loads(request.body)['dato']['id']
 
@@ -1981,7 +1979,7 @@ def agente(request,id_agente):
 
 	atendidas = 1
 	'''
-	print 'atendidas',atendidas
+	
 
 	acuerdos = Base.objects.filter(agente_id=id_agente,resultado_id__in=[15,5]).count()
 
@@ -2020,7 +2018,7 @@ def agenteparametros(request,id_agente):
 
 	atendidas = c
 	
-	print 'atendidas',atendidas
+	
 
 	acuerdos = Base.objects.filter(agente_id=id_agente,resultado_id__in=[15,5]).count()
 
@@ -2153,7 +2151,7 @@ def atendida(request,id_agente):
 
 		ajax = AjxProLla.objects.filter(age_codigo=id_agente).order_by('-id_ori_llamadas')
 
-		print 'contador',ajax.count()
+		
 
 		t=0
 
@@ -2161,7 +2159,7 @@ def atendida(request,id_agente):
 
 			if str(i.f_origen).split(" ")[0] == today:
 
-				print 'hshshshs',i.duration
+				
 
 				t = t + i.duration 
 
@@ -2280,7 +2278,7 @@ def receso(request,id_agente):
 		agente = Agentes.objects.get(id=id_agente)
 		user = agente.user.id
 
-		print 'Receso...',agente
+		
 
 		if agente.estado.id== 2:
 
@@ -2334,7 +2332,7 @@ def sshh(request,id_agente):
 		agente = Agentes.objects.get(id=id_agente)
 		user = agente.user.id
 
-		print 'Receso...',agente
+		
 
 		if agente.estado.id== 2:
 
@@ -2503,7 +2501,7 @@ def reportecsv(request,cartera,campania):
 def getcampanias(request,cartera):
 
 
-	print 'getcampanias....',cartera
+	
 	id = request.user.id
 	nivel = AuthUser.objects.get(id=id).nivel.id
 
@@ -2521,7 +2519,7 @@ def getcampanias(request,cartera):
 
 		cartera = Carteraempresa.objects.get(id=cartera).cartera.id
 
-	print 'cartera....',cartera
+	
 	
 	campanias = Campania.objects.filter(cartera_id=cartera).values('id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name').order_by('-id')
 
@@ -2596,7 +2594,7 @@ def carteras(request):
 	nivel = AuthUser.objects.get(id=id).nivel.id
 	empresa = AuthUser.objects.get(id=id).empresa.id
 
-	print 'empresa',empresa
+	
 
 	if request.method == 'GET':
 
@@ -2724,7 +2722,7 @@ def listafiltros(request,id_campania):
 
 		status_g =  status_g.split('/')
 
-		print resultado,status_f,status_g,status_h
+		
 
 		resultadototal = Base.objects.filter(campania_id=id_campania,status_f__in=status_f,status_g__in=status_g,status_h__in=status_h).count()
 
@@ -2994,7 +2992,7 @@ def duracionagente(request,agente):
 
 		duracion = b['total']
 
-	print bill,duracion
+	
 
 	t = int(duracion)-int(bill)
 
@@ -3300,7 +3298,7 @@ def busqueda(request):
 
 def generacsv(request,cartera,campania,inicio,fin,telefono,cliente):
 
-	print 'data....',cartera,campania,inicio,fin,telefono,cliente
+	
 
 	filtro = {}
 
@@ -3340,7 +3338,7 @@ def generacsv(request,cartera,campania,inicio,fin,telefono,cliente):
 
 	writer = csv.writer(response)
 
-	print 'Filtro',filtro
+	
 
 	base = Base.objects.filter(**filtro)
 	
@@ -3399,7 +3397,7 @@ def botonera(request):
 		agente= json.loads(request.body)['agente']
 		id_base= json.loads(request.body)['cliente']['id']
 
-		print 'Botonera.....',id_resultado,agente,id_base
+		
 
 		resultado = Resultado.objects.get(id=id_resultado).name
 
@@ -3429,7 +3427,7 @@ def listanegra(request):
 
 		ruta = '/var/www/html/'+str(archivo)
 
-		print 'ruta',ruta
+		
 
 		book = xlrd.open_workbook(ruta)
 
@@ -3441,7 +3439,7 @@ def listanegra(request):
 
 			for col in range(sh.ncols):
 
-				print 'rx',rx
+				
 
 				if rx > 0:
 
@@ -3449,7 +3447,7 @@ def listanegra(request):
 					
 					u.append(x)
 
-					print 'x....',x
+					
 					
 					Listanegra(campania_id=campania,dni=int(x)).save()
 
@@ -3493,7 +3491,7 @@ def calificar(request):
 		
 		data =json.loads(request.body)
 
-		print 'Calificando........',data
+		
 
 		campania = data['campania']
 		agente = data['user']['agente']
@@ -3525,7 +3523,7 @@ def calificaraudio(request):
 		
 		data =json.loads(request.body)
 
-		print 'Calificando........',data
+		
 
 	
 		campania = data['campania']
@@ -3626,7 +3624,7 @@ def conteofilas(request):
 
 		filex = request.FILES['process_file']
 
-		print 'Archivo',filex
+		
 
 		Excel(archivo=filex).save()
 
@@ -3689,7 +3687,7 @@ def uploadCampania(request):
 		
 		date =datetime.now()
 
-		print 'columnas....',sh.ncols
+		
 
 		for rx in range(sh.nrows):
 
@@ -4209,7 +4207,7 @@ def usuarios(request):
 
 						for i in data['cartera']:
 
-							print 'Carteras....',i['cartera__nombre']
+							
 
 
 							id_cartera = Carteraempresa.objects.get(cartera__nombre=i['cartera__nombre'],empresa_id=empresa).cartera.id
@@ -4251,7 +4249,7 @@ def usuarios(request):
 
 			id= data['id']
 
-			print 'Editt....',nivel
+			
 
 
 			
@@ -4267,7 +4265,7 @@ def usuarios(request):
 
 			if nivelid == 3:
 
-				print 'Agente....Edit'
+				
 
 				agente = Agentes.objects.get(user_id=id)
 				agente.anexo = data['anexo']
@@ -4373,7 +4371,7 @@ def empresas(request):
 
 			id= data['id']
 
-			print 'Empresa id',id
+			
 
 			Empresa.objects.get(id=id).delete()
 

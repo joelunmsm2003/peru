@@ -5,7 +5,7 @@ App.config(function($interpolateProvider){
 $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
 });
 
-function Controller($scope,$http,$cookies,$filter) {
+function Controller($scope,$http,$cookies,$filter,$interval) {
 
 
 
@@ -159,12 +159,26 @@ function Controller($scope,$http,$cookies,$filter) {
 
     });
 
-    $http.get("/listafiltros/"+campania).success(function(response) {
+         $http.get("/listafiltros/"+campania).success(function(response) {
 
         $scope.listafiltros = response; 
 
     });
 
+    var  xx = function(){
+
+            $http.get("/listafiltros/"+campania).success(function(response) {
+
+        $scope.listafiltros = response; 
+
+    });
+
+
+
+    }
+
+
+    $interval(xx,1000)
 
 
 

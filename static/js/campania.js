@@ -313,9 +313,9 @@ function Controller($scope,$http,$cookies,$filter,$interval) {
 				status = response[key].status
 				resultado = response[key].resultado
 				estadoname = response[key].estadoname
-				ciudad = response[key].ciudad
-				segmento = response[key].segmento
-				grupo = response[key].grupo
+				ciudad = response[key].status_f
+				segmento = response[key].status_g
+				grupo = response[key].status_h
 
                 if(key==0){
 
