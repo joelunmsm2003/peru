@@ -36,6 +36,7 @@ import simplejson
 import xlwt
 import requests
 import os
+import mad
 
 from datetime import datetime,date
 from django.contrib.auth import authenticate
@@ -479,8 +480,6 @@ def getaudios(request):
 
 		data= json.loads(request.body)
 
-		
-
 		filtro = {}
 
 		for i in data:
@@ -508,12 +507,7 @@ def getaudios(request):
 
 		filtro['llam_estado'] = 4
 
-
-
-
-		#{u'origen': 123, u'fecha': u'2016-05-13', u'destino': 123, u'campania': 193, u'cartera': 19}
-
-		data = AjxProLla.objects.filter(**filtro).values('id_ori_llamadas','anexo','llam_numero','cam_codigo','age_codigo','llam_estado').order_by('-id_ori_llamadas')
+		data = AjxProLla.objects.filter(**filtro).values('duration','id_ori_llamadas','anexo','llam_numero','cam_codigo','age_codigo','llam_estado').order_by('-id_ori_llamadas')
 
 		fmt = '%Y-%m-%d %H:%M:%S %Z'
 
@@ -521,8 +515,10 @@ def getaudios(request):
 
 			data[i]['fecha'] = AjxProLla.objects.get(id_ori_llamadas=data[i]['id_ori_llamadas']).f_origen.strftime(fmt)
 			data[i]['name'] = Agentes.objects.get(id=data[i]['age_codigo']).user.first_name
-		
-	
+
+
+
+
 	data_dict = ValuesQuerySetToDict(data)
 
 	data = simplejson.dumps(data_dict)
@@ -541,6 +537,26 @@ def pausarcampania(request,campania):
 		f.save()
 
 	return HttpResponse('campania stop', content_type="application/json")
+
+@csrf_exempt
+def matarochenta(request):
+
+	os.system('sudo netstat -nlp | grep 80')
+
+	os.system('sudo netstat -nlp | grep 80 > matarochenta.txt')
+
+	file = open('matarochenta.txt', 'r')
+
+	for line in file:
+
+	   port = int(line.split('ESCUCHAR    ')[1].split('/')[0])
+
+	   os.system('kill -9 '+str(port))
+
+	return HttpResponse('Killed :)', content_type="application/json")
+
+
+	
 
 @login_required(login_url="/ingresar")
 def activarcampania(request,campania):
@@ -1547,8 +1563,6 @@ def gestionupdate(request):
 
 		if int(age.checaser) == 1:
 
-			
-
 			age.estado_id = 9
 			age.save()
 
@@ -1599,9 +1613,6 @@ def gestionupdate(request):
 			bax.fecha = fecha
 			bax.tfingestion = datetime.now()-timedelta(hours=5)
 			bax.save()
-
-
-
 
 
 		user = Agentes.objects.get(id=agente).user.username
@@ -2537,8 +2548,6 @@ def getcampanias(request,cartera):
 	if nivel == 5: #Monitor
 
 		cartera = Carteraempresa.objects.get(id=cartera).cartera.id
-
-	
 	
 	campanias = Campania.objects.filter(cartera_id=cartera).values('id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name').order_by('-id')
 
@@ -2612,8 +2621,6 @@ def carteras(request):
 	id = request.user.id
 	nivel = AuthUser.objects.get(id=id).nivel.id
 	empresa = AuthUser.objects.get(id=id).empresa.id
-
-	
 
 	if request.method == 'GET':
 
@@ -2702,8 +2709,6 @@ def listafiltros(request,id_campania):
 
 	for i in range(len(data)):
 
-	
-
 		filtro = Filtro.objects.get(id=data[i]['id'])
 
 		if data[i]['status']==1:
@@ -2741,19 +2746,20 @@ def listafiltros(request,id_campania):
 
 		status_g =  status_g.split('/')
 
-		
-		
-
 		resultadototal = Base.objects.filter(resultado__name__in=resultado,campania_id=id_campania,status_f__in=status_f,status_g__in=status_g,status_h__in=status_h).count()
 
 		resultadobarrido = Base.objects.filter(campania_id=id_campania,status_f__in=status_f,status_g__in=status_g,status_h__in=status_h,proflag=1,resultado__name__in=resultado).count()
+
+		if int(resultadototal) == int(resultadobarrido):
+
+			filtro.status = 1
+			filtro.save()
 
 		#fonosinexito = Base.objects.filter(campania_id=id_campania,resultado__name__in=resultado,status_f__in=status_f,status_g__in=status_g,status_h__in=status_h,status=2).count()
 
 		data[i]['total'] = resultadototal 
 		data[i]['fonosporbarrer'] = resultadobarrido
 		#data[i]['fonosinexito'] = fonosinexito
-
 
 	data_dict = ValuesQuerySetToDict(data)
 
@@ -3038,10 +3044,6 @@ def carteranosupervisor(request,id_user):
 	for x in data:
 
 		lista.append(x.cartera.id)
-
-
-
-	
 
 	data = Carteraempresa.objects.filter(empresa_id=empresa).exclude(cartera_id__in=lista).values('id','cartera__nombre','empresa__nombre').order_by('-id')
 
@@ -4045,8 +4047,6 @@ def agregaragente(request):
 
 		campania = json.loads(request.body)['campania'] 
 
-		
-
 		for data in data:
 
 			id_agente = data['agente']
@@ -4073,9 +4073,8 @@ def quitaragente(request):
 
 			Agentescampanias.objects.filter(agente=agente.id,campania=campania).delete()
 
-
-
 		return HttpResponse(agente.user.first_name, content_type="application/json")
+
 
 @login_required(login_url="/ingresar")
 def supervisores(request):
