@@ -1340,7 +1340,7 @@ def examen(request):
 @login_required(login_url="/ingresar")
 def totalestllam(request):
 
-
+	
 		data = AjxProLla.objects.all().values('llam_estado').annotate(total=Count('llam_estado'))
 
 		data_dict = ValuesQuerySetToDict(data)
@@ -1706,62 +1706,37 @@ def agregarfiltro(request):
 		segmentot = ""
 		resultadot = ""
 
+		r =[]
+		c=[]
+		g=[]
+		s=[]
+
 		
 		for i in range(len(resultado)):
 
 			resultadot = resultadot  + resultado[i]['name'] +'/'
-
-			r = Resultado.objects.get(name=resultado[i]['name'])
-
-			base = Base.objects.filter(resultado_id=r.id,campania_id=campania)
-
-			for base in base:
-				base.proflag = None
-				base.proestado = None
-				base.filtrohdec = None
-				base.status = 0
-				base.save()
+			r.insert(i,resultado[i]['name'])
 
 		for i in range(len(ciudad)):
 
 			ciudadt = ciudadt  + ciudad[i]['status_f'] +'/'
-
-
-			base = Base.objects.filter(status_f=ciudad[i]['status_f'],campania_id=campania)
-
-			for base in base:
-				base.proflag = None
-				base.proestado = None
-				base.filtrohdec = None
-				base.status = 0
-				base.save()
-
+			c.insert(i,ciudad[i]['status_f'])
 
 		for i in range(len(grupo)):
 
 			grupot = grupot  + grupo[i]['status_g'] +'/'
-
-			base = Base.objects.filter(status_g=grupo[i]['status_g'],campania_id=campania)
-			
-			for base in base:
-				base.proflag = None
-				base.proestado = None
-				base.filtrohdec = None
-				base.status = 0
-				base.save()
+			g.insert(i,grupo[i]['status_g'])
 
 		for i in range(len(segmento)):
 
 			segmentot = segmentot  + segmento[i]['status_h'] +'/'
+			s.insert(i,segmento[i]['status_h'])
 
-			base = Base.objects.filter(status_h=segmento[i]['status_h'],campania_id=campania)
+		print r,c,g,s
 
-			for base in base:
-				base.proflag = None
-				base.proestado = None
-				base.filtrohdec = None
-				base.status = 0
-				base.save()
+		print 'xxx',Base.objects.filter(resultado__name__in=r,status_f__in=c,status_g__in=g,status_h__in=s,campania_id=campania).update(proflag=None,proestado=None,filtrohdec=None,status=0)
+
+
 
 		i = Filtro.objects.filter(campania_id=campania).count()
 
@@ -2094,13 +2069,7 @@ def lanzallamada(request,id_agente,id_base,id_cliente):
 		agente.tiniciollamada = datetime.now()-timedelta(hours=5)
 		agente.save()
 
-		baseagente = Base.objects.filter(agente_id=id_agente)
-
-
-		for base in baseagente:
-
-			base.status = 0
-			base.save()
+		Base.objects.filter(agente_id=id_agente).update(status=0)
 
 		redis_publisher = RedisPublisher(facility='foobar', users=[user])
 
@@ -2108,12 +2077,12 @@ def lanzallamada(request,id_agente,id_base,id_cliente):
 
 		redis_publisher.publish_message(message)
 
-
 		redis_publisher = RedisPublisher(facility='foobar', users=[user])
 
 		message = RedisMessage('ll')
 
 		redis_publisher.publish_message(message)
+
 
 		base = Base.objects.get(id=id_base)
 		base.agente_id = id_agente
