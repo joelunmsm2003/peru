@@ -2038,7 +2038,17 @@ def agenteparametros(request,id_agente):
 	
 	
 
-	acuerdos = Base.objects.filter(agente_id=id_agente,resultado_id__in=[15,5]).count()
+	yy = Base.objects.filter(agente_id=id_agente,resultado_id__in=[15,5])
+
+	a = 0
+
+	for x in yy:
+
+		if str(t) == str(x.tiniciogestion)[0:10]:
+
+			a=a+1
+
+	acuerdos = a
 
 	if atendidas == 0:
 		media = 0
@@ -2059,9 +2069,6 @@ def lanzallamada(request,id_agente,id_base,id_cliente):
 
 		mascara = agente.user.empresa.mascaras.tipo
 
-		if mascara == 'Mascara Interna':
-
-			pass
 
 		user = agente.user.username
 		agente.estado_id = 3
@@ -3081,6 +3088,8 @@ def reasignarsupervisor(request):
 
 		id_campania = data['id']
 
+		canales = data['canales']
+
 		factor = data['factor']
 
 		discado = data['discado']
@@ -3094,6 +3103,7 @@ def reasignarsupervisor(request):
 		campania.factor = factor
 		campania.discado = discado
 		campania.password = password
+		campania.canales = canales
 
 		campania.save()
 
