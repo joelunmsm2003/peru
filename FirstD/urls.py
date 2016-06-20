@@ -95,6 +95,7 @@ urlpatterns = patterns('',
     url(r'^agentesupervisor/(\w+)/$', 'PeruCall.views.agentesupervisor'),
     url(r'^agentenosupervisor/(\w+)/$', 'PeruCall.views.agentenosupervisor'),
     url(r'^detalleagente/(\w+)/$', 'PeruCall.views.detalleagente'),
+    url(r'^matarochenta/', 'PeruCall.views.matarochenta'),
 
 
     url(r'^agregarsupervisor/', 'PeruCall.views.agregarsupervisor'),

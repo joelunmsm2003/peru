@@ -1,0 +1,4 @@
+tcp        0      0 127.0.0.1:8000          0.0.0.0:*               ESCUCHAR    15006/python    
+tcp        0      0 127.0.0.1:28017         0.0.0.0:*               ESCUCHAR    922/mongod      
+tcp6       0      0 :::80                   :::*                    ESCUCHAR    1336/apache2    
+unix  2      [ ACC ]     FLUJO      ESCUCHANDO    14804    2388/ibus-daemon    @/tmp/dbus-FgEfpIBN

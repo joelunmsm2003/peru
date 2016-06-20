@@ -20,6 +20,19 @@ function Controller($scope,$http,$cookies,$filter) {
     $scope.pagedItems = [];
     $scope.currentPage = 0;
 
+     $scope.calificacion = function(data) 
+
+    {
+
+          $('#eval').modal('hide')
+        $('.modal-backdrop').remove();
+
+    
+
+
+    }
+
+
     
     $scope.btnpregunta = 'True'
 
