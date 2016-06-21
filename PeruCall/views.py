@@ -2721,7 +2721,6 @@ def listafiltros(request,id_campania):
 		
 			data[i]['statusname'] = 'Apagado'
 
-		
 		else:
 
 			data[i]['color'] = '#3AAED8'
@@ -2751,8 +2750,14 @@ def listafiltros(request,id_campania):
 		print status_g
 		print status_h
 
+		
+		resultadonullos = Base.objects.filter(resultado_id__isnull=True,campania_id=id_campania,status_f__in=status_f,status_g__in=status_g,status_h__in=status_h).count()
 
-		resultadototal = Base.objects.filter(resultado__name__in=resultado,campania_id=id_campania,status_f__in=status_f,status_g__in=status_g,status_h__in=status_h).count()
+		f = open('/var/www/html/nullos.txt', 'a')
+		f.write('kkk'+str(resultadonullos))
+		f.close()
+		
+		resultadototal = Base.objects.filter(resultado__name__in=resultado,campania_id=id_campania,status_f__in=status_f,status_g__in=status_g,status_h__in=status_h).count()+resultadonullos
 
 		resultadobarrido = Base.objects.filter(campania_id=id_campania,status_f__in=status_f,status_g__in=status_g,status_h__in=status_h,proflag=1,resultado__name__in=resultado).count()
 
@@ -3848,8 +3853,6 @@ def campanias(request):
 			data[i]['a'] = True
 			data[i]['b'] = False
 
-
-
 			total = Filtro.objects.filter(campania_id=data[i]['id']).count()
 	
 			apagado = Filtro.objects.filter(campania_id=data[i]['id'],status=1).count()
@@ -3891,15 +3894,9 @@ def campanias(request):
 
 		data= json.loads(request.body)['dato']
 
-		
-
 		Campania.objects.get(id=data['id']).delete()
 
-
 		return HttpResponse(data, content_type="application/json")
-
-
-
 
 
 
