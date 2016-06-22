@@ -692,8 +692,11 @@ $(function () {
         
            },
         title: {
-            text: 'Botonera por Agente'
+
+            text: "Cartera : " + $scope.infocamp.cartera__nombre+ " " + "Campaña : " +$scope.infocamp.nombre
         },
+        
+
         xAxis: {
             categories: [
                 'Jan',
@@ -716,10 +719,16 @@ $(function () {
             shared: true,
             useHTML: true
         },
+        
         plotOptions: {
             column: {
                 pointPadding: 0.2,
-                borderWidth: 0
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true,
+                    color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'black'
+                    
+                }
             }
         },
         series: [{

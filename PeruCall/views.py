@@ -513,8 +513,15 @@ def getaudios(request):
 
 		for i in range(len(data)):
 
+			
+
 			data[i]['fecha'] = AjxProLla.objects.get(id_ori_llamadas=data[i]['id_ori_llamadas']).f_origen.strftime(fmt)
-#			data[i]['name'] = Agentes.objects.get(id=data[i]['age_codigo']).user.first_name
+
+
+			if data[i]['age_codigo'] != "":
+
+				data[i]['name'] = Agentes.objects.get(id=data[i]['age_codigo']).user.first_name
+
 
 
 
@@ -1243,8 +1250,6 @@ def botonexterno(request):
 
 			data = json.loads(request.body)
 
-			
-
 			#{u'agente': u'14', u'done': False, u'boton': 18, u'cliente': {u'status': u'1', u'orden': None, u'resultado': 5, u'status_d': None, u'campania__nombre': u'Pastillas LSD', u'status_h': u'SCORE C', u'status_g': u'NUEVO', u'status_f': u'LIMA', u'id_cliente': None, u'resultado__name': u'Acuerdo con fecha de pago', u'status_c': None, u'status_b': None, u'status_a': None, u'id': 2, u'status_e': None, u'tiniciollamada': u'2016-04-13 23:34:34 UTC', u'telefono': None, u'cliente': None}}
 
 			resultado = data['boton']
@@ -1252,9 +1257,6 @@ def botonexterno(request):
 			agente = data['agente']
 
 			rbase = Base.objects.get(id=base)
-
-
-
 			rbase.fecha = datetime.now()-timedelta(hours=5)
 			rbase.tfingestion = datetime.now()-timedelta(hours=5)
 			rbase.save()
@@ -3557,14 +3559,16 @@ def calificaraudio(request):
 		
 		data =json.loads(request.body)
 
-		
+
 
 	
 		campania = data['campania']
-		agente = data['agente']['cam_codigo']
+		agente = data['agente']['age_codigo']
 		llamada = data['user']['id_ori_llamadas']
 		pregunta = data['pregunta']['id']
 		respuesta = data['respuesta']
+
+		print campania,agente,llamada,pregunta,respuesta
 
 
 		Calificacion(preg_exam_id=pregunta,agente_id=agente,campania_id=campania,respuesta=respuesta,llamada=llamada).save()

@@ -326,13 +326,13 @@ function Controller($scope,$http,$cookies,$filter,$interval) {
 
 				if(status ==1){
 
-					$scope.clientes.push({ciudad:ciudad,segmento:segmento,grupo:grupo,campania:campania_id,id:campania_id,filtro:'0',nombre:estadoname,estado:status,estadoname:estadoname,color:'#E8E8E8',font:'#564D4D',id_filtro:id})
+					$scope.clientes.push({status_f:ciudad,status_h:segmento,status_g:grupo,campania:campania_id,id:campania_id,filtro:'0',nombre:estadoname,estado:status,estadoname:estadoname,color:'#E8E8E8',font:'#564D4D',id_filtro:id})
 			
 				}
 
 				else{
 
-					$scope.clientes.push({ciudad:ciudad,segmento:segmento,grupo:grupo,campania:campania_id,id:campania_id,filtro:'0',nombre:estadoname,estado:status,estadoname:estadoname,color:'#A9E09D',font:'#4F4444',id_filtro:id})
+					$scope.clientes.push({status_f:ciudad,status_h:segmento,status_g:grupo,campania:campania_id,id:campania_id,filtro:'0',nombre:estadoname,estado:status,estadoname:estadoname,color:'#A9E09D',font:'#4F4444',id_filtro:id})
 			
 
 
