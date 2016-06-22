@@ -514,7 +514,7 @@ def getaudios(request):
 		for i in range(len(data)):
 
 			data[i]['fecha'] = AjxProLla.objects.get(id_ori_llamadas=data[i]['id_ori_llamadas']).f_origen.strftime(fmt)
-			data[i]['name'] = Agentes.objects.get(id=data[i]['age_codigo']).user.first_name
+#			data[i]['name'] = Agentes.objects.get(id=data[i]['age_codigo']).user.first_name
 
 
 

@@ -618,7 +618,6 @@ $(function () {
 
                                     var chart = $('#columnas').highcharts();
 
-                                       
                                     while(chart.series.length > 0){
 
                                          chart.series[0].remove(true);
@@ -694,9 +693,6 @@ $(function () {
            },
         title: {
             text: 'Botonera por Agente'
-        },
-        subtitle: {         
-         text: 'Source: Xiencias.org'
         },
         xAxis: {
             categories: [
@@ -839,17 +835,15 @@ $(function () {
                 'Promesa',
                 'Contacto Directo',
                 'Contacto Indirecto',
-                'No Contacto',
-                'Asterisk'
-               
-              
+                'No Contacto'
+            
 
             ],
             crosshair: true
         },
         yAxis: {
             title: {
-                text: 'Porcentaje'
+                text: 'Cantidad'
             }
 
         },
@@ -861,14 +855,14 @@ $(function () {
                 borderWidth: 0,
                 dataLabels: {
                     enabled: true,
-                    format: '{point.y:.1f}%'
+                    format: '{point.y:.1f}'
                 }
             }
         },
 
         tooltip: {
             headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
-            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
+            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}</b> of total<br/>'
         },
 
          
@@ -894,11 +888,7 @@ $(function () {
                 y: 80,
                 drilldown: 'No Contacto'
             }
-            , {
-                name: 'Asterisk',
-                y: 80,
-                drilldown: 'Asterisk'
-            },
+            , 
              {
                 name: 'Pendiente',
                 y: 80,
