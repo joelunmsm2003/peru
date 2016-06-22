@@ -2077,10 +2077,7 @@ def agenteparametros(request,id_agente):
 def lanzallamada(request,id_agente,id_base,id_cliente):
 
 		agente = Agentes.objects.get(id=id_agente)
-
 		mascara = agente.user.empresa.mascaras.tipo
-
-
 		user = agente.user.username
 		agente.estado_id = 3
 		agente.est_ag_predictivo = 0
