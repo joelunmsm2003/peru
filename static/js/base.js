@@ -410,9 +410,6 @@ function Controller($scope,$http,$cookies,$filter) {
         $scope.search()
 
 
-
-
-
         // icon setup
         $('th i').each(function(){
             // icon reset
@@ -422,7 +419,6 @@ function Controller($scope,$http,$cookies,$filter) {
             $('th.'+newSortingOrder+' i').removeClass().addClass('icon-chevron-up');
         else
             $('th.'+newSortingOrder+' i').removeClass().addClass('icon-chevron-down');
-    
     };
 
     promesa = []
@@ -434,7 +430,6 @@ function Controller($scope,$http,$cookies,$filter) {
 
             agentes: $scope.agenteboton,
             campania:campania ,
-            
         }
 
 
@@ -450,7 +445,6 @@ function Controller($scope,$http,$cookies,$filter) {
 
         console.log('Graficando...',data)
 
-           
         for( var key in data ) {
 
             $scope.mpromesa.push(2)
@@ -802,19 +796,12 @@ $(function () {
 
                                     console.log('botoro llam',result['Contacto Indirecto'])
 
-       
-
-                                  
                                     serie1x[0].points[0].update(result['Promesa'])
                                     serie1x[0].points[1].update(result['Contacto Directo'])
                                     serie1x[0].points[2].update(result['Contacto Indirecto'])
                                     serie1x[0].points[3].update(result['No Contacto'])
                                     serie1x[0].points[4].update(result['Asterisk'])
                                     serie1x[0].points[5].update(result['Pendiente'])
-                                   
-
-     
-                           
                                 });
 
                             }
@@ -954,21 +941,23 @@ $(function () {
             title: {
                 text: 'Efectividad Campaña Botonera Agente'
             },
-            tooltip: {
-                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+
+	    tooltip: {
+                pointFormat:  '{series.name}:<b>{point.percentage:.1f}%</b>'
             },
             plotOptions: {
                 pie: {
+                    borderWidth: 0,
                     allowPointSelect: true,
                     cursor: 'pointer',
                     dataLabels: {
-                        enabled: false
+                        enabled: true
                     },
                     showInLegend: true
                 }
             },
             series: [{
-                name: 'Brands',
+                name: 'Porcentaje',
                 colorByPoint: true,
                 data: [{
                     name: 'Promesa',
