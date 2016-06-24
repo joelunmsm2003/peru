@@ -444,6 +444,14 @@ def examenes(request):
 @login_required(login_url="/ingresar")
 def accionmonitor(request,sup,anexo):
 
+	id = request.user.id
+
+	nivel = AuthUser.objects.get(id=id).nivel.id
+
+	if nivel == 5 :
+
+		sup = AuthUser.objects.get(id=id).anexo
+
 	cmd = ('curl "http://localhost:81/xien/PROC_MONITOR.php?sup=%s&anx=%s" &' %(sup, anexo))
 	os.system(cmd)
 
@@ -453,6 +461,14 @@ def accionmonitor(request,sup,anexo):
 
 @login_required(login_url="/ingresar")
 def accionsusurro(request,sup,anexo):
+
+	id = request.user.id
+
+	nivel = AuthUser.objects.get(id=id).nivel.id
+
+	if nivel == 5 :
+
+		sup = AuthUser.objects.get(id=id).anexo
 
 	cmd = ('curl "http://localhost:81/xien/PROC_SUSURRO.php?sup=%s&anx=%s" & ' %(sup, anexo))
 	os.system(cmd)
@@ -1294,6 +1310,11 @@ def botonexterno(request):
 	
 
 			b = Base.objects.get(id=base)
+			if resultado_name == 'No Contacto':
+				
+				cliente = b.id_cliente
+				Base.objects.filter(id_cliente=cliente).update(bloqueocliente=0) 
+
 			b.resultado_id = resultado
 			b.resultadotxt = resultado_name
 			b.save()
