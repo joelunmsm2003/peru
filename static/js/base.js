@@ -723,8 +723,8 @@ $(function () {
             shared: true,
             useHTML: true
         },
-        
-           plotOptions: {
+        plotOptions: {
+
             series: {
                 borderWidth: 0,
                 dataLabels: {

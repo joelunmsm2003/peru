@@ -323,7 +323,7 @@ function Controller($scope,$http,$cookies,$filter,$interval) {
 
                 if(key==0){
 
-                    $scope.clientes.push({fonosporbarrer:'Por Barrer',total:'Total',status_f:'Filtro 1',status_h:'Filtro 2',status_g:'Filtro 3',campania:campania_id,id:campania_id,filtro:'0',nombre:'Estado',estado:status,estadoname:'Estado',color:'gray',font:'#fff',id_filtro:100000000})
+                    $scope.clientes.push({fonosporbarrer:'Barrido',total:'Total',status_f:'Filtro 1',status_h:'Filtro 2',status_g:'Filtro 3',campania:campania_id,id:campania_id,filtro:'0',nombre:'Estado',estado:status,estadoname:'Estado',color:'gray',font:'#fff',id_filtro:100000000})
             
                 }
 
