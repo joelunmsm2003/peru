@@ -724,20 +724,15 @@ $(function () {
             useHTML: true
         },
         
-        plotOptions: {
-            pie: {
-                allowPointSelect: true,
-                cursor: 'pointer',
+           plotOptions: {
+            series: {
+                borderWidth: 0,
                 dataLabels: {
                     enabled: true,
-                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-                    style: {
-                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-                    }
+                    format: '{point.y:.1f}'
                 }
             }
         },
-    
         series: [{
             name: 'Promesa',
             data: $scope.mpromesa
