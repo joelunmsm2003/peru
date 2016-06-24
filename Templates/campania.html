@@ -254,6 +254,7 @@ padding-top: 0px;
                   <th>Cargados| Barridos | Errados <a ng-click="sort_by('empresa',currentPage)"></a></th>
                   <th>Agentes | Conectados <a ng-click="sort_by('nivel',currentPage)"></a></th>
                   <th>Fecha Carga</th>
+                  <th></th>
                    <th ng-if="user.nivel == 1">Supervisor <a ng-click="sort_by('supervisor',currentPage)"></a></th>
                    <th ng-if="user.nivel == 1" >Password <a ng-click="sort_by('supervisor',currentPage)"></a></th>
                   <th></th>
@@ -297,8 +298,14 @@ padding-top: 0px;
                 <td ng-if="contact.filtro=='1'" style='background:{[{contact.color}]}; color:{[{contact.font}]};'>{[{contact.fecha_cargada  | limitTo: 19}]}</td>
 
                 <td ng-if="contact.filtro=='0'" style='background:{[{contact.color}]}; color:{[{contact.font}]};'>{[{contact.status_g}]}</td>
+
+
+                <td ng-if="contact.filtro=='1'" style='background:{[{contact.color}]}; color:{[{contact.font}]};'></td>
+
+                <td ng-if="contact.filtro=='0'" style='background:{[{contact.color}]}; color:{[{contact.font}]};'>{[{contact.fonosporbarrer}]} | {[{contact.total}]}</td>
                 
                 <td style='background:{[{contact.color}]}; color:{[{contact.font}]};' ng-if="user.nivel == 1">{[{contact.supervisor__user__first_name}]}</td>
+
                 <td style='background:{[{contact.color}]}; color:{[{contact.font}]};' ng-if="user.nivel == 1">{[{contact.password}]}</td>
 
 
@@ -316,12 +323,12 @@ padding-top: 0px;
 
                 <td ng-if="contact.filtro=='0'">
 
-                  <a ng-if="contact.ciudad != 'Filtro 1'" ng-click="eliminar(contact,$index)" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#eliminarfiltro"><i class="icon-trash"></i> </a>
+                  <a ng-if="contact.status_f != 'Filtro 1'" ng-click="eliminar(contact,$index)" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#eliminarfiltro"><i class="icon-trash"></i> </a>
 
-                  <a ng-if="contact.ciudad != 'Filtro 1' && contact.estado == 0" ng-click="desactivafiltro(contact,$index)" class="btn btn-primary btn-sm" ><center><i class="fa fa-stop"></i></center></a>
+                  <a ng-if="contact.status_f != 'Filtro 1' && contact.estado == 0" ng-click="desactivafiltro(contact,$index)" class="btn btn-primary btn-sm" ><center><i class="fa fa-stop"></i></center></a>
 
 
-                  <a ng-if="contact.ciudad != 'Filtro 1' && contact.estado == 1" ng-click="activafiltro(contact,$index)"  class="btn btn-primary btn-sm"  ><center><i class="fa fa-play"></i></center> </a>
+                  <a ng-if="contact.status_f != 'Filtro 1' && contact.estado == 1" ng-click="activafiltro(contact,$index)"  class="btn btn-primary btn-sm"  ><center><i class="fa fa-play"></i></center> </a>
 
                 </td>
 

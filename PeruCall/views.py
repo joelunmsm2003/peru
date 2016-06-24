@@ -3211,6 +3211,7 @@ def botoneragraph(request,campania):
        contactodirecto = Base.objects.filter(resultado_id=16,campania_id=campania).count()
        contactoindirecto = Base.objects.filter(resultado_id=17,campania_id=campania).count()
        nocontacto = Base.objects.filter(resultado_id=18,campania_id=campania).count()
+       '''
        fallecido =  Base.objects.filter(resultado_id=1,campania_id=campania).count()
        consultatramite =  Base.objects.filter(resultado_id=2,campania_id=campania).count()
        contactosinpromesa =  Base.objects.filter(resultado_id=3,campania_id=campania).count()
@@ -3223,13 +3224,14 @@ def botoneragraph(request,campania):
        desconocidomudado =  Base.objects.filter(resultado_id=10,campania_id=campania).count()
        novivelabora =  Base.objects.filter(resultado_id=11,campania_id=campania).count()
        sivivelabora =  Base.objects.filter(resultado_id=12,campania_id=campania).count()
+       '''
 
        contesta = AjxProLla.objects.filter(cam_codigo=campania,llam_estado=4).count()
        nocontesta = AjxProLla.objects.filter(cam_codigo=campania,llam_estado=3).count()
        buzon = AjxProLla.objects.filter(cam_codigo=campania,llam_estado=5).count()
        congestiondered = AjxProLla.objects.filter(cam_codigo=campania,llam_estado=2).count()
-       asterisk = AjxProLla.objects.filter(cam_codigo=campania,llam_estado__in=[2,3,5]).count()
-       pendiente = Base.objects.filter(campania_id=campania).count()-AjxProLla.objects.filter(cam_codigo=campania,llam_flag=1).count()
+       #asterisk = AjxProLla.objects.filter(cam_codigo=campania,llam_estado__in=[2,3,5]).count()
+       pendiente = Base.objects.filter(campania_id=campania).count()-Base.objects.filter(campania_id=campania,proflag=1).count()
        
        if int(total) == 0:
 
@@ -3241,18 +3243,20 @@ def botoneragraph(request,campania):
                data = {
 
                		 'total':total,
-               		 'fallecido':fallecido,
-               		 'consultatramite':consultatramite,
-               		 'contactosinpromesa':contactosinpromesa,
-               		 'dificultadpago':dificultadpago,
-               		 'acuerdoconfecha':acuerdoconfecha,
-               		 'reclamoinstitucion':reclamoinstitucion,
-               		 'refinanciaconvenio':refinanciaconvenio,
-               		 'renuenterehuye':renuenterehuye,
-               		 'pagoboucher':pagoboucher,
-               		 'desconocidomudado':desconocidomudado,
-               		 'novivelabora':novivelabora,
-               		 'sivivelabora':sivivelabora,
+               		 
+               		 #'fallecido':fallecido,
+               		 #'consultatramite':consultatramite,
+               		 #'contactosinpromesa':contactosinpromesa,
+               		 #'dificultadpago':dificultmonitoreo/259/adpago,
+               		 #'acuerdoconfecha':acuerdoconfecha,
+               		 #'reclamoinstitucion':reclamoinstitucion,
+               		 #'refinanciaconvenio':refinanciaconvenio,
+               		 #'renuenterehuye':renuenterehuye,
+               		 #'pagoboucher':pagoboucher,
+               		 #'desconocidomudado':desconocidomudado,
+               		 #'novivelabora':novivelabora,
+               		 #'sivivelabora':sivivelabora,
+               		 
                		 'Promesa':promesa,
                      'Contacto Directo':contactodirecto,
                      'Contacto Indirecto':contactoindirecto,
@@ -3260,18 +3264,18 @@ def botoneragraph(request,campania):
        				 'No Contesta':nocontesta,
        				 'Contesta':contesta,
                      'Buzon':buzon,
-                     'Congestion de Red':congestiondered,
-                     'Asterisk':asterisk,
-                     'Pendiente':pendiente,
-                     'pPromesa':promesa*100/total,
-                     'pDirecto':contactodirecto*100/total,
-                     'pIndirecto':contactoindirecto*100/total,
-                     'pNocontacto':nocontacto*100/total,
-                     'pNocontesta':nocontesta*100/total,
-                     'pBuzon':buzon*100/total,
-                     'pCongestion':promesa*100/total,
-                     'pAsterisk':asterisk*100/total,
-                     'pPendiente':pendiente*100/total
+                     #'Congestion de Red':congestiondered,
+                     #'Asterisk':asterisk,
+                     'Pendiente':pendiente
+                     #'pPromesa':promesa*100/total,
+                     #'pDirecto':contactodirecto*100/total,
+                     #'pIndirecto':contactoindirecto*100/total,
+                     #'pNocontacto':nocontacto*100/total,
+                     #'pNocontesta':nocontesta*100/total,
+                     #'pBuzon':buzon*100/total,
+                     #'pCongestion':promesa*100/total,
+                     #'pAsterisk':asterisk*100/total,
+                     #'pPendiente':pendiente*100/total
 
                    
                      }
@@ -3633,8 +3637,33 @@ def filtroscampania(request,campania):
 
 			filtros[i]['estadoname'] = 'Activado'
 
+		id_campania = filtros[i]['campania']
 
+		resultado = filtros[i]['resultado']
 
+		resultado =  resultado.split('/')
+
+		status_f = filtros[i]['status_f']
+
+		status_f =  status_f.split('/')
+
+		status_h = filtros[i]['status_h']
+
+		status_h =  status_h.split('/')
+
+		status_g = filtros[i]['status_g']
+
+		status_g =  status_g.split('/')
+
+		resultadonullos = Base.objects.filter(resultado_id__isnull=True,campania_id=id_campania,status_f__in=status_f,status_g__in=status_g,status_h__in=status_h).count()
+
+		resultadototal = Base.objects.filter(resultado__name__in=resultado,campania_id=id_campania,status_f__in=status_f,status_g__in=status_g,status_h__in=status_h).count()+resultadonullos
+
+		resultadobarrido = Base.objects.filter(campania_id=id_campania,status_f__in=status_f,status_g__in=status_g,status_h__in=status_h,proflag=1,resultado__name__in=resultado).count()
+
+		filtros[i]['total'] = resultadototal 
+
+		filtros[i]['fonosporbarrer'] = resultadobarrido
 
 
 	data_dict = ValuesQuerySetToDict(filtros)
@@ -4005,9 +4034,6 @@ def agentesdisponibles(request,id_campania):
 		lista2.append(a.agente.id) 	
 
 	agentes = Agentes.objects.filter(id__in=lista1).exclude(id__in=lista2).values('id')
-
-
-
 
 	for i in range(len(agentes)):
 
