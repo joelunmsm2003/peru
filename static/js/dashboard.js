@@ -10,13 +10,22 @@ agente = window.location.href.split("dashboard/")[1].split("/")[0]
 examen = window.location.href.split("dashboard/")[1].split('/')[1]
 
 
-$(function () {
+
+
+
+
+
+function Controller($scope,$http,$cookies,$filter) {
+
+    $(function () {
+
+
 
 
     $('#calidadagente').highcharts({
 
         title: {
-        text: 'Resultados.'
+        text: 'Evaluación'
         },
         chart: {
             type: 'column',
@@ -154,11 +163,6 @@ $(function () {
 
 });
 
-
-
-
-
-function Controller($scope,$http,$cookies,$filter) {
 
 
     console.log(window.location.href.split("dashboard/"))

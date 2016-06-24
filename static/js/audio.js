@@ -845,6 +845,13 @@ $('.container').fadeToggle("slow")
 
     {
 
+        console.log('Evaluando...')
+
+
+                $scope.btnpregunta = 'True'
+                $scope.btncalifica = 'False'
+
+
     $http.get("/preguntas/1").success(function(response) {$scope.preguntas = response;
 
     });

@@ -303,6 +303,8 @@ function Controller($scope,$http,$cookies,$filter,$interval) {
 
     	}
 
+        console.log('response',response)
+
 		for( var key in response ) {
 
                 console.log('Key...',key)
@@ -316,26 +318,26 @@ function Controller($scope,$http,$cookies,$filter,$interval) {
 				ciudad = response[key].status_f
 				segmento = response[key].status_g
 				grupo = response[key].status_h
+                total = response[key].total
+                fonosporbarrer = response[key].fonosporbarrer
 
                 if(key==0){
 
-                    $scope.clientes.push({ciudad:'Filtro 1',segmento:'Filtro 2',grupo:'Filtro 3',campania:campania_id,id:campania_id,filtro:'0',nombre:'Estado',estado:status,estadoname:'Estado',color:'gray',font:'#fff',id_filtro:100000000})
+                    $scope.clientes.push({fonosporbarrer:'Por Barrer',total:'Total',status_f:'Filtro 1',status_h:'Filtro 2',status_g:'Filtro 3',campania:campania_id,id:campania_id,filtro:'0',nombre:'Estado',estado:status,estadoname:'Estado',color:'gray',font:'#fff',id_filtro:100000000})
             
                 }
 
 
 				if(status ==1){
 
-					$scope.clientes.push({ciudad:ciudad,segmento:segmento,grupo:grupo,campania:campania_id,id:campania_id,filtro:'0',nombre:estadoname,estado:status,estadoname:estadoname,color:'#E8E8E8',font:'#564D4D',id_filtro:id})
+					$scope.clientes.push({fonosporbarrer:fonosporbarrer,total:total,status_f:ciudad,status_h:segmento,status_g:grupo,campania:campania_id,id:campania_id,filtro:'0',nombre:estadoname,estado:status,estadoname:estadoname,color:'#E8E8E8',font:'#000',id_filtro:id})
 			
 				}
 
 				else{
 
-					$scope.clientes.push({ciudad:ciudad,segmento:segmento,grupo:grupo,campania:campania_id,id:campania_id,filtro:'0',nombre:estadoname,estado:status,estadoname:estadoname,color:'#A9E09D',font:'#4F4444',id_filtro:id})
+					$scope.clientes.push({fonosporbarrer:fonosporbarrer,total:total,status_f:ciudad,status_h:segmento,status_g:grupo,campania:campania_id,id:campania_id,filtro:'0',nombre:estadoname,estado:status,estadoname:estadoname,color:'#A9E09D',font:'#000',id_filtro:id})
 			
-
-
 				}
 
 				}

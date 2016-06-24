@@ -98,7 +98,7 @@ function Controller($scope,$http,$cookies,$filter) {
         }).
         success(function(data) {
 
-       swal({      title: "Licencias Temporal "+data +" agregado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Cerrar",   }, function(){   window.location.href = "/licencia" });
+       swal({      title: "Licencias Temporal agregado",   type: "success",   confirmButtonColor: "#b71c1c",   confirmButtonText: "Cerrar",   }, function(){   window.location.href = "/licencia" });
 
 
 

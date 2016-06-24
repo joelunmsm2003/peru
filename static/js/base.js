@@ -410,6 +410,9 @@ function Controller($scope,$http,$cookies,$filter) {
         $scope.search()
 
 
+
+
+
         // icon setup
         $('th i').each(function(){
             // icon reset
@@ -419,6 +422,7 @@ function Controller($scope,$http,$cookies,$filter) {
             $('th.'+newSortingOrder+' i').removeClass().addClass('icon-chevron-up');
         else
             $('th.'+newSortingOrder+' i').removeClass().addClass('icon-chevron-down');
+    
     };
 
     promesa = []
@@ -430,6 +434,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
             agentes: $scope.agenteboton,
             campania:campania ,
+            
         }
 
 
@@ -445,6 +450,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
         console.log('Graficando...',data)
 
+           
         for( var key in data ) {
 
             $scope.mpromesa.push(2)
@@ -686,8 +692,15 @@ $(function () {
         
            },
         title: {
-            text: 'Botonera por Agente'
+
+            text: "Cartera : " + $scope.infocamp.cartera__nombre+ " " + "Campaña : " +$scope.infocamp.nombre
         },
+
+        subtitle: {
+            text: 'Agente - Botonera'
+        },
+        
+
         xAxis: {
             categories: [
                 'Jan',
@@ -705,17 +718,22 @@ $(function () {
         tooltip: {
             headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
             pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                '<td style="padding:0"><b>{point.y:.1f} </b></td></tr>',
+                '<td style="padding:0"><b>{point.y:.0f} </b></td></tr>',
             footerFormat: '</table>',
             shared: true,
             useHTML: true
         },
+        
         plotOptions: {
-            column: {
-                pointPadding: 0.2,
-                borderWidth: 0
+            series: {
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.y:.1f}'
+                }
             }
         },
+    
         series: [{
             name: 'Promesa',
             data: $scope.mpromesa
@@ -767,20 +785,9 @@ $(function () {
     
     Controller.$inject = ['$scope', '$filter'];
 
-}
 
-    /*
 
-                                    serie1[0].points[0].update(result['Promesa'])
-                                    serie1[0].points[1].update(result['Directo'])
-                                    serie1[0].points[2].update(result['Indirecto'])
-                                    serie1[0].points[3].update(result['No Contacto'])
-                                    serie1[0].points[4].update(result['Asterisk'])
-                                    serie1[0].points[5].update(result['Pendiente'])
-                                    
-                                    */
-
-        $(function () {
+   $(function () {
     // Create the chart
     $('#graph1').highcharts({
         chart: {
@@ -796,12 +803,19 @@ $(function () {
 
                                     console.log('botoro llam',result['Contacto Indirecto'])
 
+       
+
+                                  
                                     serie1x[0].points[0].update(result['Promesa'])
                                     serie1x[0].points[1].update(result['Contacto Directo'])
                                     serie1x[0].points[2].update(result['Contacto Indirecto'])
                                     serie1x[0].points[3].update(result['No Contacto'])
-                                    serie1x[0].points[4].update(result['Asterisk'])
+                                    serie1x[0].points[4].update(result['Pendiente'])
                                     serie1x[0].points[5].update(result['Pendiente'])
+                                   
+
+     
+                           
                                 });
 
                             }
@@ -811,9 +825,15 @@ $(function () {
                             }
                         }
         },
+       
+
         title: {
-            text: 'Cobertura Campaña'
-        },
+
+            text: 'Cobertura - Campaña'
+
+              },
+
+        
      
         xAxis: {
 
@@ -849,7 +869,7 @@ $(function () {
 
         tooltip: {
             headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
-            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}</b> of total<br/>'
+            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.0f}</b> <br/>'
         },
 
          
@@ -941,23 +961,25 @@ $(function () {
             title: {
                 text: 'Efectividad Campaña Botonera Agente'
             },
-
-	    tooltip: {
-                pointFormat:  '{series.name}:<b>{point.percentage:.1f}%</b>'
+           
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
             },
             plotOptions: {
-                pie: {
-                    borderWidth: 0,
-                    allowPointSelect: true,
-                    cursor: 'pointer',
-                    dataLabels: {
-                        enabled: true
-                    },
-                    showInLegend: true
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    }
                 }
-            },
+            }
+        },
             series: [{
-                name: 'Porcentaje',
+                name: 'Brands',
                 colorByPoint: true,
                 data: [{
                     name: 'Promesa',
@@ -980,3 +1002,4 @@ $(function () {
 });
 
 
+}

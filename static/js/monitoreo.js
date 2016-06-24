@@ -8,7 +8,7 @@ $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
 
 campania = window.location.href.split("monitoreo/")[1].split("/")[0]
 
-/*
+
 
 $(function () {
     // Create the chart
@@ -25,16 +25,10 @@ $(function () {
                                 $.getJSON("/botoneragraph/"+campania, function (result) {
 
                                     console.log('botoro llam',result['Contacto Indirecto'])
-
-       
-
                                     serie1[0].points[0].update(result['Promesa'])
                                     serie1[0].points[1].update(result['Contacto Directo'])
                                     serie1[0].points[2].update(result['Contacto Indirecto'])
                                     serie1[0].points[4].update(result['No Contacto'])
-                           
-
-     
                            
                                 });
 
@@ -83,7 +77,7 @@ $(function () {
 
         tooltip: {
             headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
-            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
+            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.1f}</b> of total<br/>'
         },
 
          
@@ -257,8 +251,7 @@ $(function () {
     });
 });
 
-*/
-/*
+
 
 
 $(function () {
@@ -339,7 +332,7 @@ $(function () {
 
 
 
-*/
+
 
 
 
@@ -1201,6 +1194,14 @@ function Controller($scope,$http,$cookies,$filter) {
     $scope.setPage = function () {
         $scope.currentPage = this.n-1;
     };
+
+    $scope.grafi = function () {
+        console.log('dddd')
+
+      
+
+    };
+
 
     
     Controller.$inject = ['$scope', '$filter'];
