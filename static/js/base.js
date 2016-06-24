@@ -723,17 +723,16 @@ $(function () {
             shared: true,
             useHTML: true
         },
-        
         plotOptions: {
+
             series: {
                 borderWidth: 0,
                 dataLabels: {
                     enabled: true,
-                    format: '{point.y:.1f}'
+                    format: '{point.y:.0f}'
                 }
             }
         },
-    
         series: [{
             name: 'Promesa',
             data: $scope.mpromesa
@@ -862,7 +861,7 @@ $(function () {
                 borderWidth: 0,
                 dataLabels: {
                     enabled: true,
-                    format: '{point.y:.1f}'
+                    format: '{point.y:.0f}'
                 }
             }
         },
