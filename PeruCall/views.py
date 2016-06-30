@@ -2771,15 +2771,15 @@ def listafiltros(request,id_campania):
 		print status_h
 
 		
-		resultadonullos = Base.objects.filter(resultado_id__isnull=True,campania_id=id_campania,status_f__in=status_f,status_g__in=status_g,status_h__in=status_h).count()
+		resultadonullos = Base.objects.filter(resultado_id__isnull=True,campania_id=id_campania,status_f__in=status_f,status_g__in=status_g,status_h__in=status_h).exclude(blacklist=1).count()
 
 		f = open('/var/www/html/nullos.txt', 'a')
 		f.write('kkk'+str(resultadonullos))
 		f.close()
 		
-		resultadototal = Base.objects.filter(resultado__name__in=resultado,campania_id=id_campania,status_f__in=status_f,status_g__in=status_g,status_h__in=status_h).count()+resultadonullos
+		resultadototal = Base.objects.filter(resultado__name__in=resultado,campania_id=id_campania,status_f__in=status_f,status_g__in=status_g,status_h__in=status_h).exclude(blacklist=1).count()+resultadonullos
 
-		resultadobarrido = Base.objects.filter(campania_id=id_campania,status_f__in=status_f,status_g__in=status_g,status_h__in=status_h,proflag=1,resultado__name__in=resultado).count()
+		resultadobarrido = Base.objects.filter(campania_id=id_campania,status_f__in=status_f,status_g__in=status_g,status_h__in=status_h,proflag=1,resultado__name__in=resultado).exclude(blacklist=1).count()
 
 		if int(resultadototal) == int(resultadobarrido):
 
@@ -3488,8 +3488,6 @@ def listanegra(request):
 
 		ruta = '/var/www/html/'+str(archivo)
 
-		
-
 		book = xlrd.open_workbook(ruta)
 
 		sh = book.sheet_by_index(0)
@@ -3500,28 +3498,40 @@ def listanegra(request):
 
 			for col in range(sh.ncols):
 
-				
-
 				if rx > 0:
 
 					x = str(sh.row(rx)[col]).replace('text:u','').replace('number:','').replace("'","").replace('.0','').replace('"','')
 					
 					u.append(x)
 
-					
-					
-					Listanegra(campania_id=campania,dni=int(x)).save()
+					base = Base.objects.filter(id_cliente=x,campania_id=campania)
 
+					for b in base:
+
+						b.blacklist = 1
+						b.save()
+
+					
+					#Listanegra(campania_id=campania,dni=x).save()
+
+		'''
 		lista = Listanegra.objects.filter(campania_id=campania)
+
 
 		for l in lista:
 
-			base = Base.objects.filter(id_cliente=l.dni)
+			print 'dni',l.dni
+
+			base = Base.objects.filter(id_cliente=l.dni,campania_id=campania)
 			
 			for b in base:
 
+				print 'ListaNegra....',b
+
 				b.blacklist = 1
 				b.save()
+
+		'''
 
 
 		return HttpResponseRedirect("/filtros/"+campania)
@@ -3897,8 +3907,8 @@ def campanias(request):
 			data[i]['fecha_cargada'] = Campania.objects.get(id=data[i]['id']).fecha_cargada.strftime(fmt1)
 			data[i]['totalagentes'] = Agentescampanias.objects.filter(campania_id=data[i]['id']).count()
 			data[i]['conectados'] = Agentescampanias.objects.filter(campania_id=data[i]['id']).exclude(agente__estado=1).count()
-			data[i]['cargados'] = Base.objects.filter(campania_id=data[i]['id']).count()
-			data[i]['barridos'] = Base.objects.filter(campania_id=data[i]['id'],proflag=1).count()
+			data[i]['cargados'] = Base.objects.filter(campania_id=data[i]['id']).exclude(blacklist=1).count()
+			data[i]['barridos'] = Base.objects.filter(campania_id=data[i]['id'],proflag=1).exclude(blacklist=1).count()
 			data[i]['errados'] = AjxProLla.objects.filter(cam_codigo=data[i]['id'],llam_estado=2).count()
 			data[i]['filtro'] = '1'
 			data[i]['a'] = True

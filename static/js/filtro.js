@@ -171,7 +171,7 @@ function Controller($scope,$http,$cookies,$filter,$interval) {
     }
 
 
-    $interval(xx,1000)
+    $interval(xx,100000)
 
 
 
