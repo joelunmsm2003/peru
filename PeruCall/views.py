@@ -2316,7 +2316,7 @@ def pausa(request,id_agente):
 			
 
 		agente.tiniciopausa = datetime.now()-timedelta(hours=5)
-		
+		agente.est_ag_predictivo = 0
 		agente.save()
 
 
@@ -2369,6 +2369,8 @@ def receso(request,id_agente):
 
 
 		agente.tiniciobreak = datetime.now()-timedelta(hours=5)
+		
+		agente.est_ag_predictivo = 0
 
 		agente.save()
 
@@ -2423,7 +2425,7 @@ def sshh(request,id_agente):
 			Estadocambio(user_id=user,estado_id=2).save()
 
 		agente.tinicioservicio = datetime.now()-timedelta(hours=5)
-
+		agente.est_ag_predictivo = 0
 		agente.save()
 
 		return HttpResponseRedirect("/teleoperador/"+id_agente)
