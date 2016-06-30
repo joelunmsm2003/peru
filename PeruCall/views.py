@@ -1310,17 +1310,23 @@ def botonexterno(request):
 	
 
 			b = Base.objects.get(id=base)
-			if resultado_name == 'No Contacto':
-				
-				cliente = b.id_cliente
-				Base.objects.filter(id_cliente=cliente).update(bloqueocliente=0) 
-
 			b.resultado_id = resultado
 			b.resultadotxt = resultado_name
 			b.save()
 
 
-		data_dict = ValuesQuerySetToDict(data)
+			print 'Cliente...',b.id_cliente,resultado_name
+
+			if resultado_name == 'No Contacto':
+
+				cli = b.id_cliente
+
+				print 'Bloqueando.........',cli
+
+				os.system("python pulga.py "+ str(cli))
+
+
+		data_dict = ValuesQuerySetToDict('data')
 
 		data = simplejson.dumps(data_dict)
 
@@ -2316,7 +2322,7 @@ def pausa(request,id_agente):
 			
 
 		agente.tiniciopausa = datetime.now()-timedelta(hours=5)
-		
+		agente.est_ag_predictivo = 0
 		agente.save()
 
 
@@ -2369,6 +2375,8 @@ def receso(request,id_agente):
 
 
 		agente.tiniciobreak = datetime.now()-timedelta(hours=5)
+		
+		agente.est_ag_predictivo = 0
 
 		agente.save()
 
@@ -2423,7 +2431,7 @@ def sshh(request,id_agente):
 			Estadocambio(user_id=user,estado_id=2).save()
 
 		agente.tinicioservicio = datetime.now()-timedelta(hours=5)
-
+		agente.est_ag_predictivo = 0
 		agente.save()
 
 		return HttpResponseRedirect("/teleoperador/"+id_agente)
