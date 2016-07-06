@@ -47,7 +47,7 @@ from django.dispatch import receiver
 from ws4redis.publisher import RedisPublisher
 from ws4redis.redis_store import RedisMessage
 from datetime import datetime,timedelta
-
+import MySQLdb
 
 
 def audio(request):
@@ -1307,9 +1307,9 @@ def botonexterno(request):
 			resultado_name = Resultado.objects.get(id=resultado).name
 
 		
-	
 
 			b = Base.objects.get(id=base)
+			b.status = 0
 			b.resultado_id = resultado
 			b.resultadotxt = resultado_name
 			b.save()
@@ -1772,15 +1772,92 @@ def agregarfiltro(request):
 			segmentot = segmentot  + segmento[i]['status_h'] +'/'
 			s.insert(i,segmento[i]['status_h'])
 
-		print r,c,g,s
+		print 'Agregando Filtro',r,c,g,s
 
 		print 'xxx',Base.objects.filter(resultado__name__in=r,status_f__in=c,status_g__in=g,status_h__in=s,campania_id=campania).update(proflag=None,proestado=None,filtrohdec=None,status=0)
-
-
 
 		i = Filtro.objects.filter(campania_id=campania).count()
 
 		Filtro(resultado=resultadot,status_f=ciudadt,status_g=grupot,status_h=segmentot,campania_id=campania,status=1,orden=i+1).save()
+
+		id_filtro = Filtro.objects.all().values('id').order_by('-id')[0]['id']
+		
+		filtro = Filtro.objects.get(id=id_filtro)
+
+		print 'Filtros...'+str(id_filtro)
+
+		if str(filtro.resultado):
+
+			pass
+		else:
+
+			filtro.resultado='-'		
+
+		status_f = filtro.status_f.split("/")
+		status_g = filtro.status_g.split("/")
+		status_h = filtro.status_h.split("/")
+		resultado = filtro.resultado.split("/")
+
+		f = len(status_f)
+		g = len(status_g)
+		h = len(status_h)
+		r = len(resultado)
+
+		sf = ''
+		sg = ''
+		sh = ''
+		sr = ''
+
+		for v in range(0,f):
+
+			sf = status_f[v]+"','"+sf 
+
+		for v in range(0,g):
+
+			sg = status_g[v]+"','"+sg 
+
+		for v in range(0,h):
+
+			sh = status_h[v]+"','"+sh 
+
+		for v in range(0,r):
+
+			if resultado[v]=='-':
+
+				resultado[v]="'''"
+
+
+			sr = resultado[v]+"','"+sr
+
+		status_f =  "("+sf[2:len(sf)-2]+")"
+		status_g =  "("+sg[2:len(sg)-2]+")"
+		status_h =  "("+sh[2:len(sh)-2]+")"
+		resultado =  "("+sr[2:len(sr)-2]+")"
+
+
+		db = MySQLdb.connect(host="127.0.0.1",user="root",passwd="d4t4B4$3p3c4ll2016*",db="perucall") 
+
+		cur = db.cursor()
+
+		total = "SELECT COUNT(*) FROM base where campania = "+campania +" and status_f in "+ status_f+" and status_h in "+ status_h +" and status_g in "+ status_g+" and ( resultadotxt='' OR resultadotxt in "+resultado+ " )"
+		
+		up = "UPDATE base set status = 0, proflag= NULL,proestado = NULL, filtrohdec=NULL where campania = "+campania +" and status_f in "+ status_f+" and status_h in "+ status_h +" and status_g in "+ status_g+" and (resultadotxt='' OR resultadotxt in "+resultado+" )"
+		
+		cur.execute(up)
+
+		db.commit()
+
+		print 'SELECT',total
+
+		cur.execute(total)
+
+		y = cur.fetchall()
+
+		pb = [item for item in y]
+
+		total = pb[0][0]
+
+		print 'Contador...',total 
 
 		return HttpResponse('data', content_type="application/json")
 
@@ -2755,7 +2832,87 @@ def listafiltros(request,id_campania):
 			data[i]['colort'] = '#fff'
 
 			data[i]['statusname'] = 'Activado'
+
+		print 'Filtros...'+str(data[i]['id'])
+
+		if str(filtro.resultado):
+
+			pass
+		else:
+
+			filtro.resultado='-'		
+
+		status_f = filtro.status_f.split("/")
+		status_g = filtro.status_g.split("/")
+		status_h = filtro.status_h.split("/")
+		resultado = filtro.resultado.split("/")
+
+		f = len(status_f)
+		g = len(status_g)
+		h = len(status_h)
+		r = len(resultado)
+
+		sf = ''
+		sg = ''
+		sh = ''
+		sr = ''
+
+		for v in range(0,f):
+
+			sf = status_f[v]+"','"+sf 
+
+		for v in range(0,g):
+
+			sg = status_g[v]+"','"+sg 
+
+		for v in range(0,h):
+
+			sh = status_h[v]+"','"+sh 
+
+		for v in range(0,r):
+
+			if resultado[v]=='-':
+
+				resultado[v]="'''"
+
+
+			sr = resultado[v]+"','"+sr
+
+		status_f =  "("+sf[2:len(sf)-2]+")"
+		status_g =  "("+sg[2:len(sg)-2]+")"
+		status_h =  "("+sh[2:len(sh)-2]+")"
+		resultado =  "("+sr[2:len(sr)-2]+")"
+
+
+		db = MySQLdb.connect(host="127.0.0.1",user="root",passwd="d4t4B4$3p3c4ll2016*",db="perucall") 
+
+		cur = db.cursor()
+
+		porbarrer = "SELECT COUNT(*) FROM base where (status='' or status=0) and campania ="+id_campania +" and ProFlag is NULL and ProEstado is NULL and FiltroHdeC is NULL AND status_f in " + status_f+" and status_h in "+status_h+" and status_g in "+status_g+" and (resultadotxt='' OR resultadotxt in "+resultado+" )"
+
+		total = "SELECT COUNT(*) FROM base where campania = "+id_campania +" and status_f in "+ status_f+" and status_h in "+ status_h +" and status_g in "+ status_g+" and (resultadotxt='' OR resultadotxt in "+resultado+" )"
+
 		
+		print 'Total',total
+
+		cur.execute(porbarrer)
+
+		y = cur.fetchall()
+
+		pb = [item for item in y]
+
+		porbarrerx = pb[0][0]
+
+		cur.execute(total)
+
+		y = cur.fetchall()
+
+		to = [item for item in y]
+
+		totalx = to[0][0]
+
+		print 'Total......',totalx
+
 
 		resultado = filtro.resultado
 
@@ -2773,32 +2930,10 @@ def listafiltros(request,id_campania):
 
 		status_g =  status_g.split('/')
 
-		print resultado 
-		print status_f
-		print status_g
-		print status_h
+		data[i]['total'] = totalx 
+		data[i]['barrido'] = totalx-porbarrerx
 
-		
-		resultadonullos = Base.objects.filter(resultado_id__isnull=True,campania_id=id_campania,status_f__in=status_f,status_g__in=status_g,status_h__in=status_h).exclude(blacklist=1).count()
 
-		f = open('/var/www/html/nullos.txt', 'a')
-		f.write('kkk'+str(resultadonullos))
-		f.close()
-		
-		resultadototal = Base.objects.filter(resultado__name__in=resultado,campania_id=id_campania,status_f__in=status_f,status_g__in=status_g,status_h__in=status_h).exclude(blacklist=1).count()+resultadonullos
-
-		resultadobarrido = Base.objects.filter(campania_id=id_campania,status_f__in=status_f,status_g__in=status_g,status_h__in=status_h,proflag=1,resultado__name__in=resultado).exclude(blacklist=1).count()
-
-		if int(resultadototal) == int(resultadobarrido):
-
-			#filtro.status = 1
-			#filtro.save()
-			pass
-
-		#fonosinexito = Base.objects.filter(campania_id=id_campania,resultado__name__in=resultado,status_f__in=status_f,status_g__in=status_g,status_h__in=status_h,status=2).count()
-
-		data[i]['total'] = resultadototal 
-		data[i]['fonosporbarrer'] = resultadobarrido
 		#data[i]['fonosinexito'] = fonosinexito
 
 	data_dict = ValuesQuerySetToDict(data)
