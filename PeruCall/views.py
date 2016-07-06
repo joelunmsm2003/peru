@@ -2594,6 +2594,15 @@ def reportecsv(request,cartera,campania):
 					if p>pant:
 						mejorgestion = 'Promesa'
 
+				if resultado == 'No Contacto':
+					p=6
+					if p>pant:
+						mejorgestion = 'No Contacto'
+
+
+
+
+
 				pant = p
 			
 		x.campania.nombre = x.campania.nombre.encode('ascii','ignore')
@@ -2621,6 +2630,37 @@ def reportecsv(request,cartera,campania):
 			fmt = '%M:%S'
 
 			duracion = str(fin-inicio)[2:8]
+
+		if mejorgestion == 'Sin Gestion':
+
+			ajax = AjxProLla.objects.filter(id_cliente=x.id_cliente,cam_codigo=campania)
+
+			for a in ajax:
+
+				if a.llam_estado == 4:
+
+					mejorgestion = 'Contesto'
+					resultado = 'Contesto'
+
+				if a.llam_estado == 3:
+
+					mejorgestion = 'No Contesta'
+					resultado = 'No Contesta'
+
+				if a.llam_estado == 5:
+
+					mejorgestion = 'Buzon'
+					resultado = 'Buzon'
+
+				if a.llam_estado == 2:
+
+					mejorgestion = 'Congestion de Red'
+					resultado = 'Congestion de Red'
+
+				if a.llam_estado == 1:
+
+					mejorgestion = 'Enviada'
+					resultado = 'Enviado'
 
 		#writer.writerow(['Id','Telefono','Orden','Cliente','ID Cliente','Cartera','Campania','Status A','Status B','Status C','Status D','Status E','Status F','Status G','Status H','Mejor Gestion','Fecha','Telefono','Agente','Intentos','Botonera','Observacion','Fecha de Pago','Importe de Pago','Duracion','Fecha de Gestion'])
 
@@ -2892,7 +2932,6 @@ def listafiltros(request,id_campania):
 
 		total = "SELECT COUNT(*) FROM base where campania = "+id_campania +" and status_f in "+ status_f+" and status_h in "+ status_h +" and status_g in "+ status_g+" and resultadotxt='' OR resultadotxt in "+resultado
 
-		
 		print 'Total',total
 
 		cur.execute(porbarrer)
@@ -3502,31 +3541,33 @@ def busqueda(request):
 
 def generacsv(request,cartera,campania,inicio,fin,telefono,cliente):
 
-	
+	id = request.user.id
+
+	mascara = AuthUser.objects.get(id=id).empresa.mascaras.tipo
+
+	print mascara
 
 	filtro = {}
 
-	if cartera!='undefined':
-
-		filtro['campania__cartera']=cartera
 	if campania!='undefined':
 
-		filtro['campania']=campania
+		filtro['cam_codigo']=campania
+
 	if inicio!='undefined':
 
 		inicio = datetime.strptime(inicio,'%Y%m%d')
 
-		filtro['fecha__lte'] =inicio
+		filtro['f_origen__lte'] =inicio
 
 	if fin!='undefined':
 
 		fin = datetime.strptime(fin,'%Y%m%d')
 
-		filtro['fecha__lte'] =fin
+		filtro['f_origen__lte'] =fin
 
 	if telefono!='undefined':
 
-		filtro['telefono']=telefono
+		filtro['llam_numero']=telefono
 
 	if cliente!='undefined':
 
@@ -3535,56 +3576,103 @@ def generacsv(request,cartera,campania,inicio,fin,telefono,cliente):
 	response = HttpResponse(content_type='text/csv')
 
 	ncartera=Campania.objects.get(id=campania).cartera.nombre
+
 	ncampania = Campania.objects.get(id=campania).nombre
+
 	fecha= datetime.now()
 
 	response['Content-Disposition'] = 'attachment; filename="RD_'+str(ncartera)+'_'+str(ncampania)+'_'+str(fecha)[0:19]+'.csv'
 
 	writer = csv.writer(response)
-
 	
+	base = AjxProLla.objects.filter(**filtro)
 
-	base = Base.objects.filter(**filtro)
+	if mascara == 'Externa':
 	
-	writer.writerow(['Id','Telefono','Orden','Cliente','ID Cliente','Cartera','Campania','Agente','Duracion','Monto','Fecha Gestion','Status A','Status B','Status C','Status D','Status E','Status F','Status G','Status H','Botonera','Observacion','Fecha de Pago','Importe de Pago'])
+		writer.writerow(['Telefono','Orden','Cliente','ID Cliente','Cartera','Campania','Agente','Duracion','Fecha Gestion','Status F','Status G','Status H','Botonera'])
+
+	else:
+
+		writer.writerow(['Telefono','Orden','Cliente','ID Cliente','Cartera','Campania','Agente','Duracion','Fecha Gestion','Status F','Status G','Status H','Botonera','Observacion','Fecha de Pago','Importe de Pago'])
+
 
 	for x in base:
 
-		x.campania.nombre = x.campania.nombre.encode('ascii','ignore')
-
-		x.campania.nombre = x.campania.nombre.encode('ascii','replace')
-
-		x.monto = x.monto.encode('ascii','ignore')
-
-		x.monto = x.monto.encode('ascii','replace')
-
-		if x.agente:
-
-			agente = x.agente.user.first_name
-
-		else:
-
-			agente = ''
-
-		if x.resultado:
-
-			resultado = x.resultado.name
-
-		else:
-
-			resultado = ''
-
 		duracion = ''
 
-		if x.tiniciogestion and x.tfingestion :
+		if Base.objects.filter(campania=x.cam_codigo,telefono=x.llam_numero,id_cliente=x.id_cliente):
 
-			inicio = x.tiniciogestion
-			fin = x.tfingestion
-			fmt = '%M:%S'
+			b = Base.objects.get(campania=x.cam_codigo,telefono=x.llam_numero,id_cliente=x.id_cliente)
 
-			duracion = str(fin-inicio)[2:8]
+			print 'Base encontrada',b
 
-		writer.writerow([x.id,x.telefono,x.orden,x.cliente,x.id_cliente,x.campania.cartera.nombre,x.campania.nombre,agente,duracion,x.monto,x.fecha,x.status_a,x.status_b,x.status_c,x.status_d,x.status_e,x.status_f,x.status_g,x.status_h,resultado,x.detalle,x.fecha,x.monto])
+			if b.resultado:
+
+				resultado = b.resultado.name
+
+			else:
+
+				resultado = ''
+
+				if x.llam_estado == 4:
+
+					resultado = 'Contesto'
+
+				if x.llam_estado == 3:
+
+					resultado = 'No Contesta'
+
+				if x.llam_estado == 5:
+
+					resultado = 'Buzon'
+
+				if x.llam_estado == 2:
+
+					resultado = 'Congestion de Red'
+
+			if b.agente:
+
+				agente = b.agente.user.first_name
+
+			campania = b.campania.nombre.encode('ascii','ignore')
+
+			campania = campania.encode('ascii','replace')
+
+			orden = b.orden
+
+			cliente = b.cliente
+
+			id_cliente = b.id_cliente
+
+			status_f = b.status_f
+
+			status_g = b.status_g
+
+			status_h = b.status_h
+
+
+
+			if b.tiniciogestion and b.tfingestion :
+
+				inicio = b.tiniciogestion
+				fin = b.tfingestion
+				fmt = '%M:%S'
+
+				duracion = str(fin-inicio)[2:8]
+		
+		if mascara == 'Externa':
+
+			monto = b.monto
+
+			detalle = b.detalle
+
+			fecha = b.fecha
+
+			writer.writerow([x.llam_numero,orden,cliente,id_cliente,ncartera,campania,agente,duracion,x.f_origen,status_f,status_g,status_h,resultado])
+
+		else:
+					
+			writer.writerow([x.llam_numero,orden,cliente,id_cliente,ncartera,campania,agente,duracion,x.f_origen,status_f,status_g,status_h,resultado,monto,detalle,fecha])
 
 
 	return response
@@ -3688,7 +3776,7 @@ def colas(request,campania):
 
 	f = datetime.now().date()
 
-	data = AjxProLla.objects.filter(id_ori_seg_cola=campania,f_origen__gte=f).values('age_ip','llam_numero','llam_estado').order_by('-id_ori_llamadas')[:12]
+	data = AjxProLla.objects.filter(id_ori_seg_cola=campania,f_origen__gte=f).values('age_ip','llam_numero','llam_estado').order_by('-id_ori_llamadas')
 
 	data_dict = ValuesQuerySetToDict(data)
 
