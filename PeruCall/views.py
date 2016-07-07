@@ -1152,7 +1152,7 @@ def agentes(request,id_campania):
 	
 			sec = str(tf-ti).split(':')
 			
-			user[i]['secgestion'] = int(sec[2])*2
+			user[i]['secgestion'] = int(sec[2])
 
 			if int(sec[1]) > 0  :
 
@@ -3776,7 +3776,16 @@ def colas(request,campania):
 
 	f = datetime.now().date()
 
-	data = AjxProLla.objects.filter(id_ori_seg_cola=campania,f_origen__gte=f).values('age_ip','llam_numero','llam_estado').order_by('-id_ori_llamadas')
+	#f_origen__gte=f
+
+	data = AjxProLla.objects.filter(id_ori_seg_cola=campania).values('age_ip','llam_numero','llam_estado').order_by('-id_ori_llamadas')[:30]
+
+	for i in range(len(data)):
+
+		data[i]['dni'] = Base.objects.filter(campania=campania,telefono=data[i]['llam_numero']).values('id_cliente')[0]['id_cliente']
+
+		data[i]['orden'] = Base.objects.filter(campania=campania,telefono=data[i]['llam_numero']).values('orden')[0]['orden']
+
 
 	data_dict = ValuesQuerySetToDict(data)
 
