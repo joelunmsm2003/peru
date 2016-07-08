@@ -127,7 +127,7 @@ function Controller($scope,$http,$cookies,$filter,$interval) {
     $scope.reverse = false;
     $scope.filteredItems = [];
     $scope.groupedItems = [];
-    $scope.itemsPerPage = 20;
+    $scope.itemsPerPage = 50;
     $scope.pagedItems = [];
     $scope.currentPage = 0;
 

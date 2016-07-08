@@ -40,7 +40,7 @@ $(function () {
                         }
         },
         title: {
-            text: 'Cobertura Campaña'
+            text: 'Resultado de la Gestión'
         },
      
         xAxis: {
@@ -299,7 +299,7 @@ $(function () {
                         }
         },
         title: {
-            text: 'Monitoreo de Llamadas'
+            text: 'Estado de Llamadas'
         },
         tooltip: {
             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
