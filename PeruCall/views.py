@@ -2970,7 +2970,14 @@ def activafiltro(request,id_filtro,id_campania):
 
 	data = Filtro.objects.filter(id=id_filtro).values('id','status_f','status_h','status_g','resultado').order_by('-id')
 
+	capi = Campania.objects.get(id=id_campania)
+	capi.inactividad =0
+	capi.save()
+
 	for i in range(len(data)):
+
+
+
 
 
 		filtro = Filtro.objects.get(id=data[i]['id'])
@@ -3002,12 +3009,16 @@ def activafiltro(request,id_filtro,id_campania):
 		status_g =  status_g.split('/')
 
 
-		base = Base.objects.filter(campania_id=id_campania,resultado__name__in=resultado,status_f__in=status_f,status_g__in=status_g,status_h__in=status_h)
+		#base = Base.objects.filter(campania_id=id_campania,resultado__name__in=resultado,status_f__in=status_f,status_g__in=status_g,status_h__in=status_h)
+
+		'''
 
 		for base in base:
 
 			base.status = 1
 			base.save()
+
+		'''
 
 
 	data_dict = ValuesQuerySetToDict(data)
@@ -4104,24 +4115,27 @@ def campanias(request):
 
 		if nivel == 4: #Manager
 
-			data = Campania.objects.all().values('cartera__nombre','password','id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name','supervisor__user__empresa__nombre','supervisor').order_by('-id')
+			data = Campania.objects.all().values('inactividad','cartera__nombre','password','id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name','supervisor__user__empresa__nombre','supervisor').order_by('-id')
 		
 		if nivel == 2: #Supervisores
 			
 			supervisor = Supervisor.objects.get(user=id).id
 
-			data = Campania.objects.filter(supervisor=supervisor).values('cartera__nombre','password','id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name','factor','discado','supervisor').order_by('-id')
+			data = Campania.objects.filter(supervisor=supervisor).values('inactividad','cartera__nombre','password','id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name','factor','discado','supervisor').order_by('-id')
 
 		if nivel == 1: #Admin
 
-			data = Campania.objects.filter(usuario__empresa=empresa).values('cartera__nombre','password','id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name','factor','discado','supervisor').order_by('-id')
+			data = Campania.objects.filter(usuario__empresa=empresa).values('inactividad','cartera__nombre','password','id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name','factor','discado','supervisor').order_by('-id')
 
 		if nivel == 5: #Monitor
 
-			data = Campania.objects.filter(usuario__empresa=empresa).values('cartera__nombre','password','id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name','supervisor').order_by('-id')
+			data = Campania.objects.filter(usuario__empresa=empresa).values('inactividad','cartera__nombre','password','id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name','supervisor').order_by('-id')
 
 		fmt = '%H:%M:%S %Z'
 		fmt1 = '%Y-%m-%d %H:%M:%S %Z'
+		ina=0
+		barri=0
+		act=0
 
 		for i in range(len(data)):
 
@@ -4135,6 +4149,7 @@ def campanias(request):
 			data[i]['errados'] = AjxProLla.objects.filter(cam_codigo=data[i]['id'],llam_estado=2).count()
 
 
+
 			data[i]['filtro'] = '1'
 			data[i]['a'] = True
 			data[i]['b'] = False
@@ -4144,33 +4159,44 @@ def campanias(request):
 			apagado = Filtro.objects.filter(campania_id=data[i]['id'],status=1).count()
 			activado = Filtro.objects.filter(campania_id=data[i]['id'],status=0).count()
 			
-			#0 Iniciado
-			#1 Apagado
+
+			if data[i]['inactividad'] > 90:
+
+				data[i]['estado'] = ''
+				data[i]['color'] = '#999999'
+				data[i]['font'] = '#fff' 
+				ina=ina+1
+			
+
 
 			if activado > 0:
 
 				data[i]['estado'] = ''
 				data[i]['color'] = '#5C93B5'
 				data[i]['font'] = '#fff'
+				act=act+1
+
 
 			if data[i]['barridos'] == data[i]['cargados']:
 				data[i]['estado'] = ''
 				data[i]['color'] = '#F58C48'
 				data[i]['font'] = '#000'
+				barri=barri+1
+			
+
 
 			if total == 0:
 				data[i]['estado'] = ''
 				data[i]['color'] = '#fff'
 				data[i]['font'] = '#000'
 
-			if horas > 90:
-				data[i]['estado'] = ''
-				data[i]['color'] = '#999999'
-				data[i]['font'] = '#fff'
+			data[i]['ina']=ina
+			data[i]['act']=act
+			data[i]['barr']=barri
+
 
 			#Apagado = F58C48
 
-	
 		data_dict = ValuesQuerySetToDict(data)
 
 		data = simplejson.dumps(data_dict)
