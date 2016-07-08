@@ -2991,12 +2991,16 @@ def activafiltro(request,id_filtro,id_campania):
 		status_g =  status_g.split('/')
 
 
-		base = Base.objects.filter(campania_id=id_campania,resultado__name__in=resultado,status_f__in=status_f,status_g__in=status_g,status_h__in=status_h)
+		#base = Base.objects.filter(campania_id=id_campania,resultado__name__in=resultado,status_f__in=status_f,status_g__in=status_g,status_h__in=status_h)
+
+		'''
 
 		for base in base:
 
 			base.status = 1
 			base.save()
+
+		'''
 
 
 	data_dict = ValuesQuerySetToDict(data)
@@ -4124,6 +4128,7 @@ def campanias(request):
 			data[i]['errados'] = AjxProLla.objects.filter(cam_codigo=data[i]['id'],llam_estado=2).count()
 
 
+			'''
 			if AjxProLla.objects.filter(cam_codigo=data[i]['id']):
 
 				a = str(AjxProLla.objects.filter(cam_codigo=data[i]['id']).values('f_origen').order_by('-f_origen')[0]['f_origen'])[0:19]
@@ -4135,6 +4140,14 @@ def campanias(request):
 				b = datetime.strptime(b, "%Y-%m-%d %H:%M:%S")
 
 				horas = (b-a).total_seconds()/3600
+
+				if horas > 90:
+
+					data[i]['estado'] = ''
+					data[i]['color'] = '#999999'
+					data[i]['font'] = '#fff'
+
+			'''
 
 		
 
@@ -4166,10 +4179,7 @@ def campanias(request):
 				data[i]['color'] = '#fff'
 				data[i]['font'] = '#000'
 
-			if horas > 90:
-				data[i]['estado'] = ''
-				data[i]['color'] = '#999999'
-				data[i]['font'] = '#fff'
+			
 
 			#Apagado = F58C48
 
