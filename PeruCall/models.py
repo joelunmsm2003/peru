@@ -448,6 +448,7 @@ class Base(models.Model):
     blacklist = models.IntegerField(blank=True, null=True)
     bloqueocliente = models.CharField(max_length=100, blank=True)
     resultadotxt = models.CharField(max_length=100, blank=True)
+    resultado_asterisk = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False

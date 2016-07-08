@@ -1321,9 +1321,13 @@ def botonexterno(request):
 
 				cli = b.id_cliente
 
-				print 'Bloqueando.........',cli
+				f = open('/var/www/html/contacto.txt', 'a')
+				f.write('Bloqueando..'+resultado_name+'-'+cli)
+				f.close()
 
-				os.system("python pulga.py "+ str(cli))
+				Base.objects.filter(id_cliente=cli).update(bloqueocliente=0)
+
+				#os.system("python pulga.py "+ str(cli))
 
 
 		data_dict = ValuesQuerySetToDict('data')
@@ -2532,6 +2536,7 @@ def reportecsv(request,cartera,campania):
 
 	base = Base.objects.filter(campania_id=campania).order_by('-id_cliente')
 
+
 	writer.writerow(['Telefono','Orden','Cliente','ID Cliente','Cartera','Campania','Status A','Status B','Status C','Status D','Status E','Status F','Status G','Status H','Mejor Gestion','Fecha','Telefono','Agente','Intentos','Botonera','Observacion','Fecha de Pago','Importe de Pago','Duracion','Fecha de Gestion'])
 
 	dniant = '2222'
@@ -2553,6 +2558,9 @@ def reportecsv(request,cartera,campania):
 		bx =Base.objects.filter(id_cliente=dniact)
 		pant =0
 		mejorgestion = 'Sin Gestion'
+
+		resultado = x.resultado_asterisk
+
 		p=0
 
 		for r in bx:
@@ -2599,10 +2607,6 @@ def reportecsv(request,cartera,campania):
 					if p>pant:
 						mejorgestion = 'No Contacto'
 
-
-
-
-
 				pant = p
 			
 		x.campania.nombre = x.campania.nombre.encode('ascii','ignore')
@@ -2630,37 +2634,6 @@ def reportecsv(request,cartera,campania):
 			fmt = '%M:%S'
 
 			duracion = str(fin-inicio)[2:8]
-
-		if mejorgestion == 'Sin Gestion':
-
-			ajax = AjxProLla.objects.filter(id_cliente=x.id_cliente,cam_codigo=campania)
-
-			for a in ajax:
-
-				if a.llam_estado == 4:
-
-					mejorgestion = 'Contesto'
-					resultado = 'Contesto'
-
-				if a.llam_estado == 3:
-
-					mejorgestion = 'No Contesta'
-					resultado = 'No Contesta'
-
-				if a.llam_estado == 5:
-
-					mejorgestion = 'Buzon'
-					resultado = 'Buzon'
-
-				if a.llam_estado == 2:
-
-					mejorgestion = 'Congestion de Red'
-					resultado = 'Congestion de Red'
-
-				if a.llam_estado == 1:
-
-					mejorgestion = 'Enviada'
-					resultado = 'Enviado'
 
 		#writer.writerow(['Id','Telefono','Orden','Cliente','ID Cliente','Cartera','Campania','Status A','Status B','Status C','Status D','Status E','Status F','Status G','Status H','Mejor Gestion','Fecha','Telefono','Agente','Intentos','Botonera','Observacion','Fecha de Pago','Importe de Pago','Duracion','Fecha de Gestion'])
 
@@ -3604,31 +3577,33 @@ def generacsv(request,cartera,campania,inicio,fin,telefono,cliente):
 
 			b = Base.objects.get(campania=x.cam_codigo,telefono=x.llam_numero,id_cliente=x.id_cliente)
 
+			resultado = ''
+
+			if x.llam_estado == 4:
+
+				resultado = 'Contesto'
+
+			if x.llam_estado == 3:
+
+				resultado = 'No Contesta'
+
+			if x.llam_estado == 5:
+
+				resultado = 'Buzon'
+
+			if x.llam_estado == 2:
+
+				resultado = 'Congestion de Red'
+
+			if x.llam_estado == 1:
+
+				resultado = 'Enviada'
+
 			print 'Base encontrada',b
 
 			if b.resultado:
 
 				resultado = b.resultado.name
-
-			else:
-
-				resultado = ''
-
-				if x.llam_estado == 4:
-
-					resultado = 'Contesto'
-
-				if x.llam_estado == 3:
-
-					resultado = 'No Contesta'
-
-				if x.llam_estado == 5:
-
-					resultado = 'Buzon'
-
-				if x.llam_estado == 2:
-
-					resultado = 'Congestion de Red'
 
 			if b.agente:
 
@@ -3649,8 +3624,6 @@ def generacsv(request,cartera,campania,inicio,fin,telefono,cliente):
 			status_g = b.status_g
 
 			status_h = b.status_h
-
-
 
 			if b.tiniciogestion and b.tfingestion :
 
