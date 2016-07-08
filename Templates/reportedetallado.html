@@ -38,7 +38,7 @@
         <div class="col-md-2" >
         <div class="form-group">
         <label>Campaña</label>
-        <select  ng-model="model.campania" class="form-control" ng-options="cliente.id as cliente.nombre for cliente in campaniasx"></select>
+        <select  ng-model="model.campania" class="form-control" ng-change="fecha(model)" ng-options="cliente.id as cliente.nombre for cliente in campaniasx"></select>
         </div>
         </div>
 

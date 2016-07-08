@@ -2228,6 +2228,7 @@ def finllamada(request,id_agente):
 		agente.est_ag_predictivo = 0
 
 		if int(agente.estado_id) == 3:
+
 			agente.estado_id = 6
 			agente.est_ag_predictivo = 0
 
@@ -2676,9 +2677,19 @@ def getcampanias(request,cartera):
 @login_required(login_url="/ingresar")
 def traercampania(request,campania):
 
-		carteras = Campania.objects.filter(id=campania).values('id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name').order_by('-id')
+		camp = Campania.objects.filter(id=campania).values('id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name').order_by('-id')
 	
-		data_dict = ValuesQuerySetToDict(carteras)
+
+		fmt = '%Y-%m-%d %H:%M:%S %Z'
+
+		for i in range(len(camp)):
+
+			if Campania.objects.filter(id=camp[i]['id']):
+
+				camp[i]['fecha'] = Campania.objects.get(id=camp[i]['id']).fecha_cargada.strftime(fmt)
+		
+	
+		data_dict = ValuesQuerySetToDict(camp)
 
 		data = simplejson.dumps(data_dict)
 
@@ -4124,20 +4135,6 @@ def campanias(request):
 			data[i]['errados'] = AjxProLla.objects.filter(cam_codigo=data[i]['id'],llam_estado=2).count()
 
 
-			if AjxProLla.objects.filter(cam_codigo=data[i]['id']):
-
-				a = str(AjxProLla.objects.filter(cam_codigo=data[i]['id']).values('f_origen').order_by('-f_origen')[0]['f_origen'])[0:19]
-
-				b = str(datetime.now())[0:19]
-
-				a = datetime.strptime(a, "%Y-%m-%d %H:%M:%S")
-
-				b = datetime.strptime(b, "%Y-%m-%d %H:%M:%S")
-
-				horas = (b-a).total_seconds()/3600
-
-		
-
 			data[i]['filtro'] = '1'
 			data[i]['a'] = True
 			data[i]['b'] = False
@@ -4365,6 +4362,32 @@ def quitaragente(request):
 			Agentescampanias.objects.filter(agente=agente.id,campania=campania).delete()
 
 		return HttpResponse(agente.user.first_name, content_type="application/json")
+
+
+@login_required(login_url="/ingresar")
+def inactividadcampania(request):
+
+
+	c = Campania.objects.all()
+
+	for cam in c:
+
+		if AjxProLla.objects.filter(cam_codigo=cam.id):
+
+			a = str(AjxProLla.objects.filter(cam_codigo=cam.id).values('f_origen').order_by('-f_origen')[0]['f_origen'])[0:19]
+
+			b = str(datetime.now())[0:19]
+
+			a = datetime.strptime(a, "%Y-%m-%d %H:%M:%S")
+
+			b = datetime.strptime(b, "%Y-%m-%d %H:%M:%S")
+
+			horas = (b-a).total_seconds()/3600
+
+			cam.inactividad = horas
+			cam.save()
+
+	return HttpResponse('OK', content_type="application/json")
 
 
 @login_required(login_url="/ingresar")

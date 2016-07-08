@@ -75,6 +75,7 @@ urlpatterns = patterns('',
     url(r'^listanegra/$','PeruCall.views.listanegra'),
     url(r'^colas/(\d+)/$','PeruCall.views.colas'),
     url(r'^kpi/(\d+)/$','PeruCall.views.kpi'),
+    url(r'^inactividadcampania/$','PeruCall.views.inactividadcampania'),
 
     url(r'^calificaraudio/$','PeruCall.views.calificaraudio'),
     url(r'^agentescalifica/(\w+)/$','PeruCall.views.agentescalifica'),

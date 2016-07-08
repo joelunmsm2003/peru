@@ -501,6 +501,8 @@ class Campania(models.Model):
     cartera = models.ForeignKey('Cartera', db_column='cartera', blank=True, null=True)
     tgestion = models.IntegerField(blank=True, null=True)
     password = models.CharField(max_length=100, blank=True)
+    inactividad = models.IntegerField(blank=True, null=True)
+
 
     class Meta:
         managed = False

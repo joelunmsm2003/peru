@@ -33,6 +33,50 @@ function Controller($scope,$http,$cookies,$filter) {
     }
 
 
+
+
+      $scope.fecha = function(data) 
+
+    {
+
+        console.log(data)
+
+        var hoy = new Date().toJSON().slice(0,10);
+
+        console.log('jjjjj',hoy)
+
+
+        
+        
+        $http.get("/traercampania/"+data.campania).success(function(response) {
+
+
+        fecha = response[0]['fecha']
+
+        console.log(fecha)
+
+        fecha = fecha.slice(0,10)
+
+        $scope.model.fecha = fecha;
+
+        $scope.model.fechafin = hoy;
+
+
+
+
+
+        });
+
+
+
+
+        
+
+
+
+    }
+
+
     
     $scope.btnpregunta = 'True'
 

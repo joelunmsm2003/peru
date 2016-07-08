@@ -344,6 +344,49 @@ $('.container').fadeToggle("slow")
     }
 
 
+      $scope.fecha = function(data) 
+
+    {
+
+        console.log(data)
+
+        var hoy = new Date().toJSON().slice(0,10);
+
+        console.log('jjjjj',hoy)
+
+
+        
+        
+        $http.get("/traercampania/"+data.campania).success(function(response) {
+
+
+        fecha = response[0]['fecha']
+
+        console.log(fecha)
+
+        fecha = fecha.slice(0,10)
+
+        $scope.model.inicio = fecha;
+
+        $scope.model.fin = hoy;
+
+
+
+
+
+        });
+
+
+
+
+        
+
+
+
+    }
+
+
+
 
     $scope.nivelcartera= 0
 
@@ -404,11 +447,19 @@ $('.container').fadeToggle("slow")
 
         console.log(data)
 
+
+
+
+
+
+
         if (data.inicio && data.fin){
-               data.inicio = data.inicio.replace("-", "")
-        data.fin = data.fin.replace("-", "")
-        data.inicio = data.inicio.replace("-", "")
-        data.fin = data.fin.replace("-", "")
+        
+
+            data.inicio = data.inicio.replace("-", "")
+            data.fin = data.fin.replace("-", "")
+            data.inicio = data.inicio.replace("-", "")
+            data.fin = data.fin.replace("-", "")
 
 
             
