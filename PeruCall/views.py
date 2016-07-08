@@ -92,8 +92,6 @@ def audios(request):
 	    telefono = data['telefono']
 	    mascara = data['mascara']
 
-    
-
 	    Empresa(mascaras_id=mascara,nombre=nombre,contacto=contacto,mail=mail,licencias=licencias,telefono=telefono,url=url).save()
 
 	    return HttpResponse(nombre, content_type="application/json")
@@ -1845,7 +1843,7 @@ def agregarfiltro(request):
 
 		total = "SELECT COUNT(*) FROM base where campania = "+campania +" and status_f in "+ status_f+" and status_h in "+ status_h +" and status_g in "+ status_g+" and ( resultadotxt='' OR resultadotxt in "+resultado+ " )"
 		
-		up = "UPDATE base set status = 0, proflag= NULL,proestado = NULL, filtrohdec=NULL where campania = "+campania +" and status_f in "+ status_f+" and status_h in "+ status_h +" and status_g in "+ status_g+" and (resultadotxt='' OR resultadotxt in "+resultado+" )"
+		up = "UPDATE base set bloqueocliente = 0, status = 0, proflag= NULL,proestado = NULL, filtrohdec=NULL where campania = "+campania +" and status_f in "+ status_f+" and status_h in "+ status_h +" and status_g in "+ status_g+" and (resultadotxt='' OR resultadotxt in "+resultado+" )"
 		
 		cur.execute(up)
 
@@ -4124,6 +4122,22 @@ def campanias(request):
 			data[i]['cargados'] = Base.objects.filter(campania_id=data[i]['id']).exclude(blacklist=1).count()
 			data[i]['barridos'] = Base.objects.filter(campania_id=data[i]['id'],proflag=1).exclude(blacklist=1).count()
 			data[i]['errados'] = AjxProLla.objects.filter(cam_codigo=data[i]['id'],llam_estado=2).count()
+
+
+			if AjxProLla.objects.filter(cam_codigo=data[i]['id']):
+
+				a = str(AjxProLla.objects.filter(cam_codigo=data[i]['id']).values('f_origen').order_by('-f_origen')[0]['f_origen'])[0:19]
+
+				b = str(datetime.now())[0:19]
+
+				a = datetime.strptime(a, "%Y-%m-%d %H:%M:%S")
+
+				b = datetime.strptime(b, "%Y-%m-%d %H:%M:%S")
+
+				horas = (b-a).total_seconds()/3600
+
+		
+
 			data[i]['filtro'] = '1'
 			data[i]['a'] = True
 			data[i]['b'] = False
@@ -4136,25 +4150,26 @@ def campanias(request):
 			#0 Iniciado
 			#1 Apagado
 
-
 			if activado > 0:
+
 				data[i]['estado'] = ''
 				data[i]['color'] = '#5C93B5'
 				data[i]['font'] = '#fff'
 
-			if apagado == total:
+			if data[i]['barridos'] == data[i]['cargados']:
 				data[i]['estado'] = ''
-				data[i]['color'] = '#fff'
+				data[i]['color'] = '#F58C48'
 				data[i]['font'] = '#000'
-
-			
 
 			if total == 0:
 				data[i]['estado'] = ''
 				data[i]['color'] = '#fff'
 				data[i]['font'] = '#000'
 
-			
+			if horas > 90:
+				data[i]['estado'] = ''
+				data[i]['color'] = '#999999'
+				data[i]['font'] = '#fff'
 
 			#Apagado = F58C48
 

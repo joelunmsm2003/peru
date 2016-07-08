@@ -202,14 +202,14 @@
 .legend { list-style: none; 
 padding-top: 0px;
 }
-.legend li { float: left; margin-right: 10px;   width: 82px;}
+.legend li { float: left; margin-right: 10px;   width: 74px;}
 .legend span { border: 1px solid #ccc; float: left; width: 12px; height: 12px; margin: 2px; }
 /* your colors */
 .legend .apagado { background-color: #E8E8E8; }
 .legend .activado { background-color: #3AAED8; }
 .legend .finalizado { background-color: #F58C48; }
 .legend .sinfiltros { background-color: #3EBE84; }
-
+.legend .sinuso { background-color: #999999; }
 
 
 
@@ -222,6 +222,7 @@ padding-top: 0px;
           <li><span class="apagado"></span> Apagado</li>
           <li><span class="activado"></span> Activado</li>
           <li><span class="finalizado"></span> Finalizado</li>
+          <li><span class="sinuso"></span> Sin Uso</li>
           
           <!--<li><span class="sinfiltros"></span> Sin Filtros</li>-->
         
@@ -427,9 +428,6 @@ padding-top: 0px;
 
           <form action="/uploadCampania/" method="post" id='upcampania' role="form" enctype="multipart/form-data">
 
-
-
-
           {% csrf_token %}
 
           <div class="col-md-12">
@@ -614,19 +612,12 @@ padding-top: 0px;
         </div>
         <div class="modal-body">
 
-
-      
-
-      
           <h4>Desea parar esta campaña</h4>
-
-
 
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
           <button class="btn btn-primary" type="submit" ng-click="parar(model)">Detener</button>
-  
           
         </div>
       </div>
@@ -698,16 +689,11 @@ padding-top: 0px;
                       </thead>
                        
                       <tr>
-                          
-                
-                  
+                         
                       <td>{[{model.ciudad}]}</td>
                       <td>{[{model.segmento}]}</td>
                       <td>{[{model.grupo}]}</td>
-                     
-                      
-                  
-
+                
                       </tr>
 
 
