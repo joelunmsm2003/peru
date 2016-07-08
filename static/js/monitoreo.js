@@ -769,8 +769,8 @@ function Controller($scope,$http,$cookies,$filter) {
 
     
     $('.monixxx').show()
-    $scope.bb = 'False'
-    $scope.bbi = 'True'
+    $scope.bb = 'True'
+    $scope.bbi = 'False'
     $scope.mon = function() 
 
     {
@@ -793,9 +793,9 @@ function Controller($scope,$http,$cookies,$filter) {
 
     };
 
-    $('.flex-item1').hide()
-    $scope.colai = 'False'
-    $scope.cola = 'True'
+    $('.flex-item1').show()
+    $scope.colai = 'True'
+    $scope.cola = 'False'
 
     $scope.consumo = function() 
 
