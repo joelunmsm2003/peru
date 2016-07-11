@@ -2932,24 +2932,6 @@ def listafiltros(request,id_campania):
 
 		totalx = to[0][0]
 
-		print 'Total......',totalx
-
-
-		resultado = filtro.resultado
-
-		resultado =  resultado.split('/')
-
-		status_f = filtro.status_f
-
-		status_f =  status_f.split('/')
-
-		status_h = filtro.status_h
-
-		status_h =  status_h.split('/')
-
-		status_g = filtro.status_g
-
-		status_g =  status_g.split('/')
 
 		data[i]['total'] = totalx 
 		data[i]['barrido'] = totalx-porbarrerx
@@ -3920,15 +3902,80 @@ def filtroscampania(request,campania):
 
 		status_g =  status_g.split('/')
 
-		resultadonullos = Base.objects.filter(resultado_id__isnull=True,campania_id=id_campania,status_f__in=status_f,status_g__in=status_g,status_h__in=status_h).count()
 
-		resultadototal = Base.objects.filter(resultado__name__in=resultado,campania_id=id_campania,status_f__in=status_f,status_g__in=status_g,status_h__in=status_h).count()+resultadonullos
+		f = len(status_f)
+		g = len(status_g)
+		h = len(status_h)
+		r = len(resultado)
 
-		resultadobarrido = Base.objects.filter(campania_id=id_campania,status_f__in=status_f,status_g__in=status_g,status_h__in=status_h,proflag=1,resultado__name__in=resultado).count()
+		sf = ''
+		sg = ''
+		sh = ''
+		sr = ''
 
-		filtros[i]['total'] = resultadototal 
+		for v in range(0,f):
 
-		filtros[i]['fonosporbarrer'] = resultadobarrido
+			sf = status_f[v]+"','"+sf 
+
+		for v in range(0,g):
+
+			sg = status_g[v]+"','"+sg 
+
+		for v in range(0,h):
+
+			sh = status_h[v]+"','"+sh 
+
+		for v in range(0,r):
+
+			if resultado[v]=='-':
+
+				resultado[v]="'''"
+
+
+			sr = resultado[v]+"','"+sr
+
+		status_f =  "("+sf[2:len(sf)-2]+")"
+		status_g =  "("+sg[2:len(sg)-2]+")"
+		status_h =  "("+sh[2:len(sh)-2]+")"
+		resultado =  "("+sr[2:len(sr)-2]+")"
+
+		if resultado == "()":
+
+			resultado="('')"
+
+
+		db = MySQLdb.connect(host="127.0.0.1",user="root",passwd="d4t4B4$3p3c4ll2016*",db="perucall") 
+
+		cur = db.cursor()
+
+		print id_campania,status_f,status_h,status_g,resultado
+
+		porbarrer = "SELECT COUNT(*) FROM base where (status='' or status=0) and campania ="+str(id_campania) +" and ProFlag is NULL and ProEstado is NULL and FiltroHdeC is NULL AND status_f in " + str(status_f)+" and status_h in "+str(status_h)+" and status_g in "+str(status_g)+" and (resultadotxt='' OR resultadotxt in "+str(resultado)+" )"
+
+		total = "SELECT COUNT(*) FROM base where campania = "+str(id_campania) +" and status_f in "+ str(status_f)+" and status_h in "+ str(status_h) +" and status_g in "+ str(status_g)+" and (resultadotxt='' OR resultadotxt in "+str(resultado)+" )"
+
+		print 'Por barrer',porbarrer
+		print 'Total',total
+
+		cur.execute(porbarrer)
+
+		y = cur.fetchall()
+
+		pb = [item for item in y]
+
+		porbarrerx = pb[0][0]
+
+		cur.execute(total)
+
+		y = cur.fetchall()
+
+		to = [item for item in y]
+
+		totalx = to[0][0]
+
+		filtros[i]['total'] = totalx  
+		filtros[i]['fonosporbarrer'] = totalx-porbarrerx
+
 
 
 	data_dict = ValuesQuerySetToDict(filtros)
@@ -3986,6 +4033,8 @@ def uploadCampania(request):
 		nivel = AuthUser.objects.get(id=id).nivel.id
 		empresa = AuthUser.objects.get(id=id).empresa
 		data = request.POST
+
+		print 'upload',data
 		canales = data['canales']
 		cartera = data['cartera']
 		inicio = data['inicio']
@@ -4147,9 +4196,6 @@ def campanias(request):
 			data[i]['cargados'] = Base.objects.filter(campania_id=data[i]['id']).exclude(blacklist=1).count()
 			data[i]['barridos'] = Base.objects.filter(campania_id=data[i]['id'],proflag=1).exclude(blacklist=1).count()
 			data[i]['errados'] = AjxProLla.objects.filter(cam_codigo=data[i]['id'],llam_estado=2).count()
-
-
-
 			data[i]['filtro'] = '1'
 			data[i]['a'] = True
 			data[i]['b'] = False
@@ -4172,15 +4218,15 @@ def campanias(request):
 			if activado > 0:
 
 				data[i]['estado'] = ''
-				data[i]['color'] = '#5C93B5'
+				data[i]['color'] = '#3C8BBB'
 				data[i]['font'] = '#fff'
 				act=act+1
 
 
 			if data[i]['barridos'] == data[i]['cargados']:
 				data[i]['estado'] = ''
-				data[i]['color'] = '#F58C48'
-				data[i]['font'] = '#000'
+				data[i]['color'] = '#ED7E35'
+				data[i]['font'] = '#fff'
 				barri=barri+1
 			
 
