@@ -346,9 +346,19 @@ function Controller($scope,$http,$cookies,$filter,$interval) {
                 total = response[key].total
                 fonosporbarrer = response[key].fonosporbarrer
 
+                $http.get("/header/"+campania_id).success(function(response) {
+
+                console.log('HEader...',response)
+                $scope.status_f_h = response[0]['statusf']
+                $scope.status_h_h = response[0]['statusg']
+                $scope.status_g_h= response[0]['statush']
+
+
+                })
+
                 if(key==0){
 
-                    $scope.clientes.push({fonosporbarrer:'Barrido',total:'Total',status_f:'Filtro 1',status_h:'Filtro 2',status_g:'Filtro 3',campania:campania_id,id:campania_id,filtro:'0',nombre:'Estado',estado:status,estadoname:'Estado',color:'gray',font:'#fff',id_filtro:100000000})
+                    $scope.clientes.push({fonosporbarrer:'Barrido',total:'Total',status_f:$scope.status_f_h,status_h:$scope.status_h_h,status_g:$scope.status_g_h,campania:campania_id,id:campania_id,filtro:'0',nombre:'Estado',estado:status,estadoname:'Estado',color:'gray',font:'#fff',id_filtro:100000000})
             
                 }
 
