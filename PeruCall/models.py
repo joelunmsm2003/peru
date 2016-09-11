@@ -298,7 +298,7 @@ class AjxProLla(models.Model):
     f_llam_discador = models.DateTimeField(blank=True, null=True)
     f_llam_resuelve = models.DateTimeField(blank=True, null=True)
     id_ori_campana = models.IntegerField(blank=True, null=True)
-    f_fingestion = models.DateTimeField(blank=True, null=True)
+    #f_fingestion = models.DateTimeField(blank=True, null=True)
     id_cliente = models.IntegerField(db_column='ID_Cliente', blank=True, null=True)  # Field name made lowercase.
     coderr = models.IntegerField(db_column='CodErr', blank=True, null=True)  # Field name made lowercase.
     coderr1 = models.IntegerField(db_column='CodErr1', blank=True, null=True)  # Field name made lowercase.
