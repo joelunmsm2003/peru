@@ -3403,12 +3403,12 @@ def botoneragraph(request,campania):
        '''
 
        contesta = AjxProLla.objects.filter(cam_codigo=campania,llam_estado=4).count()
+       abandonada = AjxProLla.objects.filter(cam_codigo=campania,llam_estado=4,age_codigo=999,flagfin=1 ).count()
        nocontesta = AjxProLla.objects.filter(cam_codigo=campania,llam_estado=3).count()
        buzon = AjxProLla.objects.filter(cam_codigo=campania,llam_estado=5).count()
        congestiondered = AjxProLla.objects.filter(cam_codigo=campania,llam_estado=2).count()
-       #asterisk = AjxProLla.objects.filter(cam_codigo=campania,llam_estado__in=[2,3,5]).count()
        pendiente = Base.objects.filter(campania_id=campania).count()-Base.objects.filter(campania_id=campania,proflag=1).count()
-       
+
        if int(total) == 0:
 
        		total = 0.0001
@@ -3419,7 +3419,6 @@ def botoneragraph(request,campania):
                data = {
 
                		 'total':total,
-               		 
                		 #'fallecido':fallecido,
                		 #'consultatramite':consultatramite,
                		 #'contactosinpromesa':contactosinpromesa,
@@ -3751,17 +3750,8 @@ def colas(request,campania):
 
 	f = datetime.now().date()
 
-	data = AjxProLla.objects.filter(id_ori_seg_cola=campania,f_origen__gte=f).values('age_ip','llam_numero','llam_estado','age_codigo','flagfin').order_by('-id_ori_llamadas')[:30]
+	data = AjxProLla.objects.filter(id_ori_seg_cola=campania,f_origen__gte=f).values('age_ip','llam_numero','llam_estado','age_codigo','flagfin').order_by('-id_ori_llamadas')[:25]
 
-	'''
-
-	for i in range(len(data)):
-
-		data[i]['dni'] = Base.objects.filter(campania=campania,telefono=data[i]['llam_numero']).values('id_cliente')[0]['id_cliente']
-
-		data[i]['orden'] = Base.objects.filter(campania=campania,telefono=data[i]['llam_numero']).values('orden')[0]['orden']
-
-	'''
 
 	data_dict = ValuesQuerySetToDict(data)
 

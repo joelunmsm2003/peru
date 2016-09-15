@@ -267,7 +267,7 @@ padding-top: 8px;
                   <td style="text-align:center; font-size:10px;" ng-if='contact.llam_estado==1'> Llamando</td>
                   <td style="text-align:center; font-size:10px;" ng-if='contact.llam_estado==2'> Ocupado</td>
                   <td style="text-align:center; font-size:10px;" ng-if='contact.llam_estado==3'> No Contesta</td>
-                  <td style="text-align:center; font-size:10px;" ng-if='contact.llam_estado==4'> Contesto</td>
+                  <td style="text-align:center; font-size:10px;" ng-if=" contact.age_codigo!=999 && contact.llam_estado==4 "> Contesto</td>
                   <td style="text-align:center; font-size:10px;" ng-if='contact.llam_estado==5'> Buzon</td>
                   <td style="text-align:center; font-size:10px;" ng-if=" contact.age_codigo==999 && contact.llam_estado==4 && contact.flagfin==1 " > Abandonada</td>
 

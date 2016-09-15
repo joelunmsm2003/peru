@@ -254,8 +254,6 @@ $(function () {
 });
 
 
-
-
 $(function () {
     $('#pie3D').highcharts({
         chart: {
@@ -274,18 +272,16 @@ $(function () {
 
                                 $.getJSON("/botoneragraph/"+campania, function (response) {
 
-                     
                                     nocontesta = response['No Contesta']
                                     buzon = response['Buzon']
-                                    error = response['Congestion de Red']
+                                    congestiondered = response['Error']
                                     contesta = response['Contesta']
-
+                                    abandonada = response['Abandonada']
                                     serie3.data[0].update(nocontesta);
                                     serie3.data[1].update(buzon);
-                                    serie3.data[2].update(error);
+                                    serie3.data[2].update(congestiondered);
                                     serie3.data[3].update(contesta);
-                                                       
-                           
+                                    serie3.data[4].update(abandonada);
                                 });
 
                             }
@@ -293,7 +289,6 @@ $(function () {
 
                         setInterval(function(){updateChartpie()},10000);
 
-                       
 
                             }
                         }
@@ -320,13 +315,11 @@ $(function () {
             name: 'Cantidad',
             data: [
 
-
                 ['No Contesta', 45.0],
                 ['Buzon', 26.8],
-             
                 ['Error', 8.5],
-                ['Contesta', 6.2]
-               
+                ['Contesta', 6.2],
+                ['Abandonada',3.9]
             ]
         }]
     });
