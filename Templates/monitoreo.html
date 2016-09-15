@@ -62,9 +62,9 @@ jQuery(document).ready(function($) {
     <div class='row'>
       <div class="col-sm-2"><h4><i style="color:#BF3737;" class="fa fa-desktop"></i> <span style="color:#BF3737;">MONITOREO</span></h4>
       </div>
-      <div class="col-sm-4"><h4><i class="fa fa-cube"></i>  CAMPAÑA: {[{campana}]} </h4>
+      <div class="col-sm-4"><h4><i class="fa fa-cube"></i><font size="3"> <span style="color:#BF3737;"> CAMPAÑA</span></font><br> {[{campana}]} </h4>
       </div>
-      <div class="col-sm-2"><h4><i class="fa fa-building-o"></i>  CARTERA:  {[{cartera}]} </h4>
+      <div class="col-sm-2"><h4><i class="fa fa-building-o"></i><font size="3"> <span style="color:#BF3737;"> CARTERA</span></font><br>  {[{cartera}]} </h4>
       </div>
 
      <div class="col-sm-4">
@@ -184,14 +184,11 @@ padding-top: 8px;
                   <th style="text-align:center; ">Evaluacion</th>
                   <th style="text-align:center; ">Escucha</th>
                   <th style="text-align:center; ">Susurro</th>
-                 
-                 
                 </tr>
               </thead>
               <tbody>
                 <tr  ng-repeat="contact in agentes " class='active' ts-repeat>
 
-                  
                   <td>{[{contact.agente}]}</td>
                   <td>{[{contact.agente__user__first_name}]}</td>
                   <td>{[{contact.agente__anexo}]}</td>
@@ -219,11 +216,9 @@ padding-top: 8px;
                   </td>
 
                   <td> {[{contact.fono}]}</td>
-                    
 
                     <td><a  ng-click="evaluar(contact,$index)" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#notificacion"><i class="fa fa-rocket"></i></a></td>
                     <td>
-                    
                     <a ng-if="contact.agente__estado == '3'"  ng-click="evaluar(contact,$index)" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#eliminar"><i class="fa fa-check"></i></a></td>
 
                     <td>
@@ -244,11 +239,6 @@ padding-top: 8px;
 
                     </td>
 
-                    
-
-                    
-            
-
 
                 </tr>
               </tbody>
@@ -261,44 +251,34 @@ padding-top: 8px;
                 <table class="table table-hover">
               <thead>
                 <tr>
-                 
+
                   <th style="text-align:center;  ">Origen</th>
                   <th style="text-align:center; ">Destino</th>
-                
-      
                     <th style="text-align:center;">Estado</th>
-               
-                 
                 </tr>
               </thead>
+
               <tbody>
                 <tr  ng-repeat="contact in colas " class='active' ts-repeat>
 
-                  
                   <td style="text-align:center; font-size:11px;" >{[{contact.age_ip}]}</td>
                   <td style="text-align:center; font-size:11px;"> {[{contact.llam_numero}]}</td>
-                  
-
                   <td style="text-align:center; font-size:10px;" ng-if='contact.llam_estado==0'> Procesando</td>
                   <td style="text-align:center; font-size:10px;" ng-if='contact.llam_estado==1'> Llamando</td>
                   <td style="text-align:center; font-size:10px;" ng-if='contact.llam_estado==2'> Ocupado</td>
                   <td style="text-align:center; font-size:10px;" ng-if='contact.llam_estado==3'> No Contesta</td>
                   <td style="text-align:center; font-size:10px;" ng-if='contact.llam_estado==4'> Contesto</td>
                   <td style="text-align:center; font-size:10px;" ng-if='contact.llam_estado==5'> Buzon</td>
-                    
+                  <td style="text-align:center; font-size:10px;" ng-if=" contact.age_codigo==999 && contact.llam_estado==4 && contact.flagfin==1 " > Abandonada</td>
 
 
                 </tr>
               </tbody>
             </table>
-                  
-
 
                 </div>
 
-
             </div>
-
 
 
             <style> 
@@ -307,38 +287,25 @@ padding-top: 8px;
                 display: flex;
                 width: 100%;
                 z-index: 100000;
-               
-              
-               
+
             }
 
             .flex-item {
-                
                 width: 80%;
                 transition: opacity 2s;
-               
-                
             }
 
             .flex-item-1 {
-                
                 width: 20%;
                 transition: opacity 2s;
-           
-              
             }
             </style>
 
 
 
 
-
-
-            
-
 <!--Graficas de Monitoreo-->
 
- 
 
 <div class ='row monixxx animated bounceInLeft'>
 
