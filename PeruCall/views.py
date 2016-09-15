@@ -2187,8 +2187,8 @@ def lanzallamada(request,id_agente,id_base,id_cliente):
 		agente = Agentes.objects.get(id=id_agente)
 		mascara = agente.user.empresa.mascaras.tipo
 		user = agente.user.username
-		agente.estado_id = 3
-		agente.est_ag_predictivo = 0
+		if int(agente.estado_id) == 2:
+			agente.estado_id = 3
 		agente.tiniciollamada = datetime.now()-timedelta(hours=5)
 		agente.save()
 
@@ -2222,8 +2222,6 @@ def lanzallamada(request,id_agente,id_base,id_cliente):
 def finllamada(request,id_agente):
 
 		agente = Agentes.objects.get(id=id_agente)
-
-
 		user = agente.user.username
 		agente.est_ag_predictivo = 0
 
@@ -3634,6 +3632,8 @@ def generacsv(request,cartera,campania,inicio,fin,telefono,cliente):
 				fmt = '%M:%S'
 
 				duracion = str(fin-inicio)[2:8]
+		
+		agente = ' '
 		
 		if mascara == 'Externa':
 
