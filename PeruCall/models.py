@@ -502,7 +502,7 @@ class Campania(models.Model):
     tgestion = models.IntegerField(blank=True, null=True)
     password = models.CharField(max_length=100, blank=True)
     inactividad = models.IntegerField(blank=True, null=True)
-
+    acd = models.IntegerField(db_column='ACD',blank=True, null=True)   # Field name made lowercase
 
     class Meta:
         managed = False
@@ -659,7 +659,8 @@ class Filtro(models.Model):
     resultado = models.CharField(max_length=1000, blank=True)
     status = models.IntegerField(blank=True, null=True)
     orden = models.IntegerField(blank=True, null=True)
-
+    acd = models.IntegerField(db_column='ACD',blank=True, null=True)   # Field name made lowercase.
+    
     class Meta:
         managed = False
         db_table = 'filtro'

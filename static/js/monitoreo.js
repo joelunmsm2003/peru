@@ -413,9 +413,12 @@ function Controller($scope,$http,$cookies,$filter) {
     $http.get("/botoneragraph/"+campania).success(function(response) {
 
         $scope.pendiente = response['Pendiente']
+        $scope.acd = response['ACD']
         $scope.total2 = response['total']
         $scope.procesado = parseInt($scope.total2) - parseInt($scope.pendiente)
-
+	console.log('ACD 1',$scope.acd)
+	console.log('Pendiente 1',$scope.pendiente)
+	
     });
 
 
@@ -431,9 +434,12 @@ function Controller($scope,$http,$cookies,$filter) {
        $http.get("/botoneragraph/"+campania).success(function(response) {
 
         $scope.pendiente = response['Pendiente']
+        $scope.acd = response['ACD']        
         $scope.total2 = response['total']
         $scope.procesado = parseInt($scope.total2) - parseInt($scope.pendiente)
-
+	console.log('ACD 2',$scope.acd)
+	console.log('Pendiente 2',$scope.pendiente)
+	
     });
 
 

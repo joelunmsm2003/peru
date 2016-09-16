@@ -3407,7 +3407,13 @@ def botoneragraph(request,campania):
        nocontesta = AjxProLla.objects.filter(cam_codigo=campania,llam_estado=3).count()
        buzon = AjxProLla.objects.filter(cam_codigo=campania,llam_estado=5).count()
        congestiondered = AjxProLla.objects.filter(cam_codigo=campania,llam_estado=2).count()
+       acd = Filtro.objects.filter(campania_id=campania).count()
+       ptmr = Filtro.objects.filter(campania_id=campania).values('acd')
+       #p1 = ptmr[8:-3]
        pendiente = Base.objects.filter(campania_id=campania).count()-Base.objects.filter(campania_id=campania,proflag=1).count()
+
+       print 'ACD CTMRRRRRRRRRRRRR ...........',ptmr
+       #print 'ACD split 1 ...........',p1
 
        if int(total) == 0:
 
@@ -3439,9 +3445,10 @@ def botoneragraph(request,campania):
        				 'No Contesta':nocontesta,
        				 'Contesta':contesta,
                      'Buzon':buzon,
+                     'Pendiente':pendiente,
+                     'ACD':acd
                      #'Congestion de Red':congestiondered,
-                     #'Asterisk':asterisk,
-                     'Pendiente':pendiente
+                     #'Asterisk':asterisk,                     
                      #'pPromesa':promesa*100/total,
                      #'pDirecto':contactodirecto*100/total,
                      #'pIndirecto':contactoindirecto*100/total,
