@@ -3965,17 +3965,17 @@ def uploadCampania(request):
 		nombre = data['nombre']
 		timbrados = data['timbrados']
 		llamadaxhora = data['timbrados']
-		hombreobjetivo = data['hombreobjetivo']
-		mxllamada = data['mxllamada']
+#		hombreobjetivo = data['hombreobjetivo']
+#		mxllamada = data['mxllamada']
 		supervisor = data['supervisor']
-		tgestion = data['tgestion']
+#		tgestion = data['tgestion']
 		now = datetime.now()
 		archivo =  request.FILES['process_file']
 		password = data['password']
 		discado = data['discado']
 		factor = data['factor']
 
-		Campania(password=password,discado=discado,factor=factor,tgestion=tgestion,cartera_id=cartera,supervisor_id=supervisor,usuario_id=id,fecha_cargada= now,archivo = archivo,canales=canales,htinicio=inicio,htfin=fin,nombre=nombre,timbrados=timbrados,llamadaxhora=llamadaxhora,hombreobjetivo=hombreobjetivo,mxllamada=mxllamada).save()
+		Campania(password=password,discado=discado,factor=factor,cartera_id=cartera,supervisor_id=supervisor,usuario_id=id,fecha_cargada= now,archivo = archivo,canales=canales,htinicio=inicio,htfin=fin,nombre=nombre,timbrados=timbrados,llamadaxhora=llamadaxhora).save()
 
 		id_campania = Campania.objects.all().values('id').order_by('-id')[0]['id']
 
