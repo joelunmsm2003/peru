@@ -587,6 +587,7 @@ def activarcampania(request,campania):
 	for f in filtros:
 
 		f.status = 0
+		f.acd = 0
 		f.save()
 
 	return HttpResponse('campania stop', content_type="application/json")
@@ -715,7 +716,7 @@ def uploaduser(request):
 	
 	return HttpResponseRedirect("/usuario")
 
-
+'''
 @login_required(login_url="/ingresar")
 def kpi(request,agente):
 
@@ -808,7 +809,7 @@ def kpi(request,agente):
 	data = simplejson.dumps(data)
 
 	return HttpResponse(data, content_type="application/json")
-
+'''
 
 
 @login_required(login_url="/ingresar")
@@ -1264,8 +1265,6 @@ def botonexterno(request):
 
 			data = json.loads(request.body)
 
-			#{u'agente': u'14', u'done': False, u'boton': 18, u'cliente': {u'status': u'1', u'orden': None, u'resultado': 5, u'status_d': None, u'campania__nombre': u'Pastillas LSD', u'status_h': u'SCORE C', u'status_g': u'NUEVO', u'status_f': u'LIMA', u'id_cliente': None, u'resultado__name': u'Acuerdo con fecha de pago', u'status_c': None, u'status_b': None, u'status_a': None, u'id': 2, u'status_e': None, u'tiniciollamada': u'2016-04-13 23:34:34 UTC', u'telefono': None, u'cliente': None}}
-
 			resultado = data['boton']
 			base = data['cliente']['id']
 			agente = data['agente']
@@ -1276,8 +1275,6 @@ def botonexterno(request):
 			rbase.save()
 
 			age = Agentes.objects.get(id=agente)
-
-			
 
 			if age.checabreak:
 
@@ -1300,11 +1297,7 @@ def botonexterno(request):
 					age.estado_id = 9
 					age.save()
 
-
-
 			resultado_name = Resultado.objects.get(id=resultado).name
-
-		
 
 			b = Base.objects.get(id=base)
 			b.status = 0
@@ -1324,8 +1317,6 @@ def botonexterno(request):
 				f.close()
 
 				Base.objects.filter(id_cliente=cli).update(bloqueocliente=0)
-
-				#os.system("python pulga.py "+ str(cli))
 
 
 		data_dict = ValuesQuerySetToDict('data')
@@ -2088,44 +2079,11 @@ def agente(request,id_agente):
 
 	data = Agentes.objects.filter(id=id_agente).values('id','user__empresa_id','user__anexo','fono','atendidas','contactadas','estado__nombre','user__first_name','supervisor','calificacion','user__empresa__mascaras__tipo','user__empresa__url').order_by('-id')
 
-	#for i in range(len(data)):
-
-		#data[i]['media'] = data[i]['contactadas']*100/data[i]['atendidas']
-
 	data_dict = ValuesQuerySetToDict(data)
 
 	data = simplejson.dumps(data_dict)
 
-	'''
-	AjxProLla.objects.filter(age_codigo=id_agente).count()
-
-	t = datetime.strftime(datetime.now(), '%Y-%m-%d')
-
-	xx = AjxProLla.objects.filter(age_codigo=id_agente,llam_estado=4)
-
-	c = 0
-
-	for x in xx:
-
-		if str(t) == str(x.f_origen)[0:10]:
-
-			c=c+1
-
-	#atendidas = c
-	'''
-
 	atendidas = 1
-	'''
-	
-
-	acuerdos = Base.objects.filter(agente_id=id_agente,resultado_id__in=[15,5]).count()
-
-	if atendidas == 0:
-		media = 0
-	else:
-		media=float(acuerdos)*100/float(atendidas)
-		media = round(media,2)
-	'''
 	acuerdos = 1
 	media = 1
 	
@@ -2135,7 +2093,7 @@ def agente(request,id_agente):
 
 	return HttpResponse(data, content_type="application/json")
 
-
+'''
 @login_required(login_url="/ingresar")
 def agenteparametros(request,id_agente):
 
@@ -2180,7 +2138,7 @@ def agenteparametros(request,id_agente):
 	data = simplejson.dumps(data)
 
 	return HttpResponse(data, content_type="application/json")
-
+'''
 
 def lanzallamada(request,id_agente,id_base,id_cliente):
 
@@ -2272,10 +2230,9 @@ def cliente(request,id_agente):
 
 		return HttpResponse(data, content_type="application/json")
 
-
+'''
 @login_required(login_url="/ingresar")
 def atendida(request,id_agente):
-		
 
 		today = datetime.now()
 
@@ -2285,21 +2242,17 @@ def atendida(request,id_agente):
 
 		ajax = AjxProLla.objects.filter(age_codigo=id_agente).order_by('-id_ori_llamadas')
 
-		
-
 		t=0
 
 		for i in ajax:
 
 			if str(i.f_origen).split(" ")[0] == today:
 
-				
-
 				t = t + i.duration 
-
 
 		return HttpResponse(t, content_type="application/json")
 
+'''
 
 @login_required(login_url="/ingresar")
 def desfase(request,id_agente):
@@ -2528,8 +2481,6 @@ def reportecsv(request,cartera,campania):
 	response['Content-Disposition'] = 'attachment; filename="RG_'+str(ncartera)+'_'+str(ncampania)+'_'+str(fecha)[0:19]+'.csv'
 
 	writer = csv.writer(response)
-
-	#resultado = Base.objects.filter(campania_id=campania).values('resultado').order_by('-resultado').annotate(total=Count('resultado'))[0]['resultado']
 
 	base = Base.objects.filter(campania_id=campania).order_by('-id_cliente')
 
@@ -2935,8 +2886,6 @@ def listafiltros(request,id_campania):
 		data[i]['barrido'] = totalx-porbarrerx
 
 
-		#data[i]['fonosinexito'] = fonosinexito
-
 	data_dict = ValuesQuerySetToDict(data)
 
 	data = simplejson.dumps(data_dict)
@@ -2957,20 +2906,18 @@ def activafiltro(request,id_filtro,id_campania):
 	for i in range(len(data)):
 
 
-
-
-
 		filtro = Filtro.objects.get(id=data[i]['id'])
 
 		os.environ['body']='PeruCall Se activo filtro'
 
-		os.environ['title']='http://10.13.50.50/filtros/'+str(id_filtro)
+		os.environ['title']='http://localhost/filtros/'+str(id_filtro)
 
 		os.system('./b.sh')
 
 	
 		filtro.status = 0
-		filtro.save() 
+		filtro.acd = 0
+		filtro.save()
 
 		resultado = filtro.resultado
 
@@ -2989,23 +2936,12 @@ def activafiltro(request,id_filtro,id_campania):
 		status_g =  status_g.split('/')
 
 
-		#base = Base.objects.filter(campania_id=id_campania,resultado__name__in=resultado,status_f__in=status_f,status_g__in=status_g,status_h__in=status_h)
-
-		'''
-
-		for base in base:
-
-			base.status = 1
-			base.save()
-
-		'''
-
-
 	data_dict = ValuesQuerySetToDict(data)
 
 	data = simplejson.dumps(data_dict)
 
 	return HttpResponse(data, content_type="application/json")
+
 
 @login_required(login_url="/ingresar")
 def desactivafiltro(request,id_filtro,id_campania):
@@ -3015,12 +2951,9 @@ def desactivafiltro(request,id_filtro,id_campania):
 
 	for i in range(len(data)):
 
-
-
 		filtro = Filtro.objects.get(id=data[i]['id'])
-
 		filtro.status = 1
-		filtro.save() 
+		filtro.save()
 
 		resultado = filtro.resultado
 
@@ -3408,12 +3341,11 @@ def botoneragraph(request,campania):
        buzon = AjxProLla.objects.filter(cam_codigo=campania,llam_estado=5).count()
        congestiondered = AjxProLla.objects.filter(cam_codigo=campania,llam_estado=2).count()
        acd = Filtro.objects.filter(campania_id=campania).count()
-       ptmr = Filtro.objects.filter(campania_id=campania).values('acd')
-       #p1 = ptmr[8:-3]
        pendiente = Base.objects.filter(campania_id=campania).count()-Base.objects.filter(campania_id=campania,proflag=1).count()
 
-       print 'ACD CTMRRRRRRRRRRRRR ...........',ptmr
-       #print 'ACD split 1 ...........',p1
+       # SELECT acd FROM filtro WHERE (campania_id=campania) = ACD
+       
+       print 'ACD CTMRRRRRRRRRRRRR ...........',acd
 
        if int(total) == 0:
 
@@ -3509,12 +3441,6 @@ def busqueda(request):
 
 				filtro['cliente']  = data['cliente']
 
-	
-
-	#base = Base.objects.filter(**filtro)
-
-
-	
 	return 'response'
 
 

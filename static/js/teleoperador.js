@@ -7,8 +7,6 @@ $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
 
 
 
-    /////
-
 
 function Controller($scope,$http,$cookies,$filter,$interval,$location) {
 
@@ -21,7 +19,6 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
 
         $scope.datoagente =data[0]
 
-                    //$('.container-full').fadeToggle("slow")
             $('.c4').fadeToggle("slow")
             $('.c2').fadeToggle("slow")
             $('.c3').fadeToggle("slow")
@@ -42,44 +39,24 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
 
         xxx = data[0].estado__nombre
 
-      
-
         if (xxx!='En Llamada'){
 
             $scope.datoagente =data[0]
-           
+
         }
 
-        
 
         });
 
     }
 
 
-
-         $http.get("/agenteparametros/"+agente).success(function(response) {$scope.agenteparametros = response;
-
-            console.log('agenteparametros',$scope.agenteparametros)
-            $scope.atendidas = $scope.agenteparametros.atendidas
-
-            $scope.acuerdos = $scope.agenteparametros.acuerdos
-
-
-        });
-
-
-
- 
-
-
-
       $interval(xx, 1000);
 
-    
     $http.get("/resultadototal").success(function(response) {$scope.resultado = response;
-              
+
     });
+
     $http.get("/empresas").success(function(response) {$scope.empresas = response[0];
    
     });
@@ -125,19 +102,6 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
         $scope.last_login = $scope.user.last_login
 
     });
-    /*
-
-    $http.get("/atendida/"+agente).success(function(response) {$scope.atendida = response;
-       
-        $scope.fechaa = new Date($scope.atendida)
-        $scope.atendida = $scope.fechaa.getSeconds()
-        $scope.at =formatSeconds($scope.atendida)
-
-        console.log('fecha',$scope.at)
-
-    });
-
-*/
 
 
     $http.get("/tgestion/"+agente).success(function(response) {
@@ -163,26 +127,6 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
 
         });
 
-        $http.get("/atendida/"+agente).success(function(response) {
-
-        $scope.atendida = response;
-       
-        $scope.at =formatSeconds($scope.atendida)
-
-        console.log('fecha',$scope.atendida)
-
-        });
-
-
-        $http.get("/kpi/"+agente).success(function(response) {
-
-        $scope.kpi = response;
-        console.log('kpi',response.kpicolor)
-        $scope.kpib = response.kpicolor
-        $scope.kpic = response.kpic
-
-        });
-         
 
         $http.get("/cliente/"+agente).success(function(response) {
 
@@ -238,8 +182,6 @@ function Controller($scope,$http,$cookies,$filter,$interval,$location) {
 
         d2 = new Date($scope.tgestion)  
 
-        $scope.desfase = $scope.conectado-$scope.atendida
-        $scope.des = formatSeconds($scope.desfase)
         $scope.diff = Math.abs(d1-d2);  
 
         $scope.conectado = parseInt(Math.abs(d1-login)/1000)

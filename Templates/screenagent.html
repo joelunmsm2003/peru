@@ -1,32 +1,20 @@
+
 <!DOCTYPE html>
 <html ng-app="App" ng-controller="Controller">
 <head>
   <title> {[{datoagente.estado__nombre}]} </title>
 
-
-
-
   <script src="/static/js/angular.js"></script>
   <script src="/static/js/angular-cookie.js"></script>
-
-
-  
   <script type="text/javascript" src ="/static/js/jquery-2.1.1.min.js"></script>
    <script src="/static/js/sweetalert.js"></script>
-
 
   <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
   <link href="/static/css/sweetalert.css" rel="stylesheet">
    <link rel="stylesheet" href="/static/css/bootstrap.css" >
 
-
-
-
-
  <script type="text/javascript" src="/static/js/ws4redis.js"></script>
-
   <link rel="stylesheet" type="text/css" href="/static/css/style.css">
-
 
   <script src="/static/js/teleoperador.js"></script>
   <style type="text/css">
@@ -37,7 +25,6 @@
 
     }
   </style>
-
 
 </head>
 <body class="container-full" >
@@ -54,9 +41,6 @@
 
     function receiveMessage(msg) {
 
-
-
-
         console.log(msg)
 
         resp = msg.slice(0,4)
@@ -64,11 +48,8 @@
         console.log('respuesta',resp)
 
          if(resp == 'Noti'){
- 
             console.log('Entro...')
-                
             swal({ title:  msg.slice(4,100),   type: "success",   confirmButtonColor: "#B71C1C",   confirmButtonText: "Cerrar",   }, function(){ });
-        
         }
 
         if(msg=='llamada'){
@@ -80,17 +61,13 @@
           //console.log('Llamada')
         }
 
-       
         if(resp=='Cali'){
 
            swal({   title: "Calificacion",   text: msg ,   type: "success",   confirmButtonColor: "#B71C1C",   confirmButtonText: "OK",   }, function(){   });
-  
         }
 
-        
     }
 
-  
 
 </script>
 
@@ -101,8 +78,6 @@
 <!--Primer  Panel-->
 
             <div class='row animate'>
-
-           
 
             <div class="col-md-12 ">
 
@@ -115,7 +90,6 @@
                 <div class='row panel-body camp animated bounceIn'>
                 <div class="col-md-12">
                 <div class='row'>
-                
                 <div class="col-md-12"><center><i class="fa fa-bullhorn" aria-hidden="true"></i></center>
                 </div>
                 </div>
@@ -124,7 +98,6 @@
                 </div>
                 <div class="col-md-12">
                 <div class='row'>
-         
                 <div class="col-md-12"><center>{[{cliente.campania__cartera__nombre}]}</center>
                 </div>
                 </div>
@@ -133,7 +106,6 @@
                 </div>
                 <div class="col-md-12">
                 <div class='row'>
-         
                 <div class="col-md-12"><center>{[{cliente.campania__nombre}]} {{dni}}</center>
                 </div>
                 </div>
@@ -141,11 +113,6 @@
 
                 </div>
 
-                
-
-                
-
-                
                 </div>
                 </div>
 
@@ -331,11 +298,7 @@
       <div class='row'>
       <div class="col-md-8"> <i class="fa fa-lightbulb-o" aria-hidden="true"></i> Media  <span ng-if="datoagente.estado__nombre == 'En Llamada' || datoagente.estado__nombre == 'En gestion' "> ({[{cliente.campania__mxllamada}]}') </span>
 
-      
       </div>
-
-      
-      
 
       <div class="col-md-4">{[{kpi.kpi}]}%  
       </div>
@@ -354,16 +317,6 @@
       </div>
 
       </div>
-
-      <!--
-
-      <div class="col-md-12">
-
-      <a class="btn btn-primary" ng-if="datoagente.estado__nombre == 'En Llamada'" href="/pausa/{[{datoagente.id}]}"><i class="fa fa-pause"></i> Pausa</a>
-
-      <a class="btn btn-primary" ng-if="datoagente.estado__nombre == 'En Pausa' || datoagente.estado__nombre == 'En Espera' " href="/play/{[{datoagente.id}]}"><i class="fa fa-play"></i> Play </a>
-
-      </div>   -->
 
 
       </div>
@@ -490,10 +443,6 @@
 
       </div>
 
-
- 
-
-
 <!--Cuerpo!-->
 
 <!--En Espera-->
@@ -501,17 +450,17 @@
 
   <div class=' row  ' ng-if="datoagente.estado__nombre == 'En Espera'">
 
-  <center class=''><iframe src="http://xiencias.com/2048/" width="1200" height="1500" frameborder="NO"></iframe></center>
+  <center class=''><iframe src="http://201.234.57.152:2081/2048/" width="1200" height="1500" frameborder="NO"></iframe></center>
 
   </div>
 
     <div class='row ' ng-if="datoagente.estado__nombre == 'Servicios'">
 
-     <center><span class='espere' ng-show='rosa'> Porfavor espere {[{datatime}]} seg </span></center><br>
+     <center><span class='espere' ng-show='rosa'> Por favor espere {[{datatime}]} seg </span></center><br>
 
    <center><h4>
 
-<img src="https://image.freepik.com/vector-gratis/resto-simbolos-sala-de-vector-y-el-icono_62147505416.jpg" height="500px">
+<img src="/static/img/servicios.jpg" height="500px">
   </h4></center>
 
   
@@ -519,34 +468,26 @@
 
    <div class='row ' ng-if="datoagente.estado__nombre == 'Break'">
 
-    <center><span class='espere' ng-show='rosa'> Porfavor espere {[{datatime}]} seg </span></center><br>
+    <center><span class='espere' ng-show='rosa'> Por favor espere {[{datatime}]} seg </span></center><br>
 
   <center><h4>
-<img src="http://www.current-observations.com/currentobs/wp-content/uploads/2013/11/44-a-break.gif" height="500px">
+<img src="/static/img/break.png" height="500px">
   </h4></center>
 
   </div>
 
 
- 
-
-
   <div class='row ' ng-if="datoagente.estado__nombre == 'En Pausa'">
 
- <center><span class='espere' ng-show='rosa'> Porfavor espere {[{datatime}]} seg </span></center><br>
-  <center><img src="https://assets.entrepreneur.com/content/16x9/822/pausa.jpg"></center>
+ <center><span class='espere' ng-show='rosa'> Por favor espere {[{datatime}]} seg </span></center><br>
+  <center><img src="/static/img/pausa.jpg"></center>
 
   </div>
 
-  
 
 <div class='row ' ng-if="datoagente.estado__nombre == 'En Llamada' || datoagente.estado__nombre == 'En gestion' ">
 
-
       <div ng-if="datoagente.user__empresa__mascaras__tipo == 'Interna'">
-
-      <!--Acuerdos Botonera-->
-
 
                 <div class="col-md-2 col-sm-2">
 
