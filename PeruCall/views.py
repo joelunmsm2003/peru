@@ -518,7 +518,6 @@ def getaudios(request):
 
 				filtro['f_origen__lte']  = data['fechafin']
 
-
 		filtro['llam_estado'] = 4
 
 		data = AjxProLla.objects.filter(**filtro).values('duration','id_ori_llamadas','anexo','llam_numero','cam_codigo','age_codigo','llam_estado').order_by('-id_ori_llamadas')
@@ -3335,6 +3334,12 @@ def botoneragraph(request,campania):
        sivivelabora =  Base.objects.filter(resultado_id=12,campania_id=campania).count()
        '''
 
+       #db = MySQLdb.connect(host="127.0.0.1",user="root",passwd="d4t4B4$3p3c4ll2016*",db="perucall")
+       #cur = db.cursor()
+       #total = "SELECT ACD FROM filtro where campania = "+campania +" "
+       #cur.execute(total)
+       #print 'SELECTTTTTTTT',total
+
        contesta = AjxProLla.objects.filter(cam_codigo=campania,llam_estado=4).count()
        abandonada = AjxProLla.objects.filter(cam_codigo=campania,llam_estado=4,age_codigo=999,flagfin=1 ).count()
        nocontesta = AjxProLla.objects.filter(cam_codigo=campania,llam_estado=3).count()
@@ -3344,7 +3349,7 @@ def botoneragraph(request,campania):
        pendiente = Base.objects.filter(campania_id=campania).count()-Base.objects.filter(campania_id=campania,proflag=1).count()
 
        # SELECT acd FROM filtro WHERE (campania_id=campania) = ACD
-       
+
        print 'ACD CTMRRRRRRRRRRRRR ...........',acd
 
        if int(total) == 0:
