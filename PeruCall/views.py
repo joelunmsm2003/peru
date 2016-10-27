@@ -444,14 +444,16 @@ def accionmonitor(request,sup,anexo):
 
 	id = request.user.id
 
-	nivel = AuthUser.objects.get(id=id).nivel.id
+	sup = AuthUser.objects.get(id=id).anexo
 
-	if nivel == 5 :
+	cmd = (' php-cgi /var/www/html/xien/PROC_MONITOR.php sup=%s anx=%s ' %(sup, anexo))
 
-		sup = AuthUser.objects.get(id=id).anexo
+	print 'MONITOREOOOOOOOOOOOOOOO'
+	print 'ANEX SUP .......',sup
+	print 'ANEX AGE .......',anexo
 
-	cmd = ('curl "http://localhost:81/xien/PROC_MONITOR.php?sup=%s&anx=%s" &' %(sup, anexo))
 	os.system(cmd)
+	
 
 	return HttpResponse(' Monitor Activado', content_type="application/json")
 
@@ -462,13 +464,14 @@ def accionsusurro(request,sup,anexo):
 
 	id = request.user.id
 
-	nivel = AuthUser.objects.get(id=id).nivel.id
+	sup = AuthUser.objects.get(id=id).anexo
 
-	if nivel == 5 :
+	cmd = (' php-cgi /var/www/html/xien/PROC_SUSURRO.php sup=%s anx=%s ' %(sup, anexo))
 
-		sup = AuthUser.objects.get(id=id).anexo
+	print 'SUSURROOOOOOOOOOOOOOO'
+	print 'ANEX SUP .......',sup
+	print 'ANEX AGE .......',anexo
 
-	cmd = ('curl "http://localhost:81/xien/PROC_SUSURRO.php?sup=%s&anx=%s" & ' %(sup, anexo))
 	os.system(cmd)
 
 	return HttpResponse('Susurro Activado', content_type="application/json")
@@ -499,7 +502,7 @@ def getaudios(request):
 		for i in data:
 
 			if i == 'origen':
-			
+
 				filtro['anexo'] =  data['origen']
 
 			if i == 'destino':
@@ -520,23 +523,14 @@ def getaudios(request):
 
 		filtro['llam_estado'] = 4
 
-		data = AjxProLla.objects.filter(**filtro).values('duration','id_ori_llamadas','anexo','llam_numero','cam_codigo','age_codigo','llam_estado').order_by('-id_ori_llamadas')
+		data = AjxProLla.objects.filter(**filtro).values('duration','id_ori_llamadas','anexo','llam_numero','cam_codigo','llam_estado','v_tring').order_by('-id_ori_llamadas')
 
 		fmt = '%Y-%m-%d %H:%M:%S %Z'
 
 		for i in range(len(data)):
 
-			
 
 			data[i]['fecha'] = AjxProLla.objects.get(id_ori_llamadas=data[i]['id_ori_llamadas']).f_origen.strftime(fmt)
-
-
-			if data[i]['age_codigo'] != "":
-
-				data[i]['name'] = Agentes.objects.get(id=data[i]['age_codigo']).user.first_name
-
-
-
 
 
 	data_dict = ValuesQuerySetToDict(data)
@@ -544,6 +538,58 @@ def getaudios(request):
 	data = simplejson.dumps(data_dict)
 
 	return HttpResponse(data, content_type="application/json")
+
+
+@login_required(login_url="/ingresar")
+def postaudios(request):
+
+	if request.method == 'POST':
+
+		data= json.loads(request.body)
+
+		filtro = {}
+
+		for i in data:
+
+			if i == 'origen':
+
+				filtro['anexo'] =  data['origen']
+
+			if i == 'destino':
+
+				filtro['llam_numero']  = data['destino']
+
+			if i == 'campania':
+
+				filtro['cam_codigo']  = data['campania']
+
+			if i == 'fecha':
+
+				filtro['f_origen__gte']  = data['fecha']
+
+			if i == 'fechafin':
+
+				filtro['f_origen__lte']  = data['fechafin']
+
+		filtro['llam_estado'] = 4
+
+		data = AjxProLla.objects.filter(**filtro).values('duration','id_ori_llamadas','anexo','llam_numero','cam_codigo','llam_estado','v_tring').order_by('-id_ori_llamadas')
+
+		fmt = '%Y-%m-%d %H:%M:%S %Z'
+
+		for i in range(len(data)):
+
+
+			data[i]['fecha'] = AjxProLla.objects.get(id_ori_llamadas=data[i]['id_ori_llamadas']).f_origen.strftime(fmt)
+
+
+	data_dict = ValuesQuerySetToDict(data)
+
+	data = simplejson.dumps(data_dict)
+
+	return HttpResponse(data, content_type="application/json")
+
+
 
 
 @login_required(login_url="/ingresar")
@@ -596,8 +642,7 @@ def activarcampania(request,campania):
 @login_required(login_url="/ingresar")
 def infocampania(request,campania):
 
-	c = Campania.objects.filter(id=campania).values('password','nombre','cartera__nombre','supervisor__user__empresa__nombre','supervisor__user__first_name','supervisor__user__empresa__mascaras')
-
+	c = Campania.objects.filter(id=campania).values('password','nombre','cartera__nombre','discado','supervisor__user__empresa__nombre','supervisor__user__first_name','supervisor__user__empresa__mascaras')
 	data_dict = ValuesQuerySetToDict(c)
 
 	data = simplejson.dumps(data_dict)
@@ -1091,7 +1136,7 @@ def agentes(request,id_campania):
 
 	tges = Campania.objects.get(id=id_campania).tgestion
 
-	user = Agentescampanias.objects.filter(campania=id_campania).values('id','agente__wordstipeo','agente','agente__user__username','agente__user__first_name','agente__fono','agente__anexo','agente__atendidas','agente__contactadas','agente__estado','agente__estado__nombre','campania__supervisor__user__anexo').order_by('agente__user__first_name','agente__anexo','agente__estado__nombre')
+	user = Agentescampanias.objects.filter(campania=id_campania).values('id','agente__wordstipeo','agente','agente__user__username','agente__user__first_name','agente__fono','agente__anexo','agente__atendidas','agente__contactadas','agente__estado','agente__estado__nombre','campania__usuario__anexo').order_by('agente__user__first_name','agente__anexo','agente__estado__nombre')
 
 	fmt = '%Y-%m-%d %H:%M:%S %Z'
 	fmt1 = '%Y-%m-%d %H:%M:%S'
@@ -1142,10 +1187,13 @@ def agentes(request,id_campania):
 			
 
 			ti= str(ti)[0:19]
+			print 'FECHA TI INICIAL',ti
 			ti = datetime.strptime(ti,fmt1)
+			print 'FECHA TI FINAL',ti
 			tf= str(datetime.now())[0:19]
+			print 'FECHA TF INICIAL',tf
 			tf = datetime.strptime(tf,fmt1)
-
+			print 'FECHA TF Ifinal',tf
 			user[i]['tgestion'] = str(tf-ti)
 	
 			sec = str(tf-ti).split(':')
@@ -3311,7 +3359,6 @@ def agentegrafico(request):
 @login_required(login_url="/ingresar")
 def botoneragraph(request,campania):
 
-
        id = request.user.id
        mascara = AuthUser.objects.get(id=id).empresa.mascaras.id
        total = Base.objects.filter(campania_id=campania).count()
@@ -3333,24 +3380,17 @@ def botoneragraph(request,campania):
        novivelabora =  Base.objects.filter(resultado_id=11,campania_id=campania).count()
        sivivelabora =  Base.objects.filter(resultado_id=12,campania_id=campania).count()
        '''
-
-       #db = MySQLdb.connect(host="127.0.0.1",user="root",passwd="d4t4B4$3p3c4ll2016*",db="perucall")
-       #cur = db.cursor()
-       #total = "SELECT ACD FROM filtro where campania = "+campania +" "
-       #cur.execute(total)
-       #print 'SELECTTTTTTTT',total
-
        contesta = AjxProLla.objects.filter(cam_codigo=campania,llam_estado=4).count()
        abandonada = AjxProLla.objects.filter(cam_codigo=campania,llam_estado=4,age_codigo=999,flagfin=1 ).count()
        nocontesta = AjxProLla.objects.filter(cam_codigo=campania,llam_estado=3).count()
        buzon = AjxProLla.objects.filter(cam_codigo=campania,llam_estado=5).count()
        congestiondered = AjxProLla.objects.filter(cam_codigo=campania,llam_estado=2).count()
-       acd = Filtro.objects.filter(campania_id=campania).count()
+       #acd = Filtro.objects.filter(campania_id=campania).count()
        pendiente = Base.objects.filter(campania_id=campania).count()-Base.objects.filter(campania_id=campania,proflag=1).count()
-
-       # SELECT acd FROM filtro WHERE (campania_id=campania) = ACD
-
-       print 'ACD CTMRRRRRRRRRRRRR ...........',acd
+       tr = Filtro.objects.filter(campania_id=campania).values('acd')[:1]
+       Q=json.dumps(list(tr))
+       acd=Q[8:10]
+       print 'ACD ..........',acd
 
        if int(total) == 0:
 
@@ -3688,7 +3728,7 @@ def colas(request,campania):
 
 	f = datetime.now().date()
 
-	data = AjxProLla.objects.filter(id_ori_seg_cola=campania,f_origen__gte=f).values('age_ip','llam_numero','llam_estado','age_codigo','flagfin').order_by('-id_ori_llamadas')[:25]
+	data = AjxProLla.objects.filter(id_ori_seg_cola=campania,f_origen__gte=f).values('age_ip','llam_numero','v_tring','llam_estado','age_codigo','flagfin').order_by('-id_ori_llamadas')[:25]
 
 
 	data_dict = ValuesQuerySetToDict(data)

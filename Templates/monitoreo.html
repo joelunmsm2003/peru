@@ -62,12 +62,14 @@ jQuery(document).ready(function($) {
     <div class='row'>
       <div class="col-sm-2"><h4><i style="color:#BF3737;" class="fa fa-desktop"></i> <span style="color:#BF3737;">MONITOREO</span></h4>
       </div>
-      <div class="col-sm-4"><h4><i class="fa fa-cube"></i><font size="3"> <span style="color:#BF3737;"> CAMPAÑA</span></font><br> {[{campana}]} </h4>
+      <div class="col-sm-2"><h4><i class="fa fa-cube"></i><font size="3"> <span style="color:#BF3737;"> CAMPAÑA</span></font><br> {[{campana}]} </h4>
+      </div>
+      <div class="col-sm-3"><h4><i class="fa fa-ellipsis-h"></i><font size="3"> <span style="color:#BF3737;"> TIPO DE DISCADO</span></font><br>{[{discado}]}  </h4>
       </div>
       <div class="col-sm-2"><h4><i class="fa fa-building-o"></i><font size="3"> <span style="color:#BF3737;"> CARTERA</span></font><br>  {[{cartera}]} </h4>
       </div>
 
-     <div class="col-sm-4">
+     <div class="col-sm-3">
 
       <ul class="legend">
           <li><span class="nologin"></span> No Login</li>
@@ -261,7 +263,7 @@ padding-top: 8px;
               <tbody>
                 <tr  ng-repeat="contact in colas " class='active' ts-repeat>
 
-                  <td style="text-align:center; font-size:11px;" >{[{contact.age_ip}]}</td>
+                  <td style="text-align:center; font-size:11px;" >{[{contact.v_tring}]}</td>
                   <td style="text-align:center; font-size:11px;"> {[{contact.llam_numero}]}</td>
                   <td style="text-align:center; font-size:10px;" ng-if='contact.llam_estado==0'> Procesando</td>
                   <td style="text-align:center; font-size:10px;" ng-if='contact.llam_estado==1'> Llamando</td>

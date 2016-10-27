@@ -211,8 +211,6 @@ padding-top: 0px;
 .legend .sinuso { background-color: #999999; }
 
 
-
-
 </style>
 
 
@@ -224,9 +222,7 @@ padding-top: 0px;
           <li><span class="finalizado"></span> Finalizado</li>
 
           <li><span class="sinuso"></span> Sin Uso </li>
-          
           <!--<li><span class="sinfiltros"></span> Sin Filtros</li>-->
-        
       </ul>
 
       </div>
@@ -236,33 +232,25 @@ padding-top: 0px;
     </div>
     <br></br>
 
- 
-
 
     <table class="table ">
-    
         <tbody>
 
             <thead>
 
             <tr>
-
                    <th>Id <a ng-click="sort_by('id',currentPage)"></a></th>
                     <th>Nombre <a ng-click="sort_by('nombre',currentPage)"></a></th>
                     <th ng-if="user.nivel == 4">Empresa <a ng-click="sort_by('supervisor__user__empresa__nombre',currentPage)"></a></th>
-                  <th>Cartera <a ng-click="sort_by('cartera__nombre',currentPage)"></a></th>
-                  
-                  
-                  <th>Carg | Barr | Err <a ng-click="sort_by('empresa',currentPage)"></a></th>
-                  <th>Agentes | Conectados <a ng-click="sort_by('nivel',currentPage)"></a></th>
+                  <th>Cartera<a ng-click="sort_by('cartera__nombre',currentPage)"></a></th>
+                  <th> Carg | Barr<a ng-click="sort_by('empresa',currentPage)"></a></th>
+                  <th>Conectados <a ng-click="sort_by('nivel',currentPage)"></a></th>
                   <th>Fecha Carga</th>
                   <th></th>
                    <th ng-if="user.nivel == 1">Supervisor <a ng-click="sort_by('supervisor',currentPage)"></a></th>
                    <th ng-if="user.nivel == 1" >Password <a ng-click="sort_by('supervisor',currentPage)"></a></th>
                   <th></th>
                   <th></th>
-        
-                        
 
             </tr>
 
@@ -289,11 +277,11 @@ padding-top: 0px;
 
                 <td style='background:{[{contact.color}]}; color:{[{contact.font}]};'> {[{contact.cartera__nombre}]}</td>
 
-                <td ng-if="contact.filtro=='1'" style='background:{[{contact.color}]}; color:{[{contact.font}]};'>{[{contact.cargados}]} | {[{contact.barridos}]}  | {[{contact.errados}]}  </td>
+                <td ng-if="contact.filtro=='1'" style='background:{[{contact.color}]}; color:{[{contact.font}]};'>{[{contact.cargados}]} | {[{contact.barridos}]} </td>
 
                 <td class="animated bounceIn"  ng-if="contact.filtro=='0'" style='  background:{[{contact.color}]}; color:{[{contact.font}]};'>{[{contact.status_f | limitTo: 30}]} </td>
 
-                <td ng-if="contact.filtro=='1'" style='background:{[{contact.color}]}; color:{[{contact.font}]};' >{[{contact.totalagentes}]} | {[{contact.conectados}]}</td>
+                <td ng-if="contact.filtro=='1'" style='background:{[{contact.color}]}; color:{[{contact.font}]};' > {[{contact.conectados}]}</td>
 
                 <td class="animated bounceIn"  ng-if="contact.filtro=='0'" style='background:{[{contact.color}]}; color:{[{contact.font}]};' >{[{contact.status_h}]} </td>
 
@@ -338,8 +326,6 @@ padding-top: 0px;
 
                 </td>
 
-              
-
                 </tr>
 
 
@@ -347,22 +333,6 @@ padding-top: 0px;
 
 
         </table>
-
-
-<!--Preload
-
-
-      <div class="svg-container" id="boxContainer">
-        <svg id="boxLoader" width="70px" height="70px" viewBox="0 0 35 35" preserveAspectRatio="none">
-          <rect x="0" fill="#fff" width="35" height="35" />
-        </svg>
-        <svg id="base" width="210px" height="210px" viewBox="0 0 105 105" preserveAspectRatio="none">
-          <line stroke-width="1.5" fill="none" stroke="#383845" stroke-miterlimit="10" x1="0" y1="52.5" x2="105" y2="52.5" />
-        </svg>
-      </div>-->
-  
-
-<!--Fin-->
 
 
 <!---Modal-->

@@ -374,6 +374,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
         $scope.campana = response[0]['nombre']
         $scope.cartera = response[0]['cartera__nombre']
+        $scope.discado = response[0]['discado']
         $scope.mascara = response[0]['supervisor__user__empresa__mascaras']
 
 
@@ -509,8 +510,6 @@ function Controller($scope,$http,$cookies,$filter) {
     $('.navbar-default').fadeToggle("slow","linear")
     $('.panel-default').fadeToggle("slow","linear")
     $('.table').fadeToggle("slow","linear")
-    
-
 
 
 
@@ -533,18 +532,18 @@ function Controller($scope,$http,$cookies,$filter) {
         $scope.monitorbtnapagado = true
 
         $('a.monitor').attr('disabled', true);
-        
-        $http.get("/accionmonitor/"+data.campania__supervisor__user__anexo+"/"+data.agente__anexo).success(function(response) {
+
+        $http.get("/accionmonitor/"+data.campania__usuario__anexo+"/"+data.agente__anexo).success(function(response) {
 
          swal({   title: 'Escucha Activado :) ',   type: "success",  timer: 1500,   showConfirmButton: false });
-          
+
         });
 
         setTimeout(function(){ 
             $scope.monitorbtn = true
             $scope.monitorbtnapagado = false
         }, 30000);
-  
+
     }
 
     $scope.susurro = function(data) 
@@ -554,11 +553,10 @@ function Controller($scope,$http,$cookies,$filter) {
         $scope.susurrobtn = false
         $scope.susurrobtnapagado = true
 
-        $http.get("/accionsusurro/"+data.campania__supervisor__user__anexo+"/"+data.agente__anexo).success(function(response) {
+        $http.get("/accionsusurro/"+data.campania__usuario__anexo+"/"+data.agente__anexo).success(function(response) {
 
-          swal({   title: 'Susurro Activado :) ',   type: "success",  timer: 1500,   showConfirmButton: false });
-            
-            
+         swal({   title: 'Susurro Activado :) ',   type: "success",  timer: 1500,   showConfirmButton: false });
+
         });
 
         setTimeout(function(){ 

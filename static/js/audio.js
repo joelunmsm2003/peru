@@ -870,18 +870,15 @@ $('.container').fadeToggle("slow")
         mes = data['fecha'].slice(5,7)
         dia = data['fecha'].slice(8,10)
         campania = data['cam_codigo']
-        origen = data['anexo']
+        origen = data['cam_codigo']
         destino = data['llam_numero']
         fecha = data['fecha'].slice(0,10)
         hora = data['fecha'].slice(11,13)
         min = data['fecha'].slice(14,16)
         seg= data['fecha'].slice(17,19)
 
-//  /monitor/pcall/2016/06/13/250/202-941392115-2016-06-13_15-5:-7.gsm
-//  /monitor/pcall/2016/06/13/250/202-941392115-2016-06-13_15-25-37.gsm
-
-      
-        window.location.href = "http://192.168.50.206:81/monitor/pcall/"+anio+"/"+mes+"/"+dia+"/"+campania+"/"+origen+"-"+destino+"-"+fecha+"_"+hora+"-"+min+"-"+seg+".gsm"
+    window.location.href = "http://192.168.50.206:81/monitor/pcall/"+anio+"/"+mes+"/"+dia+"/"+campania+"/"+origen+"-"+destino+"-"+fecha+"_"+hora+"-"+min+"-"+seg+".gsm"
+        
 
     }
 
@@ -923,9 +920,6 @@ $('.container').fadeToggle("slow")
 
     $scope.getaudios = function (data) {
 
-
-
-
         $http({
         url: "/getaudios/",
         data: data,
@@ -945,6 +939,36 @@ $('.container').fadeToggle("slow")
 
 
     }
+
+
+    $scope.postaudios = function (data) {
+
+        $http({
+        url: "/postaudios/",
+        data: data,
+        method: 'POST',
+        headers: {
+        'X-CSRFToken': $cookies['csrftoken']
+        }
+        }).
+        success(function(data) {
+
+        console.log('postaudios',data)
+
+        $scope.audiospe = data
+
+
+        })
+
+
+    }
+
+
+
+
+
+
+
 
     $scope.search = function () {
 
