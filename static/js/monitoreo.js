@@ -517,25 +517,25 @@ function Controller($scope,$http,$cookies,$filter) {
 
     $scope.btnpregunta = 'True'
 
-    $scope.monitorbtn = true
-    $scope.monitorbtnapagado = false
+     $scope.monitorbtn = true
+     $scope.monitorbtnapagado = false
 
-    $scope.susurrobtn = true
-    $scope.susurrobtnapagado = false
+     $scope.susurrobtn = true
+     $scope.susurrobtnapagado = false
 
     $scope.monitor = function(data) 
 
-    {    
+    {
         console.log(data)
-
-        $scope.monitorbtn = false
-        $scope.monitorbtnapagado = true
 
         $('a.monitor').attr('disabled', true);
 
         $http.get("/accionmonitor/"+data.campania__usuario__anexo+"/"+data.agente__anexo).success(function(response) {
 
          swal({   title: 'Escucha Activado :) ',   type: "success",  timer: 1500,   showConfirmButton: false });
+
+         // $scope.monitorbtn = false
+         $scope.monitorbtnapagado = true
 
         });
 

@@ -14,10 +14,6 @@
 {% include "header.html" %}
 
 
-
-<!--si, debe tener celeste cuando esta lanzando, naranja cuando termino la campaña y blando apagado-->
-
-
 <div id="edit" class="modal fade" role="dialog">
 
   <div class="modal-dialog">
@@ -193,7 +189,7 @@
 
       <div class='row'>
       <div class="col-md-2">  <button ng-if="user.nivel == 1 || user.nivel == 2" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Crear Campaña</button></div>
-      <div class="col-md-4"><input placeholder="Buscar" ng-change="search()"  type="text" ng-model="tipo" class="form-control" ></div>
+      <div class="col-md-4"><input placeholder="Buscar" ng-change="search()"  type="text" ng-model="tipo"   class="form-control" ></div>
 
       
 <style>
@@ -233,100 +229,71 @@ padding-top: 0px;
     <br></br>
 
 
-    <table class="table ">
-        <tbody>
+<table class="table ">
+    <tbody>
+        <thead>
+        <tr>
 
-            <thead>
+            <th class="id">Id <a ng-click="sort_by('id',currentPage)"></a></th>
+            <th class="nombre">Nombre <a ng-click="sort_by('nombre',currentPage)"></a></th>
+            <th class="cartera__nombre" >Cartera<a ng-click="sort_by('cartera__nombre',currentPage)"></a></th>
+            <th class="cargados" > Carg | Barr<a ng-click="sort_by('empresa',currentPage)"></a></th>
+            <th class="" >Conectados <a ng-click="sort_by('nivel',currentPage)"></a></th>
+            <th class="" >Fecha Carga</th>
+            <th></th>
+            <th class="supervisor" ng-if="user.nivel == 1">Supervisor <a ng-click="sort_by('supervisor',currentPage)"></a></th>
+            <th class="password" ng-if="user.nivel == 1" >Password <a ng-click="sort_by('supervisor',currentPage)"></a></th>
+            <th></th>
+            <th></th>
+        </tr>
 
-            <tr>
-                   <th>Id <a ng-click="sort_by('id',currentPage)"></a></th>
-                    <th>Nombre <a ng-click="sort_by('nombre',currentPage)"></a></th>
-                    <th ng-if="user.nivel == 4">Empresa <a ng-click="sort_by('supervisor__user__empresa__nombre',currentPage)"></a></th>
-                  <th>Cartera<a ng-click="sort_by('cartera__nombre',currentPage)"></a></th>
-                  <th> Carg | Barr<a ng-click="sort_by('empresa',currentPage)"></a></th>
-                  <th>Conectados <a ng-click="sort_by('nivel',currentPage)"></a></th>
-                  <th>Fecha Carga</th>
-                  <th></th>
-                   <th ng-if="user.nivel == 1">Supervisor <a ng-click="sort_by('supervisor',currentPage)"></a></th>
-                   <th ng-if="user.nivel == 1" >Password <a ng-click="sort_by('supervisor',currentPage)"></a></th>
-                  <th></th>
-                  <th></th>
-
-            </tr>
-
-            </thead>
-
+        </thead>
    <tfoot>
+
                     <td colspan="12">
                       <ul class="pagination" ng-repeat="n in toto">
                       <li ng-class="{active: n-1 == currentPage}"><a href="#" ng-click="setPage()">{[{n}]}</a></li>
                       </ul>
-      
                     </td>
                 </tfoot>
 
-                <tr ng-repeat="contact in clientes| orderBy:['-id','-id_filtro'] " ts-repeat>
+        <tr  ng-repeat="contact in clientes | orderBy:['-id','-id_filtro'] "  ts-repeat>
 
-                <td style='background:{[{contact.color}]}; color:{[{contact.font}]};'>{[{contact.id}]} </td>
+        <td style='background:{[{contact.color}]}; color:{[{contact.font}]};'>{[{contact.id}]} </td>
+        <td ng-if="contact.filtro=='1'" style='background:{[{contact.color}]}; color:{[{contact.font}]};'>{[{contact.nombre}]} </td>
+        <td class="animated bounceIn" ng-if="contact.filtro=='0'" style='background:{[{contact.color}]}; color:{[{contact.font}]};'>{[{contact.estadoname}]} </td>
+        <td style='background:{[{contact.color}]}; color:{[{contact.font}]};' ng-if="user.nivel == 4" >{[{contact.supervisor__user__empresa__nombre}]} </td>
+        <td style='background:{[{contact.color}]}; color:{[{contact.font}]};'> {[{contact.cartera__nombre}]}</td>
+        <td ng-if="contact.filtro=='1'" style='background:{[{contact.color}]}; color:{[{contact.font}]};'>{[{contact.cargados}]} | {[{contact.barridos}]} </td>
+        <td class="animated bounceIn"  ng-if="contact.filtro=='0'" style='  background:{[{contact.color}]}; color:{[{contact.font}]};'>{[{contact.status_f | limitTo: 30}]} </td>
+        <td ng-if="contact.filtro=='1'" style='background:{[{contact.color}]}; color:{[{contact.font}]};' > {[{contact.conectados}]}</td>
+        <td class="animated bounceIn"  ng-if="contact.filtro=='0'" style='background:{[{contact.color}]}; color:{[{contact.font}]};' >{[{contact.status_h}]} </td>
+        <td ng-if="contact.filtro=='1'" style='background:{[{contact.color}]}; color:{[{contact.font}]};'>{[{contact.fecha_cargada  | limitTo: 19}]}</td>
+        <td class="animated bounceIn"  ng-if="contact.filtro=='0'" style='background:{[{contact.color}]}; color:{[{contact.font}]};'>{[{contact.status_g}]}</td>
 
-                <td ng-if="contact.filtro=='1'" style='background:{[{contact.color}]}; color:{[{contact.font}]};'>{[{contact.nombre}]} </td>
+        <td ng-if="contact.filtro=='1'" style='background:{[{contact.color}]}; color:{[{contact.font}]};'></td>
+        <td class="animated bounceIn" ng-if="contact.filtro=='0'" style='background:{[{contact.color}]}; color:{[{contact.font}]};'></td>
+        <td class="animated bounceIn" ng-if="contact.filtro=='0'" style='background:{[{contact.color}]}; color:{[{contact.font}]};'></td>
+        <td class="animated bounceIn" ng-if="contact.filtro=='0'" style='background:{[{contact.color}]}; color:{[{contact.font}]};'>{[{contact.fonosporbarrer}]} | {[{contact.total}]}</td>
+        <td ng-if="contact.filtro=='1'" style='background:{[{contact.color}]}; color:{[{contact.font}]};' ng-if="user.nivel == 1">{[{contact.supervisor__user__first_name}]}</td>
+        <td ng-if="contact.filtro=='1'" style='background:{[{contact.color}]}; color:{[{contact.font}]};' ng-if="user.nivel == 1">{[{contact.password}]}</td>
 
-                <td class="animated bounceIn" ng-if="contact.filtro=='0'" style='background:{[{contact.color}]}; color:{[{contact.font}]};'>{[{contact.estadoname}]} </td>
-                
-                <td style='background:{[{contact.color}]}; color:{[{contact.font}]};' ng-if="user.nivel == 4" >{[{contact.supervisor__user__empresa__nombre}]} </td>
+        <td ng-if="contact.filtro=='1'">
+        <button ng-show="contact.a" class="btn btn-primary btn-sm" ng-click='filtros(contact)'><i class="fa fa-plus"></i></button>
+        <button ng-show="contact.b" class="btn btn-primary btn-sm" ng-click='ocultafiltros(contact)'><i class="fa fa-minus"></i></button>
+        <button ng-if="user.nivel == 1" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#reasignar" ng-click='Reasignar(contact)'><i class="fa fa-edit"></i></button>
+        <button ng-if="user.nivel == 1 || user.nivel == 2" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#eliminar" ng-click='Reasignar(contact)'><i class="fa fa-trash"></i></button>
+        <button class="btn btn-primary btn-sm" ng-click='Admin(contact)'> Administrar <i class="fa fa-chevron-right"></i></button>
+        </td>
 
-                <td style='background:{[{contact.color}]}; color:{[{contact.font}]};'> {[{contact.cartera__nombre}]}</td>
+        <td  class="animated bounceIn" ng-if="contact.filtro=='0'">
+          <a ng-if="contact.status_f != 'Filtro 1'" ng-click="eliminar(contact,$index)" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#eliminarfiltro"><i class="icon-trash"></i> </a>
+          <a ng-if="contact.status_f != 'Filtro 1' && contact.estado == 0" ng-click="desactivafiltro(contact,$index)" class="btn btn-primary btn-sm" ><center><i class="fa fa-stop"></i></center></a>
+          <a ng-if="contact.status_f != 'Filtro 1' && contact.estado == 1" ng-click="activafiltro(contact,$index)"  class="btn btn-primary btn-sm"  ><center><i class="fa fa-play"></i></center> </a>
 
-                <td ng-if="contact.filtro=='1'" style='background:{[{contact.color}]}; color:{[{contact.font}]};'>{[{contact.cargados}]} | {[{contact.barridos}]} </td>
+        </td>
 
-                <td class="animated bounceIn"  ng-if="contact.filtro=='0'" style='  background:{[{contact.color}]}; color:{[{contact.font}]};'>{[{contact.status_f | limitTo: 30}]} </td>
-
-                <td ng-if="contact.filtro=='1'" style='background:{[{contact.color}]}; color:{[{contact.font}]};' > {[{contact.conectados}]}</td>
-
-                <td class="animated bounceIn"  ng-if="contact.filtro=='0'" style='background:{[{contact.color}]}; color:{[{contact.font}]};' >{[{contact.status_h}]} </td>
-
-                <td ng-if="contact.filtro=='1'" style='background:{[{contact.color}]}; color:{[{contact.font}]};'>{[{contact.fecha_cargada  | limitTo: 19}]}</td>
-
-                <td class="animated bounceIn"  ng-if="contact.filtro=='0'" style='background:{[{contact.color}]}; color:{[{contact.font}]};'>{[{contact.status_g}]}</td>
-
-
-                <td ng-if="contact.filtro=='1'" style='background:{[{contact.color}]}; color:{[{contact.font}]};'></td>
-
-                <td class="animated bounceIn" ng-if="contact.filtro=='0'" style='background:{[{contact.color}]}; color:{[{contact.font}]};'></td>
-
-                <td class="animated bounceIn" ng-if="contact.filtro=='0'" style='background:{[{contact.color}]}; color:{[{contact.font}]};'></td>
-
-                <td class="animated bounceIn" ng-if="contact.filtro=='0'" style='background:{[{contact.color}]}; color:{[{contact.font}]};'>{[{contact.fonosporbarrer}]} | {[{contact.total}]}</td>
-                
-                <td ng-if="contact.filtro=='1'" style='background:{[{contact.color}]}; color:{[{contact.font}]};' ng-if="user.nivel == 1">{[{contact.supervisor__user__first_name}]}</td>
-
-                <td ng-if="contact.filtro=='1'" style='background:{[{contact.color}]}; color:{[{contact.font}]};' ng-if="user.nivel == 1">{[{contact.password}]}</td>
-
-
-                <td ng-if="contact.filtro=='1'">
-                
-                <button ng-show="contact.a" class="btn btn-primary btn-sm" ng-click='filtros(contact)'><i class="fa fa-plus"></i></button>
-                <button ng-show="contact.b" class="btn btn-primary btn-sm" ng-click='ocultafiltros(contact)'><i class="fa fa-minus"></i></button>
-
-                <button ng-if="user.nivel == 1" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#reasignar" ng-click='Reasignar(contact)'><i class="fa fa-edit"></i></button>
-
-                <button ng-if="user.nivel == 1 || user.nivel == 2" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#eliminar" ng-click='Reasignar(contact)'><i class="fa fa-trash"></i></button>
-                <button class="btn btn-primary btn-sm" ng-click='Admin(contact)'> Administrar <i class="fa fa-chevron-right"></i></button>
-
-                </td>
-
-                <td  class="animated bounceIn" ng-if="contact.filtro=='0'">
-
-                  <a ng-if="contact.status_f != 'Filtro 1'" ng-click="eliminar(contact,$index)" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#eliminarfiltro"><i class="icon-trash"></i> </a>
-
-                  <a ng-if="contact.status_f != 'Filtro 1' && contact.estado == 0" ng-click="desactivafiltro(contact,$index)" class="btn btn-primary btn-sm" ><center><i class="fa fa-stop"></i></center></a>
-
-
-                  <a ng-if="contact.status_f != 'Filtro 1' && contact.estado == 1" ng-click="activafiltro(contact,$index)"  class="btn btn-primary btn-sm"  ><center><i class="fa fa-play"></i></center> </a>
-
-                </td>
-
-                </tr>
+        </tr>
 
 
         </tbody>
@@ -338,7 +305,7 @@ padding-top: 0px;
 <!---Modal-->
 
 
-            <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">

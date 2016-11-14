@@ -2955,11 +2955,11 @@ def activafiltro(request,id_filtro,id_campania):
 
 		filtro = Filtro.objects.get(id=data[i]['id'])
 
-		os.environ['body']='PeruCall Se activo filtro'
+		#os.environ['body']='PeruCall Se activo filtro'
 
-		os.environ['title']='http://localhost/filtros/'+str(id_filtro)
+		#os.environ['title']='http://localhost/filtros/'+str(id_filtro)
 
-		os.system('./b.sh')
+		#os.system('./b.sh')
 
 	
 		filtro.status = 0
@@ -3436,13 +3436,11 @@ def botoneragraph(request,campania):
                      #'pAsterisk':asterisk*100/total,
                      #'pPendiente':pendiente*100/total
 
-                   
                      }
 
 
                data_string = json.dumps(data)
 
-               
 
        else:
 
@@ -3450,6 +3448,8 @@ def botoneragraph(request,campania):
 
 
        return HttpResponse(data_string, content_type="application/json")
+
+
 
 @login_required(login_url="/ingresar")
 def busqueda(request):
@@ -4010,10 +4010,7 @@ def uploadCampania(request):
 		nombre = data['nombre']
 		timbrados = data['timbrados']
 		llamadaxhora = data['timbrados']
-#		hombreobjetivo = data['hombreobjetivo']
-#		mxllamada = data['mxllamada']
 		supervisor = data['supervisor']
-#		tgestion = data['tgestion']
 		now = datetime.now()
 		archivo =  request.FILES['process_file']
 		password = data['password']
@@ -4095,22 +4092,6 @@ def uploadCampania(request):
 				status_f=a[9]
 				status_g= a[10]
 				status_h = a[11]
-
-				'''
-
-				telefono = a[0].replace('.0','')
-				orden = a[1]
-				cliente = a[2]
-				id_cliente = a[3]
-				status_a = a[4].replace('.0','')
-				status_b = a[5].replace('.0','')
-				status_c = a[6].replace('.0','')
-				status_d =a[7].replace('.0','')
-				status_e= a[8].replace(".0","")
-				status_f=a[9].replace('.0','')
-				status_g= a[10].replace('.0','')
-				status_h = a[11].replace('.0','')
-				'''
 
 				Base(campania_id=id_campania,telefono=telefono,orden=orden,cliente=cliente,id_cliente=id_cliente,status_a=status_a,status_b=status_b,status_c=status_c,status_d=status_d,status_e=status_e,status_f=status_f,status_g=status_g,status_h=status_h,blacklist=0,bloqueocliente=0).save()
 

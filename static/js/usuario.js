@@ -43,7 +43,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
         $http.get("/usuarios").success(function(response) {$scope.clientes = response;
 
-        $scope.search();
+                $scope.search();
 
         });
 
@@ -66,7 +66,7 @@ function Controller($scope,$http,$cookies,$filter) {
     
     $http.get("/usuarios").success(function(response) {$scope.clientes = response;
 
-        $scope.search();
+         $scope.search();
 
     });
 
@@ -397,7 +397,7 @@ $('.container').fadeToggle("slow")
 
     $http.get("/usuarios").success(function(response) {$scope.clientes = response;
 
-        $scope.search();
+           $scope.search();
 
     });
 
@@ -448,11 +448,9 @@ $('.container').fadeToggle("slow")
    
               swal({   title: "Usuario "+data +" editado",   type: "success",  timer: 700,   showConfirmButton: false });
 
-         //window.location.href = "/usuario"  
+        $http.get("/usuarios").success(function(response) {$scope.clientes = response;
 
-             $http.get("/usuarios").success(function(response) {$scope.clientes = response;
-
-        $scope.search();
+	        $scope.search();
 
     });
 
@@ -501,7 +499,7 @@ $('.container').fadeToggle("slow")
  
          $http.get("/usuarios").success(function(response) {$scope.clientes = response;
 
-        $scope.search();
+    	     $scope.search();
 
         });
 
@@ -609,7 +607,7 @@ $('.container').fadeToggle("slow")
 
         $scope.clientes = people
 
-        $scope.search()
+             $scope.search()
 
         
 
