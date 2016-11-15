@@ -4123,7 +4123,7 @@ def campanias(request):
 
 		if nivel == 1: #Admin
 
-			data = Campania.objects.filter(usuario__empresa=empresa).values('inactividad','cartera__nombre','password','id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name','factor','discado','supervisor').order_by('-id')[:10]
+			data = Campania.objects.filter(usuario__empresa=empresa).values('inactividad','cartera__nombre','password','id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name','factor','discado','supervisor').order_by('-id')[:40]
 
 		if nivel == 5: #Monitor
 
@@ -4188,6 +4188,11 @@ def campanias(request):
 			data[i]['ina']=ina
 			data[i]['act']=act
 			data[i]['barr']=barri
+
+
+			filtro = Filtro.objects.filter(campania_id=data[i]['id']).values('id','campania','status_f','status_h','status_g','resultado','status','orden','acd')
+
+			data[i]['filtro'] = ValuesQuerySetToDict(filtro)
 
 
 			#Apagado = F58C48
