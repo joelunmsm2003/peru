@@ -4123,7 +4123,7 @@ def campanias(request):
 
 		if nivel == 1: #Admin
 
-			data = Campania.objects.filter(usuario__empresa=empresa).values('inactividad','cartera__nombre','password','id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name','factor','discado','supervisor').order_by('-id')
+			data = Campania.objects.filter(usuario__empresa=empresa).values('inactividad','cartera__nombre','password','id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name','factor','discado','supervisor').order_by('-id')[:10]
 
 		if nivel == 5: #Monitor
 
