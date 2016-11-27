@@ -2550,7 +2550,7 @@ def reportecsv(request,cartera,campania):
 
 		resultado = 'Sin Gestion'
 
-		bx =Base.objects.filter(id_cliente=dniact)
+		bx =Base.objects.filter(id_cliente=dniact,campania_id=campania)
 		pant =0
 		mejorgestion = 'Sin Gestion'
 
@@ -2618,7 +2618,7 @@ def reportecsv(request,cartera,campania):
 
 		else:
 
-			agente = ''
+			agente = 'Asterisk'
 
 		duracion = ''
 
@@ -2632,7 +2632,7 @@ def reportecsv(request,cartera,campania):
 
 		#writer.writerow(['Id','Telefono','Orden','Cliente','ID Cliente','Cartera','Campania','Status A','Status B','Status C','Status D','Status E','Status F','Status G','Status H','Mejor Gestion','Fecha','Telefono','Agente','Intentos','Botonera','Observacion','Fecha de Pago','Importe de Pago','Duracion','Fecha de Gestion'])
 
-		writer.writerow([x.telefono,x.orden,x.cliente,x.id_cliente,x.campania.cartera.nombre,x.campania.nombre,x.status_a,x.status_b,x.status_c,x.status_d,x.status_e,x.status_f,x.status_g,x.status_h,mejorgestion,x.fecha,x.telefono,agente,intentos,resultado,x.detalle,x.fecha,x.monto,duracion,x.tfingestion])
+		writer.writerow([x.telefono,x.orden,x.cliente,"'"+x.id_cliente,x.campania.cartera.nombre,x.campania.nombre,x.status_a,x.status_b,x.status_c,x.status_d,x.status_e,x.status_f,x.status_g,x.status_h,mejorgestion,x.fecha,x.telefono,agente,intentos,resultado,x.detalle,x.fecha,x.monto,duracion,x.tfingestion])
 
 		dniant = x.id_cliente
 
@@ -3492,6 +3492,8 @@ def busqueda(request):
 def generacsv(request,cartera,campania,inicio,fin,telefono,cliente):
 
 	id = request.user.id
+	
+	print campania
 
 	mascara = AuthUser.objects.get(id=id).empresa.mascaras.tipo
 
@@ -3550,7 +3552,11 @@ def generacsv(request,cartera,campania,inicio,fin,telefono,cliente):
 
 		duracion = ''
 
-		if Base.objects.filter(campania=x.cam_codigo,telefono=x.llam_numero,id_cliente=x.id_cliente):
+		agente = 'Asterisk'
+
+		count = Base.objects.filter(campania=x.cam_codigo,telefono=x.llam_numero,id_cliente=x.id_cliente).count()
+
+		if Base.objects.filter(campania=x.cam_codigo,telefono=x.llam_numero,id_cliente=x.id_cliente) and count == 1:
 
 			b = Base.objects.get(campania=x.cam_codigo,telefono=x.llam_numero,id_cliente=x.id_cliente)
 
@@ -3576,7 +3582,6 @@ def generacsv(request,cartera,campania,inicio,fin,telefono,cliente):
 
 				resultado = 'Enviada'
 
-			print 'Base encontrada',b
 
 			if b.resultado:
 
@@ -3585,6 +3590,18 @@ def generacsv(request,cartera,campania,inicio,fin,telefono,cliente):
 			if b.agente:
 
 				agente = b.agente.user.first_name
+
+				if resultado == 'Congestion de Red' or resultado == 'Buzon':
+
+					agente = 'Asterisk'
+
+			if resultado == 'Contesto' and  duracion == '':
+
+				resultado = 'Abandono'
+
+				agente = 'Asterisk'
+
+
 
 			campania = b.campania.nombre.encode('ascii','ignore')
 
@@ -3610,7 +3627,7 @@ def generacsv(request,cartera,campania,inicio,fin,telefono,cliente):
 
 				duracion = str(fin-inicio)[2:8]
 		
-		agente = ' '
+		
 		
 		if mascara == 'Externa':
 
@@ -3620,11 +3637,11 @@ def generacsv(request,cartera,campania,inicio,fin,telefono,cliente):
 
 			fecha = b.fecha
 
-			writer.writerow([x.llam_numero,orden,cliente,id_cliente,ncartera,campania,agente,duracion,x.f_origen,status_f,status_g,status_h,resultado])
+			writer.writerow([x.llam_numero,orden,cliente,"'"+id_cliente,ncartera,campania,agente,duracion,x.f_origen,status_f,status_g,status_h,resultado])
 
 		else:
 					
-			writer.writerow([x.llam_numero,orden,cliente,id_cliente,ncartera,campania,agente,duracion,x.f_origen,status_f,status_g,status_h,resultado,monto,detalle,fecha])
+			writer.writerow([x.llam_numero,orden,cliente,"'"+id_cliente,ncartera,campania,agente,duracion,x.f_origen,status_f,status_g,status_h,resultado,monto,detalle,fecha])
 
 
 	return response
@@ -4123,7 +4140,7 @@ def campanias(request):
 
 		if nivel == 1: #Admin
 
-			data = Campania.objects.filter(usuario__empresa=empresa).values('inactividad','cartera__nombre','password','id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name','factor','discado','supervisor').order_by('-id')[:40]
+			data = Campania.objects.filter(usuario__empresa=empresa).values('inactividad','cartera__nombre','password','id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name','factor','discado','supervisor').order_by('-id')
 
 		if nivel == 5: #Monitor
 

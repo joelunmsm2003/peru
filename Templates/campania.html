@@ -233,56 +233,60 @@ padding-top: 0px;
     </div>
     <br></br>
 
+<ul class="pagination" ng-repeat="n in toto">
+<li ng-class="{active: n-1 == currentPage}"><a  ng-click="setPage()">{[{n}]}</a></li>
+</ul>
+
 
 
 <div class="panel-group" >
-    <div class="panel panel-default" ng-repeat="contact in clientes">
+    <div class="panel panel-default" ng-repeat="contact in pagedItems[currentPage]">
       <div class="panel-heading" style='background:{[{contact.color}]}; color:{[{contact.font}]};'>
         <h4 class="panel-title">
           
 
           <div class='row'>
 
-          <div class='col-md-1'>
+          <div class='col-sm-1 col-md-1'>
 
           <a data-toggle="collapse" href="#{[{contact.id}]}"><i class="fa fa-plus-circle" ></i></a>
            &nbsp;&nbsp; {[{contact.id}]}
           </div>
 
 
-          <div class='col-md-1'>{[{contact.nombre}]}
+          <div class='col-xs-1 col-md-1'>{[{contact.nombre}]}
           </div>
 
 
-          <div class='col-md-1'>{[{contact.cartera__nombre}]}
+          <div class='col-xs-1 col-md-1'>{[{contact.cartera__nombre}]}
           </div>
 
-          <div class='col-md-1'>{[{contact.cargados}]} | {[{contact.barridos}]}
+          <div class='col-xs-1 col-md-1'>{[{contact.cargados}]} | {[{contact.barridos}]}
           </div>
 
-          <div class='col-md-1'>{[{contact.conectados}]}
+          <div class='col-xs-1 col-md-1'>{[{contact.conectados}]}
           </div>
 
-          <div class='col-md-2'>{[{contact.supervisor__user__first_name }]}
+          <div class='col-xs-1 col-md-2'>{[{contact.supervisor__user__first_name }]}
           </div>
 
 
 
           
 
-          <div class='col-md-1'>{[{contact.fecha_cargada  | limitTo: 10}]}
+          <div class='col-xs-1 col-md-1'>{[{contact.fecha_cargada  | limitTo: 10}]}
           </div>
 
           
 
-          <div class='col-md-1' ng-if="user.nivel == 1"  data-toggle="modal" data-target="#reasignar" ng-click='Reasignar(contact)'><i class="fa fa-edit"></i></div>
+          <div class='col-xs-1 col-md-1' ng-if="user.nivel == 1"  data-toggle="modal" data-target="#reasignar" ng-click='Reasignar(contact)'><i class="fa fa-edit"></i></div>
 
 
-          <div class='col-md-1'><a href="#"><i class="fa fa-trash" ng-if="user.nivel == 1 || user.nivel == 2"  data-toggle="modal" data-target="#eliminar" ng-click='Reasignar(contact)'></i></a></div>
+          <div class='col-xs-1 col-md-1'><a href="#"><i class="fa fa-trash" ng-if="user.nivel == 1 || user.nivel == 2"  data-toggle="modal" data-target="#eliminar" ng-click='Reasignar(contact)'></i></a></div>
 
           
 
-          <div class='col-md-1'>
+          <div class='col-xs-1 col-md-1'>
           <a href="#" ng-click='Admin(contact)'> Administrar </a>
           </div>
 
@@ -374,6 +378,13 @@ padding-top: 0px;
       </div>
     </div>
   </div>
+
+  <div class="container"> 
+
+<div class='col-md-10 col-md-offset-5'>
+<div class="loader"></div>
+</div>
+</div>
 
 <style>
   .filtroapagado{
@@ -827,3 +838,26 @@ th {
 
 
 </html>
+
+
+
+<style type="text/css">
+  
+.loader {
+ border: 16px solid #DD4C4C;
+border-top: 16px solid #d79797;
+border-radius: 50%;
+width: 100px;
+height: 100px;
+animation: spin 2s linear infinite;
+
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
+
+</style>

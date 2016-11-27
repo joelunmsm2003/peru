@@ -277,11 +277,34 @@ $(function () {
                                     congestiondered = response['Error']
                                     contesta = response['Contesta']
                                     abandonada = response['Abandonada']
+
+
+                                    // Andy changes si no existe este estado pasa como igual a 0
+
+                                    if(!congestiondered){
+                                        congestiondered = 0
+                                    }
+                                    if(!nocontesta){
+                                        nocontesta = 0
+                                    }
+                                    if(!buzon){
+                                        buzon = 0
+                                    }
+                                    if(!contesta){
+                                        contesta = 0
+                                    }
+                                    if(!abandonada){
+                                        abandonada=0
+                                    }
+
+
                                     serie3.data[0].update(nocontesta);
                                     serie3.data[1].update(buzon);
                                     serie3.data[2].update(congestiondered);
                                     serie3.data[3].update(contesta);
                                     serie3.data[4].update(abandonada);
+
+                                    console.log('pie3d......',nocontesta,buzon,congestiondered,contesta,abandonada)
                                 });
 
                             }
@@ -534,7 +557,7 @@ function Controller($scope,$http,$cookies,$filter) {
 
          swal({   title: 'Escucha Activado :) ',   type: "success",  timer: 1500,   showConfirmButton: false });
 
-         // $scope.monitorbtn = false
+         $scope.monitorbtn = false
          $scope.monitorbtnapagado = true
 
         });
