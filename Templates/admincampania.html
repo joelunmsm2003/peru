@@ -84,7 +84,7 @@
 				<thead>
 					<tr>
 	           		<th ><input type="checkbox" ng-model='estado' ng-click="masiva(estado)"> Selecccionar </th>
-	                <th >Estado </th>
+	                <!--<th >Estado </th>-->
 	                <th >Nombre</th>
 	                <th></th>
 					</tr>
@@ -93,7 +93,7 @@
 	            <tr   ng-repeat="contact in usuarios " class='active' ts-repeat>
 
 	                <td><input type="checkbox" ng-model='contact.seleccionar' ng-change="add($index,contact)"></td>
-	                <td>{[{contact.estado}]}</td>
+	                <!--<td>{[{contact.estado}]}</td>-->
 	                <td>{[{contact.name}]}</td>
 
 	            </tr>
@@ -133,13 +133,13 @@
 				 <thead>
 
 	            <tr><th ><input type="checkbox" ng-model='estado1' ng-click="masiva1(estado1)"> Seleccionar </th>
-	                <th >Estado </th>
+	                <!--<th >Estado </th>-->
 	                <th >Nombre</th><th></th></tr>
 	            </thead>
 
 	            <tr  ng-repeat="contact in usuarioscampania " class='active' ts-repeat>
 	             	<td><input type="checkbox" ng-model='contact.seleccionar' ng-change="add($index,contact)"></td>
-	                <td>{[{contact.estado}]}</td>
+	                <!--<td>{[{contact.estado}]}</td>-->
 	                <td>{[{contact.name}]}</td>
 	            </tr>
             </tbody>

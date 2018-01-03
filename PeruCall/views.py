@@ -448,9 +448,7 @@ def accionmonitor(request,sup,anexo):
 
 	cmd = (' php-cgi /var/www/html/xien/PROC_MONITOR.php sup=%s anx=%s ' %(sup, anexo))
 
-	print 'MONITOREOOOOOOOOOOOOOOO'
-	print 'ANEX SUP .......',sup
-	print 'ANEX AGE .......',anexo
+
 
 	os.system(cmd)
 	
@@ -468,9 +466,7 @@ def accionsusurro(request,sup,anexo):
 
 	cmd = (' php-cgi /var/www/html/xien/PROC_SUSURRO.php sup=%s anx=%s ' %(sup, anexo))
 
-	print 'SUSURROOOOOOOOOOOOOOO'
-	print 'ANEX SUP .......',sup
-	print 'ANEX AGE .......',anexo
+
 
 	os.system(cmd)
 
@@ -1154,6 +1150,15 @@ def agentes(request,id_campania):
 
 		user[i]['total'] =  AjxProLla.objects.filter(cam_codigo=id_campania,age_codigo=user[i]['agente']).count()
 
+		user[i]['susurrobtn'] = True
+
+		user[i]['monitorbtn'] = True
+
+		user[i]['susurrobtnapagado'] = False
+
+		user[i]['monitorbtnapagado'] = False
+
+
 		if Base.objects.filter(status=1,agente_id=user[i]['agente']):
 
 			user[i]['fono'] =  str(Base.objects.filter(status=1,agente_id=user[i]['agente']).values('telefono')[:1]).replace("[{'telefono':",'').replace('L}]','').replace("None}]",'').replace("u'",'').replace("'}]",'')
@@ -1187,13 +1192,13 @@ def agentes(request,id_campania):
 			
 
 			ti= str(ti)[0:19]
-			print 'FECHA TI INICIAL',ti
+
 			ti = datetime.strptime(ti,fmt1)
-			print 'FECHA TI FINAL',ti
+
 			tf= str(datetime.now())[0:19]
-			print 'FECHA TF INICIAL',tf
+
 			tf = datetime.strptime(tf,fmt1)
-			print 'FECHA TF Ifinal',tf
+
 			user[i]['tgestion'] = str(tf-ti)
 	
 			sec = str(tf-ti).split(':')
@@ -1335,6 +1340,7 @@ def botonexterno(request):
 				if int(age.checa) == 1:
 
 					age.estado_id = 5
+					age.estado_id=3
 					age.save()
 
 			if age.checaser:
@@ -1353,7 +1359,6 @@ def botonexterno(request):
 			b.save()
 
 
-			print 'Cliente...',b.id_cliente,resultado_name
 
 			if resultado_name == 'No Contacto':
 
@@ -1812,9 +1817,6 @@ def agregarfiltro(request):
 			segmentot = segmentot  + segmento[i]['status_h'] +'/'
 			s.insert(i,segmento[i]['status_h'])
 
-		print 'Agregando Filtro',r,c,g,s
-
-		print 'xxx',Base.objects.filter(resultado__name__in=r,status_f__in=c,status_g__in=g,status_h__in=s,campania_id=campania).update(proflag=None,proestado=None,filtrohdec=None,status=0)
 
 		i = Filtro.objects.filter(campania_id=campania).count()
 
@@ -1824,7 +1826,7 @@ def agregarfiltro(request):
 		
 		filtro = Filtro.objects.get(id=id_filtro)
 
-		print 'Filtros...'+str(id_filtro)
+
 
 		if str(filtro.resultado):
 
@@ -1887,7 +1889,7 @@ def agregarfiltro(request):
 
 		db.commit()
 
-		print 'SELECT',total
+
 
 		cur.execute(total)
 
@@ -1897,7 +1899,7 @@ def agregarfiltro(request):
 
 		total = pb[0][0]
 
-		print 'Contador...',total 
+
 
 		return HttpResponse('data', content_type="application/json")
 
@@ -2207,9 +2209,9 @@ def lanzallamada(request,id_agente,id_base,id_cliente):
 
 		redis_publisher = RedisPublisher(facility='foobar', users=[user])
 
-		message = RedisMessage('ll')
+		# message = RedisMessage('ll')
 
-		redis_publisher.publish_message(message)
+		# redis_publisher.publish_message(message)
 
 
 		base = Base.objects.get(id=id_base)
@@ -2851,7 +2853,7 @@ def listafiltros(request,id_campania):
 
 			data[i]['statusname'] = 'Activado'
 
-		print 'Filtros...'+str(data[i]['id'])
+
 
 		if str(filtro.resultado):
 
@@ -2910,7 +2912,7 @@ def listafiltros(request,id_campania):
 
 		total = "SELECT COUNT(*) FROM base where campania = "+id_campania +" and status_f in "+ status_f+" and status_h in "+ status_h +" and status_g in "+ status_g+" and (resultadotxt='' OR resultadotxt in "+resultado+" )"
 
-		print 'Total',total
+
 
 		cur.execute(porbarrer)
 
@@ -3390,7 +3392,7 @@ def botoneragraph(request,campania):
        tr = Filtro.objects.filter(campania_id=campania).values('acd')[:1]
        Q=json.dumps(list(tr))
        acd=Q[8:10]
-       print 'ACD ..........',acd
+
 
        if int(total) == 0:
 
@@ -3493,11 +3495,11 @@ def generacsv(request,cartera,campania,inicio,fin,telefono,cliente):
 
 	id = request.user.id
 	
-	print campania
+
 
 	mascara = AuthUser.objects.get(id=id).empresa.mascaras.tipo
 
-	print mascara
+
 
 	filtro = {}
 
@@ -3804,7 +3806,7 @@ def calificaraudio(request):
 		pregunta = data['pregunta']['id']
 		respuesta = data['respuesta']
 
-		print campania,agente,llamada,pregunta,respuesta
+
 
 
 		Calificacion(preg_exam_id=pregunta,agente_id=agente,campania_id=campania,respuesta=respuesta,llamada=llamada).save()
@@ -3933,14 +3935,13 @@ def filtroscampania(request,campania):
 
 		cur = db.cursor()
 
-		print id_campania,status_f,status_h,status_g,resultado
+
 
 		porbarrer = "SELECT COUNT(*) FROM base where (status='' or status=0) and campania ="+str(id_campania) +" and ProFlag is NULL and ProEstado is NULL and FiltroHdeC is NULL AND status_f in " + str(status_f)+" and status_h in "+str(status_h)+" and status_g in "+str(status_g)+" and (resultadotxt='' OR resultadotxt in "+str(resultado)+" )"
 
 		total = "SELECT COUNT(*) FROM base where campania = "+str(id_campania) +" and status_f in "+ str(status_f)+" and status_h in "+ str(status_h) +" and status_g in "+ str(status_g)+" and (resultadotxt='' OR resultadotxt in "+str(resultado)+" )"
 
-		print 'Por barrer',porbarrer
-		print 'Total',total
+
 
 		cur.execute(porbarrer)
 
@@ -4019,7 +4020,7 @@ def uploadCampania(request):
 		empresa = AuthUser.objects.get(id=id).empresa
 		data = request.POST
 
-		print 'upload',data
+
 		canales = data['canales']
 		cartera = data['cartera']
 		inicio = data['inicio']
@@ -4130,21 +4131,21 @@ def campanias(request):
 
 		if nivel == 4: #Manager
 
-			data = Campania.objects.all().values('inactividad','cartera__nombre','password','id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name','supervisor__user__empresa__nombre','supervisor').order_by('-id')
+			data = Campania.objects.all().values('inactividad','cartera__nombre','password','id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name','supervisor__user__empresa__nombre','supervisor').order_by('-id')[:50]
 		
 		if nivel == 2: #Supervisores
 			
 			supervisor = Supervisor.objects.get(user=id).id
 
-			data = Campania.objects.filter(supervisor=supervisor).values('inactividad','cartera__nombre','password','id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name','factor','discado','supervisor').order_by('-id')
+			data = Campania.objects.filter(supervisor=supervisor).values('inactividad','cartera__nombre','password','id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name','factor','discado','supervisor').order_by('-id')[:50]
 
 		if nivel == 1: #Admin
 
-			data = Campania.objects.filter(usuario__empresa=empresa).values('inactividad','cartera__nombre','password','id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name','factor','discado','supervisor').order_by('-id')
+			data = Campania.objects.filter(usuario__empresa=empresa).values('inactividad','cartera__nombre','password','id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name','factor','discado','supervisor').order_by('-id')[:150]
 
 		if nivel == 5: #Monitor
 
-			data = Campania.objects.filter(usuario__empresa=empresa).values('inactividad','cartera__nombre','password','id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name','supervisor').order_by('-id')
+			data = Campania.objects.filter(usuario__empresa=empresa).values('inactividad','cartera__nombre','password','id','usuario__first_name','estado','nombre','troncal','canales','timbrados','mxllamada','llamadaxhora','hombreobjetivo','supervisor__user__first_name','supervisor').order_by('-id')[:50]
 
 		fmt = '%H:%M:%S %Z'
 		fmt1 = '%Y-%m-%d %H:%M:%S %Z'
@@ -4159,9 +4160,9 @@ def campanias(request):
 			data[i]['fecha_cargada'] = Campania.objects.get(id=data[i]['id']).fecha_cargada.strftime(fmt1)
 			data[i]['totalagentes'] = Agentescampanias.objects.filter(campania_id=data[i]['id']).count()
 			data[i]['conectados'] = Agentescampanias.objects.filter(campania_id=data[i]['id']).exclude(agente__estado=1).count()
-			data[i]['cargados'] = Base.objects.filter(campania_id=data[i]['id']).exclude(blacklist=1).count()
-			data[i]['barridos'] = Base.objects.filter(campania_id=data[i]['id'],proflag=1).exclude(blacklist=1).count()
-			data[i]['errados'] = AjxProLla.objects.filter(cam_codigo=data[i]['id'],llam_estado=2).count()
+			# data[i]['cargados'] = Base.objects.filter(campania_id=data[i]['id']).exclude(blacklist=1).count()
+			# data[i]['barridos'] = Base.objects.filter(campania_id=data[i]['id'],proflag=1).exclude(blacklist=1).count()
+			# data[i]['errados'] = AjxProLla.objects.filter(cam_codigo=data[i]['id'],llam_estado=2).count()
 			data[i]['filtro'] = '1'
 			data[i]['a'] = True
 			data[i]['b'] = False
@@ -4189,11 +4190,11 @@ def campanias(request):
 				act=act+1
 
 
-			if data[i]['barridos'] == data[i]['cargados']:
-				data[i]['estado'] = ''
-				data[i]['color'] = '#ED7E35'
-				data[i]['font'] = '#fff'
-				barri=barri+1
+			# if data[i]['barridos'] == data[i]['cargados']:
+			# 	data[i]['estado'] = ''
+			# 	data[i]['color'] = '#ED7E35'
+			# 	data[i]['font'] = '#fff'
+			# 	barri=barri+1
 			
 
 
@@ -4338,7 +4339,7 @@ def agentesdisponibles(request,id_campania):
 	for i in range(len(agentes)):
 
 		agentes[i]['name'] = Agentes.objects.get(id=agentes[i]['id']).user.first_name
-		agentes[i]['estado'] = Agentes.objects.get(id=agentes[i]['id']).estado.nombre
+		#agentes[i]['estado'] = Agentes.objects.get(id=agentes[i]['id']).estado.nombre
 		agentes[i]['agente'] = agentes[i]['id']
 
 	data_dict = ValuesQuerySetToDict(agentes)
@@ -4358,7 +4359,7 @@ def agentescampania(request,id_campania):
 
 		agentes[i]['name'] = Agentescampanias.objects.get(id=agentes[i]['id']).agente.user.first_name
 
-		agentes[i]['estado'] = Agentescampanias.objects.get(id=agentes[i]['id']).agente.estado.nombre
+		#agentes[i]['estado'] = Agentescampanias.objects.get(id=agentes[i]['id']).agente.estado.nombre
 
 
 	data_dict = ValuesQuerySetToDict(agentes)

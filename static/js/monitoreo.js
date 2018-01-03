@@ -453,7 +453,7 @@ function Controller($scope,$http,$cookies,$filter) {
     });
     
 
-    }, 5000);
+    }, 1000);
 
        $http.get("/botoneragraph/"+campania).success(function(response) {
 
@@ -551,20 +551,22 @@ function Controller($scope,$http,$cookies,$filter) {
     {
         console.log(data)
 
+                data.monitorbtn = false
+         data.monitorbtnapagado = true
+
         $('a.monitor').attr('disabled', true);
 
         $http.get("/accionmonitor/"+data.campania__usuario__anexo+"/"+data.agente__anexo).success(function(response) {
 
          swal({   title: 'Escucha Activado :) ',   type: "success",  timer: 1500,   showConfirmButton: false });
 
-         $scope.monitorbtn = false
-         $scope.monitorbtnapagado = true
+ 
 
         });
 
         setTimeout(function(){ 
-            $scope.monitorbtn = true
-            $scope.monitorbtnapagado = false
+           data.monitorbtn = true
+            data.monitorbtnapagado = false
         }, 30000);
 
     }
@@ -573,8 +575,10 @@ function Controller($scope,$http,$cookies,$filter) {
 
     {    
 
-        $scope.susurrobtn = false
-        $scope.susurrobtnapagado = true
+        data.susurrobtn = false
+        data.susurrobtnapagado = true
+
+        console.log(data)
 
         $http.get("/accionsusurro/"+data.campania__usuario__anexo+"/"+data.agente__anexo).success(function(response) {
 
@@ -584,8 +588,8 @@ function Controller($scope,$http,$cookies,$filter) {
 
         setTimeout(function(){ 
 
-            $scope.susurrobtn = true
-            $scope.susurrobtnapagado = false
+            data.susurrobtn = true
+            data.susurrobtnapagado = false
 
         }, 30000);
     }

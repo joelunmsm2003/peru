@@ -120,7 +120,7 @@ padding-top: 8px;
 
           <div class='row' >
 
-  <a ng-if="user.nivel == 1 || user.nivel == 2 || user.nivel == 4 " class='btn btn-primary' ng-href='/adminCampania/{[{camp}]}'> <i class="fa fa-user"></i> Agentes </a>
+  <a ng-if="user.nivel == 1 || user.nivel == 2 || user.nivel == 4 " class='btn btn-outline btn-primary' ng-href='/adminCampania/{[{camp}]}'> <i class="fa fa-user"></i> Agentes </a>
  <a ng-if="user.nivel == 1 || user.nivel == 2 || user.nivel == 4 " class='btn btn-primary' ng-href='/filtros/{[{camp}]}'> <i class="fa fa-filter"></i> Filtros </a>
  
 <a href='#arriba' ng-click="mon()" class="btn btn-primary" ng-show='bb'>Ver Graficas <i class="fa fa-line-chart"></i></a>
@@ -225,17 +225,17 @@ padding-top: 8px;
 
                     <td>
 
-                    <a ng-if="contact.agente__estado == '3'"  ng-show='monitorbtn' ng-click="monitor(contact,$index)" class=" btn btn-primary btn-sm " data-toggle="modal" data-target="#listen"><i class="fa fa-headphones"></i></a>
+                    <a ng-if="contact.agente__estado == '3'"  ng-show='contact.monitorbtn' ng-click="monitor(contact,$index)" class=" btn btn-primary btn-sm " data-toggle="modal" data-target="#listen"><i class="fa fa-headphones"></i></a>
 
-                    <a ng-if="contact.agente__estado == '3'"  ng-show='monitorbtnapagado' class=" btn btn-warning btn-sm " data-toggle="modal" data-target="#listen"><i class="fa fa-headphones"></i></a>
+                    <a ng-if="contact.agente__estado == '3'"  ng-show='contact.monitorbtnapagado' class=" btn btn-warning btn-sm " data-toggle="modal" data-target="#listen"><i class="fa fa-headphones"></i></a>
 
                     </td>
 
                     <td>
 
-                    <a ng-if="contact.agente__estado == '3'"  ng-show='susurrobtn' ng-click="susurro(contact,$index)" class=" btn btn-primary btn-sm" data-toggle="modal" data-target="#listen"><i class="fa fa-phone-square"></i></a>
+                    <a ng-if="contact.agente__estado == '3'"  ng-show='contact.susurrobtn' ng-click="susurro(contact,$index)" class=" btn btn-primary btn-sm" data-toggle="modal" data-target="#listen"><i class="fa fa-phone-square"></i></a>
 
-                    <a ng-if="contact.agente__estado == '3'"  ng-show='susurrobtnapagado'  class=" btn btn-warning btn-sm" data-toggle="modal" data-target="#listen"><i class="fa fa-phone-square"></i></a>
+                    <a ng-if="contact.agente__estado == '3'"  ng-show='contact.susurrobtnapagado'  class=" btn btn-warning btn-sm" data-toggle="modal" data-target="#listen"><i class="fa fa-phone-square"></i></a>
 
 
 
@@ -265,13 +265,25 @@ padding-top: 8px;
 
                   <td style="text-align:center; font-size:11px;" >{[{contact.v_tring}]}</td>
                   <td style="text-align:center; font-size:11px;"> {[{contact.llam_numero}]}</td>
-                  <td style="text-align:center; font-size:10px;" ng-if='contact.llam_estado==0'> Procesando</td>
+                  <td style="text-align:center; font-size:10px;" ng-if='contact.llam_estado==0'> Nuevo</td>
                   <td style="text-align:center; font-size:10px;" ng-if='contact.llam_estado==1'> Llamando</td>
-                  <td style="text-align:center; font-size:10px;" ng-if='contact.llam_estado==2'> Ocupado</td>
+                  <td style="text-align:center; font-size:10px;" ng-if='contact.llam_estado==2'> Error</td>
                   <td style="text-align:center; font-size:10px;" ng-if='contact.llam_estado==3'> No Contesta</td>
-                  <td style="text-align:center; font-size:10px;" ng-if=" contact.age_codigo!=999 && contact.llam_estado==4 "> Contesto</td>
+                  
+
+                  <td style="text-align:center; font-size:10px;" ng-if="contact.llam_estado==4 "> Contesto</td>
+
+
+                  <!-- <td style="text-align:center; font-size:10px;" ng-if=" contact.age_codigo!=999 && contact.llam_estado==4 "> Contesto</td>
+                   -->
+
                   <td style="text-align:center; font-size:10px;" ng-if='contact.llam_estado==5'> Buzon</td>
-                  <td style="text-align:center; font-size:10px;" ng-if=" contact.age_codigo==999 && contact.llam_estado==4 && contact.flagfin==1 " > Abandonada</td>
+                  
+
+                 <!--  <td style="text-align:center; font-size:10px;" ng-if=" contact.age_codigo==999 && contact.llam_estado==4 && contact.flagfin==1 " > Abandonada</td> -->
+<!-- 
+                  <td style="text-align:center; font-size:10px;" ng-if=" contact.age_codigo==999 && contact.llam_estado==4" > Contesto</td> -->
+
 
 
                 </tr>
@@ -532,10 +544,10 @@ th {
 <script src="/static/js/highchart.js"></script>
 
 <script src="/static/js/highcharts3d.js"></script>
-
+<!-- 
 
 <script src="https://code.highcharts.com/highcharts-more.js"></script>
-<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script> -->
 
 </body>
 

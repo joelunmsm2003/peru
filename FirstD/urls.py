@@ -145,6 +145,9 @@ urlpatterns = patterns('',
     url(r'^menu/$', 'PeruCall.views.menu'),
 
     url(r'^status_f/(\w+)/$', 'PeruCall.views.status_f'),
+
+
+
     url(r'^status_g/(\w+)/$', 'PeruCall.views.status_g'),
     url(r'^status_h/(\w+)/$', 'PeruCall.views.status_h'),
     url(r'^resultado/(\w+)/$', 'PeruCall.views.resultado'),
