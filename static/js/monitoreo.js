@@ -34,7 +34,7 @@ $(function () {
 
                             }
 
-                        setInterval(function(){updateChart()},10000);
+                        setInterval(function(){updateChart()},20000);
 
                             }
                         }
@@ -310,7 +310,7 @@ $(function () {
                             }
 
 
-                        setInterval(function(){updateChartpie()},10000);
+                        setInterval(function(){updateChartpie()},20000);
 
 
                             }
@@ -453,7 +453,7 @@ function Controller($scope,$http,$cookies,$filter) {
     });
     
 
-    }, 1000);
+    }, 20000);
 
        $http.get("/botoneragraph/"+campania).success(function(response) {
 

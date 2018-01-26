@@ -1431,7 +1431,7 @@ def examen(request):
 def totalestllam(request):
 
 	
-		data = AjxProLla.objects.all().values('llam_estado').annotate(total=Count('llam_estado'))
+		data = AjxProLla.objects.all().values('llam_estado').annotate(total=Count('llam_estado'))[:0]
 
 		data_dict = ValuesQuerySetToDict(data)
 
@@ -4225,7 +4225,7 @@ def campanias(request):
 
 		data= json.loads(request.body)['dato']
 
-		Campania.objects.get(id=data['id']).delete()
+		#Campania.objects.get(id=data['id']).delete()
 
 		return HttpResponse(data, content_type="application/json")
 
