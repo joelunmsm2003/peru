@@ -631,6 +631,9 @@ class Estado(models.Model):
         managed = False
         db_table = 'estado'
 
+    def __unicode__(self):
+        return self.nombre
+
 
 class Examen(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?

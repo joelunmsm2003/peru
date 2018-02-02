@@ -453,7 +453,7 @@ function Controller($scope,$http,$cookies,$filter) {
     });
     
 
-    }, 20000);
+    }, 5000);
 
        $http.get("/botoneragraph/"+campania).success(function(response) {
 
