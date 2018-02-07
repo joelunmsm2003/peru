@@ -475,13 +475,50 @@ def accionsusurro(request,sup,anexo):
 
 
 @login_required(login_url="/ingresar")
-def passcampania(request,campania):
+def guardaudios(request):
 
-	c = Campania.objects.filter(id=campania).values('password')
+	cam = Campania.objects.filter(fecha_cargada__gte='2018-01-01',fecha_cargada__lt='2018-02-01',cartera__nombre='CONTUGAS')
 
-	data_dict = ValuesQuerySetToDict(c)
+	for c in cam:
 
-	data = simplejson.dumps(data_dict)
+		print c.cartera.nombre
+
+		data  = AjxProLla.objects.filter(llam_estado=4,f_origen__gte='2018-01-01',f_origen__lt='2018-02-01',cam_codigo=c.id).values('id_ori_llamadas','cam_codigo','llam_numero')
+
+		print 'Encontrados..',data.count()
+
+		fmt = '%Y-%m-%d %H:%M:%S %Z'
+
+		for i in range(len(data)):
+
+			print 'entre....'
+
+			data[i]['fecha'] = AjxProLla.objects.get(id_ori_llamadas=data[i]['id_ori_llamadas']).f_origen.strftime(fmt)
+			
+			data[i]['fecha'] = str(data[i]['fecha'])
+
+			print 'fecha...',data[i]['fecha'][0:4]
+
+			anio = data[i]['fecha'][0:4]
+			mes = data[i]['fecha'][5:7]
+			dia = data[i]['fecha'][8:10]
+			campania = str(data[i]['cam_codigo'])
+
+			print 'campania',campania
+			origen = str(data[i]['cam_codigo'])
+			destino = str(data[i]['llam_numero'])
+
+			print 'origen,destino',destino,origen
+			fecha = data[i]['fecha'][0:10]
+			hora = data[i]['fecha'][11:13]
+			minu = data[i]['fecha'][14:16]
+			seg= data[i]['fecha'][17:19]
+
+
+			os.system("cp /var/www/html/monitor/pcall/"+anio+"/"+mes+"/"+dia+"/"+campania+"/"+origen+"-"+destino+"-"+fecha+"_"+hora+"-"+minu+"-"+seg+".gsm /var/www/html/contugas/")
+
+
+	data = simplejson.dumps('OK')
 
 	return HttpResponse(data, content_type="application/json")
 
