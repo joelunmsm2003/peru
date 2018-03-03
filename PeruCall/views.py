@@ -129,6 +129,31 @@ def audios(request):
 
 
 
+def bulksms(audience):
+
+	url ="http://smsbulk.pe/SmsBulk/rest/ws/bulkSms"
+	username = 'xiencias'
+	password = '9nG4SB'
+
+
+	for recipient in audience:
+        
+		phone_number = recipient
+
+		message = audience[recipient]
+
+		if phone_number[:2] != '51':
+
+			phone_number = '51%s' % phone_number
+
+		params = {'usr' : username,'pas' : password,'msg' : message ,'num' : phone_number}
+
+		reply = requests.get(url, params=params)
+
+		result1 = reply.text
+
+		return result1
+
 @login_required(login_url="/ingresar")
 def changepass(request):
 
@@ -374,8 +399,8 @@ def teleoperador(request,id_agente):
 
 	id=request.user.id
 
-	base = Base.objects.filter(agente_id=id_agente,status=1).order_by('-id').values('id','telefono','orden','cliente','id_cliente','status_a','status_b','status_c','status_d','status_e','status_f','status_g','status_h','status','campania__nombre','resultado__name','resultado','campania__mxllamada','campania__mxllamada','campania__hombreobjetivo','campania__cartera__nombre')
-
+	#base = Base.objects.filter(agente_id=id_agente,status=1).order_by('-id').values('id','telefono','orden','cliente','id_cliente','status_a','status_b','status_c','status_d','status_e','status_f','status_g','status_h','status','campania__nombre','resultado__name','resultado','campania__mxllamada','campania__mxllamada','campania__hombreobjetivo','campania__cartera__nombre')
+	base = Base.objects.filter(agente_id=id_agente,status=1).order_by('-id').values('id_cliente')
 
 
 	dni = ''
@@ -389,6 +414,8 @@ def teleoperador(request,id_agente):
 	url = AuthUser.objects.get(id=id).empresa.url
 
 	if id==id_user:
+
+		url='http://server/intranet/telemarketing/pred.php?p='
 
 		return render(request, 'screenagent.html',{'url':url,'dni':dni})
 
@@ -477,30 +504,29 @@ def accionsusurro(request,sup,anexo):
 @login_required(login_url="/ingresar")
 def guardaudios(request):
 
-	cam = Campania.objects.filter(fecha_cargada__gte='2018-01-01',fecha_cargada__lt='2018-02-01',cartera__nombre='CONTUGAS')
+	cam = Campania.objects.filter(fecha_cargada__gte='2018-01-25',f_origen__lt='2018-02-01',cartera__nombre='ENEL')
 
 	for c in cam:
 
 		print c.cartera.nombre
 
-		data  = AjxProLla.objects.filter(llam_estado=4,f_origen__gte='2018-01-01',f_origen__lt='2018-02-01',cam_codigo=c.id).values('id_ori_llamadas','cam_codigo','llam_numero')
-
-		print 'Encontrados..',data.count()
+		data  = AjxProLla.objects.filter(llam_estado=4,f_origen__gte='2018-01-25',f_origen__lt='2018-02-01',cam_codigo=c.id).values('id_ori_llamadas','cam_codigo','llam_numero')
 
 		fmt = '%Y-%m-%d %H:%M:%S %Z'
 
 		for i in range(len(data)):
 
-			print 'entre....'
 
 			data[i]['fecha'] = AjxProLla.objects.get(id_ori_llamadas=data[i]['id_ori_llamadas']).f_origen.strftime(fmt)
 			
 			data[i]['fecha'] = str(data[i]['fecha'])
 
-			print 'fecha...',data[i]['fecha'][0:4]
+
 
 			anio = data[i]['fecha'][0:4]
 			mes = data[i]['fecha'][5:7]
+
+
 			dia = data[i]['fecha'][8:10]
 			campania = str(data[i]['cam_codigo'])
 
@@ -515,7 +541,7 @@ def guardaudios(request):
 			seg= data[i]['fecha'][17:19]
 
 
-			os.system("cp /var/www/html/monitor/pcall/"+anio+"/"+mes+"/"+dia+"/"+campania+"/"+origen+"-"+destino+"-"+fecha+"_"+hora+"-"+minu+"-"+seg+".gsm /var/www/html/contugas/")
+			os.system("cp /var/www/html/monitor/pcall/"+anio+"/"+mes+"/"+dia+"/"+campania+"/"+origen+"-"+destino+"-"+fecha+"_"+hora+"-"+minu+"-"+seg+".gsm /var/www/html/enel/febrero")
 
 
 	data = simplejson.dumps('OK')
@@ -1226,33 +1252,36 @@ def agentes(request,id_campania):
 
 		if agente.estado.id > 1:
 
-			
+			print 'ti',ti
 
 			ti= str(ti)[0:19]
 
-			ti = datetime.strptime(ti,fmt1)
 
-			tf= str(datetime.now())[0:19]
+			if ti!='0':
 
-			tf = datetime.strptime(tf,fmt1)
+				ti = datetime.strptime(ti,fmt1)
 
-			user[i]['tgestion'] = str(tf-ti)
-	
-			sec = str(tf-ti).split(':')
-			
-			user[i]['secgestion'] = int(sec[2])
+				tf= str(datetime.now())[0:19]
 
-			if int(sec[1]) > 0  :
+				tf = datetime.strptime(tf,fmt1)
 
-				sec[2] = 165
-				user[i]['secgestion'] = 180
+				user[i]['tgestion'] = str(tf-ti)
+		
+				sec = str(tf-ti).split(':')
+				
+				user[i]['secgestion'] = int(sec[2])
 
-			if int(sec[2]) > 0 and int(sec[2])< 30:
-				user[i]['color'] = '#81C784'
-			if int(sec[2]) > 30 and int(sec[2])< 55:
-				user[i]['color'] = '#2196F3'
-			if int(sec[2]) > 55 :
-				user[i]['color'] = '#EF5350'
+				if int(sec[1]) > 0  :
+
+					sec[2] = 165
+					user[i]['secgestion'] = 180
+
+				if int(sec[2]) > 0 and int(sec[2])< 30:
+					user[i]['color'] = '#81C784'
+				if int(sec[2]) > 30 and int(sec[2])< 55:
+					user[i]['color'] = '#2196F3'
+				if int(sec[2]) > 55 :
+					user[i]['color'] = '#EF5350'
 
 		'''
 
@@ -1914,7 +1943,7 @@ def agregarfiltro(request):
 		resultado =  "("+sr[2:len(sr)-2]+")"
 
 
-		db = MySQLdb.connect(host="127.0.0.1",user="root",passwd="d4t4B4$3p3c4ll2016*",db="perucall") 
+		db = MySQLdb.connect(host="127.0.0.1",user="peru",passwd="rosa0000",db="perucall") 
 
 		cur = db.cursor()
 
@@ -2229,11 +2258,17 @@ def agenteparametros(request,id_agente):
 def lanzallamada(request,id_agente,id_base,id_cliente):
 
 		agente = Agentes.objects.get(id=id_agente)
+		
 		mascara = agente.user.empresa.mascaras.tipo
+		
 		user = agente.user.username
+
 		if int(agente.estado_id) == 2:
+		
 			agente.estado_id = 3
+		
 		agente.tiniciollamada = datetime.now()-timedelta(hours=5)
+		
 		agente.save()
 
 		Base.objects.filter(agente_id=id_agente).update(status=0)
@@ -2249,7 +2284,6 @@ def lanzallamada(request,id_agente,id_base,id_cliente):
 		# message = RedisMessage('ll')
 
 		# redis_publisher.publish_message(message)
-
 
 		base = Base.objects.get(id=id_base)
 		base.agente_id = id_agente
@@ -2941,7 +2975,7 @@ def listafiltros(request,id_campania):
 		resultado =  "("+sr[2:len(sr)-2]+")"
 
 
-		db = MySQLdb.connect(host="127.0.0.1",user="root",passwd="d4t4B4$3p3c4ll2016*",db="perucall") 
+		db = MySQLdb.connect(host="127.0.0.1",user="peru",passwd="rosa0000",db="perucall") 
 
 		cur = db.cursor()
 
@@ -3462,7 +3496,8 @@ def botoneragraph(request,campania):
        				 'Contesta':contesta,
                      'Buzon':buzon,
                      'Pendiente':pendiente,
-                     'ACD':acd
+                     'ACD':acd,
+                     'Error':congestiondered
                      #'Congestion de Red':congestiondered,
                      #'Asterisk':asterisk,                     
                      #'pPromesa':promesa*100/total,
@@ -3968,7 +4003,7 @@ def filtroscampania(request,campania):
 			resultado="('')"
 
 
-		db = MySQLdb.connect(host="127.0.0.1",user="root",passwd="d4t4B4$3p3c4ll2016*",db="perucall") 
+		db = MySQLdb.connect(host="127.0.0.1",user="peru",passwd="rosa0000",db="perucall") 
 
 		cur = db.cursor()
 
@@ -4150,7 +4185,7 @@ def uploadCampania(request):
 
 				Base(campania_id=id_campania,telefono=telefono,orden=orden,cliente=cliente,id_cliente=id_cliente,status_a=status_a,status_b=status_b,status_c=status_c,status_d=status_d,status_e=status_e,status_f=status_f,status_g=status_g,status_h=status_h,blacklist=0,bloqueocliente=0).save()
 
-				time.sleep(.002)
+				#time.sleep(.002)
 		
 		data = simplejson.dumps(id_campania)
 

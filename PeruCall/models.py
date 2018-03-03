@@ -328,7 +328,71 @@ class AjxProLla(models.Model):
 
     class Meta:
         managed = False
+        #db_table = 'ajx_pro_lla'
+        db_table='llamadas'
+
+
+class Llamadas(models.Model):
+    id_ori_llamadas = models.IntegerField(primary_key=True)
+    age_ip = models.CharField(max_length=20, blank=True)
+    age_codigo = models.CharField(max_length=10, blank=True)
+    cam_codigo = models.IntegerField(blank=True, null=True)
+    llam_numero = models.CharField(max_length=20, blank=True)
+    llam_estado = models.IntegerField(blank=True, null=True)
+    llam_flag = models.IntegerField(blank=True, null=True)
+    llam_uniqueid = models.CharField(max_length=45, blank=True)
+    tipo = models.IntegerField(blank=True, null=True)
+    f_origen = models.DateTimeField(blank=True, null=True)
+    canal1 = models.CharField(max_length=50, blank=True)
+    canal2 = models.CharField(max_length=50, blank=True)
+    channel = models.CharField(max_length=200, blank=True)
+    dstchannel = models.CharField(max_length=200, blank=True)
+    flagfin = models.IntegerField(db_column='flagFIN', blank=True, null=True)  # Field name made lowercase.
+    v_tring = models.IntegerField(blank=True, null=True)
+    v_retry = models.IntegerField(blank=True, null=True)
+    ring = models.IntegerField(blank=True, null=True)
+    duration = models.IntegerField(blank=True, null=True)
+    bill = models.IntegerField(blank=True, null=True)
+    tregistro = models.IntegerField(blank=True, null=True)
+    gestion_editid1 = models.CharField(max_length=100, blank=True)
+    gestion_editid2 = models.CharField(max_length=100, blank=True)
+    gestion_editid3 = models.CharField(max_length=100, blank=True)
+    f_llam_fin = models.DateTimeField(blank=True, null=True)
+    f_llam_discador = models.DateTimeField(blank=True, null=True)
+    f_llam_resuelve = models.DateTimeField(blank=True, null=True)
+    id_ori_campana = models.IntegerField(blank=True, null=True)
+    #f_fingestion = models.DateTimeField(blank=True, null=True)
+    id_cliente = models.IntegerField(db_column='ID_Cliente', blank=True, null=True)  # Field name made lowercase.
+    coderr = models.IntegerField(db_column='CodErr', blank=True, null=True)  # Field name made lowercase.
+    coderr1 = models.IntegerField(db_column='CodErr1', blank=True, null=True)  # Field name made lowercase.
+    audio = models.CharField(max_length=200, blank=True)
+    audio2 = models.CharField(max_length=200, blank=True)
+    sql = models.IntegerField()
+    gestion_editid4 = models.CharField(max_length=100, blank=True)
+    gestion_editid5 = models.CharField(max_length=100, blank=True)
+    gestion_editid6 = models.CharField(max_length=100, blank=True)
+    gestion_editid7 = models.CharField(max_length=100, blank=True)
+    gestion_editid8 = models.CharField(max_length=100, blank=True)
+    gestion_editid9 = models.CharField(max_length=100, blank=True)
+    gestion_editid10 = models.CharField(max_length=100)
+    dialstatus = models.CharField(max_length=100, blank=True)
+    dialstatus1 = models.CharField(max_length=100, blank=True)
+    id_ori_seg_cola = models.IntegerField(blank=True, null=True)
+    age_nombre = models.CharField(max_length=100, blank=True)
+    anexo = models.IntegerField(blank=True, null=True)
+    espera = models.IntegerField(blank=True, null=True)
+    troncal = models.CharField(max_length=50, blank=True)
+    timbrado1 = models.CharField(max_length=2, blank=True)
+    timbrado2 = models.CharField(max_length=2, blank=True)
+    prefijo = models.CharField(max_length=20, blank=True)
+    grabacion = models.CharField(max_length=2, blank=True)
+    in_id = models.CharField(db_column='IN_ID', max_length=11, blank=True)  # Field name made lowercase.
+    v_tipbusc = models.CharField(max_length=11, blank=True)
+
+    class Meta:
+        managed = False
         db_table = 'ajx_pro_lla'
+
 
 
 class Atributo(models.Model):

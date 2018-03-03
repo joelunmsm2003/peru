@@ -24,7 +24,7 @@ $(function () {
 
                                 $.getJSON("/botoneragraph/"+campania, function (result) {
 
-                                    console.log('botoro llam',result['Contacto Indirecto'])
+                                    console.log('Gestion',result)
                                     serie1[0].points[0].update(result['Promesa'])
                                     serie1[0].points[1].update(result['Contacto Directo'])
                                     serie1[0].points[2].update(result['Contacto Indirecto'])
@@ -104,7 +104,7 @@ $(function () {
 
             , {
                 name: 'No Contacto',
-                y: 80,
+                y: 0,
                 drilldown: 'No Contacto'
             }
 
@@ -278,23 +278,25 @@ $(function () {
                                     contesta = response['Contesta']
                                     abandonada = response['Abandonada']
 
+                                    console.log(response)
+
 
                                     // Andy changes si no existe este estado pasa como igual a 0
 
                                     if(!congestiondered){
-                                        congestiondered = 0
+                                        congestiondered = 0.001
                                     }
                                     if(!nocontesta){
-                                        nocontesta = 0
+                                        nocontesta = 0.001
                                     }
                                     if(!buzon){
-                                        buzon = 0
+                                        buzon = 0.001
                                     }
                                     if(!contesta){
-                                        contesta = 0
+                                        contesta = 0.001
                                     }
                                     if(!abandonada){
-                                        abandonada=0
+                                        abandonada=0.001
                                     }
 
 
@@ -310,7 +312,7 @@ $(function () {
                             }
 
 
-                        setInterval(function(){updateChartpie()},20000);
+                        setInterval(function(){updateChartpie()},10000);
 
 
                             }
@@ -338,11 +340,11 @@ $(function () {
             name: 'Cantidad',
             data: [
 
-                ['No Contesta', 45.0],
-                ['Buzon', 26.8],
-                ['Error', 8.5],
-                ['Contesta', 6.2],
-                ['Abandonada',3.9]
+                ['No Contesta', 1],
+                ['Buzon', 1],
+                ['Error', 1],
+                ['Contesta', 1],
+                ['Abandonada',1]
             ]
         }]
     });

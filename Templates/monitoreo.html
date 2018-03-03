@@ -120,14 +120,14 @@ padding-top: 8px;
 
           <div class='row' >
 
-  <a ng-if="user.nivel == 1 || user.nivel == 2 || user.nivel == 4 " class='btn btn-outline btn-primary' ng-href='/adminCampania/{[{camp}]}'> <i class="fa fa-user"></i> Agentes </a>
- <a ng-if="user.nivel == 1 || user.nivel == 2 || user.nivel == 4 " class='btn btn-primary' ng-href='/filtros/{[{camp}]}'> <i class="fa fa-filter"></i> Filtros </a>
+  <a ng-if="user.nivel == 1 || user.nivel == 2 || user.nivel == 4 " class='btn btn-outline btn-default' ng-href='/adminCampania/{[{camp}]}'> <i class="fa fa-user"></i> Agentes </a>
+ <a ng-if="user.nivel == 1 || user.nivel == 2 || user.nivel == 4 " class='btn btn-default' ng-href='/filtros/{[{camp}]}'> <i class="fa fa-filter"></i> Filtros </a>
  
-<a href='#arriba' ng-click="mon()" class="btn btn-primary" ng-show='bb'>Ver Graficas <i class="fa fa-line-chart"></i></a>
-<a  ng-click="ocultarmon()" class="btn btn-primary" ng-show='bbi'>Ocultar Graficas <i class="fa fa-line-chart"></i></a>
+<a href='#arriba' ng-click="mon()" class="btn btn-default" ng-show='bb'>Ver Graficas <i class="fa fa-line-chart"></i></a>
+<a  ng-click="ocultarmon()" class="btn btn-default" ng-show='bbi'>Ocultar Graficas <i class="fa fa-line-chart"></i></a>
 
-<a ng-click="consumo()" class="btn btn-primary" ng-show='cola'>Ver Consumo <i class="fa fa-paper-plane" aria-hidden="true"></i></a>
-<a  ng-click="ocultarconsumo()" class="btn btn-primary" ng-show='colai'>Ocultar Consumo <i class="fa fa-paper-plane" aria-hidden="true"></i></a>
+<a ng-click="consumo()" class="btn btn-default" ng-show='cola'>Ver Consumo <i class="fa fa-paper-plane" aria-hidden="true"></i></a>
+<a  ng-click="ocultarconsumo()" class="btn btn-default" ng-show='colai'>Ocultar Consumo <i class="fa fa-paper-plane" aria-hidden="true"></i></a>
 
           <br></br>
 
@@ -170,7 +170,7 @@ padding-top: 8px;
 
           <table class="table table-hover">
               <thead>
-                <tr>
+                <tr style='background: #fff;color:#000;'>
                   <th class="id" style="text-align:center; ">Id <a ng-click="sort_by('id',currentPage)"><i class="icon-sort"></i></a></th>
                   <th style="text-align:center; ">Agente</th>
                   <th style="text-align:center; ">Anexo</th>
@@ -219,13 +219,13 @@ padding-top: 8px;
 
                   <td> {[{contact.fono}]}</td>
 
-                    <td><a  ng-click="evaluar(contact,$index)" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#notificacion"><i class="fa fa-rocket"></i></a></td>
+                    <td><a  ng-click="evaluar(contact,$index)" class="btn btn-default btn-sm" data-toggle="modal" data-target="#notificacion"><i class="fa fa-rocket"></i></a></td>
                     <td>
-                    <a ng-if="contact.agente__estado == '3'"  ng-click="evaluar(contact,$index)" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#eliminar"><i class="fa fa-check"></i></a></td>
+                    <a ng-if="contact.agente__estado == '3'"  ng-click="evaluar(contact,$index)" class="btn btn-default btn-sm" data-toggle="modal" data-target="#eliminar"><i class="fa fa-check"></i></a></td>
 
                     <td>
 
-                    <a ng-if="contact.agente__estado == '3'"  ng-show='contact.monitorbtn' ng-click="monitor(contact,$index)" class=" btn btn-primary btn-sm " data-toggle="modal" data-target="#listen"><i class="fa fa-headphones"></i></a>
+                    <a ng-if="contact.agente__estado == '3'"  ng-show='contact.monitorbtn' ng-click="monitor(contact,$index)" class=" btn btn-default btn-sm " data-toggle="modal" data-target="#listen"><i class="fa fa-headphones"></i></a>
 
                     <a ng-if="contact.agente__estado == '3'"  ng-show='contact.monitorbtnapagado' class=" btn btn-warning btn-sm " data-toggle="modal" data-target="#listen"><i class="fa fa-headphones"></i></a>
 
@@ -233,7 +233,7 @@ padding-top: 8px;
 
                     <td>
 
-                    <a ng-if="contact.agente__estado == '3'"  ng-show='contact.susurrobtn' ng-click="susurro(contact,$index)" class=" btn btn-primary btn-sm" data-toggle="modal" data-target="#listen"><i class="fa fa-phone-square"></i></a>
+                    <a ng-if="contact.agente__estado == '3'"  ng-show='contact.susurrobtn' ng-click="susurro(contact,$index)" class=" btn btn-default btn-sm" data-toggle="modal" data-target="#listen"><i class="fa fa-phone-square"></i></a>
 
                     <a ng-if="contact.agente__estado == '3'"  ng-show='contact.susurrobtnapagado'  class=" btn btn-warning btn-sm" data-toggle="modal" data-target="#listen"><i class="fa fa-phone-square"></i></a>
 
@@ -408,10 +408,10 @@ padding-top: 8px;
                             <div class="col-sm-6">
                             <center>
 
-                            <button type="submit" ng-click="calificarsi(pregunta)"  ng-if="pregunta.estadosi==true" class="btn btn-primary ">Si <i class="fa fa-check"></i></button>
+                            <button type="submit" ng-click="calificarsi(pregunta)"  ng-if="pregunta.estadosi==true" class="btn btn-default ">Si <i class="fa fa-check"></i></button>
 
 
-                            <button type="submit" ng-click="calificarno(pregunta)"  ng-if="pregunta.estadono==true" class="btn btn-primary ">No <i class="fa fa-close"></i></button>
+                            <button type="submit" ng-click="calificarno(pregunta)"  ng-if="pregunta.estadono==true" class="btn btn-default ">No <i class="fa fa-close"></i></button>
                             </center>
 
                             </div>
@@ -436,8 +436,8 @@ padding-top: 8px;
          <div class="modal-footer">
 
              <button class="btn" data-dismiss="modal">Cerrar</button>
-             <button class="btn btn-primary"  ng-click='criterio(primer)' ng-show='btnpregunta'>Siguiente Criterio</button>
-             <button class="btn btn-primary"  ng-click='calificacion()' ng-show='btncalifica'>Finalizar</button>
+             <button class="btn btn-default"  ng-click='criterio(primer)' ng-show='btnpregunta'>Siguiente Criterio</button>
+             <button class="btn btn-default"  ng-click='calificacion()' ng-show='btncalifica'>Finalizar</button>
            
       </div>
     
@@ -469,7 +469,7 @@ padding-top: 8px;
 
          <div class="modal-footer">
            <button class="btn" data-dismiss="modal">Cerrar</button>
-           <button type="submit" ng-click="notificar(notificacion,userxp)" class="btn btn-primary">Enviar <i class="fa fa-rocket"></i></a></button>
+           <button type="submit" ng-click="notificar(notificacion,userxp)" class="btn btn-default">Enviar <i class="fa fa-rocket"></i></a></button>
       </div>
     
    
@@ -498,7 +498,7 @@ padding-top: 8px;
 
          <div class="modal-footer">
            <button class="btn" data-dismiss="modal">Cerrar</button>
-           <button type="submit" ng-click="calificar(data,user)" class="btn btn-primary">Enviar <i class="fa fa-rocket"></i></a></button>
+           <button type="submit" ng-click="calificar(data,user)" class="btn btn-default">Enviar <i class="fa fa-rocket"></i></a></button>
       </div>
     
    
